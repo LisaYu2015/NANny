@@ -23,9 +23,22 @@ app.listen(app.get('port'), function () {
 //Connection with MongoDB
 var mongoose = require('mongoose'); 
 mongoose.connect('mongodb://bosch:bosch@ec2-54-87-140-197.compute-1.amazonaws.com:27017/test');
+mongoose.connection.on('connected', function () {  
+  console.log('Mongoose default connection open to ' + dbURI);
+}); 
+
+// If the connection throws an error
+mongoose.connection.on('error',function (err) {  
+  console.log('Mongoose default connection error: ' + err);
+}); 
+
+// When the connection is disconnected
+mongoose.connection.on('disconnected', function () {  
+  console.log('Mongoose default connection disconnected'); 
+});
 
 //Models
-var Requests = mongoose.model('Requests', {
+var Question = mongoose.model('Requests', {
     title: String,
     description: String,
     rating: Number
@@ -43,54 +56,54 @@ var Points = mongoose.model('Points', {
 
 })
 
-// Routes
+// Routes for Requests collection
  
     // Get reviews
-    app.get('/api/reviews', function(req, res) {
+    app.get('/api/question', function(req, res) {
  
-        console.log("fetching reviews");
+        console.log("fetching questions");
  
         // use mongoose to get all reviews in the database
-        Review.find(function(err, reviews) {
+        Question.find(function(err, question) {
  
             // if there is an error retrieving, send the error. nothing after res.send(err) will execute
             if (err)
                 res.send(err)
  
-            res.json(reviews); // return all reviews in JSON format
+            res.json(question); // return all reviews in JSON format
         });
     });
  
     // create review and send back all reviews after creation
-    app.post('/api/reviews', function(req, res) {
+    app.post('/api/question', function(req, res) {
  
-        console.log("creating review");
+        console.log("creating questions");
  
         // create a review, information comes from request from Ionic
-        Review.create({
+        Question.create({
             title : req.body.title,
             description : req.body.description,
             rating: req.body.rating,
             done : false
-        }, function(err, review) {
+        }, function(err, question) {
             if (err)
                 res.send(err);
  
             // get and return all the reviews after you create another
-            Review.find(function(err, reviews) {
+            Question.find(function(err, question) {
                 if (err)
                     res.send(err)
-                res.json(reviews);
+                res.json(question);
             });
         });
  
     });
  
     // delete a review
-    app.delete('/api/reviews/:review_id', function(req, res) {
+    app.delete('/api/question/:question_id', function(req, res) {
         Review.remove({
-            _id : req.params.review_id
-        }, function(err, review) {
+            _id : req.params.question_id
+        }, function(err, question) {
  
         });
     });
