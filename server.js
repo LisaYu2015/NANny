@@ -22,20 +22,29 @@ app.listen(app.get('port'), function () {
 
 //Connection with MongoDB
 var mongoose = require('mongoose'); 
-mongoose.connect('mongodb://bosch:bosch@ec2-54-87-140-197.compute-1.amazonaws.com:27017/test');
-mongoose.connection.on('connected', function () {  
-  console.log('Mongoose default connection open to ' + dbURI);
-}); 
-
-// If the connection throws an error
-mongoose.connection.on('error',function (err) {  
-  console.log('Mongoose default connection error: ' + err);
-}); 
-
-// When the connection is disconnected
-mongoose.connection.on('disconnected', function () {  
-  console.log('Mongoose default connection disconnected'); 
+var MongoClient = require('mongodb').MongoClient;
+var assert = require('assert');
+var url = 'mongodb://localhost:27017/test';
+var url2 = 'mongodb://bosch:bosch@ec2-54-87-140-197.compute-1.amazonaws.com:27017/test';
+MongoClient.connect(url, function(err, db) {
+  assert.equal(null, err);
+  console.log("Connected correctly to server.");
+  db.close();
 });
+// mongoose.connect('mongodb://bosch:bosch@ec2-54-87-140-197.compute-1.amazonaws.com:27017/test');
+// mongoose.connection.on('connected', function () {  
+//   console.log('Mongoose default connection open to ' + dbURI);
+// }); 
+
+// // If the connection throws an error
+// mongoose.connection.on('error',function (err) {  
+//   console.log('Mongoose default connection error: ' + err);
+// }); 
+
+// // When the connection is disconnected
+// mongoose.connection.on('disconnected', function () {  
+//   console.log('Mongoose default connection disconnected'); 
+// });
 
 //Models
 var Question = mongoose.model('Requests', {
