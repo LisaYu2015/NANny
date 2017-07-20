@@ -6,6 +6,6 @@
   "dependencies": {
     "express": "~4.4.3",
     "mongodb": "^2.2.30",
-    "mongoose": "^4.11.3"
+    "mongoose": "^4.10.8"
   }
 }
