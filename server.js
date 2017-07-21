@@ -22,53 +22,65 @@ app.listen(app.get('port'), function () {
 
 //Connection with MongoDB
 var mongoose = require('mongoose'); 
-var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 console.log("Anyone here?");
 var url2 = 'mongodb://bosch:bosch@ec2-54-87-140-197.compute-1.amazonaws.com:27017/test';
-// MongoClient.connect(url2, function(err, db) {
-//   assert.equal(null, err);
-//   console.log("Connected correctly to server.");
-//   db.close();
-// });
-
 mongoose.connect(url2); 
-
-// CONNECTION EVENTS
 // When successfully connected
 mongoose.connection.on('connected', function () {  
   console.log('Mongoose default connection open to ' + url2);
 }); 
-
 // If the connection throws an error
 mongoose.connection.on('error',function (err) {  
   console.log('Mongoose default connection error: ' + err);
 }); 
-
 // When the connection is disconnected
 mongoose.connection.on('disconnected', function () {  
   console.log('Mongoose default connection disconnected'); 
 });
 
 
-//Models
+//Models (Schemas)
 var Question = mongoose.model('Requests', {
-    title: String,
-    description: String,
-    rating: Number
+	_id: [Schema.Types.ObjectId],
+    content: String,
+    date: { type: Date, default: Date.now },
+    error: String,
+    helper: String,
+    make: String,
+    model: String,
+    req_id: String,
+    symptoms: String,
+    year: String
 });
 
 var Discussion = mongoose.model('Discussion', {
-
+	_id: [Schema.Types.ObjectId],
+	author: String,
+	comment: String,
+	requestid: [Schema.Types.ObjectId],
+	time: { type: Date, default: Date.now }
 });
 
 var User = mongoose.model('User', {
-
+	_id: [Schema.Types.ObjectId],
+	expertise: String,
+	shop: String,
+	userid: String,
+	username: String,
 });
 
 var Points = mongoose.model('Points', {
-
-})
+	_id: [Schema.Types.ObjectId],
+	userid: String,
+	a_comment: Number,
+	a_fix: Number,
+	a_request: Number,
+	p_comment: Number,
+	p_fix: Number,
+	p_request: Number,
+	date: { type: Date, default: Date.now }
+});
 
 // Routes for Requests collection
  
