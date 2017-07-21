@@ -1,8 +1,18 @@
 //Set up host server for website
 var express = require('express'),
     app = express();
+var bodyParser = require('body-parser');    // pull information from HTML POST (express4)
+var methodOverride = require('method-override'); // simulate DELETE and PUT (express4)
+var cors = require('cors');
+var morgan = require('morgan');             // log requests to the console (express4)
 
 app.use(express.static('www'));
+app.use(morgan('dev'));                                         // log every request to the console
+app.use(bodyParser.urlencoded({'extended':'true'}));            // parse application/x-www-form-urlencoded
+app.use(bodyParser.json());                                     // parse application/json
+app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
+app.use(methodOverride());
+app.use(cors());
 
 // CORS (Cross-Origin Resource Sharing) headers to support Cross-site HTTP requests
 app.all('*', function(req, res, next) {
@@ -42,38 +52,33 @@ mongoose.connection.on('disconnected', function () {
 
 //Models (Schemas)
 var Question = mongoose.model('Requests', {
-    _id: [Schema.Types.ObjectId],
+    _id: [mongoose.Schema.Types.ObjectId],
     content: String,
     date: { type: Date, default: Date.now },
-    //error: String,
-    helper: String,
-    //make: String,
-    //model: String,
-    req_id: String,
+    helperID: [mongoose.Schema.Types.ObjectId],
+    requesterID: [mongoose.Schema.Types.ObjectId],
     symptoms: String,
-    //year: String
-    PID : Number, //referes to project witch includes userID, brand, year, model, engine and errorcode
+    ProjectID : [mongoose.Schema.Types.ObjectId], //referes to project witch includes userID, brand, year, model, engine and errorcode
 });
 
 var Discussion = mongoose.model('Discussion', {
-    _id: [Schema.Types.ObjectId],
-    author: String,
+    _id: [mongoose.Schema.Types.ObjectId],
+    author: [mongoose.Schema.Types.ObjectId],
     comment: String,
-    requestid: [Schema.Types.ObjectId],
+    requestid: [mongoose.Schema.Types.ObjectId],
     time: { type: Date, default: Date.now }
 });
 
 var User = mongoose.model('User', {
-    _id: [Schema.Types.ObjectId],
+    _id: [mongoose.Schema.Types.ObjectId],
     expertise: String,
     shop: String,
-    userid: String,
     username: String,
 });
 
 var Points = mongoose.model('Points', {
-    _id: [Schema.Types.ObjectId],
-    userid: String,
+    _id: [mongoose.Schema.Types.ObjectId],
+    Userid: [mongoose.Schema.Types.ObjectId],
     a_comment: Number,
     a_fix: Number,
     a_request: Number,
@@ -86,9 +91,8 @@ var Points = mongoose.model('Points', {
 //treasure
 
 var Project = mongoose.model('Project', {
-    _id: [Schema.Types.ObjectId],
-    PID:Number,
-    TID:Number,
+    _id: [mongoose.Schema.Types.ObjectId],
+    Userid:[mongoose.Schema.Types.ObjectId],
     brand:String,
     year:Number,
     model:String,
@@ -98,7 +102,8 @@ var Project = mongoose.model('Project', {
 });
 
 var Data = mongoose.model('Data', {
-    PID:Number,
+    _id: [mongoose.Schema.Types.ObjectId],
+    ProjectID:[mongoose.Schema.Types.ObjectId],
     type:String,
     sentence:String,
 });
@@ -129,9 +134,13 @@ var Data = mongoose.model('Data', {
  
         // create a review, information comes from request from Ionic
         Question.create({
-            title : req.body.title,
-            description : req.body.description,
-            rating: req.body.rating,
+            _id: [mongoose.Schema.Types.ObjectId],
+            content: String,
+            date: { type: Date, default: Date.now },
+            helperID: [mongoose.Schema.Types.ObjectId],
+            requesterID: [mongoose.Schema.Types.ObjectId],
+            symptoms: String,
+            ProjectID : [mongoose.Schema.Types.ObjectId],
             done : false
         }, function(err, question) {
             if (err)
