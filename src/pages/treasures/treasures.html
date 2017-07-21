@@ -13,6 +13,15 @@
 </ion-header>
 
 
-<ion-content padding>
-
+<ion-content padding>	
+	<ion-list>
+	<!-- one item for every project-->
+		<ion-item>
+			<ion-thumbnail item-start>
+				<img ng-src="{{Project.image}}"> <!--figure out how to insert pictures-->
+			</ion-thumbnail>
+			<h2>{{Project.year}}" "{{Project.brand}}" "{{Project.model}}<h2>
+			<p>{{Project.errorcode}}</p>
+			<button ion-button clear item-end>More</button>
+	</ion-list>
 </ion-content>

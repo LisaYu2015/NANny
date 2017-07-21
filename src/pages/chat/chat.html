@@ -5,28 +5,14 @@
   Ionic pages and navigation.
 -->
 <ion-header>
+
   <ion-navbar>
-    <ion-title>Request History</ion-title>
-    <ion-butons end>
-    	<button ion-button icon-only (click)="addQuestion()"><ion-icon name="add"></ion-icon></button>
-	</ion-buttons>
+    <ion-title>Chat</ion-title>
   </ion-navbar>
+
 </ion-header>
 
 
 <ion-content padding>
-	<ion-list no-lines>
-		<ion-item-sliding *ngFor="let question of questions">
-			<ion-item>
-				<h2>{{question.title}}</h2>
-				<p>{{question.symptoms}}</p>
-			</ion-item>
-			<ion-item-options>
-				<button ion-button color="danger" (click)="deleteQuestion(question)">
-					<ion-icon name="trash"></ion-icon>
-					Delete
-				</buton>
-			</ion-item-options>
-		</ion-item-sliding>
-	</ion-list>
+
 </ion-content>
