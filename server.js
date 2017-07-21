@@ -97,7 +97,7 @@ var Project = mongoose.model('Project', {
     engine:String,
 });
 
-var Data + mongoose.model('Data', {
+var Data = mongoose.model('Data', {
     PID:Number,
     type:String,
     sentence:String,
