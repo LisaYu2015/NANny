@@ -23,7 +23,6 @@ app.listen(app.get('port'), function () {
 //Connection with MongoDB
 var mongoose = require('mongoose'); 
 var assert = require('assert');
-var Schema = require('mongoose.Schema')
 console.log("Anyone here? number2");
 var url2 = 'mongodb://bosch:bosch@ec2-54-87-140-197.compute-1.amazonaws.com:27017/test';
 mongoose.connect(url2); 
@@ -43,7 +42,6 @@ mongoose.connection.on('disconnected', function () {
 
 //Models (Schemas)
 var Question = mongoose.model('Requests', {
-	_id: [mongoose.Schema.Types.ObjectId],
     content: String,
     date: { type: Date, default: Date.now },
     error: String,
@@ -56,7 +54,6 @@ var Question = mongoose.model('Requests', {
 });
 
 var Discussion = mongoose.model('Discussion', {
-	_id: [mongoose.Schema.Types.ObjectId],
 	author: String,
 	comment: String,
 	requestid: [Schema.Types.ObjectId],
@@ -64,7 +61,6 @@ var Discussion = mongoose.model('Discussion', {
 });
 
 var User = mongoose.model('User', {
-	_id: [mongoose.Schema.Types.ObjectId],
 	expertise: String,
 	shop: String,
 	userid: String,
@@ -72,7 +68,6 @@ var User = mongoose.model('User', {
 });
 
 var Points = mongoose.model('Points', {
-	_id: [mongoose.Schema.Types.ObjectId],
 	userid: String,
 	a_comment: Number,
 	a_fix: Number,
