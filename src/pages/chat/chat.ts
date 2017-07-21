@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { ViewController, NavController, NavParams } from 'ionic-angular';
 
 /**
  * Generated class for the ChatPage page.
@@ -12,6 +12,7 @@ import { NavController, NavParams } from 'ionic-angular';
   selector: 'page-chat',
   templateUrl: 'chat.html',
 })
+
 export class ChatPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
