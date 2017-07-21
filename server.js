@@ -23,7 +23,8 @@ app.listen(app.get('port'), function () {
 //Connection with MongoDB
 var mongoose = require('mongoose'); 
 var assert = require('assert');
-console.log("Anyone here?");
+var Schema = require('mongoose.Schema')
+console.log("Anyone here? number2");
 var url2 = 'mongodb://bosch:bosch@ec2-54-87-140-197.compute-1.amazonaws.com:27017/test';
 mongoose.connect(url2); 
 // When successfully connected
