@@ -24,7 +24,7 @@ app.listen(app.get('port'), function () {
 var mongoose = require('mongoose'); 
 var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
-var url = 'mongodb://localhost:27017/test';
+var url = 'mongodb://localhost:27017/mydb';
 console.log("Anyone here?");
 var url2 = 'mongodb://bosch:bosch@ec2-54-87-140-197.compute-1.amazonaws.com:27017/test';
 MongoClient.connect(url, function(err, db) {
