@@ -86,25 +86,19 @@ var Points = mongoose.model('Points', {
  
     // Get reviews
     app.get('/api/question', function(req, res) {
- 
         console.log("fetching questions");
- 
         // use mongoose to get all reviews in the database
         Question.find(function(err, question) {
- 
             // if there is an error retrieving, send the error. nothing after res.send(err) will execute
             if (err)
                 res.send(err)
- 
             res.json(question); // return all reviews in JSON format
         });
     });
  
     // create review and send back all reviews after creation
     app.post('/api/question', function(req, res) {
- 
         console.log("creating questions");
- 
         // create a review, information comes from request from Ionic
         Question.create({
             title : req.body.title,
@@ -114,7 +108,6 @@ var Points = mongoose.model('Points', {
         }, function(err, question) {
             if (err)
                 res.send(err);
- 
             // get and return all the reviews after you create another
             Question.find(function(err, question) {
                 if (err)
@@ -122,14 +115,12 @@ var Points = mongoose.model('Points', {
                 res.json(question);
             });
         });
- 
     });
  
     // delete a review
     app.delete('/api/question/:question_id', function(req, res) {
-        Review.remove({
-            _id : req.params.question_id
-        }, function(err, question) {
- 
+        Question.remove({
+	            _id : req.params.question_id
+	        }, function(err, question) {
         });
     });
