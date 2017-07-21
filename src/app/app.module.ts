@@ -6,14 +6,23 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 
+import { ChatPage } from '../pages/chat/chat';
+import { NewRequestPage } from '../pages/new-request/new-request';
+import { ProfilePage } from '../pages/profile/profile';
+
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { ChatProvider } from '../providers/chat/chat';
+import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    ListPage
+    ListPage,
+    ChatPage,
+    NewRequestPage,
+    ProfilePage
   ],
   imports: [
     BrowserModule,
@@ -23,12 +32,17 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   entryComponents: [
     MyApp,
     HomePage,
-    ListPage
+    ListPage,
+    ChatPage,
+    NewRequestPage,
+    ProfilePage
   ],
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    ChatProvider,
+    AuthServiceProvider
   ]
 })
 export class AppModule {}
