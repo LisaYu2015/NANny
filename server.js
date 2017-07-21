@@ -55,19 +55,15 @@ var Question = mongoose.model('Requests', {
     _id: [Schema.Types.ObjectId],
     content: String,
     date: { type: Date, default: Date.now },
-    //error: String,
-    helper: String,
-    //make: String,
-    //model: String,
-    req_id: String,
+    helperID: [Schema.Types.ObjectId],
+    requesterID: [Schema.Types.ObjectId],
     symptoms: String,
-    //year: String
-    PID : Number, //referes to project witch includes userID, brand, year, model, engine and errorcode
+    ProjectID : [Schema.Types.ObjectId], //referes to project witch includes userID, brand, year, model, engine and errorcode
 });
 
 var Discussion = mongoose.model('Discussion', {
     _id: [Schema.Types.ObjectId],
-    author: String,
+    author: [Schema.Types.ObjectId],
     comment: String,
     requestid: [Schema.Types.ObjectId],
     time: { type: Date, default: Date.now }
@@ -77,13 +73,12 @@ var User = mongoose.model('User', {
     _id: [Schema.Types.ObjectId],
     expertise: String,
     shop: String,
-    userid: String,
     username: String,
 });
 
 var Points = mongoose.model('Points', {
     _id: [Schema.Types.ObjectId],
-    userid: String,
+    Userid: [Schema.Types.ObjectId],
     a_comment: Number,
     a_fix: Number,
     a_request: Number,
@@ -97,8 +92,7 @@ var Points = mongoose.model('Points', {
 
 var Project = mongoose.model('Project', {
     _id: [Schema.Types.ObjectId],
-    PID:Number,
-    TID:Number,
+    Userid:[Schema.Types.ObjectId],
     brand:String,
     year:Number,
     model:String,
@@ -108,7 +102,8 @@ var Project = mongoose.model('Project', {
 });
 
 var Data + mongoose.model('Data', {
-    PID:Number,
+    _id: [Schema.Types.ObjectId],
+    ProjectID:[Schema.Types.ObjectId],
     type:String,
     sentence:String,
 });
