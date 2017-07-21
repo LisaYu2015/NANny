@@ -1,9 +1,0 @@
-"_class",_id,content,date,error,helper,make,model,req_id,symptoms,year
-"",59516d931204c41a1856137f,I have already checked that the freon isn't leaking. But the A/C still doesn't work.,6-22-2017,P745,20164,honda,civic,1,A/C Doesn't work,2014
-"",59516e871204c41a18561380,"The battery looks fine, but the car won't start. I don't know where to start looking.",6-23-2017,none,1,Nisson,Sentra,20164,Car won't start,2009
-com.bosch.est.ka.dto.RequestDTO,5956a5fc463efa9a68077b50,,,,Not matched,,,20164,,
-com.bosch.est.ka.dto.RequestDTO,5956a814463e0d2468aa56f9,,,,Not matched,,,20164,,
-com.bosch.est.ka.dto.RequestDTO,595fcf7da99678518f98f8a1,,,,Not matched,,,20164,,
-com.bosch.est.ka.dto.RequestDTO,595fd29da996e7f69e15b149,,,,Not matched,,,20164,,My Text Value
-com.bosch.est.ka.dto.RequestDTO,595fd61fa9963c69fd3c743f,,,My Text Value,Not matched,My Text Value,My Text Value,20164,My Text Value,My Text Value
-com.bosch.est.ka.dto.RequestDTO,596924fea996d9d50d4a34e4,,,3445,Not matched,Honda,Civic,20164,The AC doesn't work,2014

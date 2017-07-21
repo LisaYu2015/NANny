@@ -1,33 +1,26 @@
-ionic-heroku-button
-===================
+This is a starter template for [Ionic](http://ionicframework.com/docs/) projects.
 
-A one-click Ionic app template for Heroku
+## How to use this template
 
-## Deploying locally
+*This template does not work on its own*. The shared files for each starter are found in the [ionic2-app-base repo](https://github.com/ionic-team/ionic2-app-base).
 
-Make sure you have [Node.js](http://nodejs.org/) and the [Heroku Toolbelt](https://toolbelt.heroku.com/) installed.
+To use this template, either create a new ionic project using the ionic node.js utility, or copy the files from this repository into the [Starter App Base](https://github.com/ionic-team/ionic2-app-base).
 
-```sh
-git clone git@github.com:driftyco/ionic-heroku-button.git # or clone your own fork
-cd ionic-heroku-button
-npm install
-npm start
+### With the Ionic CLI:
+
+Take the name after `ionic2-starter-`, and that is the name of the template to be used when using the `ionic start` command below:
+
+```bash
+$ sudo npm install -g ionic cordova
+$ ionic start mySideMenu sidemenu
 ```
 
-Your app should now be running on [localhost:5000](http://localhost:5000/).
+Then, to run it, cd into `mySideMenu` and run:
 
-## Deploying to Heroku
-
-```
-heroku create
-git push heroku master
-heroku open
+```bash
+$ ionic cordova platform add ios
+$ ionic cordova run ios
 ```
 
-Alternatively, you can deploy your own copy of the app using this button:
+Substitute ios for android if not on a Mac.
 
-[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
-
-## Documentation
-
-For more information about using Heroku, check out https://devcenter.heroku.com/
