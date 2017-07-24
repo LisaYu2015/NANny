@@ -11,7 +11,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class ChatProvider {
 
-	apiurl = '/api/question';
+	private apiurl = '/api/question';
 	data: any;
 
 	constructor(public http: Http) {
@@ -45,6 +45,7 @@ export class ChatProvider {
 	deleteQuestion(id){
 		this.http.delete(this.apiurl + id).subscribe((res)=>{
 			console.log(res.json());
-		)};
+		});
 	}
+
 }

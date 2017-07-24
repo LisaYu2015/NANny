@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { ViewController, NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ModalController } from 'ionic-angular';
+import { ChatPage } from '../chat/chat'
+import { ChatProvider } from '../../providers/chat'
 
 /**
  * Generated class for the ChatPage page.
@@ -15,11 +17,40 @@ import { ViewController, NavController, NavParams } from 'ionic-angular';
 
 export class ChatPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+	questions: any;
+
+  constructor(public nav: NavController, public questionService: ChatProvider, public modalCtrl: ModalController) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ChatPage');
+    this.questionService.getQuestions().then((data) => {
+    	console.log(data);
+    	this.questions = data;
+    });
+  }
+
+  addQuestion(){
+  	let modal = this.modalCtrl.create(ChatPage);
+
+  	modal.onDidDismiss(review => {
+  		if(question){
+  			this.questions.push(question);
+  			this.questionService.createQuestion(question);
+  		}
+  	});
+
+  	modal.present();
+  }
+
+  deleteQuestion(question){
+  	//Remove locally
+  	let index = this.quesitons.indexof(question);
+  	if(index > -1){
+  		this.reviews.splice(index,1);
+  	}
+  	//Remove from db
+  	this.questionService.deleteQuestion(question._id)
   }
 
 }

@@ -52,33 +52,33 @@ mongoose.connection.on('disconnected', function () {
 
 //Models (Schemas)
 var Question = mongoose.model('Requests', {
-    _id: [Schema.Types.ObjectId],
+    _id: [mongoose.Schema.Types.ObjectId],
     content: String,
     date: { type: Date, default: Date.now },
-    helperID: [Schema.Types.ObjectId],
-    requesterID: [Schema.Types.ObjectId],
+    helperID: [mongoose.Schema.Types.ObjectId],
+    requesterID: [mongoose.Schema.Types.ObjectId],
     symptoms: String,
-    ProjectID : [Schema.Types.ObjectId], //referes to project witch includes userID, brand, year, model, engine and errorcode
+    ProjectID : [mongoose.Schema.Types.ObjectId], //referes to project witch includes userID, brand, year, model, engine and errorcode
 });
 
 var Discussion = mongoose.model('Discussion', {
-    _id: [Schema.Types.ObjectId],
-    author: [Schema.Types.ObjectId],
+    _id: [mongoose.Schema.Types.ObjectId],
+    author: [mongoose.Schema.Types.ObjectId],
     comment: String,
-    requestid: [Schema.Types.ObjectId],
+    requestid: [mongoose.Schema.Types.ObjectId],
     time: { type: Date, default: Date.now }
 });
 
 var User = mongoose.model('User', {
-    _id: [Schema.Types.ObjectId],
+    _id: [mongoose.Schema.Types.ObjectId],
     expertise: String,
     shop: String,
     username: String,
 });
 
 var Points = mongoose.model('Points', {
-    _id: [Schema.Types.ObjectId],
-    Userid: [Schema.Types.ObjectId],
+    _id: [mongoose.Schema.Types.ObjectId],
+    Userid: [mongoose.Schema.Types.ObjectId],
     a_comment: Number,
     a_fix: Number,
     a_request: Number,
@@ -91,8 +91,8 @@ var Points = mongoose.model('Points', {
 //treasure
 
 var Project = mongoose.model('Project', {
-    _id: [Schema.Types.ObjectId],
-    Userid:[Schema.Types.ObjectId],
+    _id: [mongoose.Schema.Types.ObjectId],
+    Userid:[mongoose.Schema.Types.ObjectId],
     brand:String,
     year:Number,
     model:String,
@@ -102,8 +102,8 @@ var Project = mongoose.model('Project', {
 });
 
 var Data + mongoose.model('Data', {
-    _id: [Schema.Types.ObjectId],
-    ProjectID:[Schema.Types.ObjectId],
+    _id: [mongoose.Schema.Types.ObjectId],
+    ProjectID:[mongoose.Schema.Types.ObjectId],
     type:String,
     sentence:String,
 });
@@ -134,9 +134,13 @@ var Data + mongoose.model('Data', {
  
         // create a review, information comes from request from Ionic
         Question.create({
-            title : req.body.title,
-            description : req.body.description,
-            rating: req.body.rating,
+            _id: [mongoose.Schema.Types.ObjectId],
+            content: String,
+            date: { type: Date, default: Date.now },
+            helperID: [mongoose.Schema.Types.ObjectId],
+            requesterID: [mongoose.Schema.Types.ObjectId],
+            symptoms: String,
+            ProjectID : [mongoose.Schema.Types.ObjectId],
             done : false
         }, function(err, question) {
             if (err)
