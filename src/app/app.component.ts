@@ -12,7 +12,7 @@ import { RegisterPage } from '../pages/register/register';
   templateUrl: 'app.html'
 })
 export class MyApp {
-  @ViewChild(Nav) nav: Nav;
+  // @ViewChild(Nav) nav: Nav;
 
   rootPage: any = LoginPage
 
@@ -39,9 +39,9 @@ export class MyApp {
     });
   }
 
-  openPage(page) {
-    // Reset the content nav to have just this page
-    // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component);
-  }
+  // openPage(page) {
+  //   // Reset the content nav to have just this page
+  //   // we wouldn't want the back button to show in this scenario
+  //   this.nav.setRoot(page.component);
+  // }
 }
