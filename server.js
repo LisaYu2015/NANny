@@ -14,6 +14,13 @@ app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse applica
 app.use(methodOverride());
 app.use(cors());
 
+var router = express.Router(); /* GET home page. */ 
+router.get('/', function(req, res, next) { 
+    res.render('index', { title: 'Express' });
+}); 
+module.exports = router;
+
+
 // CORS (Cross-Origin Resource Sharing) headers to support Cross-site HTTP requests
 app.all('*', function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -30,12 +37,16 @@ app.listen(app.get('port'), function () {
     console.log('Express server listening on port ' + app.get('port'));
 });
 
+// app.listen(8080);
+// console.log("App listening on port 8080");
+
 //Connection with MongoDB
 var mongoose = require('mongoose'); 
 var assert = require('assert');
 console.log("Anyone here?");
+var local = 'mongodb://localhost:27017/mydb';
 var url2 = 'mongodb://bosch:bosch@ec2-54-87-140-197.compute-1.amazonaws.com:27017/test';
-mongoose.connect(url2); 
+mongoose.connect(local); 
 // When successfully connected
 mongoose.connection.on('connected', function () {  
   console.log('Mongoose default connection open to ' + url2);
@@ -51,29 +62,39 @@ mongoose.connection.on('disconnected', function () {
 
 
 //Models (Schemas)
+
+//Tracks the general request information. Changed to "Question" variable
+//because 'request' is a common keyword in webapps.
 var Question = mongoose.model('Requests', {
     _id: [mongoose.Schema.Types.ObjectId],
     content: String,
     date: { type: Date, default: Date.now },
-    helperID: [mongoose.Schema.Types.ObjectId],
-    requesterID: [mongoose.Schema.Types.ObjectId],
+    helperID: [mongoose.Schema.Types.ObjectId], //points to a user
+    requesterID: [mongoose.Schema.Types.ObjectId], //points to a user
     symptoms: String,
     ProjectID : [mongoose.Schema.Types.ObjectId], //referes to project witch includes userID, brand, year, model, engine and errorcode
 });
 
+//tracks the comments related to a question/request
 var Discussion = mongoose.model('Discussion', {
     _id: [mongoose.Schema.Types.ObjectId],
     author: [mongoose.Schema.Types.ObjectId],
     comment: String,
     requestid: [mongoose.Schema.Types.ObjectId],
-    time: { type: Date, default: Date.now }
+    time: { type: Date, default: Date.now } //when was the comment posted
 });
 
 var User = mongoose.model('User', {
     _id: [mongoose.Schema.Types.ObjectId],
     expertise: String,
+    experience: String,
     shop: String,
-    username: String,
+    fname: String,
+    lname: String,
+    email: String,
+    password: String,
+    joined: { type: Date, default: Date.now },
+    last_active: { type: Date, default: Date.now }
 });
 
 var Points = mongoose.model('Points', {
@@ -88,8 +109,7 @@ var Points = mongoose.model('Points', {
     date: { type: Date, default: Date.now }
 });
 
-//treasure
-
+//Project contains the general details of each car
 var Project = mongoose.model('Project', {
     _id: [mongoose.Schema.Types.ObjectId],
     Userid:[mongoose.Schema.Types.ObjectId],
@@ -101,6 +121,7 @@ var Project = mongoose.model('Project', {
     engine:String,
 });
 
+//Data contains the details of each project/treasure
 var Data = mongoose.model('Data', {
     _id: [mongoose.Schema.Types.ObjectId],
     ProjectID:[mongoose.Schema.Types.ObjectId],
@@ -109,7 +130,36 @@ var Data = mongoose.model('Data', {
 });
 
 
-// Routes for Requests collectionhhhh
+//Routes for users(adding/getting)
+//find one user with some username
+app.get('/api/email/:email', function(req, res){
+    console.log("authenticating user");
+    User.find({email: req.params.email }, function(err, docs){
+        if(err)
+            res.send(err)
+        res.json(docs);
+    });
+});
+
+//create new user
+app.post('/api/user', function(req, res) {
+    console.log("registering user");
+    User.create({
+        expertise: req.body.expertise,
+        experience: req.body.experience,
+        shop: req.body.shop,
+        fname: req.body.fname,
+        lname: req.body.lname,
+        email: req.body.email,
+        password: req.body.password,
+        done: false
+    }, function(err, user) {
+        if (err) 
+            res.send(err)
+    });
+});
+
+// Routes for Requests collection
  
     // Get reviews
     app.get('/api/question', function(req, res) {
@@ -164,6 +214,8 @@ var Data = mongoose.model('Data', {
  
         });
     });
+
+//Routes for projects/Treasures
 
     app.get('/api/Project', function(req, res) {
 

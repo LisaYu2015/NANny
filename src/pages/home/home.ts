@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { AuthService } from '../../providers/auth-service/auth-service';
+import { LoginPage } from '../login/login';
  
 @Component({
   selector: 'page-home',
@@ -17,7 +18,7 @@ export class HomePage {
  
   public logout() {
     this.auth.logout().subscribe(succ => {
-      this.nav.setRoot('LoginPage')
+      this.nav.setRoot(LoginPage)
     });
   }
 }

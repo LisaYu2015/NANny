@@ -37,14 +37,16 @@
           </ion-list>
         </ion-col>
       </ion-row>
-      
       <ion-row>
         <ion-col class="signup-col">
           <button ion-button class="submit-btn" full type="submit" [disabled]="!registerForm.form.valid">Login</button>
-          <button ion-button class="register-btn" block clear (click)="createAccount()">Create New Account</button>
         </ion-col>
       </ion-row>
       
     </form>
+
+    <ion-row>
+          <button ion-button class="register-btn" block clear (click)="createAccount()">Create New Account</button> 
+    </ion-row>
   </div>
 </ion-content>
