@@ -46,7 +46,7 @@ var assert = require('assert');
 console.log("Anyone here?");
 var local = 'mongodb://localhost:27017/mydb';
 var url2 = 'mongodb://bosch:bosch@ec2-54-87-140-197.compute-1.amazonaws.com:27017/test';
-mongoose.connect(local); 
+mongoose.connect(url2); 
 // When successfully connected
 mongoose.connection.on('connected', function () {  
   console.log('Mongoose default connection open to ' + url2);
