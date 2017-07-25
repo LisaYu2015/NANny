@@ -14,12 +14,6 @@ app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse applica
 app.use(methodOverride());
 app.use(cors());
 
-var router = express.Router(); /* GET home page. */ 
-router.get('/', function(req, res, next) { 
-    res.render('index', { title: 'Express' });
-}); 
-module.exports = router;
-
 
 // CORS (Cross-Origin Resource Sharing) headers to support Cross-site HTTP requests
 app.all('*', function(req, res, next) {
@@ -46,10 +40,10 @@ var assert = require('assert');
 console.log("Anyone here?");
 var local = 'mongodb://localhost:27017/mydb';
 var url2 = 'mongodb://bosch:bosch@ec2-54-87-140-197.compute-1.amazonaws.com:27017/test';
-mongoose.connect(url2); 
+mongoose.connect(local); 
 // When successfully connected
 mongoose.connection.on('connected', function () {  
-  console.log('Mongoose default connection open to ' + url2);
+  console.log('Mongoose default connection open to ' + local);
 }); 
 // If the connection throws an error
 mongoose.connection.on('error',function (err) {  
@@ -66,26 +60,26 @@ mongoose.connection.on('disconnected', function () {
 //Tracks the general request information. Changed to "Question" variable
 //because 'request' is a common keyword in webapps.
 var Question = mongoose.model('Requests', {
-    _id: [mongoose.Schema.Types.ObjectId],
+    _id: mongoose.Schema.Types.ObjectId,
     content: String,
     date: { type: Date, default: Date.now },
-    helperID: [mongoose.Schema.Types.ObjectId], //points to a user
-    requesterID: [mongoose.Schema.Types.ObjectId], //points to a user
+    helperID: mongoose.Schema.Types.ObjectId, //points to a user
+    requesterID: mongoose.Schema.Types.ObjectId, //points to a user
     symptoms: String,
-    ProjectID : [mongoose.Schema.Types.ObjectId], //referes to project witch includes userID, brand, year, model, engine and errorcode
+    ProjectID : mongoose.Schema.Types.ObjectId, //referes to project witch includes userID, brand, year, model, engine and errorcode
 });
 
 //tracks the comments related to a question/request
 var Discussion = mongoose.model('Discussion', {
-    _id: [mongoose.Schema.Types.ObjectId],
-    author: [mongoose.Schema.Types.ObjectId],
+    _id: mongoose.Schema.Types.ObjectId,
+    author: mongoose.Schema.Types.ObjectId,
     comment: String,
-    requestid: [mongoose.Schema.Types.ObjectId],
+    requestid: mongoose.Schema.Types.ObjectId,
     time: { type: Date, default: Date.now } //when was the comment posted
 });
 
-var User = mongoose.model('User', {
-    _id: [mongoose.Schema.Types.ObjectId],
+var User = mongoose.model('Users', {
+    _id: mongoose.Schema.Types.ObjectId,
     expertise: String,
     experience: String,
     shop: String,
@@ -98,8 +92,8 @@ var User = mongoose.model('User', {
 });
 
 var Points = mongoose.model('Points', {
-    _id: [mongoose.Schema.Types.ObjectId],
-    Userid: [mongoose.Schema.Types.ObjectId],
+    _id: mongoose.Schema.Types.ObjectId,
+    Userid: mongoose.Schema.Types.ObjectId,
     a_comment: Number,
     a_fix: Number,
     a_request: Number,
@@ -111,8 +105,8 @@ var Points = mongoose.model('Points', {
 
 //Project contains the general details of each car
 var Project = mongoose.model('Project', {
-    _id: [mongoose.Schema.Types.ObjectId],
-    Userid:[mongoose.Schema.Types.ObjectId],
+    _id: mongoose.Schema.Types.ObjectId,
+    Userid:mongoose.Schema.Types.ObjectId,
     brand:String,
     year:Number,
     model:String,
@@ -123,8 +117,8 @@ var Project = mongoose.model('Project', {
 
 //Data contains the details of each project/treasure
 var Data = mongoose.model('Data', {
-    _id: [mongoose.Schema.Types.ObjectId],
-    ProjectID:[mongoose.Schema.Types.ObjectId],
+    _id: mongoose.Schema.Types.ObjectId,
+    ProjectID:mongoose.Schema.Types.ObjectId,
     type:String,
     sentence:String,
 });
@@ -138,13 +132,17 @@ app.get('/api/email/:email', function(req, res){
         if(err)
             res.send(err)
         res.json(docs);
+        console.log(docs);
     });
 });
+
+var ObjectId = require('mongodb').ObjectId;
 
 //create new user
 app.post('/api/user', function(req, res) {
     console.log("registering user");
     User.create({
+        _id: new ObjectId(),
         expertise: req.body.expertise,
         experience: req.body.experience,
         shop: req.body.shop,
@@ -154,8 +152,13 @@ app.post('/api/user', function(req, res) {
         password: req.body.password,
         done: false
     }, function(err, user) {
-        if (err) 
-            res.send(err)
+        if (err) {
+            res.send(err);
+            console.log(err);
+        }
+        else{
+            res.send(user);
+        }
     });
 });
 
@@ -268,10 +271,4 @@ app.post('/api/user', function(req, res) {
  
         });
     });
-
-
-
-
-
-
 

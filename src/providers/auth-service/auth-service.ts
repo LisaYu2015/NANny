@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, Response, RequestOptions } from '@angular/http';
 import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
- 
+
 export class User {
   email: string;
   fname:string;
@@ -23,7 +23,6 @@ export class User {
 export class AuthService {
   currentUser: User;
   data: any;
-  url = "api/user";
 
   constructor(private http: Http) {
     this.data = null;
@@ -34,14 +33,13 @@ export class AuthService {
       return Observable.throw("Please insert credentials");
     } 
     else {
-      // this.http.get('/api/user')
-      //     .map(res => res.json())
-      //     .subscribe(data => {
-      //       this.data = data;
-      //       // resolve(this.data);
-      //     });
       return Observable.create(observer => {
-        
+        this.http.get('/api/email/' + credentials.email)
+          .map(res => res.json())
+          .subscribe(data => {
+            this.data = data;
+            // resolve(this.data);
+          });
         let access = (credentials.password === this.data["password"] && credentials.email === this.data["email"]);
         this.currentUser = new User(this.data["email"], this.data["fname"], this.data["lname"], this.data["shop"], '');
         observer.next(access);
@@ -55,29 +53,33 @@ export class AuthService {
     return body.data || {};
   }
 
-  private handleErrorObservable (error: Response | any) {
+  // private handleErrorObservable (error: Response | any) {
+  //   console.error(error.message || error);
+  //   return Observable.throw(error.message || error);
+  // }
+
+  private handleErrorPromise (error: Response | any) {
     console.error(error.message || error);
-    return Observable.throw(error.message || error);
+    return Promise.reject(error.message || error);
   }
 
-  public register(credentials): Observable<User> {
-    if (credentials.email === null || credentials.password === null) {
-      return Observable.throw("Please fill all fields.");
-    } else {
+  public register(credentials) {
+    // if (credentials.email === null || credentials.password === null) {
+    //   return Observable.throw("Please fill all fields.");
+    // } else {
       let headers = new Headers({ 'Content-Type': 'application/json' });
       let options = new RequestOptions({ headers: headers });
-      return this.http.post(this.url, JSON.stringify(credentials), options)
-                  .map(this.extractData)
-                  .catch(this.handleErrorObservable);
-      // this.http.post('api/user', JSON.stringify(credentials), options)
-      //   .subscribe(res=> {
-      //     console.log(res.json());
-      //   });
+      this.http.post('/api/user', JSON.stringify(credentials), options).toPromise()
+                  // .resolve('Success')
+                  // .then((res) => res.json()[1])
+                  .catch(this.handleErrorPromise);
+      console.log("will this be visible?");
       // return Observable.create(observer => {
+      //   this.currentUser = new User(this.data["email"], this.data["fname"], this.data["lname"], this.data["shop"], '');
       //   observer.next(true);
       //   observer.complete();
       // });
-    }
+    // }
   } 
   // public register(credentials) {
   //   if (credentials.email === null || credentials.password === null) {

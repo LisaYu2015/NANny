@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, AlertController, LoadingController, Loading } from 'ionic-angular';
 import { AuthService } from '../../providers/auth-service/auth-service';
 import { RegisterPage } from '../register/register';
+import { HomePage } from '../home/home';
 
 
 //IonicPage()
@@ -21,17 +22,18 @@ export class LoginPage {
  
   public login() {
 
-    this.showLoading()
-    this.auth.login(this.registerCredentials).subscribe(allowed => {
-      if (allowed) {        
-        this.nav.setRoot('HomePage');
-      } else {
-        this.showError("Access Denied");
-      }
-    },
-      error => {
-        this.showError(error);
-      });
+    this.showLoading();
+    this.auth.login(this.registerCredentials);
+    // this.auth.login(this.registerCredentials).subscribe(allowed => {
+    //   if (allowed) {        
+    //     this.nav.setRoot(HomePage);
+    //   } else {
+    //     this.showError("Access Denied");
+    //   }
+    // },
+    //   error => {
+    //     this.showError(error);
+    //   });
   }
  
   showLoading() {
