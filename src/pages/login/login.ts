@@ -21,19 +21,19 @@ export class LoginPage {
   }
  
   public login() {
-
+    alert("here");
     this.showLoading();
-    this.auth.login(this.registerCredentials);
-    // this.auth.login(this.registerCredentials).subscribe(allowed => {
-    //   if (allowed) {        
-    //     this.nav.setRoot(HomePage);
-    //   } else {
-    //     this.showError("Access Denied");
-    //   }
-    // },
-    //   error => {
-    //     this.showError(error);
-    //   });
+    // this.auth.login(this.registerCredentials);
+    this.auth.login(this.registerCredentials).subscribe(allowed => {
+      if (allowed) {        
+        this.nav.setRoot(HomePage);
+      } else {
+        this.showError("Access Denied");
+      }
+    },
+      error => {
+        this.showError(error);
+      });
   }
  
   showLoading() {

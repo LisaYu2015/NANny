@@ -34,14 +34,16 @@ export class AuthService {
     } 
     else {
       return Observable.create(observer => {
-        this.http.get('/api/email/' + credentials.email)
-          .map(res => res.json())
-          .subscribe(data => {
-            this.data = data;
-            // resolve(this.data);
-          });
-        let access = (credentials.password === this.data["password"] && credentials.email === this.data["email"]);
-        this.currentUser = new User(this.data["email"], this.data["fname"], this.data["lname"], this.data["shop"], '');
+        // this.http.get('/api/email/' + credentials.email)
+        //   .map(res => res.json())
+        //   .subscribe(data => {
+        //     this.data = data;
+        //     // resolve(this.data);
+        //   });
+        // let access = (credentials.password === this.data["password"] && credentials.email === this.data["email"]);
+        let access = (credentials.password === "t" && credentials.email === "t");
+        // this.currentUser = new User(this.data["email"], this.data["fname"], this.data["lname"], this.data["shop"], '');
+        this.currentUser = new User("test", "test", "test", "test", '');
         observer.next(access);
         observer.complete();
       });
@@ -94,7 +96,7 @@ export class AuthService {
   // }
  
   public getUserInfo() : User {
-    return this.data;
+    return this.currentUser;
   }
  
   public logout() {

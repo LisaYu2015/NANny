@@ -10,6 +10,7 @@ import { LoginPage } from '../login/login';
 export class HomePage {
   username = '';
   email = '';
+  
   constructor(private nav: NavController, private auth: AuthService) {
     let info = this.auth.getUserInfo();
     this.username = info['name'];

@@ -6,13 +6,15 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { LoginPage } from '../pages/login/login';
-import { RegisterPage } from '../pages/register/register';
+import { ProfilePage } from '../pages/profile/profile';
+import { SearchPage } from '../pages/search/search';
+import { ChatPage } from '../pages/chat/chat';
 
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
-  // @ViewChild(Nav) nav: Nav;
+  @ViewChild(Nav) nav: Nav;
 
   rootPage: any = LoginPage;
 
@@ -25,7 +27,9 @@ export class MyApp {
     this.pages = [
       { title: 'Home', component: HomePage },
       { title: 'List', component: ListPage },
-
+      { title: 'Profile', component: ProfilePage },
+      { title: 'Search', component: SearchPage },
+      { title: 'Requests', component: ChatPage },
     ];
 
   }
@@ -39,9 +43,9 @@ export class MyApp {
     });
   }
 
-  // openPage(page) {
-  //   // Reset the content nav to have just this page
-  //   // we wouldn't want the back button to show in this scenario
-  //   this.nav.setRoot(page.component);
-  // }
+  openPage(page) {
+    // Reset the content nav to have just this page
+    // we wouldn't want the back button to show in this scenario
+    this.nav.setRoot(page.component);
+  }
 }
