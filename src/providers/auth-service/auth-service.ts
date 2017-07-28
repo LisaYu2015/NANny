@@ -4,11 +4,19 @@ import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 
 export class User {
-  email: string;
+  _id:string;
+  email:string;
   fname:string;
   lname:string;
   shop:string;
   pass:string;
+  activedate:string;
+  joindate:string;
+  expertise:string;
+  points:number;
+  level:string;
+  fixes:number;
+  helps:number;
 
   constructor(email: string, fname:string, lname:string, shop:string, pass:string) {
     this.email = email;
@@ -30,57 +38,35 @@ export class AuthService {
  
   public login(credentials) {
     if (credentials.email === null || credentials.password === null) {
-      return Observable.throw("Please insert credentials");
+      return Promise.reject("Please insert credentials");
     } 
-    else {
-      return Observable.create(observer => {
-        // this.http.get('/api/email/' + credentials.email)
-        //   .map(res => res.json())
-        //   .subscribe(data => {
-        //     this.data = data;
-        //     // resolve(this.data);
-        //   });
-        // let access = (credentials.password === this.data["password"] && credentials.email === this.data["email"]);
-        let access = (credentials.password === "t" && credentials.email === "t");
-        // this.currentUser = new User(this.data["email"], this.data["fname"], this.data["lname"], this.data["shop"], '');
-        this.currentUser = new User("test", "test", "test", "test", '');
-        observer.next(access);
-        observer.complete();
-      });
-    }
+    return new Promise(resolve => {
+      this.http.get('/api/email/'+ credentials.email)
+        .map(res => res.json())
+        .subscribe(data => {
+          this.data = data;
+          this.currentUser = data[0];
+          resolve(this.data);
+        });
+    });
   }
 
-  private extractData(res: Response) {
-    let body = res.json();
-    return body.data || {};
-  }
-
-  // private handleErrorObservable (error: Response | any) {
-  //   console.error(error.message || error);
-  //   return Observable.throw(error.message || error);
-  // }
-
-  private handleErrorPromise (error: Response | any) {
-    console.error(error.message || error);
-    return Promise.reject(error.message || error);
-  }
 
   public register(credentials) {
     // if (credentials.email === null || credentials.password === null) {
     //   return Observable.throw("Please fill all fields.");
     // } else {
-      let headers = new Headers({ 'Content-Type': 'application/json' });
-      let options = new RequestOptions({ headers: headers });
-      this.http.post('/api/user', JSON.stringify(credentials), options).toPromise()
-                  // .resolve('Success')
-                  // .then((res) => res.json()[1])
-                  .catch(this.handleErrorPromise);
-      console.log("will this be visible?");
-      // return Observable.create(observer => {
-      //   this.currentUser = new User(this.data["email"], this.data["fname"], this.data["lname"], this.data["shop"], '');
-      //   observer.next(true);
-      //   observer.complete();
-      // });
+    //   let headers = new Headers({ 'Content-Type': 'application/json' });
+    //   let options = new RequestOptions({ headers: headers });
+    //   this.http.post('/api/user', JSON.stringify(credentials), options).toPromise()
+    //               .then((res) => res.json()[1])
+    //               .catch(this.handleErrorPromise);
+    //   console.log("will this be visible?");
+    //   return Observable.create(observer => {
+    //     this.currentUser = new User(this.data["email"], this.data["fname"], this.data["lname"], this.data["shop"], '');
+    //     observer.next(true);
+    //     observer.complete();
+    //   });
     // }
   } 
   // public register(credentials) {

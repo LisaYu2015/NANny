@@ -11,12 +11,19 @@
     </ion-buttons>
   </ion-navbar>
 </ion-header>
-
-
-
  
 <ion-content class="home" padding>
-  <h3>Welcome inside, {{username}}!</h3>
-  Your Email is: {{email}}
+  <h3>Welcome to TexConnect {{user.fname}} {{user.lname}}!</h3>
+
+  <ion-card>
+    <ion-card-header>
+      Points History
+    </ion-card-header>
+    <ion-card-content>
+      <canvas #lineCanvas></canvas>
+    </ion-card-content>
+  </ion-card>
+
+  <h3>Leaderboard</h3>
 
 </ion-content>

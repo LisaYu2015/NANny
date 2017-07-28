@@ -13,7 +13,23 @@
 </ion-header>
  
 <ion-content class="home" padding>
-  <h3>Welcome inside, {{username}}!</h3>
-  Your Email is: {{email}}
-
+  <ion-grid>
+    <ion-row>
+      <ion-col col-4>
+        <img width="100%">
+      </ion-col>
+      <ion-col col-4 >
+        <h3>{{user.fname}} {{user.lname}} </h3>
+        <p>Joined: {{user.joindate}}</p>
+        <p>Last Active: {{user.activedate}}</p>
+        <p>Expertise: {{user.expertise}}</p>
+      </ion-col>
+      <ion-col col-4 >
+        <h3>Points: {{user.points}}</h3>
+        <p>Level: {{user.level}}</p>
+        <p>New Fixes: {{user.fixes}}</p>
+        <p>Helps: {{user.helps}}</p>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

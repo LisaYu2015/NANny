@@ -128,7 +128,7 @@ var Data = mongoose.model('Data', {
 //find one user with some username
 app.get('/api/email/:email', function(req, res){
     console.log("authenticating user");
-    User.find({email: req.params.email }, function(err, docs){
+    User.find({email: req.params.email}, function(err, docs){
         if(err)
             res.send(err)
         res.json(docs);

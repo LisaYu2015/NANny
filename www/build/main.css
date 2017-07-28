@@ -25199,12 +25199,8 @@ ion-navbar.toolbar {
   }
 }
 
-page-home .home {
-  background: #56CA96;
-}
-
-page-login .login-content {
-  background: #56CA96;
+page-home ion-card-header {
+  font-weight: bold;
 }
 
 page-login .login-content .logo-row {
@@ -25213,7 +25209,6 @@ page-login .login-content .logo-row {
 }
 
 page-login .login-content .login-box {
-  background: #399F8B;
   padding: 20px 20px 0px 20px;
   margin-top: 30px;
 }
@@ -25255,7 +25250,6 @@ page-login .login-content .submit-btn {
 }
 
 page-login .login-content .register-btn {
-  color: #ffffff;
   font-size: 0.8em;
 }
 

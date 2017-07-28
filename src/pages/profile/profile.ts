@@ -1,24 +1,27 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the ProfilePage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
+import { User, AuthService } from '../../providers/auth-service/auth-service';
+import { LoginPage } from '../login/login';
 
 @Component({
   selector: 'page-profile',
   templateUrl: 'profile.html',
 })
 export class ProfilePage {
+	user: User;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private auth: AuthService) {
+  	this.user = this.auth.getUserInfo();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ProfilePage');
+  }
+
+  public logout() {
+    this.auth.logout().subscribe(succ => {
+      this.navCtrl.setRoot(LoginPage)
+    });
   }
 
 }

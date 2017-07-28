@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { AuthService } from '../../providers/auth-service/auth-service';
+import { LoginPage } from '../login/login';
 
 /**
  * Generated class for the SearchPage page.
@@ -14,11 +16,21 @@ import { NavController, NavParams } from 'ionic-angular';
 })
 export class SearchPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public auth: AuthService) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SearchPage');
+  }
+
+  search(){
+
+  }
+
+  public logout() {
+    this.auth.logout().subscribe(succ => {
+      this.navCtrl.setRoot(LoginPage)
+    });
   }
 
 }

@@ -10,6 +10,7 @@ import { ProfilePage } from '../pages/profile/profile';
 import { SearchPage } from '../pages/search/search';
 import { ChatPage } from '../pages/chat/chat';
 
+
 @Component({
   templateUrl: 'app.html'
 })
@@ -26,7 +27,6 @@ export class MyApp {
     //used for an example of ngFor and navigation
     this.pages = [
       { title: 'Home', component: HomePage },
-      { title: 'List', component: ListPage },
       { title: 'Profile', component: ProfilePage },
       { title: 'Search', component: SearchPage },
       { title: 'Requests', component: ChatPage },
