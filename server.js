@@ -30,15 +30,21 @@ app.listen(app.get('port'), function () {
     console.log('Express server listening on port ' + app.get('port'));
 });
 
+
+
+
+
+
 //Connection with MongoDB
 var mongoose = require('mongoose'); 
 var assert = require('assert');
 console.log("Anyone here?");
+var url1 = 'mongodb://localhost:27017/testdb';
 var url2 = 'mongodb://bosch:bosch@ec2-54-87-140-197.compute-1.amazonaws.com:27017/test';
-mongoose.connect(url2); 
+mongoose.connect(url1); 
 // When successfully connected
 mongoose.connection.on('connected', function () {  
-  console.log('Mongoose default connection open to ' + url2);
+  console.log('Mongoose default connection open to ' + url1);
 }); 
 // If the connection throws an error
 mongoose.connection.on('error',function (err) {  
@@ -51,14 +57,14 @@ mongoose.connection.on('disconnected', function () {
 
 
 //Models (Schemas)
-var Question = mongoose.model('Requests', {
+var Question = mongoose.model('Request', {
     _id: [mongoose.Schema.Types.ObjectId],
     content: String,
     date: { type: Date, default: Date.now },
     helperID: [mongoose.Schema.Types.ObjectId],
     requesterID: [mongoose.Schema.Types.ObjectId],
     symptoms: String,
-    ProjectID : [mongoose.Schema.Types.ObjectId], //referes to project witch includes userID, brand, year, model, engine and errorcode
+    ProjectID : [mongoose.Schema.Types.ObjectId] //referes to project witch includes userID, brand, year, model, engine and errorcode
 });
 
 var Discussion = mongoose.model('Discussion', {
@@ -73,7 +79,7 @@ var User = mongoose.model('User', {
     _id: [mongoose.Schema.Types.ObjectId],
     expertise: String,
     shop: String,
-    username: String,
+    username: String
 });
 
 var Points = mongoose.model('Points', {
@@ -90,22 +96,23 @@ var Points = mongoose.model('Points', {
 
 //treasure
 
-var Project = mongoose.model('Project', {
-    _id: [mongoose.Schema.Types.ObjectId],
-    Userid:[mongoose.Schema.Types.ObjectId],
+var Project = mongoose.model('project', {
+    _id: mongoose.Schema.Types.ObjectId,
+    PID:Number,
     brand:String,
     year:Number,
     model:String,
     complete:String,
     errorcode:String,
     engine:String,
+    uploaded:String
 });
 
-var Data = mongoose.model('Data', {
+var Detail = mongoose.model('detail', {
     _id: [mongoose.Schema.Types.ObjectId],
-    ProjectID:[mongoose.Schema.Types.ObjectId],
+    PID:Number,
     type:String,
-    sentence:String,
+    sentence:String
 });
 
 
@@ -121,7 +128,7 @@ var Data = mongoose.model('Data', {
  
             // if there is an error retrieving, send the error. nothing after res.send(err) will execute
             if (err)
-                res.send(err)
+                res.send(err);
  
             res.json(question); // return all reviews in JSON format
         });
@@ -149,7 +156,7 @@ var Data = mongoose.model('Data', {
             // get and return all the reviews after you create another
             Question.find(function(err, question) {
                 if (err)
-                    res.send(err)
+                    res.send(err);
                 res.json(question);
             });
         });
@@ -173,50 +180,75 @@ var Data = mongoose.model('Data', {
         Project.find(function(err, Project){
             //if there is an error retrieving, send the error. nothing after res.send(err) will execute
             if (err)
-                res.send(err)
+                res.send(err);
 
             res.json(Project);
         });
     });
 
-    //create Project and send back all Projects after creation
-    app.post('/api/Project',function(req, res){
 
-        console.log("creating Project");
+    app.post('/api/Project', function(req, res) {
+ 
+        console.log("creating Projects");
+        console.log(req.body);
+ 
+        // create a review, information comes from request from Ionic
+        // var project = new Project();
+            // project._id = req.body._id;
+            // project.PID =req.body.PID;
+            // project.TID = req.body.TID;
+            // project.year= req.body.year;
+            // project.brand= req.body.brand;
+            // project.model= req.body.model;
+            // project.engine= req.body.engine;
+            // project.errorcode = req.body.errorcode;
+            // project.complete = req.body.complete;
+            // project.uploaded = req.body.uploaded;
+            
 
-        //create a Project, information comes from request from Ionic
-        Project.create({
-            PID : req.body.projectID, //should be automaticly created
-            TID : req.body.technicaianID, //should be gathered from the user detail=userID
-            brand : req.body.brand,
-            year : req.body.year,
-            model : req.body.model,
-            complete : req.body.complete, //automaticlly assigned
-            errorcode : req.body.errorcode,
-            engine : req.body.engine,
-            done : false
-        }, function(err, Project) {
+                Project.findById(req.body._id, function(err, project) {
+                  if (!project)
+                    {console.log("here");
+                res.send(new Error('Could not load Document'));}
+                  else {
+                    // do your updates here
+                                // project._id = req.body._id;
+            project.PID =req.body.PID;
+            project.TID = req.body.TID;
+            project.year= req.body.year;
+            project.brand= req.body.brand;
+            project.model= req.body.model;
+            project.engine= req.body.engine;
+            project.errorcode = req.body.errorcode;
+            project.complete = req.body.complete;
+            project.uploaded = req.body.uploaded;
+            
+                    project.save(function(err) {
+                      if (err)
+                        {console.log('error');
+                        console.log(err)}
+                      else
+                        {console.log(project);
+                        console.log('success')}
+                    });
+                  }
+                });
+ 
+    });
+
+    app.get('/api/Detail', function (req, res) {
+
+        console.log("fetching Details");
+
+        //use mongoose to get all Details in the database
+        Detail.find(function (err, Detail) { 
+            //if there is an error retrieving, send the error. nothing after res.send(err) will execute
             if (err)
                 res.send(err);
 
-            //get and return all the Projects after you create another
-            Project.find(function(err, Project){
-                if(err)
-                    res.send(err)
-                res.json(Project);
-            });
+            res.json(Detail);
         });
     });
-
-        // delete a Project
-    app.delete('/api/Project/:Project_id', function(req, res) {
-        Project.remove({
-            _id : req.params.Project_id
-        }, function(err, Project) {
- 
-        });
-    });
-
 
 
 
