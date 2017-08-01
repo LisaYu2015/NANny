@@ -9,9 +9,14 @@ import { LoginPage } from '../login/login';
 })
 export class ProfilePage {
 	user: User;
+  joined: any;
+  lastactive: Date;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private auth: AuthService) {
   	this.user = this.auth.getUserInfo();
+    this.joined = new Date(this.user.joined).getTime();
+    this.lastactive = new Date(this.user.last_active);
+    alert(this.user.total_fix);
   }
 
   ionViewDidLoad() {

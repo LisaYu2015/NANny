@@ -15,23 +15,12 @@ export class RegisterPage {
   constructor(private nav: NavController, private auth: AuthService, private alertCtrl: AlertController) { }
  
   public register() {
-    // this.auth.register(this.registerCredentials).subscribe(success => {
-    //   if (success) {
-    //     this.createSuccess = true;
-    //     this.showPopup("Success", "Account created.");
-    //     this.nav.setRoot(HomePage);
-    //   } else {
-    //     this.showPopup("Error", "Problem creating account.");
-    //   }
-    // },
-    //   error => {
-    //     this.showPopup("Error", error);
-    //   });
 
-    this.auth.register(this.registerCredentials);
-                this.createSuccess = true;
-                this.showPopup("Success", "Account created.");
-                this.nav.setRoot(HomePage);
+    this.auth.register(this.registerCredentials).then((user) => {
+      this.createSuccess = true;
+      this.showPopup("Success", "Account created. Please enter your email and password to get started");
+    });
+                
   }
  
   showPopup(title, text) {

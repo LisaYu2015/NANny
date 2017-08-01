@@ -13,22 +13,23 @@
 </ion-header>
  
 <ion-content class="home" padding>
+{{1288323623006 | date:"MM/dd/yyyy 'at' h:mma"}}
   <ion-grid>
     <ion-row>
       <ion-col col-4>
-        <img width="100%">
+        <img width="100%" src="../../assets/images/default-profile-picture.png">>
       </ion-col>
       <ion-col col-4 >
         <h3>{{user.fname}} {{user.lname}} </h3>
-        <p>Joined: {{user.joindate}}</p>
-        <p>Last Active: {{user.activedate}}</p>
+        <p>Joined: {{joindate | date:'yyyy-MM-dd HH:mm:ss Z'}}</p>
+        <p>Last Active: {{activedate | date:'MM/dd/yyyy'}}</p>
         <p>Expertise: {{user.expertise}}</p>
       </ion-col>
       <ion-col col-4 >
-        <h3>Points: {{user.points}}</h3>
-        <p>Level: {{user.level}}</p>
-        <p>New Fixes: {{user.fixes}}</p>
-        <p>Helps: {{user.helps}}</p>
+        <h3>Points: {{user.points | number}}</h3>
+        <p>Level: {{user.level }}</p>
+        <p>New Fixes: {{user.fixes | number}}</p>
+        <p>Helps: {{user.helps | number}}</p>
       </ion-col>
     </ion-row>
   </ion-grid>

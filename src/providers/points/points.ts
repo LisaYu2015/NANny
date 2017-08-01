@@ -13,23 +13,31 @@ export class Points{
     a_comment: number;
     a_fix: number;
     a_request: number;
-    p_comment: number;
-    p_fix: number;
-    p_request: number;
     date: Date;
 }
 
 @Injectable()
 export class PointsProvider {
-	points= Array{}<>;
+	points: Array<Points>;
 
   constructor(public http: Http) {
     console.log('Hello PointsProvider Provider');
-    
   }
 
-  updatepoints(){
+  getpoints(id){
+    return new Promise(resolve => {
+      this.http.get('/api/points/id/'+ id)
+        .map(res => res.json())
+        .subscribe(data => {
+          this.points = data;
+          resolve(this.points);
+        });
+    });
+  }
 
+  updatepoints(activity: string, n: number){
+    //get points for today
+    //add activity points for that
   }
 
 }

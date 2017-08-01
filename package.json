@@ -24,6 +24,7 @@
     "@ionic-native/splash-screen": "3.12.1",
     "@ionic-native/status-bar": "3.12.1",
     "@ionic/storage": "2.0.1",
+    "amcharts3": "github:amcharts/amcharts3",
     "aws-sdk": "^2.91.0",
     "body-parser": "^1.17.2",
     "chart.js": "^2.6.0",

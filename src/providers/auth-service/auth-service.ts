@@ -9,21 +9,22 @@ export class User {
   fname:string;
   lname:string;
   shop:string;
-  pass:string;
-  activedate:string;
-  joindate:string;
+  password:string;
+  last_active:Date;
+  joined:Date;
   expertise:string;
-  points:number;
+  experience: string;
+  total_points:number;
   level:string;
-  fixes:number;
-  helps:number;
+  total_fix:number;
+  total_help:number;
 
   constructor(email: string, fname:string, lname:string, shop:string, pass:string) {
     this.email = email;
     this.fname = fname;
     this.lname = lname;
     this.shop = shop;
-    this.pass = pass;
+    this.password = pass;
   }
 }
  
@@ -53,33 +54,20 @@ export class AuthService {
 
 
   public register(credentials) {
-    // if (credentials.email === null || credentials.password === null) {
-    //   return Observable.throw("Please fill all fields.");
-    // } else {
-    //   let headers = new Headers({ 'Content-Type': 'application/json' });
-    //   let options = new RequestOptions({ headers: headers });
-    //   this.http.post('/api/user', JSON.stringify(credentials), options).toPromise()
-    //               .then((res) => res.json()[1])
-    //               .catch(this.handleErrorPromise);
-    //   console.log("will this be visible?");
-    //   return Observable.create(observer => {
-    //     this.currentUser = new User(this.data["email"], this.data["fname"], this.data["lname"], this.data["shop"], '');
-    //     observer.next(true);
-    //     observer.complete();
-    //   });
-    // }
+    if (credentials.email === null || credentials.password === null) {
+      return Promise.reject("Please fill all fields.");
+    }
+    return new Promise(resolve => {
+      let headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+      this.http.post('/api/user', JSON.stringify(credentials), {headers: headers})
+                  .subscribe(res => {
+                    this.currentUser = res[0];
+                    resolve(res);
+                  });
+      console.log("will this be visible?");
+    });
   } 
-  // public register(credentials) {
-  //   if (credentials.email === null || credentials.password === null) {
-  //     return Observable.throw("Please fill all fields.");
-  //   } else {
-  //     // At this point store the credentials to your backend!
-  //     return Observable.create(observer => {
-  //       observer.next(true);
-  //       observer.complete();
-  //     });
-  //   }
-  // }
  
   public getUserInfo() : User {
     return this.currentUser;

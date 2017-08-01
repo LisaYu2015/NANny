@@ -1,3 +1,7 @@
+//nodejs buckets
+var AWS = require('aws-sdk');
+var s3Bucket = new AWS.S3( { params: {Bucket: 'katcher'} } );
+
 //Set up host server for website
 var express = require('express'),
     app = express();
@@ -88,18 +92,19 @@ var User = mongoose.model('Users', {
     email: String,
     password: String,
     joined: { type: Date, default: Date.now },
-    last_active: { type: Date, default: Date.now }
+    last_active: { type: Date, default: Date.now },
+    total_points: { type: Number, default: 0},
+    level: { type: String, default: "Novice"},
+    total_fix: { type: Number, default: 0},
+    total_help: { type: Number, default: 0},
 });
 
-var Points = mongoose.model('Points', {
+var Point = mongoose.model('Points', {
     _id: mongoose.Schema.Types.ObjectId,
-    Userid: mongoose.Schema.Types.ObjectId,
+    Userid: String,
     a_comment: Number,
     a_fix: Number,
     a_request: Number,
-    p_comment: Number,
-    p_fix: Number,
-    p_request: Number,
     date: { type: Date, default: Date.now }
 });
 
@@ -110,8 +115,9 @@ var Project = mongoose.model('Project', {
     brand:String,
     year:Number,
     model:String,
-    complete:String,
+    complete: {type:String, default:'No'},
     errorcode:String,
+    symptoms: String,
     engine:String,
 });
 
@@ -123,100 +129,166 @@ var Data = mongoose.model('Data', {
     sentence:String,
 });
 
-
-//Routes for users(adding/getting)
-//find one user with some username
-app.get('/api/email/:email', function(req, res){
-    console.log("authenticating user");
-    User.find({email: req.params.email}, function(err, docs){
-        if(err)
-            res.send(err)
-        res.json(docs);
-        console.log(docs);
-    });
-});
-
-var ObjectId = require('mongodb').ObjectId;
-
-//create new user
-app.post('/api/user', function(req, res) {
-    console.log("registering user");
-    User.create({
-        _id: new ObjectId(),
-        expertise: req.body.expertise,
-        experience: req.body.experience,
-        shop: req.body.shop,
-        fname: req.body.fname,
-        lname: req.body.lname,
-        email: req.body.email,
-        password: req.body.password,
-        done: false
-    }, function(err, user) {
-        if (err) {
-            res.send(err);
-            console.log(err);
-        }
-        else{
-            res.send(user);
-        }
-    });
-});
-
-// Routes for Requests collection
- 
-    // Get reviews
-    app.get('/api/question', function(req, res) {
- 
-        console.log("fetching questions");
- 
-        // use mongoose to get all reviews in the database
-        Question.find(function(err, question) {
- 
-            // if there is an error retrieving, send the error. nothing after res.send(err) will execute
-            if (err)
+//Routes for requests for one person
+    //get list of requests for one user
+    app.get('/api/question/id/:id', function(req, res){
+        console.log("getting all chats");
+        Question.find({Userid: req.params.id}, function(err, points){
+            if(err)
                 res.send(err)
- 
-            res.json(question); // return all reviews in JSON format
+            res.json(docs);
+            console.log(docs);
         });
     });
- 
-    // create review and send back all reviews after creation
+
+    // create request 
+    // first create project, then add request for that project
     app.post('/api/question', function(req, res) {
  
         console.log("creating questions");
- 
-        // create a review, information comes from request from Ionic
-        Question.create({
-            _id: [mongoose.Schema.Types.ObjectId],
-            content: String,
-            date: { type: Date, default: Date.now },
-            helperID: [mongoose.Schema.Types.ObjectId],
-            requesterID: [mongoose.Schema.Types.ObjectId],
-            symptoms: String,
-            ProjectID : [mongoose.Schema.Types.ObjectId],
-            done : false
-        }, function(err, question) {
-            if (err)
+
+        var nquestion = new Question();
+        nquestion.content = req.body.content;
+        nquestion.helperID = req.body.helperID;
+        nquestion.requesterID = req.body.requesterID;
+
+        var newproj = new Project();
+        newproj.Userid = req.body.userid;
+        newproj.brand = req.body.brand;
+        newproj.year = req.body.year;
+        newproj.model = req.body.model;
+        newproj.errorcode = req.body.errorcode;
+        newproj.symptoms = req.body.symptoms;
+        newproj.engine = req.body.engine;
+
+        newproj.save(function(err, project) {
+            if(err)
                 res.send(err);
- 
-            // get and return all the reviews after you create another
-            Question.find(function(err, question) {
-                if (err)
-                    res.send(err)
-                res.json(question);
-            });
+            nquestion.ProjectID = project.id;
+        });
+
+        nquestion.save(function(err, question){
+            if(err)
+                res.send(err);
         });
  
     });
- 
-    // delete a review
-    app.delete('/api/question/:question_id', function(req, res) {
-        question.remove({
-            _id : req.params.question_id
-        }, function(err, question) {
- 
+
+    //get discussion for one request
+    app.get('/api/disc/id/:id', function(req, res){
+        console.log("getting discussion");
+        Discussion.find({requestid: req.params.id}, function(err, disc){
+            if(err)
+                res.send(err);
+            res.json(disc);
+            console.log(disc);
         });
     });
+
+    //add comment to discussion
+    app.post('/api/disc/', function(req, res){
+        Discussion.save({req}, function(err, docs){
+            if(err)
+                res.send(err);
+            res.send(docs);
+        })
+    })
+
+//Routes for points data for one user
+    //get all points data for one user
+    app.get("/api/points/id/:id", function(req, res){
+        console.log("finding points data")
+        Point.find({Userid: req.params.id}, function(err, docs){
+            if(err)
+                res.send(err);
+            res.json(docs);
+            console.log(docs);
+        });
+    });
+
+    //get points data for one user for a specific day
+    app.get("/api/points/id/:id", function(req, res){
+        console.log("finding points data")
+        Point.find({Userid: req.params.id}, function(err, docs){
+            if(err)
+                res.send(err)
+            res.json(docs);
+            console.log(docs);
+        })
+    });
+
+    //insert/update the points data for one day
+    app.post("/api/points", function(req, res) {
+        Point.save({req}, function (err, success){
+            if(err){
+                res.send(err);
+                console.log(err);
+            } else {
+                res.send(success);
+            }
+        })
+    });
+
+//Routes for users(adding/getting)
+    //get all users
+    app.get('/api/user', function(req, res) {
+        console.log("getting all users");
+        User.find(function(err, users){
+            if(err)
+                res.send(err);
+            res.json(users);
+        });
+    });
+
+    //find one user with some username
+    app.get('/api/email/:email', function(req, res){
+        console.log("authenticating user");
+        User.find({email: req.params.email}, function(err, docs){
+            if(err)
+                res.send(err)
+            res.json(docs);
+            console.log(docs);
+        });
+    });
+
+    var ObjectId = require('mongodb').ObjectId;
+
+    //create new user
+    app.post('/api/user', function(req, res) {
+        console.log("registering user");
+        User.create({
+            _id: new ObjectId(),
+            expertise: req.body.expertise,
+            experience: req.body.experience,
+            shop: req.body.shop,
+            fname: req.body.fname,
+            lname: req.body.lname,
+            email: req.body.email,
+            password: req.body.password,
+            done: false
+        }, function(err, user) {
+            if (err) {
+                res.send(err);
+                console.log(err);
+            }
+            else{
+                res.send(user);
+            }
+        });
+    });
+
+    //updating user info
+    app.post('/api/user/userid/:userid', function(req, res){
+        var data = {Key: 'ProfilePics/emailofuser', Body: imagefile}
+        s3Bucket.putObject(data, function(err, data){
+            if(err){
+                console.log("Error uploading image.");
+            } else {
+                console.log("successfully uploaded image.")
+            }
+        });
+    })
+
 
 //Routes for projects/Treasures
 
@@ -272,3 +344,27 @@ app.post('/api/user', function(req, res) {
         });
     });
 
+
+
+
+
+// // Bucket names must be unique across all S3 users
+
+// var myBucket = 'katcher';
+// // var myKey = 'myBucketKey';
+
+// s3.createBucket({Bucket: myBucket}, function(err, data) {
+
+// if (err) {
+//     console.log(err);
+// } else {
+//      params = {Bucket: myBucket, 'Hello!'};
+//      s3.putObject(params, function(err, data) {
+//          if (err) {
+//              console.log(err)
+//          } else {
+//              console.log("Successfully uploaded data to myBucket/myKey");
+//          }
+//       });
+//    }
+// });
