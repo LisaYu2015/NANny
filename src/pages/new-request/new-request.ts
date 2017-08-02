@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
+import { RequestsProvider } from '../../providers/requests/requests'
 
 /**
  * Generated class for the NewRequestPage page.
@@ -13,8 +14,9 @@ import { NavController, NavParams } from 'ionic-angular';
   templateUrl: 'new-request.html',
 })
 export class NewRequestPage {
+  nrequest: {};
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public req: RequestsProvider) {
   }
 
   ionViewDidLoad() {
@@ -23,6 +25,9 @@ export class NewRequestPage {
 
   send(){
   	//send request
+    this.req.createrequest(this.nrequest).then((request) => {
+      alert("Successfully created request. We will get back to you in a few days");
+    });
   	this.navCtrl.pop();
   }
 

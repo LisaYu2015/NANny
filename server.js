@@ -133,6 +133,7 @@ var Data = mongoose.model('Data', {
     //get list of requests asked by current user
     app.get('/api/question/reqid/:id', function(req, res){
         console.log("getting all chats request");
+        console.log(req.params.reqid);
         Question.find({requesterID: req.params.reqid}, function(err, docs){
             if(err)
                 res.send(err)

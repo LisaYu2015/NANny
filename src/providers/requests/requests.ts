@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Headers } from '@angular/http';
 import { AuthService } from '../../providers/auth-service/auth-service';
 import 'rxjs/add/operator/map';
 
@@ -78,7 +78,16 @@ export class RequestsProvider {
 
   addcomment(){}
 
-  createrequest(){}
+  createrequest(info){
+    return new Promise(resolve => {
+      let headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+      this.http.post('/api/question', JSON.stringify(info), {headers: headers})
+                  .subscribe(res => {
+                    resolve(res);
+                  });
+    });
+  }
 
   assignhelper(){}
 
