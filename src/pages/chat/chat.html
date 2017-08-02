@@ -15,7 +15,7 @@
 <ion-content>
 	<button ion-button (click)='newrequest()'>Create New Request</button>
   <ion-list>
-    <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
+    <button ion-item *ngFor="let item of chats" (click)="itemTapped($event, item)">
       <!-- <ion-icon [name]="item.icon" item-left></ion-icon> -->
       <ion-row><b>{{item.title}}</b></ion-row>
       <ion-row>

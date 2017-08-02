@@ -72,6 +72,24 @@ export class AuthService {
   public getUserInfo() : User {
     return this.currentUser;
   }
+
+  public getUserid() {
+    return this.currentUser._id;
+  }
+
+  public getUserName() {
+    return this.currentUser.fname.toString + " " + this.currentUser.lname.toString;
+  }
+
+  public getusernamebyid(id){
+    var user;
+    this.http.get('/api/user/id/' + id)
+        .map(res => res.json())
+        .subscribe(res => {
+          user = res[0]
+        })
+    return user.fname.toString + " " + user.lname.toString;
+  }
  
   public logout() {
     return Observable.create(observer => {

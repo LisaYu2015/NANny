@@ -4,6 +4,7 @@ import { AuthService } from '../../providers/auth-service/auth-service';
 import { LoginPage } from '../login/login';
 import { OneChatPage } from '../onechat/onechat';
 import { NewRequestPage } from '../new-request/new-request'
+import { Chat, RequestsProvider } from '../../providers/requests/requests'
 
 
 @Component({
@@ -14,12 +15,18 @@ export class ChatPage {
   // selectedItem: any;
   icons: string[];
   items: Array<{author:string, title: string, note: string, icon: string}>;
+  userid: any;
+  chats: any;
+  disc: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private auth: AuthService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private auth: AuthService, private ques: RequestsProvider) {
   	// If we navigated to this page, we will have an item available as a nav param
     // this.selectedItem = navParams.get('item');
 
     // Let's populate this page with some filler content for funzies
+
+    this.userid = this.auth.getUserid();
+
     this.icons = ['flask', 'wifi', 'beer', 'football', 'basketball', 'paper-plane',
     'american-football', 'boat', 'bluetooth', 'build'];
 
@@ -36,14 +43,29 @@ export class ChatPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ChatPage');
+    this.ques.getallrequests(this.userid).then((data) => {
+        if(data){
+          this.chats = data;
+        }
+      })
+      .catch(function(err){
+          alert(err);
+        });
   }
 
   itemTapped(event, item) {
+    //get one discussion and push to page
+    this.ques.getdiscussion(item._id)
+    .then((data)=>{
+      if(data){
+        this.disc = data;
+      }
+    })
+    .catch(function(err){
+      alert(err);
+    });
+
   	this.navCtrl.push(OneChatPage, {chat: item});
-    // That's right, we're pushing to ourselves!
-    // this.navCtrl.push(ChatPage, {
-    //   item: item
-    // });
   }
 
   newrequest(){

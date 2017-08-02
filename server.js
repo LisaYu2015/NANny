@@ -67,18 +67,18 @@ var Question = mongoose.model('Requests', {
     _id: mongoose.Schema.Types.ObjectId,
     content: String,
     date: { type: Date, default: Date.now },
-    helperID: mongoose.Schema.Types.ObjectId, //points to a user
-    requesterID: mongoose.Schema.Types.ObjectId, //points to a user
+    helperID: String, //points to a user
+    requesterID: String, //points to a user
     symptoms: String,
-    ProjectID : mongoose.Schema.Types.ObjectId, //referes to project witch includes userID, brand, year, model, engine and errorcode
+    ProjectID : String, //referes to project witch includes userID, brand, year, model, engine and errorcode
 });
 
 //tracks the comments related to a question/request
 var Discussion = mongoose.model('Discussion', {
     _id: mongoose.Schema.Types.ObjectId,
-    author: mongoose.Schema.Types.ObjectId,
+    author: String,
     comment: String,
-    requestid: mongoose.Schema.Types.ObjectId,
+    requestid: String,
     time: { type: Date, default: Date.now } //when was the comment posted
 });
 
@@ -111,7 +111,7 @@ var Point = mongoose.model('Points', {
 //Project contains the general details of each car
 var Project = mongoose.model('Project', {
     _id: mongoose.Schema.Types.ObjectId,
-    Userid:mongoose.Schema.Types.ObjectId,
+    Userid:String,
     brand:String,
     year:Number,
     model:String,
@@ -124,16 +124,27 @@ var Project = mongoose.model('Project', {
 //Data contains the details of each project/treasure
 var Data = mongoose.model('Data', {
     _id: mongoose.Schema.Types.ObjectId,
-    ProjectID:mongoose.Schema.Types.ObjectId,
+    ProjectID: String,
     type:String,
     sentence:String,
 });
 
 //Routes for requests for one person
-    //get list of requests for one user
-    app.get('/api/question/id/:id', function(req, res){
-        console.log("getting all chats");
-        Question.find({Userid: req.params.id}, function(err, points){
+    //get list of requests asked by current user
+    app.get('/api/question/reqid/:id', function(req, res){
+        console.log("getting all chats request");
+        Question.find({requesterID: req.params.reqid}, function(err, docs){
+            if(err)
+                res.send(err)
+            res.json(docs);
+            console.log(docs);
+        });
+    });
+
+    //get list of requests for which the current user is the helper
+    app.get('/api/question/helpid/:id', function(req, res){
+        console.log("getting all chats help");
+        Question.find({helperID: req.params.helpid}, function(err, docs){
             if(err)
                 res.send(err)
             res.json(docs);
@@ -231,9 +242,9 @@ var Data = mongoose.model('Data', {
 
 //Routes for users(adding/getting)
     //get all users
-    app.get('/api/user', function(req, res) {
-        console.log("getting all users");
-        User.find(function(err, users){
+    app.get('/api/user/id/:id', function(req, res) {
+        console.log("getting one users by id");
+        User.find({_id: mongoose.Types.ObjectId(req.params.id)}, function(err, users){
             if(err)
                 res.send(err);
             res.json(users);
