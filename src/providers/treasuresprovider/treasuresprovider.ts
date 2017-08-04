@@ -52,5 +52,23 @@ export class TreasuresProvider {
         });
   }
 
+  postdetails(details) {
+    let headers = new Headers();
+      
+
+      //project.uploaded="yes"
+          
+      console.log(details);
+
+      headers.append('Content-Type','application/json');
+
+        this.http.post('/api/Detail',JSON.stringify(details), {headers: headers})
+        
+        .subscribe(res => {
+          //console.log(res.json());
+        });
+  }
+
+
 
 }

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ModalController } from 'ionic-angular';
+import { NavController, NavParams, ModalController, ToastController } from 'ionic-angular';
 import { TreasuresProvider } from '../../providers/treasuresprovider/treasuresprovider';
-import { Http} from '@angular/http';
+import { Http } from '@angular/http';
 import { TreasureDetailPage } from '../treasure-detail/treasure-detail';
 
 /**
@@ -26,7 +26,7 @@ export class TreasuresPage {
     UserID=1;
     Userprojects =[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public treasuresService: TreasuresProvider, public modalCtrl: ModalController, public http:Http) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public treasuresService: TreasuresProvider, public modalCtrl: ModalController, public http : Http, private toastCtrl : ToastController) {
   }
 
   ionViewDidLoad() {
@@ -65,20 +65,40 @@ export class TreasuresPage {
       console.log("upload");
       console.log(i);
       if (project.uploaded=="yes")
-      {project.uploaded ="no";
-      this.buttonimg[i]="cloud-upload";}
+      {
+
+        project.uploaded ="no";
+      this.buttonimg[i]="cloud-upload";
+
+      let toast = this.toastCtrl.create({
+        message: 'Your project is now private',
+        duration:1500,
+        position:'middle'
+      });
+      toast.present();
+
+      }
 
 
       else
       {project.uploaded ="yes";
-      this.buttonimg[i]="cloud-done";}
+      this.buttonimg[i]="cloud-done";
+
+      let toast = this.toastCtrl.create({
+        message: 'You published your project',
+        duration:1500,
+        position:'middle'
+      });
+      toast.present();}
+
 
       
 
       this.treasuresService.posttreasures(project);
 
+      }
       
     
 
     }
-  }
+  

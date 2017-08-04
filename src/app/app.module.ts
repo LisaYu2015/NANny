@@ -7,6 +7,7 @@ import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { TreasuresPage } from '../pages/treasures/treasures';
 import { TreasureDetailPage } from '../pages/treasure-detail/treasure-detail';
+import { TreasuresEditDetailPage } from '../pages/treasures-edit-detail/treasures-edit-detail';
 
 
 import { ProfilePage } from '../pages/profile/profile';
@@ -17,6 +18,7 @@ import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 import { TreasuresProvider } from '../providers/treasuresprovider/treasuresprovider';
 import { HttpModule } from '@angular/http';
 import { TreasuresDetailProvider } from '../providers/treasuresdetailprovider/treasuresdetailprovider';
+import { TreasureseditproviderProvider } from '../providers/treasureseditprovider/treasureseditprovider';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,8 @@ import { TreasuresDetailProvider } from '../providers/treasuresdetailprovider/tr
     ListPage,
     ProfilePage,
       TreasuresPage,
-      TreasureDetailPage
+      TreasureDetailPage,
+      TreasuresEditDetailPage
   ],
   imports: [
     BrowserModule,
@@ -40,7 +43,8 @@ import { TreasuresDetailProvider } from '../providers/treasuresdetailprovider/tr
     ListPage,
     ProfilePage,
     TreasuresPage,
-    TreasureDetailPage
+    TreasureDetailPage,
+    TreasuresEditDetailPage
 
 
   ],
@@ -50,7 +54,8 @@ import { TreasuresDetailProvider } from '../providers/treasuresdetailprovider/tr
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthServiceProvider,
     TreasuresProvider,
-    TreasuresDetailProvider
+    TreasuresDetailProvider,
+    TreasureseditproviderProvider
   ]
 })
 export class AppModule {}

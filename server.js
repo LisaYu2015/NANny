@@ -105,11 +105,12 @@ var Project = mongoose.model('project', {
     complete:String,
     errorcode:String,
     engine:String,
-    uploaded:String
+    uploaded:String,
+    numofpics:Number
 });
 
 var Detail = mongoose.model('detail', {
-    _id: [mongoose.Schema.Types.ObjectId],
+    _id: mongoose.Schema.Types.ObjectId,
     PID:Number,
     type:String,
     sentence:String
@@ -192,18 +193,7 @@ var Detail = mongoose.model('detail', {
         console.log("creating Projects");
         console.log(req.body);
  
-        // create a review, information comes from request from Ionic
-        // var project = new Project();
-            // project._id = req.body._id;
-            // project.PID =req.body.PID;
-            // project.TID = req.body.TID;
-            // project.year= req.body.year;
-            // project.brand= req.body.brand;
-            // project.model= req.body.model;
-            // project.engine= req.body.engine;
-            // project.errorcode = req.body.errorcode;
-            // project.complete = req.body.complete;
-            // project.uploaded = req.body.uploaded;
+
             
 
                 Project.findById(req.body._id, function(err, project) {
@@ -222,6 +212,7 @@ var Detail = mongoose.model('detail', {
             project.errorcode = req.body.errorcode;
             project.complete = req.body.complete;
             project.uploaded = req.body.uploaded;
+            project.numofpics = req.body.numofpics;
             
                     project.save(function(err) {
                       if (err)
@@ -248,6 +239,40 @@ var Detail = mongoose.model('detail', {
 
             res.json(Detail);
         });
+    });
+
+    app.post('/api/Detail', function(req, res) {
+ 
+        console.log("creating Details");
+        console.log(req.body);
+ 
+
+            
+
+        Detail.findById(req.body._id, function(err, detail) {
+          if (!detail)
+            {console.log("here");
+        console.log(detail);
+        res.send(new Error('Could not load Document'));}
+            else {
+            // do your updates here
+                        // project._id = req.body._id;
+                detail.PID =req.body.PID;
+                detail.type = req.body.type;
+                detail.sentence= req.body.sentence;
+
+    
+                detail.save(function(err) {
+                    if (err)
+                        {console.log('error');
+                        console.log(err)}
+                    else
+                        {console.log(detail);
+                        console.log('success')}
+                });
+            }
+        });
+ 
     });
 
 
