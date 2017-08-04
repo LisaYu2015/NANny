@@ -9,7 +9,7 @@ import { LoginPage } from '../pages/login/login';
 import { ProfilePage } from '../pages/profile/profile';
 import { SearchPage } from '../pages/search/search';
 import { ChatPage } from '../pages/chat/chat';
-
+import { TreasuresPage} from '../pages/treasures/treasures';
 
 @Component({
   templateUrl: 'app.html'
@@ -30,6 +30,8 @@ export class MyApp {
       { title: 'Profile', component: ProfilePage },
       { title: 'Search', component: SearchPage },
       { title: 'Requests', component: ChatPage },
+      { title: 'List', component: ListPage },
+      { title: 'Treasures', component: TreasuresPage }
     ];
 
   }

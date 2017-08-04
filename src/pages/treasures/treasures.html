@@ -5,23 +5,38 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
   <ion-navbar>
     <ion-title>Treasures</ion-title>
+      <button ion-button menuToggle>
+          <ion-icon name="menu"></ion-icon>
+      </button>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>	
-	<ion-list>
-	<!-- one item for every project-->
-		<ion-item>
-			<ion-thumbnail item-start>
-				<img ng-src="{{Project.image}}"> <!--figure out how to insert pictures-->
-			</ion-thumbnail>
-			<h2>{{Project.year}}" "{{Project.brand}}" "{{Project.model}}<h2>
-			<p>{{Project.errorcode}}</p>
-			<button ion-button clear item-end>More</button>
-	</ion-list>
-</ion-content>
+<ion-content class="card-background-page">	
+
+
+	<ion-list >
+
+     <ion-grid>
+		<ion-item *ngFor =" let Userproject of Userprojects; let i  = index ">
+     
+     <ion-row >
+	   <ion-col>  	
+     <ion-card (click)="showDetails(Userproject)" >
+     <img src={{this.carlinks[i]}}>   
+     <div class="card-title" >{{Userproject.year}} {{Userproject.brand}} {{Userproject.model}}      {{i%2==0}}</div>
+     <div class="card-subtitle">{{Userproject.errorcode}}</div>
+     </ion-card>
+     <button class="sharebutton" ion-button icon-only (click)="upload(Userproject, i)"><ion-icon name={{this.buttonimg[i]}}></ion-icon></button>
+     </ion-col>
+
+     
+     </ion-row >
+       
+     </ion-item></ion-grid>
+     </ion-list>
+     </ion-content>
+     

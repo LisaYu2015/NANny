@@ -30,6 +30,7 @@ var handlers = {
         install:function(obj, plugin, project, options) {
             if (!obj.src) throw new CordovaError(generateAttributeError('src', 'source-file', plugin.id));
             if (!obj.targetDir) throw new CordovaError(generateAttributeError('target-dir', 'source-file', plugin.id));
+<<<<<<< HEAD
 
             var dest = path.join(obj.targetDir, path.basename(obj.src));
 
@@ -37,6 +38,9 @@ var handlers = {
               dest = path.join('app/src/main/java', obj.targetDir.substring(4), path.basename(obj.src));
             }
 
+=======
+            var dest = path.join(obj.targetDir, path.basename(obj.src));
+>>>>>>> master
             if (options && options.force) {
                 copyFile(plugin.dir, obj.src, project.projectDir, dest, !!(options && options.link));
             } else {
@@ -45,27 +49,36 @@ var handlers = {
         },
         uninstall:function(obj, plugin, project, options) {
             var dest = path.join(obj.targetDir, path.basename(obj.src));
+<<<<<<< HEAD
             
             if(options && options.android_studio === true) {
               dest = path.join('app/src/main/java', obj.targetDir.substring(4), path.basename(obj.src));
             }
 
+=======
+>>>>>>> master
             deleteJava(project.projectDir, dest);
         }
     },
     'lib-file':{
         install:function(obj, plugin, project, options) {
             var dest = path.join('libs', path.basename(obj.src));
+<<<<<<< HEAD
             if(options && options.android_studio === true) {
               dest = path.join('app/libs', path.basename(obj.src));
             }
+=======
+>>>>>>> master
             copyFile(plugin.dir, obj.src, project.projectDir, dest, !!(options && options.link));
         },
         uninstall:function(obj, plugin, project, options) {
             var dest = path.join('libs', path.basename(obj.src));
+<<<<<<< HEAD
             if(options && options.android_studio === true) {
               dest = path.join('app/libs', path.basename(obj.src));
             }
+=======
+>>>>>>> master
             removeFile(project.projectDir, dest);
         }
     },
@@ -231,8 +244,14 @@ function copyFile (plugin_dir, src, project_dir, dest, link) {
         throw new CordovaError('Destination "' + dest + '" for source file "' + src + '" is located outside the project');
 
     shell.mkdir('-p', path.dirname(dest));
+<<<<<<< HEAD
     if (link) {
         symlinkFileOrDirTree(src, dest);
+=======
+
+    if (link) {
+        fs.symlinkSync(path.relative(path.dirname(dest), src), dest);
+>>>>>>> master
     } else if (fs.statSync(src).isDirectory()) {
         // XXX shelljs decides to create a directory when -R|-r is used which sucks. http://goo.gl/nbsjq
         shell.cp('-Rf', src+'/*', dest);
@@ -250,6 +269,7 @@ function copyNewFile (plugin_dir, src, project_dir, dest, link) {
     copyFile(plugin_dir, src, project_dir, dest, !!link);
 }
 
+<<<<<<< HEAD
 function symlinkFileOrDirTree(src, dest) {
     if (fs.existsSync(dest)) {
         shell.rm('-Rf', dest);
@@ -266,6 +286,8 @@ function symlinkFileOrDirTree(src, dest) {
     }
 }
 
+=======
+>>>>>>> master
 // checks if file exists and then deletes. Error if doesn't exist
 function removeFile (project_dir, src) {
     var file = path.resolve(project_dir, src);

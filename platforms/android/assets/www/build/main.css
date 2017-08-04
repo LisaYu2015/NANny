@@ -25198,6 +25198,7 @@ ion-navbar.toolbar {
     padding-top: calc(16px + 20px);
   }
 }
+<<<<<<< HEAD
 
 page-home ion-card-header {
   font-weight: bold;
@@ -25298,3 +25299,5 @@ page-register .login-content .submit-btn {
   border-radius: 30px !important;
   border: 1px solid #ffffff;
 }
+=======
+>>>>>>> master

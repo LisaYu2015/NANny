@@ -35,8 +35,6 @@ app.listen(app.get('port'), function () {
     console.log('Express server listening on port ' + app.get('port'));
 });
 
-// app.listen(8080);
-// console.log("App listening on port 8080");
 
 //Connection with MongoDB
 var mongoose = require('mongoose'); 
@@ -130,7 +128,7 @@ var Detail = mongoose.model('detail', {
     PID: Number,
     ProjectID:String, //links to _id of Project
     type:String,
-    sentence:String,
+    sentence:String
 });
 
 //Routes for requests for one person
@@ -316,19 +314,6 @@ app.get('/api/Project', function(req, res) {
         console.log("creating/updating Projects");
         console.log(req.body);
 
-        // if(!req.body._id){
-        //     //if no _id is sent along, add the project
-        //     nproj = new Project()
-        //     Project.save(req, function(err, proj, numAffected){
-        //         if(err){
-        //             console.log('err')
-        //             res.send(err);
-        //         } else {
-        //             console.log(proj);
-        //             res.send(proj);
-        //         }
-        //     })
-        // }
  
                 Project.findById(req.body._id, function(err, project) {
                   if (!project && !err) {
@@ -383,18 +368,53 @@ app.get('/api/Project', function(req, res) {
                 });
     });
  
+
     app.get('/api/Detail', function (req, res) {
- 
+
         console.log("fetching Details");
- 
+
         //use mongoose to get all Details in the database
-        Detail.find(function (err, Detail) {
+        Detail.find(function (err, Detail) { 
             //if there is an error retrieving, send the error. nothing after res.send(err) will execute
             if (err)
                 res.send(err);
- 
+
             res.json(Detail);
         });
+    });
+
+    app.post('/api/Detail', function(req, res) {
+ 
+        console.log("creating Details");
+        console.log(req.body);
+ 
+
+            
+
+        Detail.findById(req.body._id, function(err, detail) {
+          if (!detail)
+            {console.log("here");
+        console.log(detail);
+        res.send(new Error('Could not load Document'));}
+            else {
+            // do your updates here
+                        // project._id = req.body._id;
+                detail.PID =req.body.PID;
+                detail.type = req.body.type;
+                detail.sentence= req.body.sentence;
+
+    
+                detail.save(function(err) {
+                    if (err)
+                        {console.log('error');
+                        console.log(err)}
+                    else
+                        {console.log(detail);
+                        console.log('success')}
+                });
+            }
+        });
+ 
     });
 
 

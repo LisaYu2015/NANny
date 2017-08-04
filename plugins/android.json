@@ -7,6 +7,7 @@
         "files": {}
     },
     "installed_plugins": {
+<<<<<<< HEAD
         "cordova-plugin-console": {
             "PACKAGE_NAME": "io.ionic.starter"
         },
@@ -20,6 +21,21 @@
             "PACKAGE_NAME": "io.ionic.starter"
         },
         "cordova-plugin-whitelist": {
+=======
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "io.ionic.starter"
+        },
+        "cordova-plugin-console": {
+            "PACKAGE_NAME": "io.ionic.starter"
+        },
+        "cordova-plugin-statusbar": {
+            "PACKAGE_NAME": "io.ionic.starter"
+        },
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "io.ionic.starter"
+        },
+        "cordova-plugin-splashscreen": {
+>>>>>>> master
             "PACKAGE_NAME": "io.ionic.starter"
         },
         "ionic-plugin-keyboard": {

@@ -27,8 +27,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.os.Build;
+<<<<<<< HEAD
 import android.view.View;
 import android.webkit.ValueCallback;
+=======
+import android.util.Log;
+import android.view.View;
+>>>>>>> master
 import android.webkit.WebSettings;
 import android.webkit.WebSettings.LayoutAlgorithm;
 import android.webkit.WebView;
@@ -40,7 +45,10 @@ import org.apache.cordova.CordovaResourceApi;
 import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.CordovaWebViewEngine;
 import org.apache.cordova.ICordovaCookieManager;
+<<<<<<< HEAD
 import org.apache.cordova.LOG;
+=======
+>>>>>>> master
 import org.apache.cordova.NativeToJsMessageQueue;
 import org.apache.cordova.PluginManager;
 
@@ -117,9 +125,13 @@ public class SystemWebViewEngine implements CordovaWebViewEngine {
                 SystemWebViewEngine.this.cordova.getActivity().runOnUiThread(r);
             }
         }));
+<<<<<<< HEAD
         if(Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2)
             nativeToJsMessageQueue.addBridgeMode(new NativeToJsMessageQueue.EvalBridgeMode(this, cordova));
 	bridge = new CordovaBridge(pluginManager, nativeToJsMessageQueue);
+=======
+        bridge = new CordovaBridge(pluginManager, nativeToJsMessageQueue);
+>>>>>>> master
         exposeJsInterface(webView, bridge);
     }
 
@@ -148,6 +160,7 @@ public class SystemWebViewEngine implements CordovaWebViewEngine {
         settings.setJavaScriptEnabled(true);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setLayoutAlgorithm(LayoutAlgorithm.NORMAL);
+<<<<<<< HEAD
 
         // Set the nav dump for HTC 2.x devices (disabling for ICS, deprecated entirely for Jellybean 4.2)
         try {
@@ -155,12 +168,22 @@ public class SystemWebViewEngine implements CordovaWebViewEngine {
 
             String manufacturer = android.os.Build.MANUFACTURER;
             LOG.d(TAG, "CordovaWebView is running on device made by: " + manufacturer);
+=======
+        
+        // Set the nav dump for HTC 2.x devices (disabling for ICS, deprecated entirely for Jellybean 4.2)
+        try {
+            Method gingerbread_getMethod =  WebSettings.class.getMethod("setNavDump", new Class[] { boolean.class });
+            
+            String manufacturer = android.os.Build.MANUFACTURER;
+            Log.d(TAG, "CordovaWebView is running on device made by: " + manufacturer);
+>>>>>>> master
             if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB &&
                     android.os.Build.MANUFACTURER.contains("HTC"))
             {
                 gingerbread_getMethod.invoke(settings, true);
             }
         } catch (NoSuchMethodException e) {
+<<<<<<< HEAD
             LOG.d(TAG, "We are on a modern version of Android, we will deprecate HTC 2.3 devices in 2.8");
         } catch (IllegalArgumentException e) {
             LOG.d(TAG, "Doing the NavDump failed with bad arguments");
@@ -168,12 +191,25 @@ public class SystemWebViewEngine implements CordovaWebViewEngine {
             LOG.d(TAG, "This should never happen: IllegalAccessException means this isn't Android anymore");
         } catch (InvocationTargetException e) {
             LOG.d(TAG, "This should never happen: InvocationTargetException means this isn't Android anymore.");
+=======
+            Log.d(TAG, "We are on a modern version of Android, we will deprecate HTC 2.3 devices in 2.8");
+        } catch (IllegalArgumentException e) {
+            Log.d(TAG, "Doing the NavDump failed with bad arguments");
+        } catch (IllegalAccessException e) {
+            Log.d(TAG, "This should never happen: IllegalAccessException means this isn't Android anymore");
+        } catch (InvocationTargetException e) {
+            Log.d(TAG, "This should never happen: InvocationTargetException means this isn't Android anymore.");
+>>>>>>> master
         }
 
         //We don't save any form data in the application
         settings.setSaveFormData(false);
         settings.setSavePassword(false);
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> master
         // Jellybean rightfully tried to lock this down. Too bad they didn't give us a whitelist
         // while we do this
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
@@ -187,15 +223,24 @@ public class SystemWebViewEngine implements CordovaWebViewEngine {
         String databasePath = webView.getContext().getApplicationContext().getDir("database", Context.MODE_PRIVATE).getPath();
         settings.setDatabaseEnabled(true);
         settings.setDatabasePath(databasePath);
+<<<<<<< HEAD
 
 
+=======
+        
+        
+>>>>>>> master
         //Determine whether we're in debug or release mode, and turn on Debugging!
         ApplicationInfo appInfo = webView.getContext().getApplicationContext().getApplicationInfo();
         if ((appInfo.flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0 &&
             android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
             enableRemoteDebugging();
         }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> master
         settings.setGeolocationDatabasePath(databasePath);
 
         // Enable DOM storage
@@ -203,18 +248,26 @@ public class SystemWebViewEngine implements CordovaWebViewEngine {
 
         // Enable built-in geolocation
         settings.setGeolocationEnabled(true);
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> master
         // Enable AppCache
         // Fix for CB-2282
         settings.setAppCacheMaxSize(5 * 1048576);
         settings.setAppCachePath(databasePath);
         settings.setAppCacheEnabled(true);
+<<<<<<< HEAD
 
         // Enable scaling
         // Fix for CB-12015
         settings.setUseWideViewPort(true);
         settings.setLoadWithOverviewMode(true);
 
+=======
+        
+>>>>>>> master
         // Fix for CB-1405
         // Google issue 4641
         String defaultUserAgent = settings.getUserAgentString();
@@ -230,7 +283,11 @@ public class SystemWebViewEngine implements CordovaWebViewEngine {
             }
         }
         // End CB-3360
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> master
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_CONFIGURATION_CHANGED);
         if (this.receiver == null) {
@@ -250,18 +307,30 @@ public class SystemWebViewEngine implements CordovaWebViewEngine {
         try {
             WebView.setWebContentsDebuggingEnabled(true);
         } catch (IllegalArgumentException e) {
+<<<<<<< HEAD
             LOG.d(TAG, "You have one job! To turn on Remote Web Debugging! YOU HAVE FAILED! ");
+=======
+            Log.d(TAG, "You have one job! To turn on Remote Web Debugging! YOU HAVE FAILED! ");
+>>>>>>> master
             e.printStackTrace();
         }
     }
 
     private static void exposeJsInterface(WebView webView, CordovaBridge bridge) {
         if ((Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1)) {
+<<<<<<< HEAD
             LOG.i(TAG, "Disabled addJavascriptInterface() bridge since Android version is old.");
             // Bug being that Java Strings do not get converted to JS strings automatically.
             // This isn't hard to work-around on the JS side, but it's easier to just
             // use the prompt bridge instead.
             return;
+=======
+            Log.i(TAG, "Disabled addJavascriptInterface() bridge since Android version is old.");
+            // Bug being that Java Strings do not get converted to JS strings automatically.
+            // This isn't hard to work-around on the JS side, but it's easier to just
+            // use the prompt bridge instead.
+            return;            
+>>>>>>> master
         }
         SystemExposedJsApi exposedJsApi = new SystemExposedJsApi(bridge);
         webView.addJavascriptInterface(exposedJsApi, "_cordovaNative");
@@ -320,10 +389,15 @@ public class SystemWebViewEngine implements CordovaWebViewEngine {
     @Override
     public void setPaused(boolean value) {
         if (value) {
+<<<<<<< HEAD
             webView.onPause();
             webView.pauseTimers();
         } else {
             webView.onResume();
+=======
+            webView.pauseTimers();
+        } else {
+>>>>>>> master
             webView.resumeTimers();
         }
     }
@@ -337,6 +411,7 @@ public class SystemWebViewEngine implements CordovaWebViewEngine {
             try {
                 webView.getContext().unregisterReceiver(receiver);
             } catch (Exception e) {
+<<<<<<< HEAD
                 LOG.e(TAG, "Error unregistering configuration receiver: " + e.getMessage(), e);
             }
         }
@@ -352,4 +427,10 @@ public class SystemWebViewEngine implements CordovaWebViewEngine {
             LOG.d(TAG, "This webview is using the old bridge");
         }
     }
+=======
+                Log.e(TAG, "Error unregistering configuration receiver: " + e.getMessage(), e);
+            }
+        }
+    }
+>>>>>>> master
 }

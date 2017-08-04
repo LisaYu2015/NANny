@@ -27,6 +27,7 @@ var path = require('path');
 var Adb = require('./Adb');
 var AndroidManifest = require('./AndroidManifest');
 var events = require('cordova-common').events;
+<<<<<<< HEAD
 var superspawn = require('cordova-common').superspawn;
 var CordovaError = require('cordova-common').CordovaError;
 var shelljs = require('shelljs');
@@ -36,6 +37,13 @@ var check_reqs = require('./check_reqs');
 var Q             = require('q');
 var os            = require('os');
 var fs            = require('fs');
+=======
+var spawn = require('cordova-common').superspawn.spawn;
+var CordovaError = require('cordova-common').CordovaError;
+
+var Q             = require('q');
+var os            = require('os');
+>>>>>>> master
 var child_process = require('child_process');
 
 // constants
@@ -46,6 +54,7 @@ var NUM_INSTALL_RETRIES     = 3;
 var CHECK_BOOTED_INTERVAL   = 3 * ONE_SECOND; // in milliseconds
 var EXEC_KILL_SIGNAL        = 'SIGKILL';
 
+<<<<<<< HEAD
 function forgivingWhichSync(cmd) {
     try {
         return fs.realpathSync(shelljs.which(cmd));
@@ -117,6 +126,20 @@ module.exports.list_images_using_avdmanager = function () {
 
 module.exports.list_images_using_android = function() {
     return superspawn.spawn('android', ['list', 'avd'])
+=======
+/**
+ * Returns a Promise for a list of emulator images in the form of objects
+ * {
+       name   : <emulator_name>,
+       path   : <path_to_emulator_image>,
+       target : <api_target>,
+       abi    : <cpu>,
+       skin   : <skin>
+   }
+ */
+module.exports.list_images = function() {
+    return spawn('android', ['list', 'avds'])
+>>>>>>> master
     .then(function(output) {
         var response = output.split('\n');
         var emulator_list = [];
@@ -160,6 +183,7 @@ module.exports.list_images_using_android = function() {
 };
 
 /**
+<<<<<<< HEAD
  * Returns a Promise for a list of emulator images in the form of objects
  * {
        name   : <emulator_name>,
@@ -183,6 +207,8 @@ module.exports.list_images = function() {
 };
 
 /**
+=======
+>>>>>>> master
  * Will return the closest avd to the projects target
  * or undefined if no avds exist.
  * Returns a promise.
@@ -195,7 +221,12 @@ module.exports.best_image = function() {
 
         var closest = 9999;
         var best = images[0];
+<<<<<<< HEAD
         var project_target = check_reqs.get_target().replace('android-', '');
+=======
+        // Loading check_reqs at run-time to avoid test-time vs run-time directory structure difference issue
+        var project_target = require('./check_reqs').get_target().replace('android-', '');
+>>>>>>> master
         for (var i in images) {
             var target = images[i].target;
             if(target) {
@@ -218,9 +249,14 @@ module.exports.list_started = function() {
 };
 
 // Returns a promise.
+<<<<<<< HEAD
 // TODO: we should remove this, there's a more robust method under android_sdk.js
 module.exports.list_targets = function() {
     return superspawn.spawn('android', ['list', 'targets'], {cwd: os.tmpdir()})
+=======
+module.exports.list_targets = function() {
+    return spawn('android', ['list', 'targets'], {cwd: os.tmpdir()})
+>>>>>>> master
     .then(function(output) {
         var target_out = output.split('\n');
         var targets = [];
@@ -275,7 +311,12 @@ module.exports.start = function(emulator_ID, boot_timeout) {
                 return best.name;
             }
 
+<<<<<<< HEAD
             var androidCmd = check_reqs.getAbsoluteAndroidCmd();
+=======
+            // Loading check_reqs at run-time to avoid test-time vs run-time directory structure difference issue
+            var androidCmd = require('./check_reqs').getAbsoluteAndroidCmd();
+>>>>>>> master
             return Q.reject(new CordovaError('No emulator images (avds) found.\n' +
                 '1. Download desired System Image by running: ' + androidCmd + ' sdk\n' +
                 '2. Create an AVD by running: ' + androidCmd + ' avd\n' +
@@ -284,6 +325,7 @@ module.exports.start = function(emulator_ID, boot_timeout) {
     }).then(function(emulatorId) {
         return self.get_available_port()
         .then(function (port) {
+<<<<<<< HEAD
             // Figure out the directory the emulator binary runs in, and set the cwd to that directory.
             // Workaround for https://code.google.com/p/android/issues/detail?id=235461
             var emulator_dir = path.dirname(shelljs.which('emulator'));
@@ -291,6 +333,12 @@ module.exports.start = function(emulator_ID, boot_timeout) {
             // Don't wait for it to finish, since the emulator will probably keep running for a long time.
             child_process
                 .spawn('emulator', args, { stdio: 'inherit', detached: true, cwd: emulator_dir })
+=======
+            var args = ['-avd', emulatorId, '-port', port];
+            // Don't wait for it to finish, since the emulator will probably keep running for a long time.
+            child_process
+                .spawn('emulator', args, { stdio: 'inherit', detached: true })
+>>>>>>> master
                 .unref();
 
             // wait for emulator to start
@@ -382,7 +430,11 @@ module.exports.wait_for_boot = function(emulator_id, time_remaining) {
 module.exports.create_image = function(name, target) {
     console.log('Creating new avd named ' + name);
     if (target) {
+<<<<<<< HEAD
         return superspawn.spawn('android', ['create', 'avd', '--name', name, '--target', target])
+=======
+        return spawn('android', ['create', 'avd', '--name', name, '--target', target])
+>>>>>>> master
         .then(null, function(error) {
             console.error('ERROR : Failed to create emulator image : ');
             console.error(' Do you have the latest android targets including ' + target + '?');
@@ -390,8 +442,12 @@ module.exports.create_image = function(name, target) {
         });
     } else {
         console.log('WARNING : Project target not found, creating avd with a different target but the project may fail to install.');
+<<<<<<< HEAD
         // TODO: there's a more robust method for finding targets in android_sdk.js
         return superspawn.spawn('android', ['create', 'avd', '--name', name, '--target', this.list_targets()[0]])
+=======
+        return spawn('android', ['create', 'avd', '--name', name, '--target', this.list_targets()[0]])
+>>>>>>> master
         .then(function() {
             // TODO: This seems like another error case, even though it always happens.
             console.error('ERROR : Unable to create an avd emulator, no targets found.');

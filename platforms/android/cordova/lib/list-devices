@@ -22,7 +22,11 @@
 var devices = require('./device');
 
 // Usage support for when args are given
+<<<<<<< HEAD
 require('./check_reqs').check_android().then(function() {
+=======
+require('../lib/check_reqs').check_android().then(function() {
+>>>>>>> master
     devices.list().done(function(device_list) {
         device_list && device_list.forEach(function(dev) {
             console.log(dev);

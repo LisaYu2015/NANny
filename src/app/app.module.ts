@@ -7,6 +7,9 @@ import { HttpModule } from '@angular/http';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
+import { TreasuresPage } from '../pages/treasures/treasures';
+import { TreasureDetailPage } from '../pages/treasure-detail/treasure-detail';
+import { TreasuresEditDetailPage } from '../pages/treasures-edit-detail/treasures-edit-detail';
 import { ProfilePage } from '../pages/profile/profile';
 import { LoginPage } from '../pages/login/login';
 import { RegisterPage } from '../pages/register/register';
@@ -23,6 +26,8 @@ import { AuthService } from '../providers/auth-service/auth-service';
 import { RequestsProvider } from '../providers/requests/requests';
 import { PointsProvider } from '../providers/points/points';
 import { TreasuresProvider } from '../providers/treasuresprovider/treasuresprovider';
+import { TreasuresDetailProvider } from '../providers/treasuresdetailprovider/treasuresdetailprovider';
+import { TreasureseditproviderProvider } from '../providers/treasureseditprovider/treasureseditprovider';
 
 @NgModule({
   declarations: [
@@ -37,7 +42,10 @@ import { TreasuresProvider } from '../providers/treasuresprovider/treasuresprovi
     SearchPage,
     NewRequestPage,
     PointsPage,
-    EarnpointsPage
+    EarnpointsPage,
+      TreasuresPage,
+      TreasureDetailPage,
+      TreasuresEditDetailPage
   ],
   imports: [
     BrowserModule,
@@ -57,7 +65,10 @@ import { TreasuresProvider } from '../providers/treasuresprovider/treasuresprovi
     SearchPage,
     NewRequestPage,
     PointsPage,
-    EarnpointsPage
+    EarnpointsPage,
+    TreasuresPage,
+    TreasureDetailPage,
+    TreasuresEditDetailPage
   ],
   providers: [
     StatusBar,
@@ -66,7 +77,9 @@ import { TreasuresProvider } from '../providers/treasuresprovider/treasuresprovi
     AuthService,
     RequestsProvider,
     PointsProvider,
-    TreasuresProvider
+    TreasuresProvider,
+    TreasuresDetailProvider,
+    TreasureseditproviderProvider
   ]
 })
 export class AppModule {}

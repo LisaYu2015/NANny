@@ -33,6 +33,10 @@ var PluginInfoProvider = require('cordova-common').PluginInfoProvider;
 
 module.exports.prepare = function (cordovaProject, options) {
     var self = this;
+<<<<<<< HEAD
+=======
+    var platformResourcesDir = path.relative(cordovaProject.root, path.join(this.locations.root, 'res'));
+>>>>>>> master
 
     var platformJson = PlatformJson.load(this.locations.root, this.platform);
     var munger = new PlatformMunger(this.platform, this.locations.root, platformJson, new PluginInfoProvider());
@@ -46,9 +50,14 @@ module.exports.prepare = function (cordovaProject, options) {
         return updateProjectAccordingTo(self._config, self.locations);
     })
     .then(function () {
+<<<<<<< HEAD
         updateIcons(cordovaProject, path.relative(cordovaProject.root, self.locations.res));
         updateSplashes(cordovaProject, path.relative(cordovaProject.root, self.locations.res));
         updateFileResources(cordovaProject, path.relative(cordovaProject.root, self.locations.root));
+=======
+        updateIcons(cordovaProject, platformResourcesDir);
+        updateSplashes(cordovaProject, platformResourcesDir);
+>>>>>>> master
     })
     .then(function () {
         events.emit('verbose', 'Prepared android project successfully');
@@ -61,19 +70,33 @@ module.exports.clean = function (options) {
     // noPrepare option passed in by the non-CLI clean script. If that's present, or if
     // there's no config.xml found at the project root, then don't clean prepared files.
     var projectRoot = path.resolve(this.root, '../..');
+<<<<<<< HEAD
     if ((options && options.noPrepare) || !fs.existsSync(this.locations.configXml) ||
+=======
+    var projectConfigFile = path.join(projectRoot, 'config.xml');
+    if ((options && options.noPrepare) || !fs.existsSync(projectConfigFile) ||
+>>>>>>> master
             !fs.existsSync(this.locations.configXml)) {
         return Q();
     }
 
     var projectConfig = new ConfigParser(this.locations.configXml);
+<<<<<<< HEAD
+=======
+    var platformResourcesDir = path.relative(projectRoot, path.join(this.locations.root, 'res'));
+>>>>>>> master
 
     var self = this;
     return Q().then(function () {
         cleanWww(projectRoot, self.locations);
+<<<<<<< HEAD
         cleanIcons(projectRoot, projectConfig, path.relative(projectRoot, self.locations.res));
         cleanSplashes(projectRoot, projectConfig, path.relative(projectRoot, self.locations.res));
         cleanFileResources(projectRoot, projectConfig, path.relative(projectRoot, self.locations.root));
+=======
+        cleanIcons(projectRoot, projectConfig, platformResourcesDir);
+        cleanSplashes(projectRoot, projectConfig, platformResourcesDir);
+>>>>>>> master
     });
 };
 
@@ -171,7 +194,11 @@ function updateProjectAccordingTo(platformConfig, locations) {
     // Update app name by editing res/values/strings.xml
     var name = platformConfig.name();
     var strings = xmlHelpers.parseElementtreeSync(locations.strings);
+<<<<<<< HEAD
     strings.find('string[@name="app_name"]').text = name.replace(/\'/g, '\\\'');
+=======
+    strings.find('string[@name="app_name"]').text = name;
+>>>>>>> master
     fs.writeFileSync(locations.strings, strings.write({indent: 4}), 'utf-8');
     events.emit('verbose', 'Wrote out android application name "' + name + '" to ' + locations.strings);
 
@@ -246,11 +273,19 @@ function default_versionCode(version) {
     return versionCode;
 }
 
+<<<<<<< HEAD
 function getImageResourcePath(resourcesDir, type, density, name, sourceName) {
     if (/\.9\.png$/.test(sourceName)) {
         name = name.replace(/\.png$/, '.9.png');
     }
     var resourcePath = path.join(resourcesDir, (density ? type + '-' + density : type), name);
+=======
+function getImageResourcePath(resourcesDir, density, name, sourceName) {
+    if (/\.9\.png$/.test(sourceName)) {
+        name = name.replace(/\.png$/, '.9.png');
+    }
+    var resourcePath = path.join(resourcesDir, (density ? 'drawable-' + density : 'drawable'), name);
+>>>>>>> master
     return resourcePath;
 }
 
@@ -263,7 +298,11 @@ function updateSplashes(cordovaProject, platformResourcesDir) {
         return;
     }
 
+<<<<<<< HEAD
     var resourceMap = mapImageResources(cordovaProject.root, platformResourcesDir, 'drawable', 'screen.png');
+=======
+    var resourceMap = mapImageResources(cordovaProject.root, platformResourcesDir, 'screen.png');
+>>>>>>> master
 
     var hadMdpi = false;
     resources.forEach(function (resource) {
@@ -274,14 +313,22 @@ function updateSplashes(cordovaProject, platformResourcesDir) {
             hadMdpi = true;
         }
         var targetPath = getImageResourcePath(
+<<<<<<< HEAD
             platformResourcesDir, 'drawable', resource.density, 'screen.png', path.basename(resource.src));
+=======
+            platformResourcesDir, resource.density, 'screen.png', path.basename(resource.src));
+>>>>>>> master
         resourceMap[targetPath] = resource.src;
     });
 
     // There's no "default" drawable, so assume default == mdpi.
     if (!hadMdpi && resources.defaultResource) {
         var targetPath = getImageResourcePath(
+<<<<<<< HEAD
             platformResourcesDir, 'drawable', 'mdpi', 'screen.png', path.basename(resources.defaultResource.src));
+=======
+            platformResourcesDir, 'mdpi', 'screen.png', path.basename(resources.defaultResource.src));
+>>>>>>> master
         resourceMap[targetPath] = resources.defaultResource.src;
     }
 
@@ -293,7 +340,11 @@ function updateSplashes(cordovaProject, platformResourcesDir) {
 function cleanSplashes(projectRoot, projectConfig, platformResourcesDir) {
     var resources = projectConfig.getSplashScreens('android');
     if (resources.length > 0) {
+<<<<<<< HEAD
         var resourceMap = mapImageResources(projectRoot, platformResourcesDir, 'drawable', 'screen.png');
+=======
+        var resourceMap = mapImageResources(projectRoot, platformResourcesDir, 'screen.png');
+>>>>>>> master
         events.emit('verbose', 'Cleaning splash screens at ' + platformResourcesDir);
 
         // No source paths are specified in the map, so updatePaths() will delete the target files.
@@ -311,7 +362,11 @@ function updateIcons(cordovaProject, platformResourcesDir) {
         return;
     }
 
+<<<<<<< HEAD
     var resourceMap = mapImageResources(cordovaProject.root, platformResourcesDir, 'mipmap', 'icon.png');
+=======
+    var resourceMap = mapImageResources(cordovaProject.root, platformResourcesDir, 'icon.png');
+>>>>>>> master
 
     var android_icons = {};
     var default_icon;
@@ -362,14 +417,22 @@ function updateIcons(cordovaProject, platformResourcesDir) {
     // project's config.xml location, so we use it as base path.
     for (var density in android_icons) {
         var targetPath = getImageResourcePath(
+<<<<<<< HEAD
             platformResourcesDir, 'mipmap', density, 'icon.png', path.basename(android_icons[density].src));
+=======
+            platformResourcesDir, density, 'icon.png', path.basename(android_icons[density].src));
+>>>>>>> master
         resourceMap[targetPath] = android_icons[density].src;
     }
 
     // There's no "default" drawable, so assume default == mdpi.
     if (default_icon && !android_icons.mdpi) {
         var defaultTargetPath = getImageResourcePath(
+<<<<<<< HEAD
             platformResourcesDir, 'mipmap', 'mdpi', 'icon.png', path.basename(default_icon.src));
+=======
+            platformResourcesDir, 'mdpi', 'icon.png', path.basename(default_icon.src));
+>>>>>>> master
         resourceMap[defaultTargetPath] = default_icon.src;
     }
 
@@ -381,7 +444,11 @@ function updateIcons(cordovaProject, platformResourcesDir) {
 function cleanIcons(projectRoot, projectConfig, platformResourcesDir) {
     var icons = projectConfig.getIcons('android');
     if (icons.length > 0) {
+<<<<<<< HEAD
         var resourceMap = mapImageResources(projectRoot, platformResourcesDir, 'mipmap', 'icon.png');
+=======
+        var resourceMap = mapImageResources(projectRoot, platformResourcesDir, 'icon.png');
+>>>>>>> master
         events.emit('verbose', 'Cleaning icons at ' + platformResourcesDir);
 
         // No source paths are specified in the map, so updatePaths() will delete the target files.
@@ -393,9 +460,15 @@ function cleanIcons(projectRoot, projectConfig, platformResourcesDir) {
 /**
  * Gets a map containing resources of a specified name from all drawable folders in a directory.
  */
+<<<<<<< HEAD
 function mapImageResources(rootDir, subDir, type, resourceName) {
     var pathMap = {};
     shell.ls(path.join(rootDir, subDir, type + '-*'))
+=======
+function mapImageResources(rootDir, subDir, resourceName) {
+    var pathMap = {};
+    shell.ls(path.join(rootDir, subDir, 'drawable-*'))
+>>>>>>> master
     .forEach(function (drawableFolder) {
         var imagePath = path.join(subDir, path.basename(drawableFolder), resourceName);
         pathMap[imagePath] = null;
@@ -403,6 +476,7 @@ function mapImageResources(rootDir, subDir, type, resourceName) {
     return pathMap;
 }
 
+<<<<<<< HEAD
 
 function updateFileResources(cordovaProject, platformDir) {
     var files = cordovaProject.projectConfig.getFileResources('android');
@@ -441,6 +515,8 @@ function cleanFileResources(projectRoot, projectConfig, platformDir) {
     }
 }
 
+=======
+>>>>>>> master
 /**
  * Gets and validates 'AndroidLaunchMode' prepference from config.xml. Returns
  *   preference value and warns if it doesn't seems to be valid

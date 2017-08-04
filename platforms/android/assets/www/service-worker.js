@@ -18,8 +18,12 @@ self.toolbox.precache(
     './build/main.css',
     './build/polyfills.js',
     'index.html',
+<<<<<<< HEAD
     'manifest.json'
   ]
+=======
+    'manifest.json'  ]
+>>>>>>> master
 );
 
 // dynamically cache any other local assets

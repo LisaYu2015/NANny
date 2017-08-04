@@ -25199,6 +25199,7 @@ ion-navbar.toolbar {
   }
 }
 
+<<<<<<< HEAD
 page-home ion-card-header {
   font-weight: bold;
 }
@@ -25302,4 +25303,33 @@ page-register .item-inner {
 page-register .submit-btn {
   border-radius: 30px !important;
   border: 1px solid #ffffff;
+=======
+page-treasures .card-background-page ion-card {
+  position: relative;
+  text-align: center;
+}
+
+page-treasures .card-background-page .card-title {
+  position: absolute;
+  top: 36%;
+  font-size: 2.0em;
+  width: 100%;
+  font-weight: bold;
+  color: #FCFCFC;
+}
+
+page-treasures .card-background-page .card-subtitle {
+  font-size: 1.0em;
+  position: absolute;
+  top: 52%;
+  width: 100%;
+  color: #FCFCFC;
+}
+
+page-treasures .card-background-page .sharebutton {
+  font-size: 1.0em;
+  position: absolute;
+  top: 0%;
+  color: #FCFCFC;
+>>>>>>> master
 }

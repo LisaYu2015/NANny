@@ -2,6 +2,15 @@ import { Injectable } from '@angular/core';
 import { Http,Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 
+<<<<<<< HEAD
+=======
+/*
+  Generated class for the TreasuresProvider provider.
+
+  See https://angular.io/docs/ts/latest/guide/dependency-injection.html
+  for more info on providers and Angular DI.
+*/
+>>>>>>> master
 @Injectable()
 export class TreasuresProvider {
 
@@ -31,6 +40,7 @@ export class TreasuresProvider {
 
   posttreasures(project) {
     let headers = new Headers();
+<<<<<<< HEAD
       //project.uploaded="yes"
           
       // console.log(project);
@@ -61,3 +71,40 @@ export class TreasuresProvider {
 
 
 }
+=======
+      
+
+      //project.uploaded="yes"
+          
+      console.log(project);
+
+      headers.append('Content-Type','application/json');
+
+        this.http.post('/api/Project',JSON.stringify(project), {headers: headers})
+        
+        .subscribe(res => {
+          //console.log(res.json());
+        });
+  }
+
+  postdetails(details) {
+    let headers = new Headers();
+      
+
+      //project.uploaded="yes"
+          
+      console.log(details);
+
+      headers.append('Content-Type','application/json');
+
+        this.http.post('/api/Detail',JSON.stringify(details), {headers: headers})
+        
+        .subscribe(res => {
+          //console.log(res.json());
+        });
+  }
+
+
+
+}
+>>>>>>> master

@@ -21,7 +21,10 @@ var fs = require('fs');
 var path = require('path');
 var properties_parser = require('properties-parser');
 var AndroidManifest = require('./AndroidManifest');
+<<<<<<< HEAD
 var AndroidStudio = require('./AndroidStudio');
+=======
+>>>>>>> master
 var pluginHandlers = require('./pluginHandlers');
 
 var projectFileCache = {};
@@ -64,9 +67,12 @@ function AndroidProject(projectDir) {
     this.projectDir = projectDir;
     this.platformWww = path.join(this.projectDir, 'platform_www');
     this.www = path.join(this.projectDir, 'assets/www');
+<<<<<<< HEAD
     if(AndroidStudio.isAndroidStudioProject(projectDir) === true) {
       this.www = path.join(this.projectDir, 'app/src/main/assets/www');
     }
+=======
+>>>>>>> master
 }
 
 AndroidProject.getProjectFile = function (projectDir) {
@@ -93,11 +99,15 @@ AndroidProject.purgeCache = function (projectDir) {
  * @return  {String}              The name of the package
  */
 AndroidProject.prototype.getPackageName = function() {
+<<<<<<< HEAD
     var manifestPath = path.join(this.projectDir, 'AndroidManifest.xml');
     if(AndroidStudio.isAndroidStudioProject(this.projectDir) === true) {
       manifestPath = path.join(this.projectDir, 'app/src/main/AndroidManifest.xml');
     }
     return new AndroidManifest(manifestPath).getPackageId();
+=======
+    return new AndroidManifest(path.join(this.projectDir, 'AndroidManifest.xml')).getPackageId();
+>>>>>>> master
 };
 
 AndroidProject.prototype.getCustomSubprojectRelativeDir = function(plugin_id, src) {
@@ -197,6 +207,7 @@ AndroidProject.prototype.getUninstaller = function (type) {
     return pluginHandlers.getUninstaller(type);
 };
 
+<<<<<<< HEAD
 /*
  * This checks if an Android project is clean or has old build artifacts
  */
@@ -206,5 +217,7 @@ AndroidProject.prototype.isClean = function() {
     //If the build directory doesn't exist, it's clean
     return !(fs.existsSync(build_path));
 };
+=======
+>>>>>>> master
 
 module.exports = AndroidProject;

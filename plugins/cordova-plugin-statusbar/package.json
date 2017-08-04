@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "_from": "cordova-plugin-statusbar@2.2.2",
   "_id": "cordova-plugin-statusbar@2.2.2",
   "_inBundle": false,
@@ -30,6 +31,12 @@
     "url": "https://github.com/apache/cordova-plugin-statusbar/issues"
   },
   "bundleDependencies": false,
+=======
+  "name": "cordova-plugin-statusbar",
+  "version": "2.2.2",
+  "description": "Cordova StatusBar Plugin",
+  "types": "./types/index.d.ts",
+>>>>>>> master
   "cordova": {
     "id": "cordova-plugin-statusbar",
     "platforms": [
@@ -40,6 +47,7 @@
       "windows"
     ]
   },
+<<<<<<< HEAD
   "deprecated": false,
   "description": "Cordova StatusBar Plugin",
   "devDependencies": {
@@ -56,6 +64,12 @@
     }
   },
   "homepage": "https://github.com/apache/cordova-plugin-statusbar#readme",
+=======
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/apache/cordova-plugin-statusbar"
+  },
+>>>>>>> master
   "keywords": [
     "cordova",
     "statusbar",
@@ -66,6 +80,7 @@
     "cordova-wp8",
     "cordova-windows"
   ],
+<<<<<<< HEAD
   "license": "Apache-2.0",
   "name": "cordova-plugin-statusbar",
   "repository": {
@@ -78,4 +93,25 @@
   },
   "types": "./types/index.d.ts",
   "version": "2.2.2"
+=======
+  "scripts": {
+    "test": "npm run jshint",
+    "jshint": "node node_modules/jshint/bin/jshint www && node node_modules/jshint/bin/jshint src && node node_modules/jshint/bin/jshint tests"
+  },
+  "engines": {
+    "cordovaDependencies": {
+      "0.1.0": {
+        "cordova": ">=3.0.0"
+      },
+      "3.0.0": {
+        "cordova": ">100"
+      }
+    }
+  },
+  "author": "Apache Software Foundation",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "jshint": "^2.6.0"
+  }
+>>>>>>> master
 }

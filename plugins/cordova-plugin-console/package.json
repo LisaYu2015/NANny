@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "_from": "cordova-plugin-console@1.0.5",
   "_id": "cordova-plugin-console@1.0.5",
   "_inBundle": false,
@@ -30,6 +31,11 @@
     "url": "https://github.com/apache/cordova-plugin-console/issues"
   },
   "bundleDependencies": false,
+=======
+  "name": "cordova-plugin-console",
+  "version": "1.0.5",
+  "description": "Cordova Console Plugin",
+>>>>>>> master
   "cordova": {
     "id": "cordova-plugin-console",
     "platforms": [
@@ -41,6 +47,7 @@
       "windows"
     ]
   },
+<<<<<<< HEAD
   "deprecated": false,
   "description": "Cordova Console Plugin",
   "devDependencies": {
@@ -54,6 +61,12 @@
     }
   },
   "homepage": "https://github.com/apache/cordova-plugin-console#readme",
+=======
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/apache/cordova-plugin-console"
+  },
+>>>>>>> master
   "keywords": [
     "cordova",
     "console",
@@ -65,6 +78,7 @@
     "cordova-windows8",
     "cordova-windows"
   ],
+<<<<<<< HEAD
   "license": "Apache-2.0",
   "name": "cordova-plugin-console",
   "repository": {
@@ -76,4 +90,22 @@
     "test": "npm run jshint"
   },
   "version": "1.0.5"
+=======
+  "scripts": {
+    "test": "npm run jshint",
+    "jshint": "node node_modules/jshint/bin/jshint www && node node_modules/jshint/bin/jshint src && node node_modules/jshint/bin/jshint tests"
+  },
+  "author": "Apache Software Foundation",
+  "license": "Apache-2.0",
+  "engines": {
+    "cordovaDependencies": {
+      "2.0.0": {
+        "cordova": ">100"
+      }
+    }
+  },
+  "devDependencies": {
+    "jshint": "^2.6.0"
+  }
+>>>>>>> master
 }

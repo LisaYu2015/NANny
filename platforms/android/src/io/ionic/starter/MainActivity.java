@@ -28,6 +28,7 @@ public class MainActivity extends CordovaActivity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+<<<<<<< HEAD
 
         // enable Cordova apps to be started in the background
         Bundle extras = getIntent().getExtras();
@@ -35,6 +36,8 @@ public class MainActivity extends CordovaActivity
             moveTaskToBack(true);
         }
 
+=======
+>>>>>>> master
         // Set by <content src="index.html" /> in config.xml
         loadUrl(launchUrl);
     }

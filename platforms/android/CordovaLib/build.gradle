@@ -16,15 +16,20 @@
    under the License.
 */
 
+<<<<<<< HEAD
 ext {
     apply from: 'cordova.gradle'
     cdvCompileSdkVersion = privateHelpers.getProjectTarget()
     cdvBuildToolsVersion = privateHelpers.findLatestInstalledBuildTools()
 }
+=======
+
+>>>>>>> master
 
 buildscript {
     repositories {
         mavenCentral()
+<<<<<<< HEAD
         jcenter()
     }
 
@@ -41,6 +46,23 @@ apply plugin: 'com.jfrog.bintray'
 
 group = 'org.apache.cordova'
 version = '6.2.3'
+=======
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.1.0'
+    }
+
+}
+
+apply plugin: 'com.android.library'
+
+ext {
+    apply from: 'cordova.gradle'
+    cdvCompileSdkVersion = privateHelpers.getProjectTarget()
+    cdvBuildToolsVersion = privateHelpers.findLatestInstalledBuildTools()
+}
+>>>>>>> master
 
 android {
     compileSdkVersion cdvCompileSdkVersion
@@ -63,6 +85,7 @@ android {
             assets.srcDirs = ['assets']
         }
     }
+<<<<<<< HEAD
 
     packagingOptions {
         exclude 'META-INF/LICENSE'
@@ -132,4 +155,6 @@ bintray {
             vcsTag = '6.2.3'
         }
     }
+=======
+>>>>>>> master
 }

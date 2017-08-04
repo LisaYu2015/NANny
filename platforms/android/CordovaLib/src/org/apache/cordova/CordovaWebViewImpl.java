@@ -21,6 +21,10 @@ package org.apache.cordova;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+<<<<<<< HEAD
+=======
+import android.util.Log;
+>>>>>>> master
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -244,7 +248,11 @@ public class CordovaWebViewImpl implements CordovaWebView {
     @Deprecated
     public void showCustomView(View view, WebChromeClient.CustomViewCallback callback) {
         // This code is adapted from the original Android Browser code, licensed under the Apache License, Version 2.0
+<<<<<<< HEAD
         LOG.d(TAG, "showing Custom View");
+=======
+        Log.d(TAG, "showing Custom View");
+>>>>>>> master
         // if a view already exists then immediately terminate the new one
         if (mCustomView != null) {
             callback.onCustomViewHidden();
@@ -275,7 +283,11 @@ public class CordovaWebViewImpl implements CordovaWebView {
     public void hideCustomView() {
         // This code is adapted from the original Android Browser code, licensed under the Apache License, Version 2.0
         if (mCustomView == null) return;
+<<<<<<< HEAD
         LOG.d(TAG, "Hiding Custom View");
+=======
+        Log.d(TAG, "Hiding Custom View");
+>>>>>>> master
 
         // Hide the custom view.
         mCustomView.setVisibility(View.GONE);
