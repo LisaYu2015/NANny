@@ -14,7 +14,7 @@
 
 
 <ion-content padding>
-	<form (ngSubmit)="send()" #nrequest="ngForm">
+	<form (ngSubmit)="send()" #nreqform="ngForm">
       <ion-row>
         <ion-col>
           <ion-list inset>
@@ -24,11 +24,11 @@
             </ion-item>
             
             <ion-item>
-              <ion-input type="password" placeholder="Make" name="make" [(ngModel)]="nrequest.make" ></ion-input>
+              <ion-input type="password" placeholder="Make" name="brand" [(ngModel)]="nrequest.brand" ></ion-input>
             </ion-item>
 
             <ion-item>
-              <ion-input type="text" placeholder="Model" name="Model" [(ngModel)]="nrequest.model"></ion-input>
+              <ion-input type="text" placeholder="Model" name="model" [(ngModel)]="nrequest.model"></ion-input>
             </ion-item>
 
             <ion-item>
@@ -36,15 +36,19 @@
             </ion-item>
 
             <ion-item>
-            	<ion-textarea [(ngModel)]='nrequest.symptoms' name="symptoms" placeholder="Describe the issues that you are seeing. What have you already tried to do to solve the issue? What components have you already checked?"></ion-textarea>
-        	</ion-item>
+            	<ion-textarea [(ngModel)]='nrequest.symptoms' name="symptoms" placeholder="Describe the issues that you are seeing."></ion-textarea>
+        	  </ion-item>
+
+            <ion-item>
+              <ion-textarea [(ngModel)]='nrequestq.content' name="content" placeholder="What help do you need? Please include what have you already tried to do to solve the issue and what components you have already checked?"></ion-textarea>
+            </ion-item>
             
           </ion-list>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col class="signup-col">
-          <button ion-button class="submit-btn" full type="submit" >Ask for Help</button>
+          <button ion-button class="submit-btn" full type="submit" [disabled]="!nreqform.form.valid">Ask for Help</button>
         </ion-col>
       </ion-row>
       

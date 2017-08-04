@@ -1,9 +1,9 @@
-import { Component,ViewChild,AfterViewInit } from '@angular/core';
+import { Component,ViewChild } from '@angular/core';
 import { NavController,ModalController } from 'ionic-angular';
 import { User, AuthService } from '../../providers/auth-service/auth-service';
 import { LoginPage } from '../login/login';
 import { Chart } from 'chart.js';
-import { Points, PointsProvider } from '../../providers/points/points';
+import { PointsProvider } from '../../providers/points/points';
 import { PointsPage } from '../points/points'
 import { EarnpointsPage } from '../earnpoints/earnpoints'
  
@@ -22,6 +22,7 @@ export class HomePage {
   p_comment = [];
   p_fixes = [];
   p_request = [];
+  p_total = [];
 
   
   constructor(private nav: NavController, private auth: AuthService, private p: PointsProvider, public modalCtrl: ModalController) {
@@ -35,10 +36,13 @@ export class HomePage {
         this.all_points = data;
         alert(this.all_points.length);
         for (var i = 0; i < this.all_points.length ; i++) {
-          this.p_comment.push(this.all_points[i].a_comment *5);
-          this.p_fixes.push(this.all_points[i].a_fix *10);
-          this.p_request.push(this.all_points[i].a_request *2);
-
+          let comments = this.all_points[i].a_comment;
+          let fix = this.all_points[i].a_fix;
+          let req = this.all_points[i].a_request;
+          this.p_comment.push(comments *5 + this.p_comment.reduce((pv, cv) => pv+cv, 0));
+          this.p_fixes.push(fix *10 + this.p_fixes.reduce((pv, cv) => pv+cv, 0));
+          this.p_request.push(req *2 + this.p_request.reduce((pv, cv) => pv+cv, 0));
+          // this.p_total.push(comments *5 + fix *10 + req *2)
         }
         alert(this.p_comment);
       } 
@@ -46,6 +50,7 @@ export class HomePage {
   }
 
   ionViewDidLoad(){
+    console.log("hello from homepage")
 
     var colors = {
       green: {
@@ -71,9 +76,10 @@ export class HomePage {
     this.lineChart = new Chart(this.lineCanvas.nativeElement, {
       type: 'line',
       data: {
+        labels: [],
         datasets: [{
           label: "New Fixes",
-          fill: true,
+          fill: false,
           backgroundColor: colors.purple.fill,
           pointBackgroundColor: colors.purple.stroke,
           borderColor: colors.purple.stroke,
@@ -82,7 +88,7 @@ export class HomePage {
           data: this.p_fixes,
         }, {
           label: "Comments",
-          fill: true,
+          fill: false,
           backgroundColor: colors.darkBlue.fill,
           pointBackgroundColor: colors.darkBlue.stroke,
           borderColor: colors.darkBlue.stroke,
@@ -91,7 +97,7 @@ export class HomePage {
           data: this.p_comment,
         }, {
           label: "Answering Requests",
-          fill: true,
+          fill: false,
           backgroundColor: colors.green.fill,
           pointBackgroundColor: colors.green.stroke,
           borderColor: colors.green.stroke,
@@ -101,15 +107,15 @@ export class HomePage {
       },
       options: {
         responsive: true,
-        maintainAspectRatio: false,
+        maintainAspectRatio: true,
         scales: {
           yAxes: [{
             stacked: true,
           }]
         },
-        animation: {
-          duration: 750,
-        },
+        // animation: {
+        //   duration: 750,
+        // },
       }
     });
 

@@ -63,14 +63,13 @@ mongoose.connection.on('disconnected', function () {
 
 //Tracks the general request information. Changed to "Question" variable
 //because 'request' is a common keyword in webapps.
-var Question = mongoose.model('Requests', {
+var Question = mongoose.model('Question', {
     _id: mongoose.Schema.Types.ObjectId,
-    content: String,
+    content: { type: String, default: ""},
     date: { type: Date, default: Date.now },
-    helperID: String, //points to a user
-    requesterID: String, //points to a user
-    symptoms: String,
-    ProjectID : String, //referes to project witch includes userID, brand, year, model, engine and errorcode
+    helperID: { type: String, default: ""}, //points to a user
+    requesterID: { type: String, default: ""}, //points to a user
+    ProjectID : { type: String, default: ""}, //referes to project witch includes userID, brand, year, model, engine and errorcode
 });
 
 //tracks the comments related to a question/request
@@ -84,13 +83,13 @@ var Discussion = mongoose.model('Discussion', {
 
 var User = mongoose.model('Users', {
     _id: mongoose.Schema.Types.ObjectId,
-    expertise: String,
-    experience: String,
-    shop: String,
-    fname: String,
-    lname: String,
-    email: String,
-    password: String,
+    expertise: { type: String, default: ""},
+    experience: { type: String, default: ""},
+    shop: { type: String, default: ""},
+    fname: { type: String, default: ""},
+    lname: { type: String, default: ""},
+    email: { type: String, default: ""},
+    password: { type: String, default: ""},
     joined: { type: Date, default: Date.now },
     last_active: { type: Date, default: Date.now },
     total_points: { type: Number, default: 0},
@@ -111,27 +110,32 @@ var Point = mongoose.model('Points', {
 //Project contains the general details of each car
 var Project = mongoose.model('Project', {
     _id: mongoose.Schema.Types.ObjectId,
-    Userid:String,
-    brand:String,
-    year:Number,
-    model:String,
-    complete: {type:String, default:'No'},
-    errorcode:String,
-    symptoms: String,
-    engine:String,
+    PID: {type:Number, default:0}, //project id for us
+    TID: {type:Number, default:0}, //technician id (should be the same as userid)
+    Userid:{type:String, default:''}, //Links to _id of user
+    brand:{type:String, default:''},
+    year:{type:Number, default:0},
+    model:{type:String, default:''},
+    complete: {type:String, default:'no'},
+    errorcode:{type:String, default:''},
+    symptoms: {type:String, default:''},
+    engine:{type:String, default:''},
+    uploaded: {type:String, default:'no'},
+    numofpics: {type:Number, default:0},
 });
 
 //Data contains the details of each project/treasure
-var Data = mongoose.model('Data', {
+var Detail = mongoose.model('detail', {
     _id: mongoose.Schema.Types.ObjectId,
-    ProjectID: String,
+    PID: Number,
+    ProjectID:String, //links to _id of Project
     type:String,
     sentence:String,
 });
 
 //Routes for requests for one person
     //get list of requests asked by current user
-    app.get('/api/question/reqid/:id', function(req, res){
+    app.get('/api/question/reqid/:reqid', function(req, res){
         console.log("getting all chats request");
         console.log(req.params.reqid);
         Question.find({requesterID: req.params.reqid}, function(err, docs){
@@ -143,7 +147,7 @@ var Data = mongoose.model('Data', {
     });
 
     //get list of requests for which the current user is the helper
-    app.get('/api/question/helpid/:id', function(req, res){
+    app.get('/api/question/helpid/:helpid', function(req, res){
         console.log("getting all chats help");
         Question.find({helperID: req.params.helpid}, function(err, docs){
             if(err)
@@ -158,30 +162,19 @@ var Data = mongoose.model('Data', {
     app.post('/api/question', function(req, res) {
  
         console.log("creating questions");
+        console.log(req.body);
 
         var nquestion = new Question();
+        nquestion._id = new ObjectId();
         nquestion.content = req.body.content;
-        nquestion.helperID = req.body.helperID;
-        nquestion.requesterID = req.body.requesterID;
-
-        var newproj = new Project();
-        newproj.Userid = req.body.userid;
-        newproj.brand = req.body.brand;
-        newproj.year = req.body.year;
-        newproj.model = req.body.model;
-        newproj.errorcode = req.body.errorcode;
-        newproj.symptoms = req.body.symptoms;
-        newproj.engine = req.body.engine;
-
-        newproj.save(function(err, project) {
-            if(err)
-                res.send(err);
-            nquestion.ProjectID = project.id;
-        });
-
+        // nquestion.helperID = req.body.helperID;
+        nquestion.requesterID = req.body.requesterid;
+        nquestion.ProjectID = req.body.projectid;
         nquestion.save(function(err, question){
             if(err)
                 res.send(err);
+            console.log("done")
+            res.send(question);
         });
  
     });
@@ -304,55 +297,103 @@ var Data = mongoose.model('Data', {
 
 //Routes for projects/Treasures
 
-    app.get('/api/Project', function(req, res) {
-
+app.get('/api/Project', function(req, res) {
+ 
         console.log("fetching Projects");
-
+ 
         //use mongoose to get all Projects in the database
         Project.find(function(err, Project){
             //if there is an error retrieving, send the error. nothing after res.send(err) will execute
             if (err)
-                res.send(err)
-
+                res.send(err);
+ 
             res.json(Project);
         });
     });
+ 
+ 
+    app.post('/api/Project', function(req, res) {
+        console.log("creating/updating Projects");
+        console.log(req.body);
 
-    //create Project and send back all Projects after creation
-    app.post('/api/Project',function(req, res){
+        // if(!req.body._id){
+        //     //if no _id is sent along, add the project
+        //     nproj = new Project()
+        //     Project.save(req, function(err, proj, numAffected){
+        //         if(err){
+        //             console.log('err')
+        //             res.send(err);
+        //         } else {
+        //             console.log(proj);
+        //             res.send(proj);
+        //         }
+        //     })
+        // }
+ 
+                Project.findById(req.body._id, function(err, project) {
+                  if (!project && !err) {
+                    console.log("creating new project");
+                    project = new Project();
+                    project._id = new ObjectId();
+                    project.year = req.body.year;
+                    project.brand = req.body.brand;
+                    project.model = req.body.model;
+                    project.errorcode = req.body.error;
+                    project.symptoms = req.body.symptoms;
 
-        console.log("creating Project");
+                    project.save(function(err, proj) {
+                      if (err)
+                        {console.log('error');
+                        console.log(err)
+                        res.send(err);
+                    }
+                      else
+                        {console.log(project);
+                        console.log('success')
+                        res.send(proj);
+                        }
 
-        //create a Project, information comes from request from Ionic
-        Project.create({
-            PID : req.body.projectID, //should be automaticly created
-            TID : req.body.technicaianID, //should be gathered from the user detail=userID
-            brand : req.body.brand,
-            year : req.body.year,
-            model : req.body.model,
-            complete : req.body.complete, //automaticlly assigned
-            errorcode : req.body.errorcode,
-            engine : req.body.engine,
-            done : false
-        }, function(err, Project) {
+                    });
+                  } else {
+                    // do your updates here
+                                // project._id = req.body._id;
+                    project.PID =req.body.PID;
+                    project.TID = req.body.TID;
+                    project.year= req.body.year;
+                    project.brand= req.body.brand;
+                    project.model= req.body.model;
+                    project.engine= req.body.engine;
+                    project.errorcode = req.body.errorcode;
+                    project.complete = req.body.complete;
+                    project.uploaded = req.body.uploaded;
+                    project.numofpics = req.body.numofpics;
+           
+                    project.save(function(err, proj) {
+                      if (err)
+                        {console.log('error');
+                        console.log(err)}
+                      else
+                        {console.log(project);
+                        console.log('success')
+                        res.send(proj);
+                        }
+
+                    });
+                  }
+                });
+    });
+ 
+    app.get('/api/Detail', function (req, res) {
+ 
+        console.log("fetching Details");
+ 
+        //use mongoose to get all Details in the database
+        Detail.find(function (err, Detail) {
+            //if there is an error retrieving, send the error. nothing after res.send(err) will execute
             if (err)
                 res.send(err);
-
-            //get and return all the Projects after you create another
-            Project.find(function(err, Project){
-                if(err)
-                    res.send(err)
-                res.json(Project);
-            });
-        });
-    });
-
-        // delete a Project
-    app.delete('/api/Project/:Project_id', function(req, res) {
-        Project.remove({
-            _id : req.params.Project_id
-        }, function(err, Project) {
  
+            res.json(Detail);
         });
     });
 

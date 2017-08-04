@@ -43,7 +43,11 @@ export class ChatPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ChatPage');
-    this.ques.getallrequests(this.userid).then((data) => {
+  }
+
+  ionViewDidEnter(){
+      console.log("ionview did enter chatpage")
+      this.ques.getallrequests(this.userid).then((data) => {
         if(data){
           this.chats = data;
         }

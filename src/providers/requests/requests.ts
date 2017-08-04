@@ -41,25 +41,29 @@ export class RequestsProvider {
       this.http.get('/api/question/reqid/'+ id)
         .map(res => res.json())
         .subscribe(data => {
-          this.chats.push(data);
-        });
-      //for each request, get and store name of helper
-      for (var i =  0; i < this.chats.length; i++) {
-      	this.chats[i].requestername = username;
-      	this.chats[i].helpername = this.auth.getusernamebyid(this.chats[i].helperID);
-      }
+          if(data){
+            this.chats.push(data);
+                  //for each request, get and store name of helper
+            for (var i =  0; i < this.chats.length; i++) {
+              this.chats[i].requestername = username;
+              this.chats[i].helpername = this.auth.getusernamebyid(this.chats[i].helperID);
+            }
+          }
 
-      this.http.get('/api/question/helpid/'+id)
-        .map(res => res.json())
-        .subscribe(data => {
-          this.chats.push(data);
+          this.http.get('/api/question/helpid/'+id)
+            .map(res => res.json())
+            .subscribe(data => {
+              if(data){
+                this.chats.push(data);
+                //for each request, get and store name of requester
+                for (var i =  0; i < this.chats.length; i++) {
+                  this.chats[i].helpername = username;
+                  this.chats[i].requestername = this.auth.getusernamebyid(this.chats[i].requesterID);
+                }
+                resolve(this.chats);
+              }
+          });
         });
-      //for each request, get and store name of requester
-      for (var i =  0; i < this.chats.length; i++) {
-      	this.chats[i].helpername = username;
-      	this.chats[i].requestername = this.auth.getusernamebyid(this.chats[i].requesterID);
-      }
-      resolve(this.chats);
     });
   }
 
@@ -76,9 +80,9 @@ export class RequestsProvider {
     });
   }
 
-  addcomment(){}
-
   createrequest(info){
+    console.log(info);
+
     return new Promise(resolve => {
       let headers = new Headers();
       headers.append('Content-Type', 'application/json');

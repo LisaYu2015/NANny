@@ -10,13 +10,19 @@ import { LoginPage } from '../login/login';
 export class ProfilePage {
 	user: User;
   joined: any;
-  lastactive: Date;
+  lastactive: string;
+  fixes: string;
+  helps: any;
+  total_points: any;
+
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private auth: AuthService) {
   	this.user = this.auth.getUserInfo();
-    this.joined = new Date(this.user.joined).getTime();
-    this.lastactive = new Date(this.user.last_active);
-    alert(this.user.total_fix);
+    this.joined = new Date(this.user.joined).getTime().toString();
+    this.lastactive = new Date(this.user.last_active).getTime().toString();
+    this.fixes = this.user.total_fix.toString();
+    this.helps = this.user.total_help.toString();
+    this.total_points = this.user.total_points.toString();
   }
 
   ionViewDidLoad() {

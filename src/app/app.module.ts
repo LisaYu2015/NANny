@@ -14,12 +14,15 @@ import { SearchPage } from '../pages/search/search';
 import { ChatPage } from '../pages/chat/chat';
 import { OneChatPage } from '../pages/onechat/onechat';
 import { NewRequestPage } from '../pages/new-request/new-request'
+import { PointsPage } from '../pages/points/points'
+import { EarnpointsPage } from '../pages/earnpoints/earnpoints'
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { AuthService } from '../providers/auth-service/auth-service';
 import { RequestsProvider } from '../providers/requests/requests';
 import { PointsProvider } from '../providers/points/points';
+import { TreasuresProvider } from '../providers/treasuresprovider/treasuresprovider';
 
 @NgModule({
   declarations: [
@@ -32,7 +35,9 @@ import { PointsProvider } from '../providers/points/points';
     ChatPage,
     OneChatPage,
     SearchPage,
-    NewRequestPage
+    NewRequestPage,
+    PointsPage,
+    EarnpointsPage
   ],
   imports: [
     BrowserModule,
@@ -50,7 +55,9 @@ import { PointsProvider } from '../providers/points/points';
     ChatPage,
     OneChatPage,
     SearchPage,
-    NewRequestPage
+    NewRequestPage,
+    PointsPage,
+    EarnpointsPage
   ],
   providers: [
     StatusBar,
@@ -58,7 +65,8 @@ import { PointsProvider } from '../providers/points/points';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthService,
     RequestsProvider,
-    PointsProvider
+    PointsProvider,
+    TreasuresProvider
   ]
 })
 export class AppModule {}

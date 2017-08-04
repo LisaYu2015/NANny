@@ -1,4 +1,5 @@
 <ion-header>
+     <img src="../../assets/images/bosch_background.png" width='100%' height="10px" />
   <ion-navbar color="dark">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
@@ -13,24 +14,21 @@
 </ion-header>
  
 <ion-content class="home" padding>
-{{1288323623006 | date:"MM/dd/yyyy 'at' h:mma"}}
-  <ion-grid>
-    <ion-row>
-      <ion-col col-4>
-        <img width="100%" src="../../assets/images/default-profile-picture.png">>
-      </ion-col>
-      <ion-col col-4 >
-        <h3>{{user.fname}} {{user.lname}} </h3>
-        <p>Joined: {{joindate | date:'yyyy-MM-dd HH:mm:ss Z'}}</p>
-        <p>Last Active: {{activedate | date:'MM/dd/yyyy'}}</p>
-        <p>Expertise: {{user.expertise}}</p>
-      </ion-col>
-      <ion-col col-4 >
-        <h3>Points: {{user.points | number}}</h3>
-        <p>Level: {{user.level }}</p>
-        <p>New Fixes: {{user.fixes | number}}</p>
-        <p>Helps: {{user.helps | number}}</p>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+    <h3>{{user.fname}} {{user.lname}} </h3>
+    <h4>Points: {{total_points | number}}</h4>
+    <h4>Level: {{user.level }}</h4>
+    <h4>Expertise: {{user.expertise}}</h4>
+    <img width="100%" src="../../assets/images/default-profile-picture.png">>
+    <p>Joined: {{joindate | date:"MM/dd/yyyy"}}</p>
+    <p>Last Active: {{activedate | date:"MM/dd/yyyy"}}</p>
+    <p>New Fixes: {{fixes | number}}</p>
+    <p>Helps: {{helps | number}}</p>
+  <ion-card>
+    <h3>Recent Fix</h3>
+    Most recent fix will show up here
+  </ion-card>
 </ion-content>
+
+<ion-footer>
+     <img src="../../assets/images/bosch_background.png" width='100%' height="10px" />
+</ion-footer>
