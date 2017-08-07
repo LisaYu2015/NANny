@@ -87,8 +87,9 @@ export class AuthService {
         .map(res => res.json())
         .subscribe(res => {
           user = res[0]
+          return user.fname.toString() + " " + user.lname.toString();
         })
-    return user.fname.toString + " " + user.lname.toString;
+    
   }
  
   public logout() {

@@ -10,7 +10,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>{{chat.title}}</ion-title>
+    <ion-title> {{chat.year}} {{chat.make}} {{chat.model}} </ion-title>
     <ion-buttons end>
       <button ion-button (click)="logout()">
           <ion-icon name="log-out"></ion-icon>
@@ -20,25 +20,26 @@
 </ion-header>
 
 <ion-content>
-	<ion-item>
-		{{chat.note}}
-	</ion-item>
-  <ion-list>
-    <ion-item *ngFor="let c of comments">
-    	{{c.author}}:{{c.comment}}
-    </ion-item>
-  </ion-list>  	
+  <ion-item>
+    <p>Error codes: {{chat.error}}</p>
+    <p>Symptoms: {{chat.symptoms}}</p>
+  </ion-item> 
 
-  	<form (ngSubmit)="addcomment()" #newcommentform="ngForm">
-      <ion-row>
-        <ion-col>
-        	<ion-textarea name="ncomment" [(ngModel)]="ncomment"></ion-textarea>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col class="signup-col">
-          <button ion-button class="submit-btn" full type="submit">Send</button>
-        </ion-col>
-      </ion-row>
-    </form>
+  <!-- <p *ngIf="ng.isundefined(disc)"> No messages in this thread </p> -->
+
+  <div class="messages-wrapper">
+    <div *ngFor="let d of disc">
+      <div *ngIf="d.author==currentuser._id" class="message to">{{d.comment}}</div>
+      <div *ngIf="d.author!=currentuser._id" class="message from">{{d.comment}}</div>
+    </div>
+  </div>
+
+  	
 </ion-content>
+
+<ion-footer>
+    <form (ngSubmit)="addcomment()" #newcommentform="ngForm">
+          <ion-textarea name="ncomment" placeholder="Comment..." [(ngModel)]="ncomment"></ion-textarea>
+          <button ion-button clear item-end type="submit"><ion-icon name="send"></ion-icon></button>
+    </form>
+</ion-footer>

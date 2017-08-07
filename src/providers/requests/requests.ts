@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { AuthService } from '../../providers/auth-service/auth-service';
+import { TreasuresProvider } from '../../providers/treasuresprovider/treasuresprovider';
 import 'rxjs/add/operator/map';
 
 export class Chat{
-	_id: string;
+	  _id: string;
     content: string;
     date: Date;
     helperID: string; //points to a user
@@ -13,6 +14,34 @@ export class Chat{
     requestername:string;
     symptoms: string;
     ProjectID : string;
+    year: number;
+    make: string;
+    model: string;
+    error: string;
+    complete: string;
+    opendate:string;
+
+
+    constructor(id:string, content:string, helperID:string, requesterID:string, helpername:string, username:string,
+      year:number, make:string, model:string, error:string, symptoms:string, complete:string){
+        this._id = id;
+        this.content = content;
+        this.helperID = helperID;
+        this.helpername = helpername;
+        this.requesterID =  requesterID;
+        this.requestername = username;
+        this.year = year;
+        this.make = make;
+        this.model = model;
+        this.error = error;
+        this.symptoms = symptoms;
+        this.complete = complete;
+        this.opendate = "";
+    }
+
+    setopendate(opendate:string){
+      this.opendate = opendate;
+    }
 }
 
 export class Comment{
@@ -25,45 +54,68 @@ export class Comment{
 
 @Injectable()
 export class RequestsProvider {
-	chats: Array<Chat>;
-	disc: Array<Comment>;
+	chats : Array<Chat>;
+	disc = Array<Comment>();
+  username: any;
 
 
-  constructor(public http: Http, public auth: AuthService) {
+  constructor(public http: Http, public auth: AuthService, public tres: TreasuresProvider) {
     console.log('Hello RequestsProvider Provider');
+  }
+
+  convertdatatochat(data){
+      for (var i =  0; i < data.length; i++) {
+              console.log("inloop")
+              let r = data[i]
+              var helpername;
+              var request;
+              var data2;
+              if(r.helperID)
+                helpername = this.auth.getusernamebyid(r.helperID);
+              else
+                helpername = "Not Matched";
+
+              //find project
+              this.tres.getonetreasure(r.ProjectID)
+                  .then((project)=>{
+                    console.log(project)
+                    data2 = project[0];
+                    request = new Chat(r._id, r.content, r.helperID, r.requesterID, helpername, this.username
+                        , data2.year, data2.brand, data2.model, data2.errorcode, data2.symptoms, data2.complete);
+                    // if(data2.opendate){
+                    //   request.setopendate(data2.opendate.getTime().toString())
+                    // } 
+                    this.chats.push(request);
+                    console.log(request);
+                  })
+        }
   }
 
   //where id is the _id of the user
   getallrequests(id){
-  	var username = this.auth.getUserName();
+    this.chats = new Array<Chat>();
+  	this.username = this.auth.getUserName();
 
   	return new Promise(resolve => {
       this.http.get('/api/question/reqid/'+ id)
         .map(res => res.json())
         .subscribe(data => {
+          console.log("in subscribe")
           if(data){
-            this.chats.push(data);
-                  //for each request, get and store name of helper
-            for (var i =  0; i < this.chats.length; i++) {
-              this.chats[i].requestername = username;
-              this.chats[i].helpername = this.auth.getusernamebyid(this.chats[i].helperID);
-            }
+            console.log(data)
+            this.convertdatatochat(data);
           }
 
           this.http.get('/api/question/helpid/'+id)
             .map(res => res.json())
             .subscribe(data => {
               if(data){
-                this.chats.push(data);
-                //for each request, get and store name of requester
-                for (var i =  0; i < this.chats.length; i++) {
-                  this.chats[i].helpername = username;
-                  this.chats[i].requestername = this.auth.getusernamebyid(this.chats[i].requesterID);
+                console.log("in here after  subscribe")
+                this.convertdatatochat(data);
                 }
-                resolve(this.chats);
-              }
-          });
+              });
         });
+        resolve(this.chats);
     });
   }
 
@@ -77,6 +129,19 @@ export class RequestsProvider {
           resolve(this.disc);
         });
 
+    });
+  }
+
+  addcomment(info){
+    console.log(info);
+
+    return new Promise(resolve => {
+      let headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+      this.http.post('/api/disc', JSON.stringify(info), {headers: headers})
+                  .subscribe(res => {
+                    resolve(res);
+                  });
     });
   }
 
