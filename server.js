@@ -120,6 +120,7 @@ var Project = mongoose.model('Project', {
     engine:{type:String, default:''},
     uploaded: {type:String, default:'no'},
     numofpics: {type:Number, default:0},
+    opendate: {type:Date, default:Date.now}
 });
 
 //Data contains the details of each project/treasure
@@ -190,7 +191,13 @@ var Detail = mongoose.model('detail', {
 
     //add comment to discussion
     app.post('/api/disc/', function(req, res){
-        Discussion.save({req}, function(err, docs){
+        var comment = new Discussion();
+        comment._id = new ObjectId();
+        comment.comment = req.body.comment;
+        comment.author = req.body.author;
+        comment.requestid = req.body.requestid;
+
+        comment.save(function(err, docs){
             if(err)
                 res.send(err);
             res.send(docs);
@@ -308,6 +315,19 @@ app.get('/api/Project', function(req, res) {
             res.json(Project);
         });
     });
+
+app.get('/api/Project/id/:id', function(req, res){
+    Project.find({_id: mongoose.Types.ObjectId(req.params.id)}, function(err, users){
+            if(err)
+                res.send(err);
+            res.json(users);
+            console.log(users);
+        });
+    // Project.findById(req.params.id, function(err, project) {
+    //     if(err){ res.send(err); }
+    //     res.send(project);
+    // }
+})
  
  
     app.post('/api/Project', function(req, res) {
@@ -366,6 +386,18 @@ app.get('/api/Project', function(req, res) {
                     });
                   }
                 });
+    });
+
+    app.get('/api/Project/search/:search', function(req, res) {
+        console.log("searching through projects")
+        Project.find( {$text: {$search: req.params.search} },
+                      {score: {$meta: "textScore" } })
+            .sort({score: {$meta: "textScore" }})
+            .exec(function(err, docs) {
+                if(err)
+                    res.send(err);
+                res.json(docs);
+            });
     });
  
 

@@ -18,6 +18,17 @@ export class TreasuresProvider {
       this.data = null;
   }
 
+  getonetreasure(id){
+  	return new Promise(resolve=>{
+  		this.http.get('/api/Project/id/' + id)
+  			.map(res=>res.json())
+  			.subscribe(proj => {
+  				console.log(proj)
+  				resolve(proj);
+  			})
+  	})
+  }
+
   gettreasures() {
 
       if (this.data) {
@@ -82,6 +93,19 @@ export class TreasuresProvider {
         });
   }
 
+  searchtreasures(make:string, model:string, symptoms:string, errorcodes:string){
+  	let headers = new Headers();
+  	headers.append('Content-Type','application/json');
+
+  	let details = make + " " + model + " " + symptoms + " " + errorcodes;
+  	return new Promise(resolve => {
+  		this.http.get('api/Project/search/' + details)
+  		.map(res => res.json() )
+  		.subscribe(data => {
+  			resolve(data);
+  		})
+  	})
+  }
 
 
 }
