@@ -7,12 +7,36 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>searchresult</ion-title>
+    <ion-title>Results</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content class="card-background-page">	
 
-</ion-content>
+	<ion-item>
+		<p>Didn't find what you are looking for?  </p>
+		<p><a (click)="newrequest()">Create a new request</a></p>
+	</ion-item>
+
+	<ion-list >
+
+     <ion-grid>
+		<ion-item *ngFor =" let Userproject of Userprojects; let i  = index ">
+     
+     <ion-row >
+	   <ion-col>  	
+	     <ion-card (click)="showDetails(Userproject)" >
+	     <img src={{this.carlinks[i]}}>   
+	     <div class="card-title" >{{Userproject.year}} {{Userproject.brand}} {{Userproject.model}}      {{i%2==0}}</div>
+	     <div class="card-subtitle">{{Userproject.errorcode}}</div>
+	     </ion-card>
+     </ion-col>
+
+     
+     </ion-row >
+       
+     </ion-item></ion-grid>
+     </ion-list>
+     </ion-content>

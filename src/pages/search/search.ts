@@ -17,7 +17,7 @@ import { TreasuresProvider } from '../../providers/treasuresprovider/treasurespr
   templateUrl: 'search.html',
 })
 export class SearchPage {
-  nrequest: {year:string, make:string, model:string, error:string, symptoms:string};
+  nrequest = {year:'', make:'', model:'', error:'', symptoms:''};
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public auth: AuthService, 
               public tres: TreasuresProvider) {
@@ -30,7 +30,7 @@ export class SearchPage {
   search(){
     this.tres.searchtreasures(this.nrequest.make, this.nrequest.model, this.nrequest.symptoms, this.nrequest.error)
         .then(projects => {
-          this.navCtrl.push(SearchresultPage, projects);
+          this.navCtrl.push(SearchresultPage, {projects: projects, searchparams: this.nrequest});
         })
   }
 

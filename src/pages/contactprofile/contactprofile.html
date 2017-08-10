@@ -21,14 +21,20 @@
   <div class="card">
     <img width="80%" src="../../assets/images/default-profile-picture.png">
     <div class="container">
-      <h1>{{user.fname}} {{user.lname}}</h1>
-      <p class="title">Level: {{user.level}} 
+      <h1>{{contact.fname}} {{contact.lname}}</h1>
+      <p class="title">Level: {{contact.level}} 
         <br> Points: {{total_points | number}} 
-        <br> Expertise: {{user.expertise}}
+        <br> Expertise: {{contact.expertise}}
       </p>
       <p>{{user.shop}}</p>
-      <p>{{user.email}}</p>
-      <button class='profilebutton' (click)="gototreasures()">My Fixes</button>
+      <ion-row>
+        <ion-col>
+          <button class='profilebutton'>View Fixes</button>
+        </ion-col>
+        <ion-col>
+          <button class="profilebutton">Get Help</button>
+        </ion-col>
+      </ion-row>
     </div>
   </div>
 </ion-content>

@@ -91,6 +91,30 @@ export class AuthService {
         })
     
   }
+
+  public getuserbyid(id){
+    var user;
+    this.http.get('/api/user/id/' + id)
+        .map(res => res.json())
+        .subscribe(res => {
+          user = res[0]
+          return user;
+        })
+  }
+
+  public searchbyexpertise(ex){
+    let headers = new Headers();
+    headers.append('Content-Type','application/json');
+
+    let details = ex;
+    return new Promise(resolve => {
+      this.http.get('api/user/search/' + details)
+      .map(res => res.json() )
+      .subscribe(data => {
+        resolve(data);
+      })
+    })
+  }
  
   public logout() {
     return Observable.create(observer => {

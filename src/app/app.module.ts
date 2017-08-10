@@ -14,11 +14,20 @@ import { ProfilePage } from '../pages/profile/profile';
 import { LoginPage } from '../pages/login/login';
 import { RegisterPage } from '../pages/register/register';
 import { SearchPage } from '../pages/search/search';
+import { SearchresultPage } from '../pages/searchresult/searchresult'
 import { ChatPage } from '../pages/chat/chat';
 import { OneChatPage } from '../pages/onechat/onechat';
 import { NewRequestPage } from '../pages/new-request/new-request'
 import { PointsPage } from '../pages/points/points'
 import { EarnpointsPage } from '../pages/earnpoints/earnpoints'
+import { ContactsPage } from '../pages/contacts/contacts';
+import { ContactprofilePage } from '../pages/contactprofile/contactprofile';
+import { OnesearchresultPage } from '../pages/onesearchresult/onesearchresult';
+import { EditprofilePage } from '../pages/editprofile/editprofile';
+import { GroupaddPage } from '../pages/groupadd/groupadd';
+import { GroupsearchPage } from '../pages/groupsearch/groupsearch';
+import { GroupshomePage } from '../pages/groupshome/groupshome';
+
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -28,6 +37,8 @@ import { PointsProvider } from '../providers/points/points';
 import { TreasuresProvider } from '../providers/treasuresprovider/treasuresprovider';
 import { TreasuresDetailProvider } from '../providers/treasuresdetailprovider/treasuresdetailprovider';
 import { TreasureseditproviderProvider } from '../providers/treasureseditprovider/treasureseditprovider';
+import { RelationProvider } from '../providers/relation/relation';
+import { GroupProvider } from '../providers/group/group';
 
 @NgModule({
   declarations: [
@@ -45,7 +56,15 @@ import { TreasureseditproviderProvider } from '../providers/treasureseditprovide
     EarnpointsPage,
       TreasuresPage,
       TreasureDetailPage,
-      TreasuresEditDetailPage
+      TreasuresEditDetailPage,
+      ContactsPage,
+      ContactprofilePage,
+      SearchresultPage,
+      OnesearchresultPage,
+      EditprofilePage,
+      GroupaddPage,
+      GroupsearchPage,
+      GroupshomePage
   ],
   imports: [
     BrowserModule,
@@ -68,7 +87,15 @@ import { TreasureseditproviderProvider } from '../providers/treasureseditprovide
     EarnpointsPage,
     TreasuresPage,
     TreasureDetailPage,
-    TreasuresEditDetailPage
+    TreasuresEditDetailPage,
+      ContactsPage,
+      ContactprofilePage,
+      SearchresultPage,
+      OnesearchresultPage,
+      EditprofilePage,
+      GroupaddPage,
+      GroupsearchPage,
+      GroupshomePage
   ],
   providers: [
     StatusBar,
@@ -79,7 +106,11 @@ import { TreasureseditproviderProvider } from '../providers/treasureseditprovide
     PointsProvider,
     TreasuresProvider,
     TreasuresDetailProvider,
-    TreasureseditproviderProvider
+    TreasureseditproviderProvider,
+    RelationProvider,
+    RelationProvider,
+    GroupProvider,
+    GroupProvider,
   ]
 })
 export class AppModule {}

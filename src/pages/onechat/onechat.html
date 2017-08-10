@@ -19,7 +19,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
+<ion-content #content>
   <ion-item>
     <p>Error codes: {{chat.error}}</p>
     <p>Symptoms: {{chat.symptoms}}</p>
@@ -39,7 +39,9 @@
 
 <ion-footer>
     <form (ngSubmit)="addcomment()" #newcommentform="ngForm">
+      <ion-row>
           <ion-textarea name="ncomment" placeholder="Comment..." [(ngModel)]="ncomment"></ion-textarea>
           <button ion-button clear item-end type="submit"><ion-icon name="send"></ion-icon></button>
+      </ion-row>
     </form>
 </ion-footer>

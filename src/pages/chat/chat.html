@@ -13,8 +13,8 @@
 </ion-header>
 
 <ion-content>
-	<button ion-button (click)='newrequest()'>Create New Request</button>
-  <ion-list>
+<!-- 	<button ion-button (click)='newrequest()'>Create New Request</button>
+ -->  <ion-list>
     <button ion-item *ngFor="let item of chats" (click)="itemTapped($event, item)">
       <ion-thumbnail item-start>
         <img src="img/thumbnail-totoro.png">

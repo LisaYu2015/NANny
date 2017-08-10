@@ -1,4 +1,4 @@
-page-profile {
+page-editprofile {
 	.card {
 	    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 	    margin: auto;
@@ -33,5 +33,11 @@ page-profile {
 	    color: black;
 	}
 
+	 ion-input {
+          background: transparent;
+          border-bottom: 1px solid black;
+          box-shadow: none !important;
+          text-align:center;
+     }
 
 }
