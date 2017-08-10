@@ -1,7 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import { Nav, Platform, ToastController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import * as io from 'socket.io-client';
 
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
@@ -10,6 +11,7 @@ import { ProfilePage } from '../pages/profile/profile';
 import { SearchPage } from '../pages/search/search';
 import { ChatPage } from '../pages/chat/chat';
 import { TreasuresPage} from '../pages/treasures/treasures';
+import { ContactsPage } from '../pages/contacts/contacts';
 
 @Component({
   templateUrl: 'app.html'
@@ -19,22 +21,53 @@ export class MyApp {
 
   rootPage: any = LoginPage;
 
+  socket: any;
+
   pages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,
+              public toast:ToastController) {
     this.initializeApp();
 
     //used for an example of ngFor and navigation
     this.pages = [
       { title: 'Home', component: HomePage },
-      { title: 'Profile', component: ProfilePage },
+      { title: 'Treasures', component: TreasuresPage },
       { title: 'Search', component: SearchPage },
-      { title: 'Requests', component: ChatPage },
-      { title: 'List', component: ListPage },
-      { title: 'Treasures', component: TreasuresPage }
+      { title: 'Contacts', component: ContactsPage },
+      { title: 'Chat', component: ChatPage },
+      { title: 'Profile', component: ProfilePage },
     ];
 
+    // this.socket = io();
+
+    // this.socket.on("comment",(data:any) => {
+    //   console.log(data)
+    //   this.presentToast();
+    // });
+
+    // this.socket.on("chat",(data:any) => {
+    //   console.log(data)
+    //   this.presentToastchat();
+    // });
+
   }
+
+  // presentToast(){
+  //   let toast = this.toast.create({
+  //     message: 'You have a new message',
+  //     duration: 3000
+  //   });
+  //   toast.present();
+  // }
+
+  // presentToastchat(){
+  //   let toast = this.toast.create({
+  //     message: 'Someone has requested you for help',
+  //     duration: 3000
+  //   });
+  //   toast.present();
+  // }
 
   initializeApp() {
     this.platform.ready().then(() => {

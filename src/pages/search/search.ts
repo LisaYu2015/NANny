@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { AuthService } from '../../providers/auth-service/auth-service';
 import { LoginPage } from '../login/login';
+import { SearchresultPage } from '../searchresult/searchresult'
+import { TreasuresProvider } from '../../providers/treasuresprovider/treasuresprovider';
 
 /**
  * Generated class for the SearchPage page.
@@ -15,8 +17,10 @@ import { LoginPage } from '../login/login';
   templateUrl: 'search.html',
 })
 export class SearchPage {
+  nrequest = {year:'', make:'', model:'', error:'', symptoms:''};
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public auth: AuthService) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public auth: AuthService, 
+              public tres: TreasuresProvider) {
   }
 
   ionViewDidLoad() {
@@ -24,7 +28,10 @@ export class SearchPage {
   }
 
   search(){
-
+    this.tres.searchtreasures(this.nrequest.make, this.nrequest.model, this.nrequest.symptoms, this.nrequest.error)
+        .then(projects => {
+          this.navCtrl.push(SearchresultPage, {projects: projects, searchparams: this.nrequest});
+        })
   }
 
   public logout() {

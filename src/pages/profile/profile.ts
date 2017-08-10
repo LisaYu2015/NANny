@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { User, AuthService } from '../../providers/auth-service/auth-service';
 import { LoginPage } from '../login/login';
+import { TreasuresPage } from '../treasures/treasures'
+import { EditprofilePage } from '../editprofile/editprofile'
 
 @Component({
   selector: 'page-profile',
@@ -27,6 +29,14 @@ export class ProfilePage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ProfilePage');
+  }
+
+  editprofile(){
+    this.navCtrl.push(EditprofilePage);
+  }
+
+  gototreasures(){
+    this.navCtrl.setRoot(TreasuresPage);
   }
 
   public logout() {

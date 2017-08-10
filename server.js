@@ -9,10 +9,12 @@ var bodyParser = require('body-parser');    // pull information from HTML POST (
 var methodOverride = require('method-override'); // simulate DELETE and PUT (express4)
 var cors = require('cors');
 var morgan = require('morgan');             // log requests to the console (express4)
+var serve = require('http').createServer(app);
+var io = require("socket.io")(serve);
 
 app.use(express.static('www'));
 app.use(morgan('dev'));                                         // log every request to the console
-app.use(bodyParser.urlencoded({'extended':'true'}));            // parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({'extended':'true'}));            // parse aserverpplication/x-www-form-urlencoded
 app.use(bodyParser.json());                                     // parse application/json
 app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
 app.use(methodOverride());
@@ -31,8 +33,31 @@ app.all('*', function(req, res, next) {
 
 app.set('port', process.env.PORT || 5000);
 
-app.listen(app.get('port'), function () {
+// app.listen(app.get('port'), function () {
+//     console.log('Express server listening on port ' + app.get('port'));
+// });
+
+//added for instant messaginging capability
+serve.listen(app.get('port'), function () {
     console.log('Express server listening on port ' + app.get('port'));
+});
+
+//socketio chat
+io.on('connection', function (socket) {
+    console.log('a user connected');
+    socket.on('disconnect', function () {
+        console.log('user disconnected');
+    });
+ 
+    socket.on('comment', function (msg) {
+        console.log("comment created")
+        socket.broadcast.emit('comment', msg);
+    });
+
+    socket.on('chat', function (msg) {
+        console.log("new chat created")
+        socket.broadcast.emit('chat', msg);
+    });
 });
 
 
@@ -50,6 +75,7 @@ mongoose.connection.on('connected', function () {
 // If the connection throws an error
 mongoose.connection.on('error',function (err) {  
   console.log('Mongoose default connection error: ' + err);
+
 }); 
 // When the connection is disconnected
 mongoose.connection.on('disconnected', function () {  
@@ -120,6 +146,7 @@ var Project = mongoose.model('Project', {
     engine:{type:String, default:''},
     uploaded: {type:String, default:'no'},
     numofpics: {type:Number, default:0},
+    opendate: {type:Date, default:Date.now}
 });
 
 //Data contains the details of each project/treasure
@@ -130,6 +157,163 @@ var Detail = mongoose.model('detail', {
     type:String,
     sentence:String
 });
+
+//Relationships track how mnay times someone has helped someone else
+var Relationship = mongoose.model('relationships', {
+    _id: mongoose.Schema.Types.ObjectId,
+    helper: String,
+    requester: String,
+    n: {type:Number, default:1},
+})
+
+var Group = mongoose.model('groups', {
+    _id: mongoose.Schema.Types.ObjectId,
+    name: {type:String, default:''},
+    nmembers: {type:Number, default:1},
+    basedon: {type:String, default:''},
+    description: {type:String, default:''}
+})
+
+var Membership = mongoose.model('memberships', {
+    _id: mongoose.Schema.Types.ObjectId,
+    groupid: {type:String, default:''},
+    memberid: {type:String, default:''}
+})
+
+// routes for groups and memberships
+    //get group by group id
+    app.get('/api/group/groupid/:groupid', function(req, res){
+        Group.find({_id:req.params.groupid}, function (err, docs){
+            if(err){
+                res.send(err)
+            } else {
+                res.send(docs)
+            }
+        })
+    })
+
+    //get all groups where user is a member
+    app.get('/api/member/userid/:userid', function(req, res){
+        Membership.find({memberid:req.params.userid}, function(err, docs){
+            if(err){
+                res.send(err)
+            } else {
+                res.send(docs)
+            }
+        })
+    })
+
+    //search through groups
+    app.get('/api/group/search/:search', function(req, res) {
+        console.log("searching through groups")
+        User.find( {$text: {$search: req.params.search}},
+                      {score: {$meta: "textScore" } })
+            .sort({score: {$meta: "textScore" }})
+            .exec(function(err, docs) {
+                if(err)
+                    res.send(err);
+                res.json(docs);
+            });
+    });
+
+    //add new group
+    app.post('/api/group', function(req, res) {
+ 
+        console.log("creating group");
+        console.log(req.body);
+
+        var ngroup = new Group();
+        ngroup._id = new ObjectId();
+        ngroup.name = req.body.name;
+        ngroup.description = req.body.description;
+        ngroup.basedon = req.body.basedon;
+        ngroup.save(function(err,docs) {
+            if(err)
+                res.send(err);
+            res.send(docs);
+        })
+    });
+    
+    //join group
+    app.post('/api/member', function(res, req) {
+        console.log("adding membership")
+
+        var mem = new Membership();
+        mem._id = new ObjectId();
+        mem.groupid = req.body.groupid;
+        mem.memberid = req.body.memberid;
+        mem.save(function(err, docs){
+            if(err)
+                res.send(err)
+            res.send(docs);
+        })
+    })
+
+    //unjoin group
+    app.delete('/api/member', function(res, req) {
+        Membership.remove({memberid:req.body.memberid, groupid:req.body.groupid}, function(err, docs){
+            if(err)
+                res.send(err)
+            res.send(docs)
+        })
+    })
+
+//Routes for saving and getting relationships
+    //get all relationships where the requester has a certain id
+    app.get('/api/relation/req/:req', function(req, res) {
+        Relationship.find({requester:req.params.req}, function(err, rel) {
+            if(err){
+                res.send(err)
+            } else {
+                res.send(rel)
+            }
+        })
+    })
+
+    //get all relationships where the helper has a certian id
+    app.get('/api/relation/help/:help', function(req, res) {
+        Relationship.find({helper:req.params.help}, function(err, rel) {
+                if(err){
+                    res.send(err)
+                } else {
+                    res.send(rel)
+                }
+            })
+    })
+
+    //to check for relationships and create new if not there
+    app.post('/api/relation/', function(req, res) {
+        console.log('creating/updating relations')
+        Relationship.find({requester:req.body.requester, helper:req.body.helper}, function(err, rel) {
+            if (err){
+                res.send(err)
+            } else if (!rel && !err){
+                console.log('creating new relation')
+                relation = new Relationship();
+                relation._id = new ObjectId();
+                relation.requester = req.body.requester;
+                relation.helper = req.body.helper;
+                relation.save(function(err, r) {
+                    if (err){
+                        res.send(err);
+                    } else{
+                        res.send(r);
+                    }
+                })
+            }
+            else {
+                console.log('updating relation')
+                rel.n = rel.n + 1;
+                rel.save(function(err, r) {
+                    if (err){
+                        res.send(err);
+                    } else{
+                        res.send(r);
+                    }
+                });
+            }
+        });
+    });
 
 //Routes for requests for one person
     //get list of requests asked by current user
@@ -171,7 +355,6 @@ var Detail = mongoose.model('detail', {
         nquestion.save(function(err, question){
             if(err)
                 res.send(err);
-            console.log("done")
             res.send(question);
         });
  
@@ -184,13 +367,18 @@ var Detail = mongoose.model('detail', {
             if(err)
                 res.send(err);
             res.json(disc);
-            console.log(disc);
         });
     });
 
     //add comment to discussion
     app.post('/api/disc/', function(req, res){
-        Discussion.save({req}, function(err, docs){
+        var comment = new Discussion();
+        comment._id = new ObjectId();
+        comment.comment = req.body.comment;
+        comment.author = req.body.author;
+        comment.requestid = req.body.requestid;
+
+        comment.save(function(err, docs){
             if(err)
                 res.send(err);
             res.send(docs);
@@ -233,6 +421,18 @@ var Detail = mongoose.model('detail', {
     });
 
 //Routes for users(adding/getting)
+    app.get('/api/user/search/:search', function(req, res) {
+        console.log("searching through users for expertise")
+        User.find( {$text: {$search: req.params.search}},
+                      {score: {$meta: "textScore" } })
+            .sort({score: {$meta: "textScore" }})
+            .exec(function(err, docs) {
+                if(err)
+                    res.send(err);
+                res.json(docs);
+            });
+    });
+
     //get all users
     app.get('/api/user/id/:id', function(req, res) {
         console.log("getting one users by id");
@@ -308,6 +508,19 @@ app.get('/api/Project', function(req, res) {
             res.json(Project);
         });
     });
+
+app.get('/api/Project/id/:id', function(req, res){
+    Project.find({_id: mongoose.Types.ObjectId(req.params.id)}, function(err, users){
+            if(err)
+                res.send(err);
+            res.json(users);
+            console.log(users);
+        });
+    // Project.findById(req.params.id, function(err, project) {
+    //     if(err){ res.send(err); }
+    //     res.send(project);
+    // }
+})
  
  
     app.post('/api/Project', function(req, res) {
@@ -372,6 +585,7 @@ app.get('/api/Project', function(req, res) {
     });
 
 
+
     app.delete('/api/Project/:project_id', function(req, res) {
         console.log("deleting project")
         Project.remove({
@@ -382,6 +596,19 @@ app.get('/api/Project', function(req, res) {
 
     });
 
+
+
+    app.get('/api/Project/search/:search', function(req, res) {
+        console.log("searching through projects")
+        Project.find( {$text: {$search: req.params.search}, uploaded:"yes" },
+                      {score: {$meta: "textScore" } })
+            .sort({score: {$meta: "textScore" }})
+            .exec(function(err, docs) {
+                if(err)
+                    res.send(err);
+                res.json(docs);
+            });
+    });
 
  
 

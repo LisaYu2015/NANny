@@ -13,8 +13,6 @@ import { Chat, RequestsProvider } from '../../providers/requests/requests'
 })
 export class ChatPage {
   // selectedItem: any;
-  icons: string[];
-  items: Array<{author:string, title: string, note: string, icon: string}>;
   userid: any;
   chats: any;
   disc: any;
@@ -26,19 +24,6 @@ export class ChatPage {
     // Let's populate this page with some filler content for funzies
 
     this.userid = this.auth.getUserid();
-
-    this.icons = ['flask', 'wifi', 'beer', 'football', 'basketball', 'paper-plane',
-    'american-football', 'boat', 'bluetooth', 'build'];
-
-    this.items = [];
-    for (let i = 1; i < 11; i++) {
-      this.items.push({
-      	author: 'SK' +i,
-        title: '2014 Honda Civic',
-        note: 'These are the symptoms',
-        icon: this.icons[Math.floor(Math.random() * this.icons.length)]
-      });
-    }
   }
 
   ionViewDidLoad() {
@@ -50,6 +35,7 @@ export class ChatPage {
       this.ques.getallrequests(this.userid).then((data) => {
         if(data){
           this.chats = data;
+          console.log(this.chats);
         }
       })
       .catch(function(err){
@@ -61,15 +47,14 @@ export class ChatPage {
     //get one discussion and push to page
     this.ques.getdiscussion(item._id)
     .then((data)=>{
-      if(data){
         this.disc = data;
-      }
+        this.navCtrl.push(OneChatPage, {chat: item, disc: this.disc});
     })
     .catch(function(err){
       alert(err);
     });
 
-  	this.navCtrl.push(OneChatPage, {chat: item});
+  	
   }
 
   newrequest(){

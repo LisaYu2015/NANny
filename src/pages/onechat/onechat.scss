@@ -1,3 +1,33 @@
 page-onechat {
+	.messages-wrapper {
+	  padding-top: 10px;
+	  position: relative;
+	  border: 1px solid #ddd;
+	  border-top: 0 none;
+	  list-style-type:none;
+	}
+	.message {
+	    border-radius: .75rem;
+	    margin: 0 15px 10px;
+	    padding: 1rem;
+	    position: relative;
+	    max-width: 75%;
+	}
+	.message.to {
+	    background-color: #158ffe;
+	    color: #fff;
+	    margin-left: 80px;
+	    text-align:right;
+	}
+	.message.from {
+	    background-color: #e6e5eb;
+	    color: #363636;
+	    margin-right: 80px;
+	}
+	.message.to + .message.to,
+	.message.from + .message.from {
+	  margin-top: -7px;
+	}
+
 
 }

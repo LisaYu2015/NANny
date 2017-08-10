@@ -1,0 +1,60 @@
+<ion-header>
+  <ion-navbar color="dark">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Profile</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="logout()">
+          <ion-icon name="log-out"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+ 
+<ion-content class="home" padding>
+
+<form (ngSubmit)="login()" #changeform="ngForm">
+
+  <div class="card">
+  	<ion-row>
+  		<ion-col>
+  			<img width="80%" src="../../assets/images/default-profile-picture.png">
+		    <ion-fab right bottom>
+		    	<button ion-fab (click)="newprofilepic()"><ion-icon name="create"></ion-icon></button>
+		    </ion-fab>
+  		</ion-col>
+  	</ion-row>
+
+    <div class="container">
+    	<ion-row>
+    		<ion-col>
+    			<h1>
+		    		<ion-input type="text" name="fname" placeholder="{{user.fname}}" [(ngModel)]="newcreds.fname"></ion-input>
+		    	</h1>
+    		</ion-col>
+    		<ion-col>
+    			<h1>
+		    		<ion-input type="text" name="lname" placeholder="{{user.lname}}" [(ngModel)]="newcreds.lname"></ion-input>
+		    	</h1>
+    		</ion-col>
+    	</ion-row>
+    	
+
+      <p class="title">Level: {{user.level}} 
+        <br> Points: {{total_points | number}} 
+        <br><ion-input type="text" name="expertise" placeholder="Expertise: {{user.expertise}}" [(ngModel)]="newcreds.expertise"></ion-input>
+      </p>
+      <p>
+      	<ion-input type="text" name="shop" placeholder="Shop {{user.shop}}" [(ngModel)]="newcreds.shop"></ion-input>
+	      <br>
+      	<ion-input type="text" name="email" placeholder="{{user.email}}" [(ngModel)]="newcreds.email"></ion-input>
+      </p>
+
+      <button class='profilebutton' type="submit" [disabled]="!changeform.form.valid">Save</button>
+    </div>
+  </div>
+
+</form>
+</ion-content>
+

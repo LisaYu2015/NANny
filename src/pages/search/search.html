@@ -20,7 +20,7 @@
 
 
 <ion-content padding>
-	<form (ngSubmit)="search()" #nrequest="ngForm">
+	<form (ngSubmit)="search()" #nrequestform="ngForm">
       <ion-row>
         <ion-col>
           <ion-list inset>
@@ -30,11 +30,11 @@
             </ion-item>
             
             <ion-item>
-              <ion-input type="password" placeholder="Make" name="make" [(ngModel)]="nrequest.make" ></ion-input>
+              <ion-input type="text" placeholder="Make" name="make" [(ngModel)]="nrequest.make" ></ion-input>
             </ion-item>
 
             <ion-item>
-              <ion-input type="text" placeholder="Model" name="Model" [(ngModel)]="nrequest.model"></ion-input>
+              <ion-input type="text" placeholder="Model" name="model" [(ngModel)]="nrequest.model"></ion-input>
             </ion-item>
 
             <ion-item>
@@ -50,7 +50,7 @@
       </ion-row>
       <ion-row>
         <ion-col class="signup-col">
-          <button ion-button class="submit-btn" full type="submit" >Search</button>
+          <button ion-button class="submit-btn" full type="submit" [disabled]="!nrequestform.form.valid" >Search</button>
         </ion-col>
       </ion-row>
       

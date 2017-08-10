@@ -13,16 +13,17 @@
 </ion-header>
 
 <ion-content>
-	<button ion-button (click)='newrequest()'>Create New Request</button>
-  <ion-list>
+<!-- 	<button ion-button (click)='newrequest()'>Create New Request</button>
+ -->  <ion-list>
     <button ion-item *ngFor="let item of chats" (click)="itemTapped($event, item)">
+      <ion-thumbnail item-start>
+        <img src="img/thumbnail-totoro.png">
+      </ion-thumbnail>
       <!-- <ion-icon [name]="item.icon" item-left></ion-icon> -->
-      <ion-row><b>{{item.title}}</b></ion-row>
-      <ion-row>
-	      {{item.author}} is helping you
-	  </ion-row>
-      <div class="date" item-right>
-        Opened: 1/21/17
+      <h2>{{item.year}} {{item.make}} {{item.model}} • {{item.error}}</h2>
+	     <p>{{item.symptoms}}</p>
+      <div class="date" item-end>
+        {{item.opendate}}
       </div>
     </button>
   </ion-list>

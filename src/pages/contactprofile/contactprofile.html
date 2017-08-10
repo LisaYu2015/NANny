@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-navbar color="dark">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Profile</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="logout()">
+          <ion-icon name="log-out"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+ 
+<ion-content class="home" padding>
+            <ion-fab top right>
+              <button ion-fab (click)="editprofile()"><ion-icon name="create"></ion-icon></button>
+            </ion-fab>
+
+
+  <div class="card">
+    <img width="80%" src="../../assets/images/default-profile-picture.png">
+    <div class="container">
+      <h1>{{contact.fname}} {{contact.lname}}</h1>
+      <p class="title">Level: {{contact.level}} 
+        <br> Points: {{total_points | number}} 
+        <br> Expertise: {{contact.expertise}}
+      </p>
+      <p>{{user.shop}}</p>
+      <ion-row>
+        <ion-col>
+          <button class='profilebutton'>View Fixes</button>
+        </ion-col>
+        <ion-col>
+          <button class="profilebutton">Get Help</button>
+        </ion-col>
+      </ion-row>
+    </div>
+  </div>
+</ion-content>
+

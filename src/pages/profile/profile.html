@@ -1,5 +1,4 @@
 <ion-header>
-     <img src="../../assets/images/bosch_background.png" width='100%' height="10px" />
   <ion-navbar color="dark">
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
@@ -14,21 +13,23 @@
 </ion-header>
  
 <ion-content class="home" padding>
-    <h3>{{user.fname}} {{user.lname}} </h3>
-    <h4>Points: {{total_points | number}}</h4>
-    <h4>Level: {{user.level }}</h4>
-    <h4>Expertise: {{user.expertise}}</h4>
-    <img width="100%" src="../../assets/images/default-profile-picture.png">>
-    <p>Joined: {{joindate | date:"MM/dd/yyyy"}}</p>
-    <p>Last Active: {{activedate | date:"MM/dd/yyyy"}}</p>
-    <p>New Fixes: {{fixes | number}}</p>
-    <p>Helps: {{helps | number}}</p>
-  <ion-card>
-    <h3>Recent Fix</h3>
-    Most recent fix will show up here
-  </ion-card>
+            <ion-fab top right>
+              <button ion-fab (click)="editprofile()"><ion-icon name="create"></ion-icon></button>
+            </ion-fab>
+
+
+  <div class="card">
+    <img width="80%" src="../../assets/images/default-profile-picture.png">
+    <div class="container">
+      <h1>{{user.fname}} {{user.lname}}</h1>
+      <p class="title">Level: {{user.level}} 
+        <br> Points: {{total_points | number}} 
+        <br> Expertise: {{user.expertise}}
+      </p>
+      <p>{{user.shop}}</p>
+      <p>{{user.email}}</p>
+      <button class='profilebutton' (click)="gototreasures()">My Fixes</button>
+    </div>
+  </div>
 </ion-content>
 
-<ion-footer>
-     <img src="../../assets/images/bosch_background.png" width='100%' height="10px" />
-</ion-footer>
