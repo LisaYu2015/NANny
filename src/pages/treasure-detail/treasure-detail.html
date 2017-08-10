@@ -7,6 +7,7 @@
 <ion-header>
     <ion-navbar>
         <ion-title>Details</ion-title>
+        
     </ion-navbar>
 
 </ion-header>
@@ -22,6 +23,7 @@
                 <button ion-fab color="danger" (click)="editDetails(ProjID,projectdetails)"><ion-icon name="create"></ion-icon></button>
                 <button ion-fab color="primary" (click)="complete(ProjID)"><ion-icon name={{this.completestatusimg}}></ion-icon></button>
                 <button ion-fab color="green" (click)="upload1(ProjID)"><ion-icon name={{this.projectuploadstatus}}></ion-icon></button>
+                <button ion-fab color="danger" (click)="deleteproject(ProjID._id)"><ion-icon name="trash"></ion-icon></button>
                 </ion-fab-list>
                 </ion-fab>
 

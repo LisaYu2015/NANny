@@ -20,68 +20,90 @@ export class TreasuresProvider {
 
   gettreasures() {
 
-      if (this.data) {
-          return Promise.resolve(this.data);
-      }
+    return new Promise(resolve => {
 
-      return new Promise(resolve => {
-
-          this.http.get('/api/Project')
-              .map(res => res.json())
-              .subscribe(data => {
-                  this.data = data;
-                  resolve(this.data);
-              });
-      });
+      this.http.get('/api/Project')
+          .map(res => res.json())
+          .subscribe(data => {
+              this.data = data;
+              resolve(this.data);
+              console.log(data);
+          });
+    });
   }
 
   posttreasures(project) {
     let headers = new Headers();
-      //project.uploaded="yes"
-          
-      // console.log(project);
+        //project.uploaded="yes"
+            
+        // console.log(project);
 
-      headers.append('Content-Type','application/json');
+    headers.append('Content-Type','application/json');
 
-      return new Promise(resolve => {
+    return new Promise(resolve => {
 
-          this.http.post('/api/Project',JSON.stringify(project), {headers: headers})
-              .map(res => res.json())
-              .subscribe(data => {
-                  resolve(data);
-              });
-      });
+    this.http.post('/api/Project',JSON.stringify(project), {headers: headers})
+        .map(res => res.json())
+        .subscribe(data => {
+            resolve(data);
+            console.log(this.data);
+        });
+                
+    });
 
 
-        // this.http.post('/api/Project',JSON.stringify(project), {headers: headers})
-        // .subscribe(res => {
-        //     console.log(res.json());
-        //     return res.json();
-        // });
+          // this.http.post('/api/Project',JSON.stringify(project), {headers: headers})
+          // .subscribe(res => {
+          //     console.log(res.json());
+          //     return res.json();
+          // });
 
   }
 
+
+    deleteproject(id){
+ 
+    this.http.delete('/api/Project/' + id).subscribe((res) => {
+      console.log(res.json());
+      this.http.delete('/api/detail/project_id/' + id).subscribe((res) => {
+      console.log(res.json());
+    });
+    });    
+ 
+  }
+
+
+
+  
+
   getdata(){
-  	return this.data;
+   	return this.data;
   }
 
   postdetails(details) {
     let headers = new Headers();
-      
+    
 
-      //project.uploaded="yes"
-          
-      console.log(details);
-
-      headers.append('Content-Type','application/json');
-
-        this.http.post('/api/Detail',JSON.stringify(details), {headers: headers})
+    //project.uploaded="yes"
         
-        .subscribe(res => {
-          //console.log(res.json());
-        });
+    console.log(details);
+
+    headers.append('Content-Type','application/json');
+
+    this.http.post('/api/Detail',JSON.stringify(details), {headers: headers})
+    
+    .subscribe(res => {
+      //console.log(res.json());
+    });
   }
 
 
 
+  deletedetails(id){
+ 
+    this.http.delete('/api/Detail/detail_id/' + id).subscribe((res) => {
+      console.log(res.json());
+    });    
+ 
+  }
 }

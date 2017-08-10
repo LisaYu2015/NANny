@@ -16,9 +16,10 @@ import { RegisterPage } from '../pages/register/register';
 import { SearchPage } from '../pages/search/search';
 import { ChatPage } from '../pages/chat/chat';
 import { OneChatPage } from '../pages/onechat/onechat';
-import { NewRequestPage } from '../pages/new-request/new-request'
-import { PointsPage } from '../pages/points/points'
-import { EarnpointsPage } from '../pages/earnpoints/earnpoints'
+import { NewRequestPage } from '../pages/new-request/new-request';
+import { PointsPage } from '../pages/points/points';
+import { EarnpointsPage } from '../pages/earnpoints/earnpoints';
+import { NewProjectPage } from '../pages/new-project/new-project';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -45,7 +46,9 @@ import { TreasureseditproviderProvider } from '../providers/treasureseditprovide
     EarnpointsPage,
       TreasuresPage,
       TreasureDetailPage,
-      TreasuresEditDetailPage
+      TreasuresEditDetailPage,
+      NewProjectPage
+
   ],
   imports: [
     BrowserModule,
@@ -68,7 +71,8 @@ import { TreasureseditproviderProvider } from '../providers/treasureseditprovide
     EarnpointsPage,
     TreasuresPage,
     TreasureDetailPage,
-    TreasuresEditDetailPage
+    TreasuresEditDetailPage,
+    NewProjectPage
   ],
   providers: [
     StatusBar,

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController, ModalController } from 'ionic-angular';
+import { NavController, NavParams, ToastController, ModalController, AlertController } from 'ionic-angular';
 import { TreasuresProvider } from '../../providers/treasuresprovider/treasuresprovider';
 import { TreasuresDetailProvider } from '../../providers/treasuresdetailprovider/treasuresdetailprovider';
 import { Http, HttpModule } from '@angular/http';
@@ -35,7 +35,7 @@ export class TreasureDetailPage {
     completestatusimg = "radio-button-off";
 
 
-    constructor(public navCtrl: NavController, public treasuresService: TreasuresProvider, public navParams: NavParams, public treasuresDetailService: TreasuresDetailProvider, private toastCtrl:ToastController, public modalCtrl : ModalController) {
+    constructor(public navCtrl: NavController, public treasuresService: TreasuresProvider , public alertCtrl: AlertController , public navParams: NavParams, public treasuresDetailService: TreasuresDetailProvider, private toastCtrl:ToastController, public modalCtrl : ModalController) {
         this.ProjID = navParams.data;
         
        
@@ -49,7 +49,7 @@ export class TreasureDetailPage {
             this.details = data;
             for (let i = 0; i < this.details.length; i++) {
                               
-                if (this.details[i].PID==this.ProjID.PID)
+                if (this.details[i].ProjectID==this.ProjID._id)
                 {
                     this.projectdetails.push(this.details[i]);
                     if (this.details[i].type == "problem")
@@ -64,7 +64,7 @@ export class TreasureDetailPage {
                 
             }
             for (let i=1; i<= this.ProjID.numofpics; i++){
-                this.links[i] = "https://s3.amazonaws.com/katcher/PID" + this.ProjID.PID + "/Photo/" + i + ".jpg";
+                this.links[i] = "https://s3.amazonaws.com/katcher/" + this.ProjID._id + "/Photo/" + i + ".jpg";
                 console.log(this.links[i]);
             }
 
@@ -168,4 +168,31 @@ export class TreasureDetailPage {
         modal.present();
         console.log("here12");
       }
+
+
+      deleteproject(id){
+          let confirm = this.alertCtrl.create({
+          title: 'Delete',
+          message: 'Do you want to permanently delete this project and all of the related data?',
+          buttons: [
+          {
+              text: 'delete',
+              handler :() => {
+              this.treasuresService.deleteproject(id);
+
+          }
+          },
+          {
+              text: 'Cancel',
+              handler: () => {
+              console.log('cancel clicked');
+           }
+           }]});
+          confirm.present()
+      }
+      
+
+
+
+
 }

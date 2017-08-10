@@ -3,6 +3,8 @@ import { NavController, NavParams, ModalController, ToastController } from 'ioni
 import { TreasuresProvider } from '../../providers/treasuresprovider/treasuresprovider';
 import { Http } from '@angular/http';
 import { TreasureDetailPage } from '../treasure-detail/treasure-detail';
+import { User, AuthService } from '../../providers/auth-service/auth-service';
+import { NewProjectPage } from '../new-project/new-project';
 
 /**
  * Generated class for the TreasuresPage page.
@@ -20,23 +22,34 @@ export class TreasuresPage {
     projects: any;
     test: any;
     links= [];
-    carlinks= []; 
+    carlinks= [];
     ProjID : any;
     buttonimg=[];
-    UserID=1;
     Userprojects =[];
+    UserID : any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public treasuresService: TreasuresProvider, public modalCtrl: ModalController, public http : Http, private toastCtrl : ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public treasuresService: TreasuresProvider, public modalCtrl: ModalController , private auth: AuthService, public http : Http, private toastCtrl : ToastController) {
+  this.UserID = this.auth.getUserid();
+  console.log(this.auth.getUserid());
   }
 
   ionViewDidLoad() {
-      console.log('ionViewDidLoad TreasuresPage');
-      this.treasuresService.gettreasures().then((data) => {
+      console.log('ionViewDidLoad TreasuresPage');}
+
+      ionViewDidEnter(){
+        console.log("Ion view enter")
+        this.projects=[];
+        this.Userprojects=[];
+        this.treasuresService.gettreasures().then((data) => {
           this.projects = data;
+          console.log(this.projects);
+          console.log("hier");
 
           for (let i=0; i < this.projects.length; i++) {
-              if (this.projects[i].TID == this.UserID)
+            
+              if (this.projects[i].Userid == this.UserID)
                 this.Userprojects.push(this.projects[i]);
+
 
           for (let i=0; i < this.Userprojects.length; i++) {
               this.carlinks[i] = "https://s3.amazonaws.com/katcher/Brands/" + this.Userprojects[i].brand +"/"+ this.Userprojects[i].model + ".jpg"; 
@@ -96,6 +109,26 @@ export class TreasuresPage {
 
       this.treasuresService.posttreasures(project);
 
+      }
+
+
+        addProject(){
+
+      //this.navCtrl.push(TreasuresEditDetailPage, {project,details});
+        let modal = this.modalCtrl.create(NewProjectPage);
+        modal.onDidDismiss(data => {
+          console.log(data);
+          console.log('jetzt');
+          //this.projects.push(data);
+          let toast = this.toastCtrl.create({
+          message: 'Your project was created and will be shown on the next refresh of the page.',
+          duration:2000,
+          position:'middle'
+      });
+      toast.present();
+        })
+        modal.present();
+        console.log("here12");
       }
       
     

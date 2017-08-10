@@ -1,0 +1,76 @@
+<ion-header>
+
+  <ion-navbar>
+   	<ion-title>Add a new Project</ion-title>
+   	
+   	  <button ion-button top right color="light" (click)="dismiss()">
+          <ion-icon name="close"></ion-icon>
+      </button>
+
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+
+     
+<ion-list>
+       
+            <ion-item>
+            <ion-label stacked>
+                Year
+            </ion-label>
+            <ion-input type="number" placeholder="Enter Year"    [(ngModel)]="this.newyear"></ion-input>
+            </ion-item>
+
+            <ion-item>
+            <ion-label stacked>
+                Brand
+            </ion-label>
+            <ion-input type="text" placeholder="Enter Brand" [(ngModel)]="this.newbrand"></ion-input>
+            </ion-item>	
+
+            <ion-item>
+            <ion-label stacked>
+                Model
+            </ion-label>
+            <ion-input type="text" placeholder="Enter Model" [(ngModel)]="this.newmodel"></ion-input>
+            </ion-item>
+
+            <ion-item>
+            <ion-label stacked>
+                Error Code
+            </ion-label>
+            <ion-input type="text" placeholder="Enter Error Code" [(ngModel)]="this.newerrorcode"></ion-input>
+            </ion-item>
+</ion-list>
+
+     
+<ion-list>
+
+			
+        	<ion-item *ngFor =" let projectsymptom of projectsymptoms; let i = index ">
+        		<ion-label stacked>Symptom: {{i+1}}</ion-label>
+        		<ion-input type="text" placeholder="Enter Symptoms here"     [(ngModel)]="this.newprojectsymptoms[i]"></ion-input>
+        	</ion-item>
+        	<button ion-button (click)="addsymptom()"><ion-icon name="add" >Add Symptom</ion-icon></button>
+			
+			<ion-item *ngFor =" let projectdiagnosi of projectdiagnosis; let i = index ">
+        		<ion-label stacked>Diagnosis Step: {{i+1}}</ion-label>
+        		<ion-input type="text" placeholder="Enter Diagnosis"   [(ngModel)]="this.newprojectdiagnosis[i]"></ion-input>	
+        	</ion-item>
+        	<button ion-button (click)="adddiagnosis()"><ion-icon name="add" >Add Diagnosis</ion-icon></button>
+        	
+        	<ion-item *ngFor =" let projectconclusion of projectconclusions; let i = index ">
+        		<ion-label stacked>Conclusion: {{i+1}}</ion-label>
+        		<ion-input type="text" placeholder="Enter Conclusion"   [(ngModel)]="this.newprojectconclusions[i]"></ion-input>
+        	</ion-item>
+        	<button ion-button (click)="addconclusion()"><ion-icon name="add" >Add Conclusion</ion-icon></button>
+        	
+
+<ion-item>
+<button ion-button full large round (click)="save()">Save</button>
+</ion-item>  
+

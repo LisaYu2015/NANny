@@ -25199,7 +25199,6 @@ ion-navbar.toolbar {
   }
 }
 
-<<<<<<< HEAD
 page-home ion-card-header {
   font-weight: bold;
 }
@@ -25303,7 +25302,8 @@ page-register .item-inner {
 page-register .submit-btn {
   border-radius: 30px !important;
   border: 1px solid #ffffff;
-=======
+}
+
 page-treasures .card-background-page ion-card {
   position: relative;
   text-align: center;
@@ -25331,5 +25331,4 @@ page-treasures .card-background-page .sharebutton {
   position: absolute;
   top: 0%;
   color: #FCFCFC;
->>>>>>> master
 }

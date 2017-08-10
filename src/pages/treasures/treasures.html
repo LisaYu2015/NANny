@@ -10,6 +10,10 @@
       <button ion-button menuToggle>
           <ion-icon name="menu"></ion-icon>
       </button>
+      <ion-buttons end>
+      <button ion-button (click)="addProject()"><ion-icon name="add">Add Project</ion-icon></button>
+      </ion-buttons>
+
   </ion-navbar>
 
 </ion-header>
@@ -18,16 +22,17 @@
 <ion-content class="card-background-page">	
 
 
-	<ion-list >
+	<ion-list>
 
      <ion-grid>
-		<ion-item *ngFor =" let Userproject of Userprojects; let i  = index ">
+
+		 <ion-item *ngFor =" let Userproject of Userprojects; let i  = index ">
      
      <ion-row >
 	   <ion-col>  	
      <ion-card (click)="showDetails(Userproject)" >
      <img src={{this.carlinks[i]}}>   
-     <div class="card-title" >{{Userproject.year}} {{Userproject.brand}} {{Userproject.model}}      {{i%2==0}}</div>
+     <div class="card-title" >{{Userproject.year}} {{Userproject.brand}} {{Userproject.model}}</div>
      <div class="card-subtitle">{{Userproject.errorcode}}</div>
      </ion-card>
      <button class="sharebutton" ion-button icon-only (click)="upload(Userproject, i)"><ion-icon name={{this.buttonimg[i]}}></ion-icon></button>

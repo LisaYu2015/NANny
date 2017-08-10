@@ -40,7 +40,7 @@ app.listen(app.get('port'), function () {
 var mongoose = require('mongoose'); 
 var assert = require('assert');
 console.log("Anyone here?");
-var local = 'mongodb://localhost:27017/mydb';
+var local = 'mongodb://localhost:27017/testdb';
 var url2 = 'mongodb://bosch:bosch@ec2-54-87-140-197.compute-1.amazonaws.com:27017/test';
 mongoose.connect(local); 
 // When successfully connected
@@ -325,6 +325,7 @@ app.get('/api/Project', function(req, res) {
                     project.model = req.body.model;
                     project.errorcode = req.body.error;
                     project.symptoms = req.body.symptoms;
+                    project.Userid = req.body.Userid;
 
                     project.save(function(err, proj) {
                       if (err)
@@ -334,6 +335,7 @@ app.get('/api/Project', function(req, res) {
                     }
                       else
                         {console.log(project);
+                            console.log("abc");
                         console.log('success')
                         res.send(proj);
                         }
@@ -342,6 +344,7 @@ app.get('/api/Project', function(req, res) {
                   } else {
                     // do your updates here
                                 // project._id = req.body._id;
+                    
                     project.PID =req.body.PID;
                     project.TID = req.body.TID;
                     project.year= req.body.year;
@@ -367,6 +370,19 @@ app.get('/api/Project', function(req, res) {
                   }
                 });
     });
+
+
+    app.delete('/api/Project/:project_id', function(req, res) {
+        console.log("deleting project")
+        Project.remove({
+            _id : req.params.project_id
+        }, function(err, project) {
+        res.send(project);
+        });
+
+    });
+
+
  
 
     app.get('/api/Detail', function (req, res) {
@@ -394,12 +410,36 @@ app.get('/api/Project', function(req, res) {
         Detail.findById(req.body._id, function(err, detail) {
           if (!detail)
             {console.log("here");
-        console.log(detail);
-        res.send(new Error('Could not load Document'));}
+                        
+
+            detail = new Detail();
+            detail._id = new ObjectId();
+            detail.ProjectID = req.body.ProjectID;
+            detail.type = req.body.type;
+            detail.sentence = req.body.sentence;
+            detail.save(function(err, det) {
+                if (err)
+                {
+                    console.log('error');
+                    console.log(err);
+                    res.send(err);
+                }
+                else
+                {
+                    console.log(detail);
+                    console.log('success');
+                    res.send(det);
+                }
+            })
+
+
+
+        }
+
             else {
             // do your updates here
                         // project._id = req.body._id;
-                detail.PID =req.body.PID;
+                detail.ProjectID =req.body.ProjectID;
                 detail.type = req.body.type;
                 detail.sentence= req.body.sentence;
 
@@ -417,27 +457,22 @@ app.get('/api/Project', function(req, res) {
  
     });
 
+    app.delete('/api/Detail/project_id/:project_id', function(req, res) {
+        console.log("deleting details")
+        Detail.remove({
+            ProjectID : req.params.project_id
 
+        }, function(err, detail) {
+        res.send(detail);
+        });
+    });
 
+        app.delete('/api/Detail/detail_id/:detail_id', function(req, res) {
+        console.log("deleting detail")
+        Detail.remove({
+            _id : req.params.detail_id
 
-
-// // Bucket names must be unique across all S3 users
-
-// var myBucket = 'katcher';
-// // var myKey = 'myBucketKey';
-
-// s3.createBucket({Bucket: myBucket}, function(err, data) {
-
-// if (err) {
-//     console.log(err);
-// } else {
-//      params = {Bucket: myBucket, 'Hello!'};
-//      s3.putObject(params, function(err, data) {
-//          if (err) {
-//              console.log(err)
-//          } else {
-//              console.log("Successfully uploaded data to myBucket/myKey");
-//          }
-//       });
-//    }
-// });
+        }, function(err, detail) {
+        res.send(detail);
+        });
+    });

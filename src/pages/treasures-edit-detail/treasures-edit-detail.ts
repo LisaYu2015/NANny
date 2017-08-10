@@ -1,13 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController, AlertController } from 'ionic-angular';
 import { TreasuresProvider } from '../../providers/treasuresprovider/treasuresprovider';
-
-/**
- * Generated class for the TreasuresEditDetailPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
+import { TreasureDetailPage } from '../treasure-detail/treasure-detail';
 
 @Component({
   selector: 'page-treasures-edit-detail',
@@ -20,19 +14,20 @@ export class TreasuresEditDetailPage {
 	newmodel : any;
 	newerrorcode : any;
 	projdetails : any;
-	projectproblems = [];
-    projectconclusions = [];
-    projectdiagnosis = [];
-    projectsymptoms = [];
-    newprojectproblems = [] ;
-    newprojectconclusions = [];
-    newprojectdiagnosis = [] ;
-    newprojectsymptoms = [];
-    details : any ;
+	projectproblems= [];
+  projectconclusions = [];
+  projectdiagnosis = [];
+  projectsymptoms = [];
+  newprojectproblems = [] ;
+  newprojectconclusions = [];
+  newprojectdiagnosis = [] ;
+  newprojectsymptoms = [];
+
+ 
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl:ViewController, public alertCtrl: AlertController , public treasuresService: TreasuresProvider) {
   	this.ProjID=navParams.get('project');
-  	this.projdetails=navParams.get('details');
+  	  this.projdetails=navParams.get('details');
   	}
 
   ionViewDidLoad() {
@@ -41,8 +36,8 @@ export class TreasuresEditDetailPage {
 	this.newbrand=this.ProjID.brand;
 	this.newmodel=this.ProjID.model;
 	this.newerrorcode=this.ProjID.errorcode;
-
-
+console.log(this.ProjID);
+console.log(this.projdetails);
     
 
 
@@ -72,7 +67,7 @@ export class TreasuresEditDetailPage {
 
   save() {
 
-  	this.details=[];
+
 
   	let confirm = this.alertCtrl.create({
   		title: 'Save',
@@ -81,7 +76,7 @@ export class TreasuresEditDetailPage {
   		{
   			text: 'Save',
   			handler :() => {
-  				console.log(this.newbrand);
+  				
 
   				if (this.newyear!=this.ProjID.year || this.newbrand!=this.ProjID.brand || this.newmodel!=this.ProjID.model || this.newerrorcode!=this.ProjID.errorcode )
   					{this.ProjID.year=this.newyear;
@@ -93,36 +88,85 @@ export class TreasuresEditDetailPage {
   					}
 		
 
-  				for (let i = 0; i < this.projectproblems.length; i++) {
-  					if (this.newprojectproblems[i]!=this.projectproblems[i].sentence)
+  				for (let i = 0; i < this.newprojectproblems.length; i++) {
+  					if (this.newprojectproblems[i]!=this.projectproblems[i].sentence&&this.newprojectproblems[i]!="")
   						{	
   							this.projectproblems[i].sentence=this.newprojectproblems[i];
-  							this.treasuresService.postdetails(this.projectproblems[i]);
+  							let projdetails ={
+              _id:this.projectproblems[i]._id,
+							ProjectID:this.ProjID._id,
+							type:"problem",
+							sentence:this.newprojectproblems[i],
+							}
+							this.treasuresService.postdetails(projdetails);
   						}
+              else if (this.newprojectproblems[i]=="")
+              {
+
+              }
   				}
   				for (let i = 0; i < this.projectconclusions.length; i++) {
-  					if (this.newprojectconclusions[i]!=this.projectconclusions[i].sentence)
+  					if (this.newprojectconclusions[i]!=this.projectconclusions[i].sentence&&this.newprojectconclusions[i]!="")
   						{	
   							this.projectconclusions[i].sentence=this.newprojectconclusions[i];
-  							this.treasuresService.postdetails(this.projectconclusions[i]);
+  							let projdetails ={
+                _id:this.projectconclusions[i]._id,
+	  						ProjectID:this.ProjID._id,
+	  						type:"conclusion",
+	  						sentence:this.newprojectconclusions[i],
+	  						}
+	  						this.treasuresService.postdetails(projdetails);
   						}
+              else if (this.newprojectconclusions[i]==""&&this.projectconclusions[i]._id!=null)
+              {
+                  this.treasuresService.deletedetails(this.projectconclusions[i]._id);
+              }
+  						
   				}
   				for (let i = 0; i < this.projectdiagnosis.length; i++) {
-  					if (this.newprojectdiagnosis[i]!=this.projectdiagnosis[i].sentence)
+  					if (this.newprojectdiagnosis[i]!=this.projectdiagnosis[i].sentence&&this.newprojectdiagnosis[i]!="")
   						{	
   							this.projectdiagnosis[i].sentence=this.newprojectdiagnosis[i];
-  							this.treasuresService.postdetails(this.projectdiagnosis[i]);
+  							let projdetails ={
+                _id:this.projectdiagnosis[i]._id,
+	  						ProjectID:this.ProjID._id,
+	  						type:"diagnosis",
+	  						sentence:this.newprojectdiagnosis[i],
+	  						}
+	  						this.treasuresService.postdetails(projdetails);
   						}
+              else if (this.newprojectdiagnosis[i]==""&&this.projectdiagnosis[i]._id!=null)
+              {
+                  this.treasuresService.deletedetails(this.projectdiagnosis[i]._id);
+              }
   				}
   				for (let i = 0; i < this.projectsymptoms.length; i++) {
-  					if (this.newprojectsymptoms[i]!=this.projectsymptoms[i].sentence)
+  					if (this.newprojectsymptoms[i]!=this.projectsymptoms[i].sentence&&this.newprojectsymptoms[i]!="")
   						{	
   							console.log("a");
   							this.projectsymptoms[i].sentence=this.newprojectsymptoms[i];
-  							this.treasuresService.postdetails(this.projectsymptoms[i]);
+  							let projdetails ={
+                _id:this.projectsymptoms[i]._id,
+	  						ProjectID:this.ProjID._id,
+	  						type:"symptom",
+	  						sentence:this.newprojectsymptoms[i],
+	  						}
+	  						this.treasuresService.postdetails(projdetails);
   						}
+              else if (this.newprojectsymptoms[i]==""&&this.projectsymptoms[i]._id!=null)
+              {
+                  this.treasuresService.deletedetails(this.projectsymptoms[i]._id);
+              }
+
   				}
-  				this.viewCtrl.dismiss();
+
+
+
+
+          
+  				this.viewCtrl.dismiss(); 
+
+          
   			
   		}},
   			{
@@ -140,4 +184,32 @@ export class TreasuresEditDetailPage {
   }
 
 
-}
+ addsymptom(){
+  	this.newprojectsymptoms[this.newprojectsymptoms.length]="";
+  	this.projectsymptoms.push(
+    {
+      ProjectID:this.ProjID._id,
+      type:"symptom",
+      sentence:"",
+    })
+  	}
+
+adddiagnosis(){
+	this.newprojectdiagnosis[this.newprojectdiagnosis.length]="";
+	this.projectdiagnosis.push(
+                {
+                ProjectID:this.ProjID._id,
+                type:"symptom",
+                sentence:"",
+                });
+	}
+
+addconclusion(){
+	this.newprojectconclusions[this.newprojectconclusions.length]="";
+	this.projectconclusions.push(
+                {
+                ProjectID:this.ProjID._id,
+                type:"conclusion",
+                sentence:"",
+                });
+}}

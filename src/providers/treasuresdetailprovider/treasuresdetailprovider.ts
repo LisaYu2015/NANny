@@ -20,9 +20,7 @@ export class TreasuresDetailProvider {
 
     gettreasuresdetail() {
 
-        if (this.data) {
-            return Promise.resolve(this.data);
-        }
+
 
         return new Promise(resolve => {
             
@@ -32,6 +30,7 @@ export class TreasuresDetailProvider {
                 .subscribe(data => {
                     this.data = data;
                     resolve(this.data);
+                    console.log(data);
                 });
             
         });
