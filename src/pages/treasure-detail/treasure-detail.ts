@@ -33,6 +33,7 @@ export class TreasureDetailPage {
     projectsymptoms = [];
     projectuploadstatus = "cloud-upload";
     completestatusimg = "radio-button-off";
+    counter = Array;
 
 
     constructor(public navCtrl: NavController, public treasuresService: TreasuresProvider , public alertCtrl: AlertController , public navParams: NavParams, public treasuresDetailService: TreasuresDetailProvider, private toastCtrl:ToastController, public modalCtrl : ModalController) {

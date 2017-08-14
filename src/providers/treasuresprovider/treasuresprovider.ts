@@ -43,20 +43,6 @@ export class TreasuresProvider {
     });
   }
 
-  getuploadedtreasures() {
-
-    return new Promise(resolve => {
-
-      this.http.get('/api/Project/alluploaded')
-          .map(res => res.json())
-          .subscribe(data => {
-              this.data = data;
-              resolve(this.data);
-              console.log(data);
-          });
-    });
-  }
-
   posttreasures(project) {
     let headers = new Headers();
         //project.uploaded="yes"
@@ -122,12 +108,11 @@ export class TreasuresProvider {
     });
   }
 
-  searchtreasures(search:string){
+  searchtreasures(make:string, model:string, symptoms:string, errorcodes:string){
   	let headers = new Headers();
   	headers.append('Content-Type','application/json');
 
-  	// let details = make + " " + model + " " + symptoms + " " + errorcodes;
-    let details = search;
+  	let details = make + " " + model + " " + symptoms + " " + errorcodes;
   	return new Promise(resolve => {
   		this.http.get('api/Project/search/' + details)
   		.map(res => res.json() )

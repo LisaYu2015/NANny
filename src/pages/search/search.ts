@@ -35,18 +35,18 @@ export class SearchPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SearchPage');
-    this.tres.getuploadedtreasures().then(data=>{
-        this.projects = data
-        this.display();
-      })
+    // this.tres.getuploadedtreasures().then(data=>{
+    //     this.projects = data
+    //     this.display();
+    //   })
   }
 
   search(){
     let search = this.nrequest.make + " " + this.nrequest.model + " " + this.nrequest.symptoms + " " + this.nrequest.error
-    this.tres.searchtreasures(search)
-        .then(projects => {
-          this.navCtrl.push(SearchresultPage, {projects: projects, searchparams: this.nrequest});
-        })
+    // this.tres.searchtreasures(search)
+    //     .then(projects => {
+    //       this.navCtrl.push(SearchresultPage, {projects: projects, searchparams: this.nrequest});
+    //     })
   }
 
   display(){
@@ -71,12 +71,12 @@ export class SearchPage {
     console.log(val)
      //get value of the searchbar
     if(val != ''){
-      this.searchval = true;
-      this.tres.searchtreasures(val).then(data=>{
-        console.log(data)
-        this.projects = data;
-        this.display();
-      })
+      // this.searchval = true;
+      // this.tres.searchtreasures(val).then(data=>{
+      //   console.log(data)
+      //   this.projects = data;
+      //   this.display();
+      // })
     } else {
       this.ionViewDidLoad();
     }

@@ -67,7 +67,7 @@ io.on('connection', function (socket) {
 var mongoose = require('mongoose'); 
 var assert = require('assert');
 console.log("Anyone here?");
-var local = 'mongodb://localhost:27017/mydb';
+var local = 'mongodb://localhost:27017/testdb';
 var url2 = 'mongodb://bosch:bosch@ec2-54-87-140-197.compute-1.amazonaws.com:27017/test';
 mongoose.connect(local); 
 // When successfully connected
@@ -158,6 +158,7 @@ var Detail = mongoose.model('detail', {
     type:String,
     sentence:String,
     step: {type:Number, default:0},
+    numpic: {type:Number, default:0},
 });
 
 //Relationships track how mnay times someone has helped someone else
@@ -536,9 +537,6 @@ app.get('/api/Project/Userid/:id', function(req, res) {
         });
     });
 
-<<<<<<< HEAD
-
-=======
 app.get('/api/Project/alluploaded', function(req, res) {
  
         console.log("fetching Projects");
@@ -552,7 +550,7 @@ app.get('/api/Project/alluploaded', function(req, res) {
             res.json(Project);
         });
     });
->>>>>>> master
+
 
 app.get('/api/Project/id/:id', function(req, res){
     Project.find({_id: mongoose.Types.ObjectId(req.params.id)}, function(err, users){
@@ -707,6 +705,7 @@ app.get('/api/Project/id/:id', function(req, res){
             detail.type = req.body.type;
             detail.sentence = req.body.sentence;
             detail.step = req.body.step;
+            detail.numpic = req.body.numpic;
             detail.save(function(err, det) {
                 if (err)
                 {
@@ -733,6 +732,7 @@ app.get('/api/Project/id/:id', function(req, res){
                 detail.type = req.body.type;
                 detail.sentence= req.body.sentence;
                 detail.step = req.body.step;
+                detail.numpic =     req.body.numpic;
 
     
                 detail.save(function(err, det) {

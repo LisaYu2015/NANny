@@ -33,15 +33,27 @@
             </ion-card-title>
             <p>Error Code: {{this.ProjID.errorcode}}</p>         
             <ul>Symptoms:
-            <li *ngFor =" let projectsymptom of projectsymptoms; let i = index ">{{this.projectsymptom.sentence}} </li>  
+            <li *ngFor =" let projectsymptom of projectsymptoms; let i = index ">{{this.projectsymptom.sentence}}  
+            <p *ngFor =" let loop of counter(projectsymptoms[i].numpic); let j = index " >
+            <img src="https://s3.amazonaws.com/katcher/{{projectsymptoms[i]._id}}/{{j+1}}.jpg"/>
+            </p>
+            </li>
             </ul>
             <p></p>
             <ul>Diagnosis:
-            <li *ngFor =" let projectdiagnosi of projectdiagnosis; let i = index ">{{this.projectdiagnosi.sentence}} </li>  
+            <li *ngFor =" let projectdiagnosi of projectdiagnosis; let i = index ">{{this.projectdiagnosi.sentence}}
+            <p *ngFor =" let loop of counter(projectdiagnosis[i].numpic); let j = index " >
+            <img src="https://s3.amazonaws.com/katcher/{{this.projectdiagnosi._id}}/{{j+1}}.jpg"/>
+            </p>
+            </li>  
             </ul>
             <p></p>
             <ul>conclusion:
-            <li *ngFor =" let projectconclusion of projectconclusions; let i = index ">{{this.projectconclusion.sentence}} </li>  
+            <li *ngFor =" let projectconclusion of projectconclusions; let i = index ">{{this.projectconclusion.sentence}} 
+            <p *ngFor =" let loop of counter(projectconclusions[i].numpic); let j = index " >
+            <img src="https://s3.amazonaws.com/katcher/{{this.projectconclusion._id}}/{{j+1}}.jpg"/>
+            </p>
+            </li>  
             </ul>
 
              <p *ngFor =" let link of links; let i = index ">
