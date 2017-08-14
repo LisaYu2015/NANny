@@ -29,11 +29,11 @@ export class TreasuresProvider {
   	})
   }
 
-  gettreasures() {
+  getusertreasures(id) {
 
     return new Promise(resolve => {
 
-      this.http.get('/api/Project')
+      this.http.get('/api/Project/UserID/' + id)
           .map(res => res.json())
           .subscribe(data => {
               this.data = data;
@@ -57,7 +57,7 @@ export class TreasuresProvider {
         .map(res => res.json())
         .subscribe(data => {
             resolve(data);
-            console.log(this.data);
+            console.log(data);
         });
                 
     });
@@ -130,4 +130,24 @@ export class TreasuresProvider {
     });    
  
   }
+
+
+uploadimg(img){
+
+  let headers = new Headers();
+  console.log("gah")
+
+  this.http.post('/api/img', JSON.stringify(img), {headers: headers})
+
+  .subscribe(res => {
+    console.log(res.json());
+    console.log("abc");
+  });
 }
+
+
+
+}
+
+
+

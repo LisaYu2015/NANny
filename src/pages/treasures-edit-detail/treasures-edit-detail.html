@@ -7,12 +7,14 @@
 <ion-header>
 
   <ion-navbar>
+  <ion-item>
    	<ion-title>Edit</ion-title>
    	
-   	  <button ion-button top right color="light" (click)="dismiss()">
+   	  <button item-end ion-button color="danger" (click)="dismiss()">
           <ion-icon name="close"></ion-icon>
       </button>
-
+      
+      </ion-item>
   </ion-navbar>
 
 </ion-header>
@@ -59,21 +61,29 @@
         	<ion-item *ngFor =" let projectsymptom of projectsymptoms; let i = index ">
         		<ion-label stacked>Symptom: {{i+1}}</ion-label>
         		<ion-input type="text" placeholder="{{newprojectsymptoms[i]}}"     [(ngModel)]="newprojectsymptoms[i]"></ion-input>
+        		<button ion-button item-end ><ion-icon name="camera"></ion-icon></button>
+        		<button ion-button item-end ><ion-icon name="film"></ion-icon></button>
         	</ion-item>
+
         	<button ion-button (click)="addsymptom()"><ion-icon name="add" >Add Symptom</ion-icon></button>
-			<ion-item><ion-input type="text" placeholder="{{newprojectsymptoms[i]}}"     [(ngModel)]="newprojectsymptoms[i]"></ion-input></ion-item>
+
 			<ion-item *ngFor =" let projectdiagnosi of projectdiagnosis; let i = index ">
-        		<ion-label stacked>Diagnosis Step: {{i+1}}</ion-label>
+				<ion-label stacked>Diagnosis Step: {{i+1}}</ion-label>
         		<ion-input type="text" placeholder="{{newprojectdiagnosis[i]}}"   [(ngModel)]="newprojectdiagnosis[i]"></ion-input>	
+        		<button ion-button item-end ><ion-icon name="camera"></ion-icon></button>
+        		<button ion-button item-end ><ion-icon name="film"></ion-icon></button>
         	</ion-item>
         	<button ion-button (click)="adddiagnosis()"><ion-icon name="add" >Add Diagnosis</ion-icon></button>
-        	<ion-item><ion-input type="text" placeholder="{{newprojectdiagnosis[i]}}"   [(ngModel)]="newprojectdiagnosis[i]"></ion-input></ion-item>
+
         	<ion-item *ngFor = " let projectconclusion of projectconclusions; let i = index ">
         		<ion-label stacked>Conclusion: {{i+1}}</ion-label>
         		<ion-input type="text" placeholder="{{newprojectconclusions[i]}}"   [(ngModel)]="newprojectconclusions[i]"></ion-input>
+        		<button ion-button item-end ><ion-icon name="camera"></ion-icon></button>
+        		<button ion-button item-end ><ion-icon name="film"></ion-icon></button>
         	</ion-item>
-        	<ion-item><ion-input type="text" placeholder="{{newprojectconclusions[i]}}"   [(ngModel)]="newprojectconclusions[i]"></ion-input></ion-item>
         	<button ion-button (click)="addconclusion()"><ion-icon name="add" >Add Conclusion</ion-icon></button>
+        	
+        	
 
 
 </ion-list>  

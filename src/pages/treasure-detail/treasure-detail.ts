@@ -164,6 +164,7 @@ export class TreasureDetailPage {
       editDetails(project,details){
 
       //this.navCtrl.push(TreasuresEditDetailPage, {project,details});
+        this.navCtrl.pop();
         let modal = this.modalCtrl.create(TreasuresEditDetailPage, {project, details} );
         modal.present();
         console.log("here12");
@@ -179,6 +180,9 @@ export class TreasureDetailPage {
               text: 'delete',
               handler :() => {
               this.treasuresService.deleteproject(id);
+              this.navCtrl.pop(TreasureDetailPage);
+
+
 
           }
           },

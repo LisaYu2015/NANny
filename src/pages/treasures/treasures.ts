@@ -39,22 +39,17 @@ export class TreasuresPage {
       ionViewDidEnter(){
         console.log("Ion view enter")
         this.projects=[];
-        this.Userprojects=[];
-        this.treasuresService.gettreasures().then((data) => {
+        this.treasuresService.getusertreasures(this.UserID).then((data) => {
           this.projects = data;
           console.log(this.projects);
           console.log("hier");
 
+
+
           for (let i=0; i < this.projects.length; i++) {
-            
-              if (this.projects[i].Userid == this.UserID)
-                this.Userprojects.push(this.projects[i]);
-
-
-          for (let i=0; i < this.Userprojects.length; i++) {
-              this.carlinks[i] = "https://s3.amazonaws.com/katcher/Brands/" + this.Userprojects[i].brand +"/"+ this.Userprojects[i].model + ".jpg"; 
-              this.links[i] = "https://s3.amazonaws.com/katcher/PID" + this.Userprojects[i].PID + "/Photo/1.jpg";       
-              if (this.Userprojects[i].uploaded=="yes")
+              this.carlinks[i] = "https://s3.amazonaws.com/katcher/Brands/" + this.projects[i].brand +"/"+ this.projects[i].model + ".jpg"; 
+              this.links[i] = "https://s3.amazonaws.com/katcher/PID" + this.projects[i].PID + "/Photo/1.jpg";       
+              if (this.projects[i].uploaded=="yes")
               this.buttonimg[i]="cloud-done";
               else
               this.buttonimg[i]="cloud-upload";
@@ -63,8 +58,8 @@ export class TreasuresPage {
 
           }
 
-      }});
-  }
+      })};
+  
 
 
 
@@ -120,12 +115,7 @@ export class TreasuresPage {
           console.log(data);
           console.log('jetzt');
           //this.projects.push(data);
-          let toast = this.toastCtrl.create({
-          message: 'Your project was created and will be shown on the next refresh of the page.',
-          duration:2000,
-          position:'middle'
-      });
-      toast.present();
+
         })
         modal.present();
         console.log("here12");

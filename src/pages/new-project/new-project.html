@@ -1,12 +1,13 @@
 <ion-header>
 
   <ion-navbar>
+  <ion-item>
    	<ion-title>Add a new Project</ion-title>
    	
-   	  <button ion-button top right color="light" (click)="dismiss()">
+   	  <button item-end ion-button color="danger" (click)="dismiss()">
           <ion-icon name="close"></ion-icon>
       </button>
-
+      </ion-item>
   </ion-navbar>
 
 </ion-header>
@@ -41,11 +42,22 @@
 
             <ion-item>
             <ion-label stacked>
+                Engine
+            </ion-label>
+            <ion-input type="text" placeholder="Enter Engine" [(ngModel)]="this.newengine"></ion-input>
+            </ion-item>
+
+            <ion-item>
+            <ion-label stacked>
                 Error Code
             </ion-label>
             <ion-input type="text" placeholder="Enter Error Code" [(ngModel)]="this.newerrorcode"></ion-input>
             </ion-item>
+            	
+
 </ion-list>
+
+
 
      
 <ion-list>

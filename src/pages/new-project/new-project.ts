@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ViewController, AlertController } from 'ionic-angular';
+import { NavController, NavParams, ViewController, AlertController, ToastController, App } from 'ionic-angular';
 import { TreasuresProvider } from '../../providers/treasuresprovider/treasuresprovider';
 import { User, AuthService } from '../../providers/auth-service/auth-service';
 import { TreasuresPage } from '../treasures/treasures';
+import { TreasureDetailPage } from '../treasure-detail/treasure-detail';
 
 
 /**
@@ -23,6 +24,7 @@ export class NewProjectPage {
 	newbrand : any;
 	newmodel : any;
 	newerrorcode : any;
+  newengine : any;
 	projdetails : any;
 	projectproblems = [];
     projectconclusions = [];
@@ -35,7 +37,7 @@ export class NewProjectPage {
     details : any ;
     UserID :any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl:ViewController, private auth: AuthService, public alertCtrl: AlertController , public treasuresService: TreasuresProvider) {
+  constructor(public navCtrl: NavController,public appCtrl : App, public toastCtrl : ToastController, public navParams: NavParams, public viewCtrl:ViewController, private auth: AuthService, public alertCtrl: AlertController , public treasuresService: TreasuresProvider) {
   	this.UserID = this.auth.getUserid();
   	}
 
@@ -67,12 +69,14 @@ export class NewProjectPage {
 	  					brand:this.newbrand,
 	  					model:this.newmodel,
 	  					errorcode:this.newerrorcode,
+              engine:this.newengine,
   					}
   					newproj.Userid=this.UserID;
   					newproj.year=this.newyear;
   					newproj.brand=this.newbrand;
   					newproj.model=this.newmodel;
   					newproj.errorcode=this.newerrorcode;
+            newproj.engine=this.newengine;
 					console.log(newproj);
   					this.treasuresService.posttreasures(newproj).then((data) => {
           			this.ProjID = data;
@@ -128,9 +132,16 @@ export class NewProjectPage {
   						}
   				}
 
+          let toast = this.toastCtrl.create({
+          message: 'Congratulations your project was created. You can find it in your Treasures.',
+          duration:2000,
+          position:'middle'
+      });
+      toast.present();
 
           
   				this.viewCtrl.dismiss(data);
+          this.appCtrl.getRootNav().push(TreasuresPage);
   			})
   		}},
   			{

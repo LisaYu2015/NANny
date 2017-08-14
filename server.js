@@ -1,6 +1,8 @@
 //nodejs buckets
 var AWS = require('aws-sdk');
-var s3Bucket = new AWS.S3( { params: {Bucket: 'katcher'} } );
+var s3Bucket = new AWS.S3( );
+var myBucket = 'katcher';
+var myKey = 'AKIAJA3W3KOAYMVDGQNQ';
 
 //Set up host server for website
 var express = require('express'),
@@ -152,10 +154,10 @@ var Project = mongoose.model('Project', {
 //Data contains the details of each project/treasure
 var Detail = mongoose.model('detail', {
     _id: mongoose.Schema.Types.ObjectId,
-    PID: Number,
     ProjectID:String, //links to _id of Project
     type:String,
-    sentence:String
+    sentence:String,
+    step: {type:Number, default:0},
 });
 
 //Relationships track how mnay times someone has helped someone else
@@ -495,19 +497,22 @@ var Membership = mongoose.model('memberships', {
 
 //Routes for projects/Treasures
 
-app.get('/api/Project', function(req, res) {
+app.get('/api/Project/Userid/:id', function(req, res) {
  
         console.log("fetching Projects");
  
         //use mongoose to get all Projects in the database
-        Project.find(function(err, Project){
-            //if there is an error retrieving, send the error. nothing after res.send(err) will execute
+        Project.find({Userid: req.params.id})
+            .sort({_id:-1})
+            .exec(function(err, Project){
             if (err)
                 res.send(err);
- 
+            console.log(Project);
             res.json(Project);
         });
     });
+
+
 
 app.get('/api/Project/id/:id', function(req, res){
     Project.find({_id: mongoose.Types.ObjectId(req.params.id)}, function(err, users){
@@ -521,6 +526,22 @@ app.get('/api/Project/id/:id', function(req, res){
     //     res.send(project);
     // }
 })
+
+
+
+    app.get('/api/Detail', function (req, res) {
+        console.log("fetching Details");
+        Detail.find( )
+            .sort({step: 1})
+            .exec(function(err, docs) {
+            if (err)
+                res.send(err);
+
+            res.json(docs);       
+                    
+            
+        });
+    });
  
  
     app.post('/api/Project', function(req, res) {
@@ -536,9 +557,10 @@ app.get('/api/Project/id/:id', function(req, res){
                     project.year = req.body.year;
                     project.brand = req.body.brand;
                     project.model = req.body.model;
-                    project.errorcode = req.body.error;
+                    project.errorcode = req.body.errorcode;
                     project.symptoms = req.body.symptoms;
                     project.Userid = req.body.Userid;
+                    project.engine = req.body.engine;
 
                     project.save(function(err, proj) {
                       if (err)
@@ -602,7 +624,7 @@ app.get('/api/Project/id/:id', function(req, res){
         console.log("searching through projects")
         Project.find( {$text: {$search: req.params.search}, uploaded:"yes" },
                       {score: {$meta: "textScore" } })
-            .sort({score: {$meta: "textScore" }})
+            .sort({score: {$meta: "textscore" }})
             .exec(function(err, docs) {
                 if(err)
                     res.send(err);
@@ -613,16 +635,16 @@ app.get('/api/Project/id/:id', function(req, res){
  
 
     app.get('/api/Detail', function (req, res) {
-
         console.log("fetching Details");
-
-        //use mongoose to get all Details in the database
-        Detail.find(function (err, Detail) { 
-            //if there is an error retrieving, send the error. nothing after res.send(err) will execute
+        Detail.find( )
+            .sort({step: 1})
+            .exec(function(err, docs) {
             if (err)
                 res.send(err);
 
-            res.json(Detail);
+            res.json(docs);       
+                    
+            
         });
     });
 
@@ -644,6 +666,7 @@ app.get('/api/Project/id/:id', function(req, res){
             detail.ProjectID = req.body.ProjectID;
             detail.type = req.body.type;
             detail.sentence = req.body.sentence;
+            detail.step = req.body.step;
             detail.save(function(err, det) {
                 if (err)
                 {
@@ -669,15 +692,17 @@ app.get('/api/Project/id/:id', function(req, res){
                 detail.ProjectID =req.body.ProjectID;
                 detail.type = req.body.type;
                 detail.sentence= req.body.sentence;
+                detail.step = req.body.step;
 
     
-                detail.save(function(err) {
+                detail.save(function(err, det) {
                     if (err)
                         {console.log('error');
                         console.log(err)}
                     else
                         {console.log(detail);
-                        console.log('success')}
+                        console.log('success');
+                        res.send(det);}
                 });
             }
         });
@@ -703,3 +728,25 @@ app.get('/api/Project/id/:id', function(req, res){
         res.send(detail);
         });
     });
+
+
+
+
+
+
+app.post('/api/img' , function(req,res){
+
+console.log(req);
+console.log("ghfkuhcv;l.i");
+// params = {Bucket: myBucket ,Key: myKey, Body: req};
+
+//     s3Bucket.putObject(params, function(err, data) {
+//         if (err) {
+//             console.log(err);
+//             }
+//         else {
+//             console.log("Successfully uploaded data to bucket");
+//         }
+//         });
+
+});

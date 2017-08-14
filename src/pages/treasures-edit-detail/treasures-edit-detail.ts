@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ViewController, AlertController } from 'ionic-angular';
+import { NavController, NavParams, ViewController, AlertController, ToastController, App } from 'ionic-angular';
 import { TreasuresProvider } from '../../providers/treasuresprovider/treasuresprovider';
 import { TreasureDetailPage } from '../treasure-detail/treasure-detail';
 
@@ -13,6 +13,7 @@ export class TreasuresEditDetailPage {
 	newbrand : any;
 	newmodel : any;
 	newerrorcode : any;
+  newimg : any;
 	projdetails : any;
 	projectproblems= [];
   projectconclusions = [];
@@ -25,7 +26,7 @@ export class TreasuresEditDetailPage {
 
  
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl:ViewController, public alertCtrl: AlertController , public treasuresService: TreasuresProvider) {
+  constructor(public navCtrl: NavController,public appCtrl : App, public navParams: NavParams,public toastCtrl:ToastController, public viewCtrl:ViewController, public alertCtrl: AlertController , public treasuresService: TreasuresProvider) {
   	this.ProjID=navParams.get('project');
   	  this.projdetails=navParams.get('details');
   	}
@@ -159,12 +160,10 @@ console.log(this.projdetails);
               }
 
   				}
-
-
-
-
+          //this.treasuresService.uploadimg(this.newimg);
           
   				this.viewCtrl.dismiss(); 
+          // this.appCtrl.getRootNav().push(TreasureDetailPage, this.ProjID);
 
           
   			
@@ -212,4 +211,7 @@ addconclusion(){
                 type:"conclusion",
                 sentence:"",
                 });
-}}
+}
+
+
+}
