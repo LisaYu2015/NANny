@@ -29,6 +29,7 @@ import { EditprofilePage } from '../pages/editprofile/editprofile';
 import { GroupaddPage } from '../pages/groupadd/groupadd';
 import { GroupsearchPage } from '../pages/groupsearch/groupsearch';
 import { GroupshomePage } from '../pages/groupshome/groupshome';
+import { OnegroupPage } from '../pages/onegroup/onegroup'
 
 
 
@@ -68,7 +69,8 @@ import { GroupProvider } from '../providers/group/group';
       EditprofilePage,
       GroupaddPage,
       GroupsearchPage,
-      GroupshomePage
+      GroupshomePage,
+      OnegroupPage
 
   ],
   imports: [
@@ -101,7 +103,8 @@ import { GroupProvider } from '../providers/group/group';
       EditprofilePage,
       GroupaddPage,
       GroupsearchPage,
-      GroupshomePage
+      GroupshomePage,
+      OnegroupPage
   ],
   providers: [
     StatusBar,

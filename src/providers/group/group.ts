@@ -15,12 +15,25 @@ export class GroupProvider {
     console.log('Hello GroupProvider Provider');
   }
 
+  getallgroups(){
+  	let headers = new Headers();
+  	headers.append('Content-Type','application/json');
+
+  	return new Promise(resolve => {
+  		this.http.get('/api/group/')
+  		.map(res => res.json() )
+  		.subscribe(data => {
+  			resolve(data);
+  		})
+  	})
+  }
+
   getgroup(id){
   	let headers = new Headers();
   	headers.append('Content-Type','application/json');
 
   	return new Promise(resolve => {
-  		this.http.get('/api/group/' + id)
+  		this.http.get('/api/group/groupid' + id)
   		.map(res => res.json() )
   		.subscribe(data => {
   			resolve(data);

@@ -26,7 +26,6 @@ export class NewRequestPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public req: RequestsProvider, 
               public tres:TreasuresProvider, private auth: AuthService, public rel:RelationProvider) {
-    this.searchreq = this.navParams.get('searchparams')
     // let tmp = this.navParams.get('searchparams')
     // if(tmp.year)
     //   this.searchreq.year = tmp.year;

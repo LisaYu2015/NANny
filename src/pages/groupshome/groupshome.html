@@ -7,12 +7,57 @@
 <ion-header>
 
   <ion-navbar>
+  	<button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
     <ion-title>My Groups</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-right (click)="newgroup()">
+      		Create new group
+          <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+	<ion-item>
+		<button ion-button full clear (click)="groupsearch()">Search for new groups</button>
+	</ion-item>
+	<ion-list>
+		<button ion-card *ngFor="let g of groups" (click)="entergroup($event, g)">
+			<ion-item>
+				<h2>{{g.name}}</h2>
+				<p>Created based on: {{g.basedon}}</p>
+			</ion-item>
+			<ion-card-content>
+				<p>{{g.description}}</p>
+			</ion-card-content>
+			<ion-row>
+				<ion-col>
+					<button ion-button icon-left clear small>
+						<ion-icon name='people'></ion-icon>
+						<div>{{g.nmembers}} Members</div>
+					</button>
+				</ion-col>
+				<ion-col>
+					<button ion-button icon-left clear small>
+						<ion-icon name="text"></ion-icon>
+						<div>{{g.nposts}} Posts</div>
+					</button>
+				</ion-col>
+				<ion-col>
+					<ion-note>
+						<button ion-button icon-right clear small (click)="removegroup($event, g)">
+							<div>Unjoin Group</div>
+							<ion-icon name="close"></ion-icon>
+						</button>
+					</ion-note>
+				</ion-col>
+			</ion-row>
+		</button>
+	</ion-list>
 
 </ion-content>

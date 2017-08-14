@@ -67,7 +67,7 @@ io.on('connection', function (socket) {
 var mongoose = require('mongoose'); 
 var assert = require('assert');
 console.log("Anyone here?");
-var local = 'mongodb://localhost:27017/testdb';
+var local = 'mongodb://localhost:27017/mydb';
 var url2 = 'mongodb://bosch:bosch@ec2-54-87-140-197.compute-1.amazonaws.com:27017/test';
 mongoose.connect(local); 
 // When successfully connected
@@ -118,7 +118,7 @@ var User = mongoose.model('Users', {
     password: { type: String, default: ""},
     joined: { type: Date, default: Date.now },
     last_active: { type: Date, default: Date.now },
-    total_points: { type: Number, default: 0},
+    total_points: { type: Number, default: 0},  //points available for usage
     level: { type: String, default: "Novice"},
     total_fix: { type: Number, default: 0},
     total_help: { type: Number, default: 0},
@@ -172,6 +172,7 @@ var Group = mongoose.model('groups', {
     _id: mongoose.Schema.Types.ObjectId,
     name: {type:String, default:''},
     nmembers: {type:Number, default:1},
+    nposts: {type:Number, default:0},
     basedon: {type:String, default:''},
     description: {type:String, default:''}
 })
@@ -180,6 +181,20 @@ var Membership = mongoose.model('memberships', {
     _id: mongoose.Schema.Types.ObjectId,
     groupid: {type:String, default:''},
     memberid: {type:String, default:''}
+})
+
+var Post = mongoose.model('posts', {
+    _id: mongoose.Schema.Types.ObjectId,
+    groupid: {type:String, default:''},
+    memberid: {type:String, default:''},
+    content: {type:String, default:''}
+})
+
+var Comment = mongoose.model('comments', {
+    _id: mongoose.Schema.Types.ObjectId,
+    postid: {type:String, default:''},
+    writerid: {type:String, default:''},
+    content: {type:String, default:''}
 })
 
 // routes for groups and memberships
@@ -191,6 +206,15 @@ var Membership = mongoose.model('memberships', {
             } else {
                 res.send(docs)
             }
+        })
+    })
+
+    //get all groups
+    app.get('/api/group/', function(req, res) {
+        Group.find(function (err, docs){
+            if(err)
+                res.send(err)
+            res.send(docs)
         })
     })
 
@@ -512,7 +536,23 @@ app.get('/api/Project/Userid/:id', function(req, res) {
         });
     });
 
+<<<<<<< HEAD
 
+=======
+app.get('/api/Project/alluploaded', function(req, res) {
+ 
+        console.log("fetching Projects");
+ 
+        //use mongoose to get all Projects in the database
+        Project.find({uploaded:"yes"},function(err, Project){
+            //if there is an error retrieving, send the error. nothing after res.send(err) will execute
+            if (err)
+                res.send(err);
+ 
+            res.json(Project);
+        });
+    });
+>>>>>>> master
 
 app.get('/api/Project/id/:id', function(req, res){
     Project.find({_id: mongoose.Types.ObjectId(req.params.id)}, function(err, users){
