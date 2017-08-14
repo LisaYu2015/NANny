@@ -67,8 +67,8 @@ io.on('connection', function (socket) {
 var mongoose = require('mongoose'); 
 var assert = require('assert');
 console.log("Anyone here?");
-var local = 'mongodb://localhost:27017/mydb';
-var url2 = 'mongodb://bosch:bosch@ec2-54-87-140-197.compute-1.amazonaws.com:27017/test';
+var local = 'mongodb://localhost:27017/testdb';
+var url2 = 'mongodb://website:bosch@ec2-54-87-140-197.compute-1.amazonaws.com:27017/testdb';
 mongoose.connect(local); 
 // When successfully connected
 mongoose.connection.on('connected', function () {  
@@ -122,6 +122,7 @@ var User = mongoose.model('Users', {
     level: { type: String, default: "Novice"},
     total_fix: { type: Number, default: 0},
     total_help: { type: Number, default: 0},
+    last_viewed: {type: String, default:""}
 });
 
 var Point = mongoose.model('Points', {
@@ -148,7 +149,8 @@ var Project = mongoose.model('Project', {
     engine:{type:String, default:''},
     uploaded: {type:String, default:'no'},
     numofpics: {type:Number, default:0},
-    opendate: {type:Date, default:Date.now}
+    opendate: {type:Date, default:Date.now},
+    verifications: {type:Number, default:0}
 });
 
 //Data contains the details of each project/treasure
@@ -165,7 +167,7 @@ var Relationship = mongoose.model('relationships', {
     _id: mongoose.Schema.Types.ObjectId,
     helper: String,
     requester: String,
-    n: {type:Number, default:1},
+    n: {type:Number, default:0},
 })
 
 var Group = mongoose.model('groups', {
@@ -190,9 +192,16 @@ var Post = mongoose.model('posts', {
     content: {type:String, default:''}
 })
 
-var Comment = mongoose.model('comments', {
+var PostComment = mongoose.model('postcomments', {
     _id: mongoose.Schema.Types.ObjectId,
     postid: {type:String, default:''},
+    writerid: {type:String, default:''},
+    content: {type:String, default:''}
+})
+
+var TreasureComment = mongoose.model('treasurecomments', {
+    _id: mongoose.Schema.Types.ObjectId,
+    treasureid: {type:String, default:''},
     writerid: {type:String, default:''},
     content: {type:String, default:''}
 })
@@ -346,12 +355,14 @@ var Comment = mongoose.model('comments', {
     app.get('/api/question/reqid/:reqid', function(req, res){
         console.log("getting all chats request");
         console.log(req.params.reqid);
-        Question.find({requesterID: req.params.reqid}, function(err, docs){
-            if(err)
-                res.send(err)
-            res.json(docs);
-            console.log(docs);
-        });
+        Question.find({requesterID: req.params.reqid})
+                .sort({_id:-1})
+                .exec(function(err, docs){
+                    if(err)
+                        res.send(err)
+                    res.json(docs);
+                    console.log(docs);
+                });
     });
 
     //get list of requests for which the current user is the helper
@@ -482,41 +493,90 @@ var Comment = mongoose.model('comments', {
 
     var ObjectId = require('mongodb').ObjectId;
 
-    //create new user
     app.post('/api/user', function(req, res) {
-        console.log("registering user");
-        User.create({
-            _id: new ObjectId(),
-            expertise: req.body.expertise,
-            experience: req.body.experience,
-            shop: req.body.shop,
-            fname: req.body.fname,
-            lname: req.body.lname,
-            email: req.body.email,
-            password: req.body.password,
-            done: false
-        }, function(err, user) {
-            if (err) {
-                res.send(err);
-                console.log(err);
-            }
-            else{
-                res.send(user);
-            }
-        });
-    });
-
-    //updating user info
-    app.post('/api/user/userid/:userid', function(req, res){
-        var data = {Key: 'ProfilePics/emailofuser', Body: imagefile}
-        s3Bucket.putObject(data, function(err, data){
-            if(err){
-                console.log("Error uploading image.");
-            } else {
-                console.log("successfully uploaded image.")
+        User.findById(req.body._id, function (err, u){
+            //no user found
+            if( !err && !u){
+                console.log("registering user");
+                User.create({
+                    _id: new ObjectId(),
+                    expertise: req.body.expertise,
+                    experience: req.body.experience,
+                    shop: req.body.shop,
+                    fname: req.body.fname,
+                    lname: req.body.lname,
+                    email: req.body.email,
+                    password: req.body.password,
+                    done: false
+                }, function(err, user) {
+                    if (err) {
+                        res.send(err);
+                        console.log(err);
+                    }
+                    else{
+                        res.send(user);
+                    }
+                });
             }
         });
     })
+
+    //create new user
+    app.post('/api/user/update', function(req, res) {
+        console.log("in user update")
+        console.log(req.body)
+        User.findById(req.body._id, function (err, u){
+            //no user found
+            if( !err && !u){
+                console.log("registering user");
+                User.create({
+                    _id: new ObjectId(),
+                    expertise: req.body.expertise,
+                    experience: req.body.experience,
+                    shop: req.body.shop,
+                    fname: req.body.fname,
+                    lname: req.body.lname,
+                    email: req.body.email,
+                    password: req.body.password,
+                    done: false
+                }, function(err, user) {
+                    if (err) {
+                        res.send(err);
+                        console.log(err);
+                    }
+                    else{
+                        res.send(user);
+                    }
+                });
+            } else {    //update user
+                console.log("updating user")
+                u.lname = req.body.lname;
+                u.fname = req.body.fname;
+                u.shop = req.body.shop;
+                u.email = req.body.email;
+                u.total_help = req.body.total_help;
+                u.total_fix = req.body.total_fix;
+                u.total_points = req.body.total_points;
+                u.expertise = req.body.expertise;
+                u.last_active = req.body.last_active;
+                u.last_viewed = req.body.last_viewed;
+
+                u.save(function(err, user) {
+                      if (err)
+                        {
+                            res.send(err)
+                        }
+                      else
+                        {
+                            console.log(u);
+                            console.log(user)
+                            res.send(user);
+                        }
+                });
+            }
+        })
+        
+    });
 
 
 //Routes for projects/Treasures
@@ -536,9 +596,6 @@ app.get('/api/Project/Userid/:id', function(req, res) {
         });
     });
 
-<<<<<<< HEAD
-
-=======
 app.get('/api/Project/alluploaded', function(req, res) {
  
         console.log("fetching Projects");
@@ -552,7 +609,6 @@ app.get('/api/Project/alluploaded', function(req, res) {
             res.json(Project);
         });
     });
->>>>>>> master
 
 app.get('/api/Project/id/:id', function(req, res){
     Project.find({_id: mongoose.Types.ObjectId(req.params.id)}, function(err, users){
@@ -571,15 +627,13 @@ app.get('/api/Project/id/:id', function(req, res){
 
     app.get('/api/Detail', function (req, res) {
         console.log("fetching Details");
-        Detail.find( )
+        Detail.find()
             .sort({step: 1})
             .exec(function(err, docs) {
-            if (err)
-                res.send(err);
-
-            res.json(docs);       
-                    
-            
+                if (err)
+                    res.send(err);
+                res.json(docs);       
+                console.log(docs)
         });
     });
  
@@ -672,21 +726,6 @@ app.get('/api/Project/id/:id', function(req, res){
             });
     });
 
- 
-
-    app.get('/api/Detail', function (req, res) {
-        console.log("fetching Details");
-        Detail.find( )
-            .sort({step: 1})
-            .exec(function(err, docs) {
-            if (err)
-                res.send(err);
-
-            res.json(docs);       
-                    
-            
-        });
-    });
 
     app.post('/api/Detail', function(req, res) {
  

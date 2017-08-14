@@ -9,7 +9,8 @@ import { EarnpointsPage } from '../earnpoints/earnpoints'
 import { SearchPage } from '../search/search'
 import { ChatPage } from '../chat/chat'
 import { TreasuresPage } from '../treasures/treasures'
-import { SearchfeedbackPage } from '../searchfeedback/searchfeedback'
+import { OnesearchresultPage } from '../onesearchresult/onesearchresult'
+import { TreasuresProvider } from '../../providers/treasuresprovider/treasuresprovider'
  
 @Component({
   selector: 'page-home',
@@ -28,18 +29,22 @@ export class HomePage {
   p_fixes = [];
   p_request = [];
   p_total = [];
+  searched = false;
 
   
   constructor(private nav: NavController, private auth: AuthService, private p: PointsProvider, public modalCtrl: ModalController,
-              public action:ActionSheetController, public alert:AlertController) {
+              public action:ActionSheetController, public alert:AlertController, public tres: TreasuresProvider) {
     let info = this.auth.getUserInfo();
     this.username = info.fname;
     this.email = info.email;
     this.user = info;
+    if(this.user.last_viewed != ''){
+      this.searched = true;
+    }
   }
 
   ionViewDidEnter(){
-
+    let info = this.auth.getUserInfo();
   }
 
   chartcreate(){
@@ -156,7 +161,11 @@ export class HomePage {
   }
 
   searchfeedback(){
-    this.nav.setRoot(SearchfeedbackPage)
+    this.tres.getonetreasure(this.user.last_viewed).then(project =>{
+      console.log(project[0])
+      this.nav.push(OnesearchresultPage, project[0])
+    })
+    
   }
 
   public pointsmodal(){

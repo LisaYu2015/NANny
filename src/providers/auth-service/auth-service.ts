@@ -18,6 +18,7 @@ export class User {
   level:string;
   total_fix:number;
   total_help:number;
+  last_viewed:string;
 
   constructor(email: string, fname:string, lname:string, shop:string, pass:string) {
     this.email = email;
@@ -68,6 +69,22 @@ export class AuthService {
       console.log("will this be visible?");
     });
   } 
+
+  public updateuser(info){
+    console.log(info)
+    return new Promise(resolve => {
+      let headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+      this.http.post('/api/user/update', JSON.stringify(info), {headers: headers})
+                  .map(res => res.json())
+                  .subscribe(res => {
+                    console.log(res)
+                    this.currentUser = res;
+                    console.log(this.currentUser)
+                    resolve(res);
+                  });
+    });
+  }
  
   public getUserInfo() : User {
     return this.currentUser;

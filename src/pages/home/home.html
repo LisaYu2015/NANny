@@ -39,13 +39,19 @@
     </ion-row>
 
     <ion-card>
-      <ion-card-header>
-        By performing one of the below activities 50 times, you will become a Texconnect A level expert
+      <ion-card-header style="white-space: normal;">
+        Perform one of the below activities 50 times to become a Texconnect A level expert.
       </ion-card-header>
       <ion-card-content>
-        <button ion-button clear>Answer a request</button>
-        <button ion-button clear>Add a treasure</button>
-        <button ion-button clear>Provide feedback on your last search</button>
+        <ion-row>
+          <button ion-button clear (click)="givehelp()">Answer a request</button>
+        </ion-row>
+        <ion-row>
+          <button ion-button clear (click)="addtreasures()">Add a treasure</button>
+        </ion-row>
+        <ion-row>
+          <button ion-button clear *ngIf='searched' (click)="searchfeedback()">Provide feedback on your last search</button>
+        </ion-row>
       </ion-card-content>
     </ion-card>
 

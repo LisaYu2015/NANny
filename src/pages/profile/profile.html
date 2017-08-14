@@ -4,11 +4,6 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Profile</ion-title>
-    <ion-buttons end>
-      <button ion-button (click)="logout()">
-          <ion-icon name="log-out"></ion-icon>
-      </button>
-    </ion-buttons>
   </ion-navbar>
 </ion-header>
  
@@ -26,26 +21,56 @@
         <br> Points: {{total_points | number}} 
         <br> Expertise: {{user.expertise}}
       </p>
-      <p>{{user.shop}}</p>
-      <p>{{user.email}}</p>
+      <p>Shop: {{user.shop}}</p>
+      <p>Email: {{user.email}}</p>
       <button class='profilebutton' (click)="gototreasures()">My Fixes</button>
     </div>
+  </div>
+
+  <br>
 
     <ion-card>
       <ion-card-header>
-        You rank #3 in your network
+        You rank #23 in your network
       </ion-card-header>
       <ion-card-content>
-        <ion-list ol>
-            <li>Lisa Yu</li>
-            <li>Sneha Krishna</li>
-            <li>Yi-Cheih Lee</li>
-            <li>Bjoern Michele</li>
-            <li>Tim Nickel</li>
-        </ion-list>
+        <ion-row>
+          <ion-col>
+          </ion-col>
+          <ion-col>
+            <ion-list>
+              <ion-item>
+                <ion-badge item-start>1</ion-badge>
+                Lisa Yu
+              </ion-item>
+              <ion-item>
+                <ion-badge item-start>2</ion-badge>
+                Tim Nickel
+              </ion-item>
+              <ion-item col text-center>
+                *<br>
+                *<br>
+                *<br>
+              </ion-item>
+              <ion-item>
+                <ion-badge item-start>22</ion-badge>
+                Bjorn Michele
+              </ion-item>
+              <ion-item>
+                <ion-badge item-start>23</ion-badge>
+                Sneha Krishna
+              </ion-item>
+              <ion-item>
+                <ion-badge item-start>25</ion-badge>
+                Yi-Chieh Lee
+              </ion-item>
+            </ion-list>
+          </ion-col>
+          <ion-col>
+          </ion-col>
+        </ion-row>
       </ion-card-content>
     </ion-card>
 
-  </div>
 </ion-content>
 

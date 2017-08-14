@@ -41,7 +41,7 @@ export class ContactsPage {
 	helplist:any
 	reqlist:any
 	user : User
-	rellist: Track[];
+	rellist= [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public rel:RelationProvider,
   			  public auth:AuthService) {
@@ -84,6 +84,7 @@ export class ContactsPage {
   }
 
   opencontactpage(event, contact){
+    
   	this.navCtrl.push(ContactprofilePage, {contact: contact});
   }
 

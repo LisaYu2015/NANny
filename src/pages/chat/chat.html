@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Request History</ion-title>
+    <ion-title>Requests</ion-title>
     <ion-buttons end>
       <button ion-button (click)="logout()">
           <ion-icon name="log-out"></ion-icon>
@@ -14,9 +14,12 @@
 
 <ion-content>
 <!-- 	<button ion-button (click)='newrequest()'>Create New Request</button>
- -->  <ion-list>
+ -->  
+  <ion-item style="white-space: normal;" *ngIf="len == 0">
+    <p style="white-space: normal;">You do not have any requests at this time. To open a new request, first <a (click)="opensearch()">search</a> the database to see if you can find help. </p>
+  </ion-item>
+  <ion-list>
     <button ion-item *ngFor="let item of chats" (click)="itemTapped($event, item)">
-      <!-- <ion-icon [name]="item.icon" item-left></ion-icon> -->
       <h2>{{item.year}} {{item.make}} {{item.model}}</h2>
         <p>Error codes: {{item.error}}</p>
 	     <p>Symptoms: {{item.symptoms}}</p>
