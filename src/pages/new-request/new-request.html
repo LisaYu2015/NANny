@@ -20,28 +20,28 @@
           <ion-list inset>
             
             <ion-item>
-              <ion-label>Year</ion-label>
-              <ion-input type="text" placeholder="{{searchreq.year}}" name="year" [(ngModel)]="nrequest.year"></ion-input>
+              <ion-label stacked>Year</ion-label>
+              <ion-input type="text" name="year" [(ngModel)]="nrequest.year"></ion-input>
             </ion-item>
             
             <ion-item>
-              <ion-label>Make</ion-label>
-              <ion-input type="text" placeholder="{{searchreq.make}}" name="brand" [(ngModel)]="nrequest.brand" ></ion-input>
+              <ion-label stacked>Make</ion-label>
+              <ion-input type="text" name="brand" [(ngModel)]="nrequest.brand" ></ion-input>
             </ion-item>
 
             <ion-item>
-              <ion-label>Model</ion-label>
-              <ion-input type="text" placeholder="{{searchreq.model}}" name="model" [(ngModel)]="nrequest.model"></ion-input>
+              <ion-label stacked>Model</ion-label>
+              <ion-input type="text" name="model" [(ngModel)]="nrequest.model"></ion-input>
             </ion-item>
 
             <ion-item>
-              <ion-label>ErrorCodes</ion-label>
-              <ion-input type="text" placeholder="{{searchreq.error}}" name="error" [(ngModel)]="nrequest.error"></ion-input>
+              <ion-label stacked>ErrorCodes</ion-label>
+              <ion-input type="text"  name="error" [(ngModel)]="nrequest.error"></ion-input>
             </ion-item>
 
             <ion-item>
-              <ion-label>Symptoms</ion-label>
-            	<ion-textarea [(ngModel)]='nrequest.symptoms' name="symptoms" placeholder="{{searchreq.symptoms}}"></ion-textarea>
+              <ion-label stacked>Symptoms</ion-label>
+            	<ion-textarea [(ngModel)]='nrequest.symptoms' name="symptoms" placeholder="Describe the issues you are seeing."></ion-textarea>
         	  </ion-item>
 
             <ion-item>

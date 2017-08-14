@@ -24,7 +24,11 @@ export class LoginPage {
     // alert("here.....");
     this.showLoading();
     // alert(JSON.stringify(this.auth.login(this.registerCredentials)));
+    console.log(this.registerCredentials)
     this.auth.login(this.registerCredentials).then((data) => {
+      if(!data){
+        this.showError("This user does not exist. Please create a new account");
+      }
       // alert(JSON.stringify(data));
       if (data[0].password==this.registerCredentials.password) {
           this.nav.setRoot(HomePage);

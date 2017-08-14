@@ -1,11 +1,15 @@
 import { Component,ViewChild } from '@angular/core';
-import { NavController,ModalController } from 'ionic-angular';
+import { NavController,ModalController, ActionSheetController, AlertController } from 'ionic-angular';
 import { User, AuthService } from '../../providers/auth-service/auth-service';
 import { LoginPage } from '../login/login';
 import { Chart } from 'chart.js';
 import { PointsProvider } from '../../providers/points/points';
 import { PointsPage } from '../points/points'
 import { EarnpointsPage } from '../earnpoints/earnpoints'
+import { SearchPage } from '../search/search'
+import { ChatPage } from '../chat/chat'
+import { TreasuresPage } from '../treasures/treasures'
+import { SearchfeedbackPage } from '../searchfeedback/searchfeedback'
  
 @Component({
   selector: 'page-home',
@@ -13,6 +17,7 @@ import { EarnpointsPage } from '../earnpoints/earnpoints'
 })
 export class HomePage {
   @ViewChild('lineCanvas') lineCanvas;
+  @ViewChild('legend') legend;
 
   lineChart: any;
   username: string;
@@ -25,48 +30,31 @@ export class HomePage {
   p_total = [];
 
   
-  constructor(private nav: NavController, private auth: AuthService, private p: PointsProvider, public modalCtrl: ModalController) {
+  constructor(private nav: NavController, private auth: AuthService, private p: PointsProvider, public modalCtrl: ModalController,
+              public action:ActionSheetController, public alert:AlertController) {
     let info = this.auth.getUserInfo();
     this.username = info.fname;
     this.email = info.email;
     this.user = info;
-
-    this.p.getpoints(this.user._id).then((data) => {
-      if(data){
-        this.all_points = data;
-        alert(this.all_points.length);
-        for (var i = 0; i < this.all_points.length ; i++) {
-          let comments = this.all_points[i].a_comment;
-          let fix = this.all_points[i].a_fix;
-          let req = this.all_points[i].a_request;
-          this.p_comment.push(comments *5 + this.p_comment.reduce((pv, cv) => pv+cv, 0));
-          this.p_fixes.push(fix *10 + this.p_fixes.reduce((pv, cv) => pv+cv, 0));
-          this.p_request.push(req *2 + this.p_request.reduce((pv, cv) => pv+cv, 0));
-          // this.p_total.push(comments *5 + fix *10 + req *2)
-        }
-        alert(this.p_comment);
-      } 
-    });
   }
 
-  ionViewDidLoad(){
-    console.log("hello from homepage")
+  ionViewDidEnter(){
 
-    var colors = {
+  }
+
+  chartcreate(){
+       var colors = {
       green: {
-        fill: '#e0eadf',
-        stroke: '#5eb84d',
-      },
-      lightBlue: {
-        stroke: '#6fccdd',
+        fill: '#09355C',
+        stroke: '#09355C',
       },
       darkBlue: {
-        fill: '#92bed2',
-        stroke: '#3282bf',
+        fill: '#CBCBCB',
+        stroke: '#CBCBCB',
       },
       purple: {
-        fill: '#8fa8c8',
-        stroke: '#75539e',
+        fill: '#B61B12',
+        stroke: '#B61B12',
       },
     };
 
@@ -113,55 +101,104 @@ export class HomePage {
             stacked: true,
           }]
         },
+        legend:true,
+        legendCallback: function(chart) {
+          var text = [];
+          text.push('<ul class="' + chart.id + '-legend">');
+          for (var i = 0; i < chart.data.datasets[0].data.length; i++) {
+            text.push('<li><span style="background-color:' + chart.data.datasets[0].backgroundColor[i] + '">');
+            if (chart.data.labels[i]) {
+              text.push(chart.data.labels[i]);
+            }
+            text.push('</span></li>');
+          }
+          text.push('</ul>');
+          return text.join("");
+        },
         // animation: {
         //   duration: 750,
         // },
       }
     });
 
+  }
 
-    // this.lineChart = new Chart(this.lineCanvas.nativeElement, {
+  ionViewDidLoad(){
+
+        this.p.getpoints(this.user._id).then((data) => {
+      if(data){
+        this.all_points = data;
+        for (var i = 0; i < this.all_points.length ; i++) {
+          let comments = this.all_points[i].a_comment;
+          let fix = this.all_points[i].a_fix;
+          let req = this.all_points[i].a_request;
+          this.p_comment.push(comments *5 + this.p_comment.reduce((pv, cv) => pv+cv, 0));
+          this.p_fixes.push(fix *10 + this.p_fixes.reduce((pv, cv) => pv+cv, 0));
+          this.p_request.push(req *2 + this.p_request.reduce((pv, cv) => pv+cv, 0));
+          // this.p_total.push(comments *5 + fix *10 + req *2)
+        }
+        this.chartcreate()
+      } 
+    });
+
+    console.log("hello from homepage")
+
  
-    //         type: 'line',
-    //         data: {
-    //             labels: ["January", "February", "March", "April", "May", "June", "July"],
-    //             datasets: [
-    //                 {
-    //                     label: "My First dataset",
-    //                     fill: false,
-    //                     lineTension: 0.1,
-    //                     backgroundColor: "rgba(75,192,192,0.4)",
-    //                     borderColor: "rgba(75,192,192,1)",
-    //                     borderCapStyle: 'butt',
-    //                     borderDash: [],
-    //                     borderDashOffset: 0.0,
-    //                     borderJoinStyle: 'miter',
-    //                     pointBorderColor: "rgba(75,192,192,1)",
-    //                     pointBackgroundColor: "#fff",
-    //                     pointBorderWidth: 1,
-    //                     pointHoverRadius: 5,
-    //                     pointHoverBackgroundColor: "rgba(75,192,192,1)",
-    //                     pointHoverBorderColor: "rgba(220,220,220,1)",
-    //                     pointHoverBorderWidth: 2,
-    //                     pointRadius: 1,
-    //                     pointHitRadius: 10,
-    //                     data: [65, 59, 80, 81, 56, 55, 40],
-    //                     spanGaps: false,
-    //                 }
-    //             ]
-    //         }
- 
-    //     });
+    // this.legend.html = this.lineChart.generateLegend();
+  }
+
+  addtreasures(){
+    this.nav.setRoot(TreasuresPage)
+  }
+
+  givehelp(){
+    this.nav.setRoot(ChatPage)
+  }
+
+  searchfeedback(){
+    this.nav.setRoot(SearchfeedbackPage)
   }
 
   public pointsmodal(){
-    let modal = this.modalCtrl.create(PointsPage);
-    modal.present();
+    let actionSheet = this.action.create({
+      title: 'You have 140 points available to use',
+      buttons: [
+        {
+          text: 'Get Bosch Products',
+          handler: () => {
+            console.log('Products clicked');
+          }
+        },{
+          text: 'Get Help',
+          handler: () => {
+            this.nav.setRoot(SearchPage)
+            console.log('Help clicked');
+          }
+        },{
+          text: 'Earn More Points',
+          handler: () => {
+            this.earnmodal();
+            console.log('Archive clicked');
+          }
+        },{
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        }
+      ]
+    });
+    actionSheet.present();
   }
 
   public earnmodal(){
-    let modal = this.modalCtrl.create(EarnpointsPage);
-    modal.present();
+    let alert = this.alert.create({
+      title: 'Earn Points',
+      subTitle: 'To earn points, answer requests, add new fixes, or stay active in your group.',
+      buttons: ['OK']
+    });
+    alert.present();
   }
  
   public logout() {

@@ -20,7 +20,34 @@
 
 
 <ion-content padding>
-	<form (ngSubmit)="search()" #nrequestform="ngForm">
+  <ion-searchbar (ionInput)="searchsingle($event)"></ion-searchbar>
+
+  <ion-item *ngIf="searchval">
+    <p>Didn't find what you are looking for?  </p>
+    <p><a (click)="newrequest()">Create a new request</a></p>
+  </ion-item>
+
+  <ion-list >
+
+     <ion-grid>
+    <ion-item *ngFor =" let Userproject of Userprojects; let i  = index ">
+     
+     <ion-row >
+     <ion-col>    
+       <ion-card (click)="showDetails(Userproject)" >
+       <img src={{this.carlinks[i]}}>   
+       <div class="card-title" >{{Userproject.year}} {{Userproject.brand}} {{Userproject.model}} </div>
+       <div class="card-subtitle">{{Userproject.errorcode}}</div>
+       </ion-card>
+     </ion-col>
+
+     
+     </ion-row >
+       
+     </ion-item></ion-grid>
+     </ion-list>
+
+<!-- 	<form (ngSubmit)="search()" #nrequestform="ngForm">
       <ion-row>
         <ion-col>
           <ion-list inset>
@@ -54,6 +81,6 @@
         </ion-col>
       </ion-row>
       
-    </form>
+    </form> -->
 
 </ion-content>

@@ -12,6 +12,7 @@ import { SearchPage } from '../pages/search/search';
 import { ChatPage } from '../pages/chat/chat';
 import { TreasuresPage} from '../pages/treasures/treasures';
 import { ContactsPage } from '../pages/contacts/contacts';
+import { GroupshomePage } from '../pages/groupshome/groupshome';
 
 @Component({
   templateUrl: 'app.html'
@@ -34,7 +35,8 @@ export class MyApp {
       { title: 'Home', component: HomePage },
       { title: 'Treasures', component: TreasuresPage },
       { title: 'Search', component: SearchPage },
-      { title: 'Contacts', component: ContactsPage },
+      { title: 'Network', component: ContactsPage },
+      { title: 'Groups', component: GroupshomePage },
       { title: 'Chat', component: ChatPage },
       { title: 'Profile', component: ProfilePage },
     ];
