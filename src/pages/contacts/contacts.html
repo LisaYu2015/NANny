@@ -5,17 +5,21 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
-  <ion-navbar>
+  <ion-navbar color="dark">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
     <ion-title>Network</ion-title>
   </ion-navbar>
-
 </ion-header>
 
 
 <ion-content padding>
 
 	<ion-list>
+		<ion-item style="white-space: normal;" *ngIf="rellist.length == 0">
+			<p style="white-space: normal;">Build up a network by giving and getting help through the <a>Requests</a> page. You can also join groups in the <a>Groups</a> page.</p>
+		</ion-item>
 		<button ion-item *ngFor="let contact of rellist" (click)="opencontactpage($event, contact)">
 			<ion-thumbnail item-start>
         		<img src="img/thumbnail-totoro.png">

@@ -3,7 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { AuthService } from '../../providers/auth-service/auth-service';
 import { LoginPage } from '../login/login';
 import { OneChatPage } from '../onechat/onechat';
-import { NewRequestPage } from '../new-request/new-request'
+import { SearchPage } from '../search/search'
 import { Chat, RequestsProvider } from '../../providers/requests/requests'
 
 
@@ -16,6 +16,7 @@ export class ChatPage {
   userid: any;
   chats: any;
   disc: any;
+  len:any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private auth: AuthService, private ques: RequestsProvider) {
   	// If we navigated to this page, we will have an item available as a nav param
@@ -35,6 +36,7 @@ export class ChatPage {
       this.ques.getallrequests(this.userid).then((data) => {
         if(data){
           this.chats = data;
+          this.len = this.chats.length;
           console.log(this.chats);
         }
       })
@@ -57,8 +59,8 @@ export class ChatPage {
   	
   }
 
-  newrequest(){
-  	this.navCtrl.push(NewRequestPage);
+  opensearch(){
+  	this.navCtrl.setRoot(SearchPage);
   }
 
   public logout() {

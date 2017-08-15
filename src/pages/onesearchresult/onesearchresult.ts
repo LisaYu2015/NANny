@@ -3,6 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { TreasuresProvider } from '../../providers/treasuresprovider/treasuresprovider';
 import { TreasuresDetailProvider } from '../../providers/treasuresdetailprovider/treasuresdetailprovider';
 import { Http, HttpModule } from '@angular/http';
+import { User, AuthService } from '../../providers/auth-service/auth-service'
 
 /**
  * Generated class for the OnesearchresultPage page.
@@ -28,9 +29,17 @@ export class OnesearchresultPage {
     projectsymptoms = [];
     projectuploadstatus = "cloud-upload";
     completestatusimg = "radio-button-off";
+    user: User;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public treasuresDetailService: TreasuresDetailProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public treasuresDetailService: TreasuresDetailProvider,
+              public auth: AuthService) {
         this.ProjID = navParams.data;
+        this.user = this.auth.getUserInfo();
+        console.log(this.ProjID)
+        console.log(this.user)
+        this.user.last_viewed = this.ProjID._id.toString();
+        console.log(this.user)
+        this.auth.updateuser(this.user);
   }
 
   ionViewDidLoad() {
@@ -40,7 +49,7 @@ export class OnesearchresultPage {
             this.details = data;
             for (let i = 0; i < this.details.length; i++) {
                               
-                if (this.details[i].PID==this.ProjID.PID)
+                if (this.details[i].ProjectID==this.ProjID._id)
                 {
                     this.projectdetails.push(this.details[i]);
                     if (this.details[i].type == "problem")

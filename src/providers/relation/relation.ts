@@ -24,21 +24,14 @@ export class RelationProvider {
   	let headers = new Headers();
   	headers.append('Content-Type','application/json');
 
-	return new Promise(resolve => {
+  	return new Promise(resolve => {
 
-          this.http.post('/api/relation/', JSON.stringify(relation), {headers: headers})
-              .map(res => res.json())
-              .subscribe(data => {
-                  this.reqlist = data;
-              });
-      });
-
-  }
-
-  getrelreq(id){
-  	this.getrelationsreq(id).then(data=>{
-  		return this.reqlist
-  	})
+            this.http.post('/api/relation/', JSON.stringify(relation), {headers: headers})
+                .map(res => res.json())
+                .subscribe(data => {
+                    this.reqlist = data;
+                });
+        });
   }
 
   getrelationsreq(id){
@@ -48,6 +41,7 @@ export class RelationProvider {
               .map(res => res.json())
               .subscribe(data => {
                   this.reqlist = data;
+                  console.log(this.reqlist)
                   resolve(this.reqlist)
               });
       });

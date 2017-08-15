@@ -14,6 +14,8 @@ import { TreasuresPage} from '../pages/treasures/treasures';
 import { ContactsPage } from '../pages/contacts/contacts';
 import { GroupshomePage } from '../pages/groupshome/groupshome';
 
+import { AuthService } from '../providers/auth-service/auth-service'
+
 @Component({
   templateUrl: 'app.html'
 })
@@ -27,7 +29,7 @@ export class MyApp {
   pages: Array<{title: string, component: any}>;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,
-              public toast:ToastController) {
+              public toast:ToastController, public auth:AuthService) {
     this.initializeApp();
 
     //used for an example of ngFor and navigation
@@ -37,7 +39,7 @@ export class MyApp {
       { title: 'Search', component: SearchPage },
       { title: 'Network', component: ContactsPage },
       { title: 'Groups', component: GroupshomePage },
-      { title: 'Chat', component: ChatPage },
+      { title: 'Requests', component: ChatPage },
       { title: 'Profile', component: ProfilePage },
     ];
 
@@ -77,6 +79,12 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+    });
+  }
+
+  logout(){
+    this.auth.logout().subscribe(succ => {
+      this.nav.setRoot(LoginPage)
     });
   }
 
