@@ -330,7 +330,8 @@ var TreasureComment = mongoose.model('treasurecomments', {
                 relation.helper = req.body.helper;
                 relation.save(function(err, r) {
                     if (err){
-                        res.send(err);
+                        console.log(err);
+                        res.send;
                     } else{
                         res.send(r);
                     }
@@ -341,7 +342,8 @@ var TreasureComment = mongoose.model('treasurecomments', {
                 rel.n = rel.n + 1;
                 rel.save(function(err, r) {
                     if (err){
-                        res.send(err);
+                        console.log(err)
+                        res.send()
                     } else{
                         res.send(r);
                     }
@@ -716,12 +718,13 @@ app.get('/api/Project/id/:id', function(req, res){
 
     app.get('/api/Project/search/:search', function(req, res) {
         console.log("searching through projects")
-        Project.find( {$text: {$search: req.params.search}, uploaded:"yes" },
-                      {score: {$meta: "textScore" } })
-            .sort({score: {$meta: "textscore" }})
+        Project.find(
+               { $text: { $search: req.params.search }, uploaded:"yes"},
+               { score: { $meta: "textScore" } }
+            ).sort( { score: { $meta: "textScore" } } )
             .exec(function(err, docs) {
                 if(err)
-                    res.send(err);
+                    console.log(err);
                 res.json(docs);
             });
     });
