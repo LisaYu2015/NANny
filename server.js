@@ -328,7 +328,7 @@ var TreasureComment = mongoose.model('treasurecomments', {
                 relation.save(function(err, r) {
                     if (err){
                         console.log(err);
-                        res.send;
+                        res.send();
                     } else{
                         res.send(r);
                     }
