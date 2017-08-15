@@ -1,8 +1,4 @@
-//nodejs buckets
-var AWS = require('aws-sdk');
-var s3Bucket = new AWS.S3( );
-var myBucket = 'katcher';
-var myKey = 'AKIAJA3W3KOAYMVDGQNQ';
+
 
 //Set up host server for website
 var express = require('express'),
@@ -774,19 +770,113 @@ app.get('/api/Project/id/:id', function(req, res){
 
 
 
-app.post('/api/img' , function(req,res){
 
-console.log(req);
-console.log("ghfkuhcv;l.i");
-// params = {Bucket: myBucket ,Key: myKey, Body: req};
 
-//     s3Bucket.putObject(params, function(err, data) {
-//         if (err) {
-//             console.log(err);
-//             }
-//         else {
-//             console.log("Successfully uploaded data to bucket");
-//         }
-//         });
+
+
+
+
+
+
+
+
+// //nodejs buckets
+// // var AWS = require('aws-sdk');
+// // var s3Bucket = new AWS.S3( );
+// // var myBucket = 'katcher';
+// // var myKey = 'AKIAJA3W3KOAYMVDGQNQ';
+// var AWS = require('aws-sdk');
+
+// var s3 = new AWS.S3( { params: {Bucket: 'katcher'} } );
+
+
+// // Bucket names must be unique across all S3 users
+
+// var myBucket = 'katcher';
+
+// var myKey = 'AKIAJA3W3KOAYMVDGQNQ';
+
+
+
+//      params = {Bucket: myBucket, Key: myKey, Body: ''};
+
+//      s3.putObject(params, function(err, data) {
+
+//          if (err) {
+
+//              console.log(err)
+
+//          } else {
+
+//              console.log("Successfully uploaded data to myBucket/myKey");
+
+//          }
+
+//       });
+
+
+
+
+
+
+
+
+
+// app.post('/api/img' , function(req,res){
+
+// console.log(req.body.image);
+  // buf = new Buffer(req.body.imageBinary.replace(/^data:image\/\w+;base64,/, ""),'base64')
+  // var data = {
+  //   Key: req.body.userId, 
+  //   Body: buf,
+  //   ContentEncoding: 'base64',
+  //   ContentType: 'image/jpg'
+  // };
+  // s3Bucket.putObject(data, function(err, data){
+  //     if (err) { 
+  //       console.log(err);
+  //       console.log('Error uploading data: ', data); 
+  //     } else {
+  //       console.log('succesfully uploaded the image!');
+  //     }
+  // });
 
 });
+
+
+// var uploadFile = function (file_name,file_path) {
+//             var deferred = $q.defer();
+//             $cordovaFile.readAsArrayBuffer(file_name,file_path)
+//                 .then(function (success) {
+//                     //AWS.config.region = 'us-east-1';
+//                     AWS.config.update({
+                        
+//                     });
+//                     var bucket = new AWS.S3({
+//                         params: {
+//                             Bucket: 'katcher'
+//                         }
+//                     });
+//                     var params = {
+//                         Key: "uploads/"+file_name,
+//                         Body: success
+//                     };
+
+//                     bucket.upload(params).on('httpUploadProgress',function(evt){
+//                         $scope.uploading = true;
+//                         $scope.progress = parseInt((evt.loaded*100)/ evt.total);
+//                         console.log("Uploaded :: " + $scope.progress);
+//                         $scope.$apply();
+//                     }).send(function (err, data) {
+//                         $scope.uploading = false;
+//                         $scope.$apply();
+//                         deferred.resolve(data);
+
+//                     });
+//                     $scope.i++;
+
+//                 }, function (error) {
+//                     deferred.reject(error);
+//                 });
+//             return deferred.promise;
+//         };

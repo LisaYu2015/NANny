@@ -215,9 +215,11 @@ addconclusion(){
 }
 
  upimg(detail){
-  detail.numimg++;
+  detail.numpic++;
+  console.log(this.newimg);
   this.treasuresService.postdetails(detail);
   this.treasuresService.uploadimg(this.newimg);
+
 
 }
 }

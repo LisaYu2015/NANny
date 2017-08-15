@@ -62,7 +62,7 @@
         	<ion-item>
         		<ion-label stacked>Symptom: {{i+1}}</ion-label>
         		<ion-input type="text" placeholder="{{newprojectsymptoms[i]}}"     [(ngModel)]="newprojectsymptoms[i]"></ion-input>
-        		<ion-input type="file" onchange="this.upimg(this.projectsymptoms[i])" [(ngModel)]="newimg"></ion-input>
+        		<ion-input type="file" (change)="upimg(projectsymptom)" [(ngModel)]="newimg"></ion-input>
         		<button ion-button item-end ><ion-icon name="film"></ion-icon></button>
         		</ion-item>
 
