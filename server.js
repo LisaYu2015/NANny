@@ -64,7 +64,7 @@ var mongoose = require('mongoose');
 var assert = require('assert');
 console.log("Anyone here?");
 var local = 'mongodb://localhost:27017/testdb';
-var url2 = 'mongodb://website:bosch@ec2-54-87-140-197.compute-1.amazonaws.com:27017/testdb';
+var url2 = 'mongodb://website:website@ec2-54-87-140-197.compute-1.amazonaws.com:27017/testdb';
 mongoose.connect(local); 
 // When successfully connected
 mongoose.connection.on('connected', function () {  
@@ -887,7 +887,7 @@ app.get('/api/Project/id/:id', function(req, res){
   //     }
   // });
 
-});
+// });
 
 
 // var uploadFile = function (file_name,file_path) {
