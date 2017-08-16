@@ -33,12 +33,25 @@ export class GroupProvider {
   	headers.append('Content-Type','application/json');
 
   	return new Promise(resolve => {
-  		this.http.get('/api/group/groupid' + id)
+  		this.http.get('/api/group/groupid/' + id)
   		.map(res => res.json() )
   		.subscribe(data => {
-  			resolve(data);
+  			resolve(data[0]);
   		})
   	})
+  }
+
+  getusergrouplist(id){
+    let headers = new Headers();
+    headers.append('Content-Type','application/json');
+
+    return new Promise(resolve => {
+      this.http.get('/api/member/userid/' + id)
+      .map(res => res.json() )
+      .subscribe(data => {
+        resolve(data);
+      })
+    })
   }
 
   addgroup(group){

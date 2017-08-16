@@ -68,7 +68,7 @@ var mongoose = require('mongoose');
 var assert = require('assert');
 console.log("Anyone here?");
 var local = 'mongodb://localhost:27017/testdb';
-var url2 = 'mongodb://website:bosch@ec2-54-87-140-197.compute-1.amazonaws.com:27017/testdb';
+var url2 = 'mongodb://website:Bosch1234567@ec2-54-87-140-197.compute-1.amazonaws.com:27017/testdb';
 mongoose.connect(local); 
 // When successfully connected
 mongoose.connection.on('connected', function () {  
@@ -165,9 +165,9 @@ var Detail = mongoose.model('detail', {
 //Relationships track how mnay times someone has helped someone else
 var Relationship = mongoose.model('relationships', {
     _id: mongoose.Schema.Types.ObjectId,
-    helper: String,
-    requester: String,
-    n: {type:Number, default:0},
+    helper: {type:String, default:''},
+    requester: {type:String, default:''},
+    n: {type:Number, default:1},
 })
 
 var Group = mongoose.model('groups', {
@@ -319,19 +319,22 @@ var TreasureComment = mongoose.model('treasurecomments', {
     //to check for relationships and create new if not there
     app.post('/api/relation/', function(req, res) {
         console.log('creating/updating relations')
-        Relationship.find({requester:req.body.requester, helper:req.body.helper}, function(err, rel) {
-            if (err){
-                res.send(err)
-            } else if (!rel && !err){
+        console.log(req.body)
+        Relationship.find({requester:req.body.requesterid, helper:req.body.helperid}, function(err, rel) {
+            if(err){
+                console.log(err)
+                res.send()
+            }
+            if (rel.length==0){
                 console.log('creating new relation')
                 relation = new Relationship();
                 relation._id = new ObjectId();
-                relation.requester = req.body.requester;
-                relation.helper = req.body.helper;
+                relation.requester = req.body.requesterid;
+                relation.helper = req.body.helperid;
                 relation.save(function(err, r) {
                     if (err){
                         console.log(err);
-                        res.send;
+                        res.send()
                     } else{
                         res.send(r);
                     }
@@ -339,7 +342,9 @@ var TreasureComment = mongoose.model('treasurecomments', {
             }
             else {
                 console.log('updating relation')
-                rel.n = rel.n + 1;
+                rel = rel[0]
+                tmp = rel.n +1;
+                rel.n = parseInt(tmp, 10)
                 rel.save(function(err, r) {
                     if (err){
                         console.log(err)
@@ -475,7 +480,8 @@ var TreasureComment = mongoose.model('treasurecomments', {
     //get all users
     app.get('/api/user/id/:id', function(req, res) {
         console.log("getting one users by id");
-        User.find({_id: mongoose.Types.ObjectId(req.params.id)}, function(err, users){
+        User.findById(req.params.id, function(err, users){
+            console.log(users)
             if(err)
                 res.send(err);
             res.json(users);
@@ -609,6 +615,20 @@ app.get('/api/Project/alluploaded', function(req, res) {
                 res.send(err);
  
             res.json(Project);
+        });
+    });
+
+app.get('/api/Project/alluploaded/id/:id', function(req, res) {
+ 
+        console.log("fetching Projects");
+ 
+        //use mongoose to get all Projects in the database
+        Project.find({Userid:req.params.id, uploaded:"yes"},function(err, project){
+            //if there is an error retrieving, send the error. nothing after res.send(err) will execute
+            if (err)
+                res.send(err);
+ 
+            res.json(project);
         });
     });
 

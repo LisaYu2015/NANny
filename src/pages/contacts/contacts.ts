@@ -17,9 +17,9 @@ import { ContactprofilePage } from '../contactprofile/contactprofile'
  	helped:number;
  	request:number;
 
- 	constructor(id, name){
+ 	constructor(id){
  		this.id = id;
- 		this.name = name;
+ 		this.name = '';
  		this.helped = 0;
  		this.request = 0;
  	}
@@ -28,9 +28,17 @@ import { ContactprofilePage } from '../contactprofile/contactprofile'
  		this.request = n;
  	}
 
+  setname(name){
+    this.name = name;
+  }
+
  	sethelped(n){
  		this.helped = n ;
  	}
+
+  getid(){
+    return this.id;
+  }
  }
 
 @Component({
@@ -50,42 +58,61 @@ export class ContactsPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ContactsPage');
-    this.rel.getrelationshelp(this.user._id).then(help =>{
-    	this.helplist = help;
-  		this.rel.getrelationsreq(this.user._id).then(req=>{
-  			for(let i=0; i < this.helplist.length; i++){
-  				let id = this.helplist[i].requester;
-  				let name = this.auth.getusernamebyid(id);
-  				var t = new Track(id, name);
-  				t.sethelped(this.helplist[i].n)
-  				this.rellist.push(t);
-  			}
 
-  			for(let j=0; j < this.reqlist.length; j++){
-  				let id = this.reqlist[j].helper
-  				for(let i=0; i<this.rellist.length; i++){
-  					if(id == this.rellist[i].id){
-  						this.rellist[i].setrequest(this.reqlist[j].n)
-  					} else {
-  						let id = this.reqlist[i].helper;
-		  				let name = this.auth.getusernamebyid(id);
-		  				var t = new Track(id, name);
-		  				t.setrequest(this.reqlist[i].n)
-		  				this.rellist.push(t);
-  					}
-  				}
-  			}
-  		})
-  	})
   }
 
   ionViewDidEnter(){
+    this.helplist = null;
+    this.reqlist = null;
+    this.rellist = []
+    this.rel.getrelationshelp(this.user._id).then(help =>{
+      this.helplist = help;
+      console.log(this.helplist)
+      this.rel.getrelationsreq(this.user._id).then(req=>{
+        this.reqlist = req;
+        console.log(this.reqlist)
+        let t;
+        for(let i=0; i < this.helplist.length; i++){
+          let id = this.helplist[i].requester;
+            t = new Track(id);
+            t.setrequest(this.helplist[i].n)
+            this.rellist.push(t);
+        }
 
+        for(let j=0; j < this.reqlist.length; j++){
+          let id = this.reqlist[j].helper
+          for(let i=0; i<this.rellist.length; i++){
+            console.log("here")
+            if(id == this.rellist[i].id){
+              console.log("here")
+              this.rellist[i].sethelped(this.reqlist[j].n)
+            } else {
+                t = new Track(id);
+                t.sethelped(this.reqlist[i].n)
+                this.rellist.push(t);
+            }
+          }
+        }
+
+        for(let k=0; k<this.rellist.length; k++){
+          let id = this.rellist[k].getid();
+          this.auth.getusernamebyid(id).then(name => {
+            this.rellist[k].setname(name);
+            console.log(this.rellist)
+          })
+        }
+      })
+    })
   }
 
-  opencontactpage(event, contact){
-    
-  	this.navCtrl.push(ContactprofilePage, {contact: contact});
+  opencontactpage(event, person){
+    console.log(person)
+    let id = person.id
+    this.auth.getuserbyid(id).then(user => {
+      let contact = user;
+      console.log(contact)
+      this.navCtrl.push(ContactprofilePage, {contact: contact});
+    })
   }
 
 

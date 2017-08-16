@@ -19,7 +19,8 @@ import { GroupsearchPage } from '../groupsearch/groupsearch'
 })
 export class GroupshomePage {
 	user: User
-	groups: any;
+	groups:any;
+  groupdetails = [];
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public auth:AuthService,
   			  public groupCtrl: GroupProvider, public modalCtrl:ModalController) {
@@ -31,14 +32,24 @@ export class GroupshomePage {
   }
 
   ionViewDidEnter(){
-  	this.groupCtrl.getgroup(this.user._id).then(data=>{
-  		this.groups = data;
+    this.groups = null;
+    this.groupdetails = [];
+  	this.groupCtrl.getusergrouplist(this.user._id).then(data=>{
+      this.groups = data
+      console.log(this.groups) 
+      for(let i=0; i<this.groups.length; i++){
+        this.groupCtrl.getgroup(this.groups[i].groupid).then(res => {
+          this.groupdetails.push(res)
+          console.log(this.groupdetails)
+        })
+      }
   	})
   }
 
   newgroup(event, group){
   	//modal to add a new group
   	let modal = this.modalCtrl.create(GroupaddPage);
+
   }
 
   searchgroup(){

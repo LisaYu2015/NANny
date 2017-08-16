@@ -100,23 +100,35 @@ export class AuthService {
 
   public getusernamebyid(id){
     var user;
-    this.http.get('/api/user/id/' + id)
+    return new Promise(resolve => {
+      this.http.get('/api/user/id/' + id)
         .map(res => res.json())
         .subscribe(res => {
-          user = res[0]
-          return user.fname.toString() + " " + user.lname.toString();
+          user = res
+          let name = user.fname.toString() + " " + user.lname.toString();
+          console.log(name)
+          resolve(name);
         })
-    
+    })
+  }
+
+  getbyid(id){
+    this.getuserbyid(id).then(user => {
+      console.log(user)
+      return user;
+    })
   }
 
   public getuserbyid(id){
     var user;
-    this.http.get('/api/user/id/' + id)
-        .map(res => res.json())
-        .subscribe(res => {
-          user = res[0]
-          return user;
-        })
+    return new Promise(resolve => {
+      this.http.get('/api/user/id/' + id)
+          .map(res => res.json())
+          .subscribe(user => {
+            console.log(user)
+            resolve(user)
+          })
+     })
   }
 
   public searchbyexpertise(ex){

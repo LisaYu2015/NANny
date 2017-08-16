@@ -53,8 +53,9 @@ export class RelationProvider {
           this.http.get('/api/relation/help/' + this.user._id)
               .map(res => res.json())
               .subscribe(data => {
-                  this.reqlist = data;
-                  resolve(this.reqlist)
+                  this.helplist = data;
+                  console.log(this.helplist)
+                  resolve(this.helplist)
               });
       });
   }
