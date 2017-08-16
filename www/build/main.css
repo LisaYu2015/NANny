@@ -25398,6 +25398,11 @@ page-onechat .message.from + .message.from {
   margin-top: -7px;
 }
 
+page-onegroup .toolbar-title .subtitle {
+  font-size: 66%;
+  margin: 0;
+}
+
 page-profile .card {
   -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);

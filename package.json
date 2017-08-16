@@ -44,7 +44,10 @@
         "socket.io-client": "^2.0.3",
         "socket.io-mongodb": "^1.1.1",
         "sw-toolbox": "3.6.0",
-        "zone.js": "0.8.12"
+        "zone.js": "0.8.12",
+        "cordova-android": "^6.2.3",
+        "cordova-ios": "^4.4.0",
+        "cordova-windows": "^4.4.2"
     },
     "devDependencies": {
         "@ionic/app-scripts": "2.0.2",
@@ -54,5 +57,12 @@
         "ionic": "3.7.0",
         "typescript": "2.3.4"
     },
-    "description": "An Ionic project"
+    "description": "An Ionic project",
+    "cordova": {
+        "platforms": [
+            "android",
+            "windows",
+            "ios"
+        ]
+    }
 }

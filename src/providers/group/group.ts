@@ -54,12 +54,26 @@ export class GroupProvider {
     })
   }
 
+  ismember(creds){
+    let headers = new Headers();
+    headers.append('Content-Type','application/json');
+    return new Promise(resolve => {
+      this.http.get('/api/member', JSON.stringify(creds))
+        .map(res => res.json() )
+        .subscribe(data => {
+          resolve(data);
+        })
+    })
+  }
+
   addgroup(group){
   	return new Promise(resolve => {
       let headers = new Headers();
       headers.append('Content-Type', 'application/json');
       this.http.post('/api/group', JSON.stringify(group), {headers: headers})
+                  .map(res=>res.json())
                   .subscribe(res => {
+                    console.log(res)
                     resolve(res);
                   });
     });
@@ -69,6 +83,7 @@ export class GroupProvider {
   searchgroup(search){
   	let headers = new Headers();
   	headers.append('Content-Type','application/json');
+    console.log("here")
 
   	let details = search;
   	return new Promise(resolve => {
@@ -81,6 +96,7 @@ export class GroupProvider {
   }
 
   joingroup(creds){
+    console.log(creds)
   	return new Promise(resolve => {
       let headers = new Headers();
       headers.append('Content-Type', 'application/json');
@@ -92,6 +108,7 @@ export class GroupProvider {
   }
 
   unjoingroup(creds){
+    console.log("provider leaving")
   	let headers = new Headers();
   	headers.append('Content-Type','application/json');
 

@@ -21,6 +21,7 @@ export class GroupshomePage {
 	user: User
 	groups:any;
   groupdetails = [];
+  memberof = []
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public auth:AuthService,
   			  public groupCtrl: GroupProvider, public modalCtrl:ModalController) {
@@ -32,32 +33,35 @@ export class GroupshomePage {
   }
 
   ionViewDidEnter(){
-    this.groups = null;
+    console.log("groupshome enter")
     this.groupdetails = [];
   	this.groupCtrl.getusergrouplist(this.user._id).then(data=>{
       this.groups = data
-      console.log(this.groups) 
       for(let i=0; i<this.groups.length; i++){
         this.groupCtrl.getgroup(this.groups[i].groupid).then(res => {
           this.groupdetails.push(res)
-          console.log(this.groupdetails)
         })
       }
   	})
   }
 
-  newgroup(event, group){
+  newgroup(){
+    console.log("clicked")
   	//modal to add a new group
   	let modal = this.modalCtrl.create(GroupaddPage);
-
+    modal.present();
+    modal.onDidDismiss(data=>{
+      this.ionViewDidEnter();
+    })
   }
 
-  searchgroup(){
-  	this.navCtrl.push(GroupsearchPage);
+  groupsearch(){
+  	this.navCtrl.setRoot(GroupsearchPage);
   }
 
   entergroup(event, group){
-  	this.navCtrl.push(OnegroupPage, group);
+    console.log(group)
+  	this.navCtrl.push(OnegroupPage, {group:group});
   }
 
   removegroup(event, group){

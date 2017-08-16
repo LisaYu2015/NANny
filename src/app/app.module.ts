@@ -31,6 +31,7 @@ import { GroupsearchPage } from '../pages/groupsearch/groupsearch';
 import { GroupshomePage } from '../pages/groupshome/groupshome';
 import { OnegroupPage } from '../pages/onegroup/onegroup'
 import { ContactreasuresPage } from '../pages/contactreasures/contactreasures'
+import { SearchfeedbackPage } from '../pages/searchfeedback/searchfeedback'
 
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -71,7 +72,8 @@ import { GroupProvider } from '../providers/group/group';
       GroupsearchPage,
       GroupshomePage,
       OnegroupPage,
-      ContactreasuresPage
+      ContactreasuresPage,
+      SearchfeedbackPage
 
   ],
   imports: [
@@ -106,7 +108,8 @@ import { GroupProvider } from '../providers/group/group';
       GroupsearchPage,
       GroupshomePage,
       OnegroupPage,
-      ContactreasuresPage
+      ContactreasuresPage,
+      SearchfeedbackPage
   ],
   providers: [
     StatusBar,

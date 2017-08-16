@@ -33,6 +33,8 @@ export class User {
 export class AuthService {
   currentUser: User;
   data: any;
+  //url = 'https://texconnect.herokuapp.com'
+  url='http://localhost:5000'
 
   constructor(private http: Http) {
     this.data = null;
@@ -43,7 +45,7 @@ export class AuthService {
       return Promise.reject("Please insert credentials");
     } 
     return new Promise(resolve => {
-      this.http.get('/api/email/'+ credentials.email)
+      this.http.get(this.url + '/api/email/'+ credentials.email)
         .map(res => res.json())
         .subscribe(data => {
           this.data = data;
@@ -112,12 +114,6 @@ export class AuthService {
     })
   }
 
-  getbyid(id){
-    this.getuserbyid(id).then(user => {
-      console.log(user)
-      return user;
-    })
-  }
 
   public getuserbyid(id){
     var user;

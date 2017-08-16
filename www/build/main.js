@@ -39,6 +39,8 @@ var User = (function () {
 var AuthService = (function () {
     function AuthService(http) {
         this.http = http;
+        //url = 'https://texconnect.herokuapp.com'
+        this.url = 'http://localhost:5000';
         this.data = null;
     }
     AuthService.prototype.login = function (credentials) {
@@ -47,7 +49,7 @@ var AuthService = (function () {
             return Promise.reject("Please insert credentials");
         }
         return new Promise(function (resolve) {
-            _this.http.get('/api/email/' + credentials.email)
+            _this.http.get(_this.url + '/api/email/' + credentials.email)
                 .map(function (res) { return res.json(); })
                 .subscribe(function (data) {
                 _this.data = data;
@@ -111,12 +113,6 @@ var AuthService = (function () {
             });
         });
     };
-    AuthService.prototype.getbyid = function (id) {
-        this.getuserbyid(id).then(function (user) {
-            console.log(user);
-            return user;
-        });
-    };
     AuthService.prototype.getuserbyid = function (id) {
         var _this = this;
         var user;
@@ -154,14 +150,15 @@ var AuthService = (function () {
 }());
 AuthService = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
 ], AuthService);
 
+var _a;
 //# sourceMappingURL=auth-service.js.map
 
 /***/ }),
 
-/***/ 138:
+/***/ 139:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -172,9 +169,9 @@ AuthService = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__login_login__ = __webpack_require__(49);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_chart_js__ = __webpack_require__(733);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_chart_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_chart_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_points_points__ = __webpack_require__(393);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_points_points__ = __webpack_require__(394);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__search_search__ = __webpack_require__(87);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__chat_chat__ = __webpack_require__(146);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__chat_chat__ = __webpack_require__(147);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__treasures_treasures__ = __webpack_require__(65);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__onesearchresult_onesearchresult__ = __webpack_require__(64);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__providers_treasuresprovider_treasuresprovider__ = __webpack_require__(32);
@@ -399,7 +396,7 @@ HomePage = __decorate([
 
 /***/ }),
 
-/***/ 144:
+/***/ 145:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -455,7 +452,7 @@ TreasuresDetailProvider = __decorate([
 
 /***/ }),
 
-/***/ 145:
+/***/ 146:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -540,7 +537,7 @@ RelationProvider = __decorate([
 
 /***/ }),
 
-/***/ 146:
+/***/ 147:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -549,7 +546,7 @@ RelationProvider = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_auth_service_auth_service__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__login_login__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__onechat_onechat__ = __webpack_require__(395);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__onechat_onechat__ = __webpack_require__(396);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__search_search__ = __webpack_require__(87);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__providers_requests_requests__ = __webpack_require__(89);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -630,15 +627,18 @@ ChatPage = __decorate([
 
 /***/ }),
 
-/***/ 150:
+/***/ 151:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GroupProvider; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GroupshomePage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(31);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__(38);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_group_group__ = __webpack_require__(92);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_auth_service_auth_service__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__onegroup_onegroup__ = __webpack_require__(417);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__groupadd_groupadd__ = __webpack_require__(418);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__groupsearch_groupsearch__ = __webpack_require__(419);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -651,115 +651,84 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-/*
-  Generated class for the GroupProvider provider.
 
-  See https://angular.io/docs/ts/latest/guide/dependency-injection.html
-  for more info on providers and Angular DI.
-*/
-var GroupProvider = (function () {
-    function GroupProvider(http) {
-        this.http = http;
-        console.log('Hello GroupProvider Provider');
+
+
+
+/**
+ * Generated class for the GroupshomePage page.
+ *
+ * See http://ionicframework.com/docs/components/#navigation for more info
+ * on Ionic pages and navigation.
+ */
+var GroupshomePage = (function () {
+    function GroupshomePage(navCtrl, navParams, auth, groupCtrl, modalCtrl) {
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+        this.auth = auth;
+        this.groupCtrl = groupCtrl;
+        this.modalCtrl = modalCtrl;
+        this.groupdetails = [];
+        this.memberof = [];
+        this.user = this.auth.getUserInfo();
     }
-    GroupProvider.prototype.getallgroups = function () {
+    GroupshomePage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad GroupshomePage');
+    };
+    GroupshomePage.prototype.ionViewDidEnter = function () {
         var _this = this;
-        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
-        headers.append('Content-Type', 'application/json');
-        return new Promise(function (resolve) {
-            _this.http.get('/api/group/')
-                .map(function (res) { return res.json(); })
-                .subscribe(function (data) {
-                resolve(data);
+        console.log("groupshome enter");
+        this.groupdetails = [];
+        this.groupCtrl.getusergrouplist(this.user._id).then(function (data) {
+            _this.groups = data;
+            for (var i = 0; i < _this.groups.length; i++) {
+                _this.groupCtrl.getgroup(_this.groups[i].groupid).then(function (res) {
+                    _this.groupdetails.push(res);
+                });
+            }
+        });
+    };
+    GroupshomePage.prototype.newgroup = function () {
+        var _this = this;
+        console.log("clicked");
+        //modal to add a new group
+        var modal = this.modalCtrl.create(__WEBPACK_IMPORTED_MODULE_5__groupadd_groupadd__["a" /* GroupaddPage */]);
+        modal.present();
+        modal.onDidDismiss(function (data) {
+            _this.ionViewDidEnter();
+        });
+    };
+    GroupshomePage.prototype.groupsearch = function () {
+        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_6__groupsearch_groupsearch__["a" /* GroupsearchPage */]);
+    };
+    GroupshomePage.prototype.entergroup = function (event, group) {
+        console.log(group);
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_4__onegroup_onegroup__["a" /* OnegroupPage */], { group: group });
+    };
+    GroupshomePage.prototype.removegroup = function (event, group) {
+        var _this = this;
+        var membership = { groupid: group._id, memberid: this.user._id };
+        this.groupCtrl.unjoingroup(membership).then(function (data) {
+            _this.groupCtrl.getgroup(_this.user._id).then(function (groups) {
+                _this.groups = groups;
             });
         });
     };
-    GroupProvider.prototype.getgroup = function (id) {
-        var _this = this;
-        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
-        headers.append('Content-Type', 'application/json');
-        return new Promise(function (resolve) {
-            _this.http.get('/api/group/groupid/' + id)
-                .map(function (res) { return res.json(); })
-                .subscribe(function (data) {
-                resolve(data[0]);
-            });
-        });
-    };
-    GroupProvider.prototype.getusergrouplist = function (id) {
-        var _this = this;
-        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
-        headers.append('Content-Type', 'application/json');
-        return new Promise(function (resolve) {
-            _this.http.get('/api/member/userid/' + id)
-                .map(function (res) { return res.json(); })
-                .subscribe(function (data) {
-                resolve(data);
-            });
-        });
-    };
-    GroupProvider.prototype.addgroup = function (group) {
-        var _this = this;
-        return new Promise(function (resolve) {
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
-            headers.append('Content-Type', 'application/json');
-            _this.http.post('/api/group', JSON.stringify(group), { headers: headers })
-                .subscribe(function (res) {
-                resolve(res);
-            });
-        });
-    };
-    GroupProvider.prototype.searchgroup = function (search) {
-        var _this = this;
-        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
-        headers.append('Content-Type', 'application/json');
-        var details = search;
-        return new Promise(function (resolve) {
-            _this.http.get('/api/group/search/' + details)
-                .map(function (res) { return res.json(); })
-                .subscribe(function (data) {
-                resolve(data);
-            });
-        });
-    };
-    GroupProvider.prototype.joingroup = function (creds) {
-        var _this = this;
-        return new Promise(function (resolve) {
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
-            headers.append('Content-Type', 'application/json');
-            _this.http.post('/api/member', JSON.stringify(creds), { headers: headers })
-                .subscribe(function (res) {
-                resolve(res);
-            });
-        });
-    };
-    GroupProvider.prototype.unjoingroup = function (creds) {
-        var _this = this;
-        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
-        headers.append('Content-Type', 'application/json');
-        return new Promise(function (resolve) {
-            _this.http.delete('/api/member', new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({
-                headers: headers,
-                body: creds
-            }))
-                .map(function (res) { return res.json(); })
-                .subscribe(function (data) {
-                resolve(data);
-            });
-        });
-    };
-    return GroupProvider;
+    return GroupshomePage;
 }());
-GroupProvider = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]])
-], GroupProvider);
+GroupshomePage = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        selector: 'page-groupshome',template:/*ion-inline-start:"/Users/snehak/ionic-heroku-button/src/pages/groupshome/groupshome.html"*/'<!--\n  Generated template for the GroupshomePage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n  	<button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>My Groups</ion-title>\n    <ion-buttons end>\n      <button ion-button icon-right (click)="newgroup()">\n      		Create new group\n          <ion-icon name="add"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n	<ion-item>\n		<button ion-button full clear (click)="groupsearch()">Search for new groups</button>\n	</ion-item>\n	<ion-list>\n		<ion-card *ngFor="let g of groupdetails" (click)="entergroup($event, g)">\n			<ion-item>\n				<h2 style="white-space: normal !important;">{{g.name}}</h2>\n				<p>{{g.basedon}}</p>\n			</ion-item>\n			<ion-card-content>\n				<p>{{g.description}}</p>\n				<ion-item>\n						<button item-start ion-button icon-left clear small>\n							<ion-icon name=\'people\'></ion-icon>\n							<div>{{g.nmembers}} Members</div>\n						</button>\n						<button item-end ion-button icon-left clear small>\n							<ion-icon name="text"></ion-icon>\n							<div>{{g.nposts}} Posts</div>\n						</button>\n				</ion-item>\n			</ion-card-content>\n		</ion-card>\n	</ion-list>\n\n</ion-content>\n'/*ion-inline-end:"/Users/snehak/ionic-heroku-button/src/pages/groupshome/groupshome.html"*/,
+    }),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__providers_auth_service_auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__providers_auth_service_auth_service__["a" /* AuthService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__providers_group_group__["a" /* GroupProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__providers_group_group__["a" /* GroupProvider */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* ModalController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* ModalController */]) === "function" && _e || Object])
+], GroupshomePage);
 
-//# sourceMappingURL=group.js.map
+var _a, _b, _c, _d, _e;
+//# sourceMappingURL=groupshome.js.map
 
 /***/ }),
 
-/***/ 161:
+/***/ 162:
 /***/ (function(module, exports) {
 
 function webpackEmptyAsyncContext(req) {
@@ -768,11 +737,11 @@ function webpackEmptyAsyncContext(req) {
 webpackEmptyAsyncContext.keys = function() { return []; };
 webpackEmptyAsyncContext.resolve = webpackEmptyAsyncContext;
 module.exports = webpackEmptyAsyncContext;
-webpackEmptyAsyncContext.id = 161;
+webpackEmptyAsyncContext.id = 162;
 
 /***/ }),
 
-/***/ 204:
+/***/ 205:
 /***/ (function(module, exports) {
 
 function webpackEmptyAsyncContext(req) {
@@ -781,11 +750,11 @@ function webpackEmptyAsyncContext(req) {
 webpackEmptyAsyncContext.keys = function() { return []; };
 webpackEmptyAsyncContext.resolve = webpackEmptyAsyncContext;
 module.exports = webpackEmptyAsyncContext;
-webpackEmptyAsyncContext.id = 204;
+webpackEmptyAsyncContext.id = 205;
 
 /***/ }),
 
-/***/ 273:
+/***/ 274:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1012,7 +981,7 @@ TreasuresProvider = __decorate([
 
 /***/ }),
 
-/***/ 393:
+/***/ 394:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1077,7 +1046,7 @@ PointsProvider = __decorate([
 
 /***/ }),
 
-/***/ 394:
+/***/ 395:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1148,7 +1117,7 @@ SearchresultPage = __decorate([
 
 /***/ }),
 
-/***/ 395:
+/***/ 396:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1254,7 +1223,7 @@ OneChatPage = __decorate([
 
 /***/ }),
 
-/***/ 408:
+/***/ 409:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1262,8 +1231,8 @@ OneChatPage = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_treasuresprovider_treasuresprovider__ = __webpack_require__(32);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_treasuresdetailprovider_treasuresdetailprovider__ = __webpack_require__(144);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_treasures_edit_detail_treasures_edit_detail__ = __webpack_require__(409);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_treasuresdetailprovider_treasuresdetailprovider__ = __webpack_require__(145);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_treasures_edit_detail_treasures_edit_detail__ = __webpack_require__(410);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1435,7 +1404,7 @@ var TreasureDetailPage_1;
 
 /***/ }),
 
-/***/ 409:
+/***/ 410:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1634,7 +1603,7 @@ TreasuresEditDetailPage = __decorate([
 
 /***/ }),
 
-/***/ 410:
+/***/ 411:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1804,7 +1773,7 @@ NewProjectPage = __decorate([
 
 /***/ }),
 
-/***/ 411:
+/***/ 412:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1814,7 +1783,7 @@ NewProjectPage = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_auth_service_auth_service__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__login_login__ = __webpack_require__(49);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__treasures_treasures__ = __webpack_require__(65);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__editprofile_editprofile__ = __webpack_require__(412);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__editprofile_editprofile__ = __webpack_require__(413);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1870,7 +1839,7 @@ ProfilePage = __decorate([
 
 /***/ }),
 
-/***/ 412:
+/***/ 413:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1933,7 +1902,7 @@ EditprofilePage = __decorate([
 
 /***/ }),
 
-/***/ 413:
+/***/ 414:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1941,9 +1910,9 @@ EditprofilePage = __decorate([
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContactsPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_relation_relation__ = __webpack_require__(145);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_relation_relation__ = __webpack_require__(146);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_auth_service_auth_service__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__contactprofile_contactprofile__ = __webpack_require__(414);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__contactprofile_contactprofile__ = __webpack_require__(415);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2068,7 +2037,7 @@ ContactsPage = __decorate([
 
 /***/ }),
 
-/***/ 414:
+/***/ 415:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2077,7 +2046,7 @@ ContactsPage = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_auth_service_auth_service__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__new_request_new_request__ = __webpack_require__(88);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__contactreasures_contactreasures__ = __webpack_require__(415);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__contactreasures_contactreasures__ = __webpack_require__(416);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2128,7 +2097,7 @@ ContactprofilePage = __decorate([
 
 /***/ }),
 
-/***/ 415:
+/***/ 416:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2211,101 +2180,6 @@ ContactreasuresPage = __decorate([
 
 /***/ }),
 
-/***/ 416:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GroupshomePage; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_group_group__ = __webpack_require__(150);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_auth_service_auth_service__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__onegroup_onegroup__ = __webpack_require__(417);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__groupadd_groupadd__ = __webpack_require__(418);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__groupsearch_groupsearch__ = __webpack_require__(419);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-
-
-
-/**
- * Generated class for the GroupshomePage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
-var GroupshomePage = (function () {
-    function GroupshomePage(navCtrl, navParams, auth, groupCtrl, modalCtrl) {
-        this.navCtrl = navCtrl;
-        this.navParams = navParams;
-        this.auth = auth;
-        this.groupCtrl = groupCtrl;
-        this.modalCtrl = modalCtrl;
-        this.groupdetails = [];
-        this.user = this.auth.getUserInfo();
-    }
-    GroupshomePage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad GroupshomePage');
-    };
-    GroupshomePage.prototype.ionViewDidEnter = function () {
-        var _this = this;
-        this.groups = null;
-        this.groupdetails = [];
-        this.groupCtrl.getusergrouplist(this.user._id).then(function (data) {
-            _this.groups = data;
-            console.log(_this.groups);
-            for (var i = 0; i < _this.groups.length; i++) {
-                _this.groupCtrl.getgroup(_this.groups[i].groupid).then(function (res) {
-                    _this.groupdetails.push(res);
-                    console.log(_this.groupdetails);
-                });
-            }
-        });
-    };
-    GroupshomePage.prototype.newgroup = function (event, group) {
-        //modal to add a new group
-        var modal = this.modalCtrl.create(__WEBPACK_IMPORTED_MODULE_5__groupadd_groupadd__["a" /* GroupaddPage */]);
-    };
-    GroupshomePage.prototype.searchgroup = function () {
-        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_6__groupsearch_groupsearch__["a" /* GroupsearchPage */]);
-    };
-    GroupshomePage.prototype.entergroup = function (event, group) {
-        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_4__onegroup_onegroup__["a" /* OnegroupPage */], group);
-    };
-    GroupshomePage.prototype.removegroup = function (event, group) {
-        var _this = this;
-        var membership = { groupid: group._id, memberid: this.user._id };
-        this.groupCtrl.unjoingroup(membership).then(function (data) {
-            _this.groupCtrl.getgroup(_this.user._id).then(function (groups) {
-                _this.groups = groups;
-            });
-        });
-    };
-    return GroupshomePage;
-}());
-GroupshomePage = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-groupshome',template:/*ion-inline-start:"/Users/snehak/ionic-heroku-button/src/pages/groupshome/groupshome.html"*/'<!--\n  Generated template for the GroupshomePage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n  	<button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>My Groups</ion-title>\n    <ion-buttons end>\n      <button ion-button icon-right (click)="newgroup()">\n      		Create new group\n          <ion-icon name="add"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n	<ion-item>\n		<button ion-button full clear (click)="groupsearch()">Search for new groups</button>\n	</ion-item>\n	<ion-list>\n		<ion-card *ngFor="let g of groupdetails" (click)="entergroup($event, g)">\n			<ion-item>\n				<h2>{{g.name}}</h2>\n				<p>{{g.basedon}}</p>\n				<button ion-button item-end icon-right clear small (click)="removegroup($event, g)">\n					<div>Leave</div>\n					<ion-icon name="close"></ion-icon>\n				</button>\n			</ion-item>\n			<ion-card-content>\n				<p>{{g.description}}</p>\n				<ion-row>\n						<button item-start ion-button icon-left clear small>\n							<ion-icon name=\'people\'></ion-icon>\n							<div>{{g.nmembers}} Members</div>\n						</button>\n						<button item-end ion-button icon-left clear small>\n							<ion-icon name="text"></ion-icon>\n							<div>{{g.nposts}} Posts</div>\n						</button>\n				</ion-row>\n			</ion-card-content>\n		</ion-card>\n	</ion-list>\n\n</ion-content>\n'/*ion-inline-end:"/Users/snehak/ionic-heroku-button/src/pages/groupshome/groupshome.html"*/,
-    }),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */], __WEBPACK_IMPORTED_MODULE_3__providers_auth_service_auth_service__["a" /* AuthService */],
-        __WEBPACK_IMPORTED_MODULE_2__providers_group_group__["a" /* GroupProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* ModalController */]])
-], GroupshomePage);
-
-//# sourceMappingURL=groupshome.js.map
-
-/***/ }),
-
 /***/ 417:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2313,6 +2187,8 @@ GroupshomePage = __decorate([
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return OnegroupPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_auth_service_auth_service__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_group_group__ = __webpack_require__(92);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2322,6 +2198,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
+
 
 
 /**
@@ -2331,22 +2209,56 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  * on Ionic pages and navigation.
  */
 var OnegroupPage = (function () {
-    function OnegroupPage(navCtrl, navParams) {
+    function OnegroupPage(navCtrl, navParams, auth, groupctrl) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
+        this.auth = auth;
+        this.groupctrl = groupctrl;
+        this.group = this.navParams.get("group");
+        this.user = this.auth.getUserInfo();
+        console.log(this.group);
     }
     OnegroupPage.prototype.ionViewDidLoad = function () {
         console.log('ionViewDidLoad OnegroupPage');
+    };
+    OnegroupPage.prototype.ionViewDidEnter = function () {
+        var _this = this;
+        this.groupctrl.ismember({ memberid: this.user._id, groupid: this.group._id }).then(function (mem) {
+            _this.ismember = mem;
+            if (_this.ismember.length > 0) {
+                _this.member = 1;
+            }
+            else {
+                _this.member = 0;
+            }
+        });
+    };
+    OnegroupPage.prototype.viewcomments = function () { };
+    OnegroupPage.prototype.post = function () { };
+    OnegroupPage.prototype.joingroup = function () {
+        var _this = this;
+        this.groupctrl.joingroup({ memberid: this.user._id, groupid: this.group._id }).then(function (data) {
+            _this.member = 1;
+        });
+    };
+    OnegroupPage.prototype.leavegroup = function () {
+        var _this = this;
+        console.log("trying to leave");
+        this.groupctrl.unjoingroup({ memberid: this.user._id, groupid: this.group._id }).then(function (data) {
+            console.log("left");
+            _this.member = 0;
+        });
     };
     return OnegroupPage;
 }());
 OnegroupPage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-onegroup',template:/*ion-inline-start:"/Users/snehak/ionic-heroku-button/src/pages/onegroup/onegroup.html"*/'<!--\n  Generated template for the OnegroupPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>onegroup</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n</ion-content>\n'/*ion-inline-end:"/Users/snehak/ionic-heroku-button/src/pages/onegroup/onegroup.html"*/,
+        selector: 'page-onegroup',template:/*ion-inline-start:"/Users/snehak/ionic-heroku-button/src/pages/onegroup/onegroup.html"*/'<!--\n  Generated template for the OnegroupPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n  <ion-item>\n  		<button ion-button item-end icon-right *ngIf="member==0" small clear (click)="joingroup()">Join Group</button>\n		<button ion-button item-end icon-right *ngIf="member==1" small clear (click)="leavegroup()">Leave Group</button>\n	</ion-item>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n	<h2 item-start>{{group.name}}</h2>\n    <ion-item>\n    	<p style="white-space: normal;">\n    		{{group.basedon}}\n    	</p>\n		<p style="white-space: normal;"> <ion-icon name=\'people\'></ion-icon>{{group.nmembers}} Members </p>\n		<p style="white-space: normal;">{{group.description}}</p>\n	</ion-item>\n\n	<ion-card *ngFor="let p of posts">\n		<ion-card-header>\n			<ion-avatar item-start>\n				<img src="">\n			</ion-avatar>\n			Member name\n		</ion-card-header>\n		<ion-card-content>\n			Post content\n		</ion-card-content>\n		<ion-row>\n			<p *ngIf="member==0">Join the group to see the comments</p>\n			<button *ngIf="member==1" col text-center ion-button clear (click)="viewcomments()"><ion-icon name="text"></ion-icon>Comments</button>\n		</ion-row>\n	</ion-card>\n\n\n</ion-content>\n\n<ion-footer *ngIf="member==1">\n    <form (ngSubmit)="post()" #newcommentform="ngForm">\n      <ion-row>\n          <ion-textarea name="posttext" placeholder="Write something..." [(ngModel)]="posttext"></ion-textarea>\n          <button ion-button icon-right clear item-end type="submit">Post <ion-icon name="send"></ion-icon></button>\n      </ion-row>\n    </form>\n</ion-footer>\n'/*ion-inline-end:"/Users/snehak/ionic-heroku-button/src/pages/onegroup/onegroup.html"*/,
     }),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__providers_auth_service_auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__providers_auth_service_auth_service__["a" /* AuthService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__providers_group_group__["a" /* GroupProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__providers_group_group__["a" /* GroupProvider */]) === "function" && _d || Object])
 ], OnegroupPage);
 
+var _a, _b, _c, _d;
 //# sourceMappingURL=onegroup.js.map
 
 /***/ }),
@@ -2358,52 +2270,7 @@ OnegroupPage = __decorate([
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GroupaddPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-/**
- * Generated class for the GroupaddPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
-var GroupaddPage = (function () {
-    function GroupaddPage(navCtrl, navParams) {
-        this.navCtrl = navCtrl;
-        this.navParams = navParams;
-    }
-    GroupaddPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad GroupaddPage');
-    };
-    return GroupaddPage;
-}());
-GroupaddPage = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-groupadd',template:/*ion-inline-start:"/Users/snehak/ionic-heroku-button/src/pages/groupadd/groupadd.html"*/'<!--\n  Generated template for the GroupaddPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>groupadd</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n</ion-content>\n'/*ion-inline-end:"/Users/snehak/ionic-heroku-button/src/pages/groupadd/groupadd.html"*/,
-    }),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
-], GroupaddPage);
-
-//# sourceMappingURL=groupadd.js.map
-
-/***/ }),
-
-/***/ 419:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GroupsearchPage; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_group_group__ = __webpack_require__(150);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_group_group__ = __webpack_require__(92);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_auth_service_auth_service__ = __webpack_require__(13);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -2419,51 +2286,130 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 /**
+ * Generated class for the GroupaddPage page.
+ *
+ * See http://ionicframework.com/docs/components/#navigation for more info
+ * on Ionic pages and navigation.
+ */
+var GroupaddPage = (function () {
+    function GroupaddPage(navCtrl, navParams, group, auth, view) {
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+        this.group = group;
+        this.auth = auth;
+        this.view = view;
+        this.ngroup = { name: '', basedon: '', description: '' };
+        this.user = this.auth.getUserInfo();
+    }
+    GroupaddPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad GroupaddPage');
+    };
+    GroupaddPage.prototype.send = function () {
+        var _this = this;
+        this.group.addgroup(this.ngroup).then(function (res) {
+            var userid = _this.user._id;
+            _this.groupid = res;
+            _this.group.joingroup({ groupid: _this.groupid._id, memberid: userid }).then(function (data) {
+                _this.view.dismiss();
+            });
+        });
+    };
+    return GroupaddPage;
+}());
+GroupaddPage = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        selector: 'page-groupadd',template:/*ion-inline-start:"/Users/snehak/ionic-heroku-button/src/pages/groupadd/groupadd.html"*/'<ion-header>\n\n  <ion-navbar>\n    <ion-title>Add a New Group</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n	<form (ngSubmit)="send()" #ngroupform="ngForm">\n      <ion-row>\n        <ion-col>\n          <ion-list inset>\n            \n            <ion-item>\n              <ion-label stacked>Name</ion-label>\n              <ion-input type="text" name="name" [(ngModel)]="ngroup.name"></ion-input>\n            </ion-item>\n            \n            <ion-item>\n              <ion-label stacked>What group is this?</ion-label>\n              <ion-input type="text" name="basedon" [(ngModel)]="ngroup.basedon" ></ion-input>\n            </ion-item>\n\n            <ion-item>\n              <ion-label stacked>Describe this group</ion-label>\n              <ion-input type="text" name="description" [(ngModel)]="ngroup.description"></ion-input>\n            </ion-item>\n            \n          </ion-list>\n        </ion-col>\n      </ion-row>\n      <ion-row>\n        <ion-col class="signup-col">\n          <button ion-button class="submit-btn" full type="submit" [disabled]="!ngroupform.form.valid">Create</button>\n        </ion-col>\n      </ion-row>\n      \n    </form>\n</ion-content>'/*ion-inline-end:"/Users/snehak/ionic-heroku-button/src/pages/groupadd/groupadd.html"*/,
+    }),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__providers_group_group__["a" /* GroupProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__providers_group_group__["a" /* GroupProvider */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__providers_auth_service_auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__providers_auth_service_auth_service__["a" /* AuthService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["n" /* ViewController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["n" /* ViewController */]) === "function" && _e || Object])
+], GroupaddPage);
+
+var _a, _b, _c, _d, _e;
+//# sourceMappingURL=groupadd.js.map
+
+/***/ }),
+
+/***/ 419:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GroupsearchPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_group_group__ = __webpack_require__(92);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_auth_service_auth_service__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__onegroup_onegroup__ = __webpack_require__(417);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__groupshome_groupshome__ = __webpack_require__(151);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+/**
  * Generated class for the GroupsearchPage page.
  *
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
 var GroupsearchPage = (function () {
-    function GroupsearchPage(navCtrl, navParams, groupctrl, auth) {
+    function GroupsearchPage(navCtrl, navParams, groupctrl, auth, groupCtrl) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
         this.groupctrl = groupctrl;
         this.auth = auth;
+        this.groupCtrl = groupCtrl;
         this.user = this.auth.getUserInfo();
     }
     GroupsearchPage.prototype.ionViewDidLoad = function () {
         console.log('ionViewDidLoad GroupsearchPage');
     };
-    GroupsearchPage.prototype.getallgroups = function () {
+    GroupsearchPage.prototype.ionViewDidEnter = function () {
         var _this = this;
-        this.groupctrl.getallgroups().then(function (data) {
-            _this.groups = data;
+        console.log("groupshome enter");
+        this.groupdetails = [];
+        this.groupCtrl.getallgroups().then(function (data) {
+            _this.groupdetails = data;
         });
     };
-    GroupsearchPage.prototype.getitems = function (ev) {
+    GroupsearchPage.prototype.mygroups = function () {
+        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_5__groupshome_groupshome__["a" /* GroupshomePage */]);
+    };
+    GroupsearchPage.prototype.entergroup = function (event, group) {
+        console.log(group);
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_4__onegroup_onegroup__["a" /* OnegroupPage */], { group: group });
+    };
+    GroupsearchPage.prototype.getItems = function (ev) {
         var _this = this;
-        this.getallgroups(); //reset groups
         var val = ev.target.value; //get value of the searchbar
         if (val != '') {
             this.groupctrl.searchgroup(val).then(function (data) {
-                _this.groups = data;
+                console.log(data);
+                _this.groupdetails = data;
             });
         }
-    };
-    GroupsearchPage.prototype.joingroup = function (event, g) {
-        this.groupctrl.joingroup({ groupid: g._id, memberid: this.user._id });
+        else {
+            this.ionViewDidEnter(); //reset groups
+        }
     };
     return GroupsearchPage;
 }());
 GroupsearchPage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-groupsearch',template:/*ion-inline-start:"/Users/snehak/ionic-heroku-button/src/pages/groupsearch/groupsearch.html"*/'<!--\n  Generated template for the GroupsearchPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Search</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n	<ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>\n	<ion-list>\n		<ion-card *ngFor="let g of groups">\n			<ion-item>\n				<h2>{{g.name}}</h2>\n				<p>Created based on: {{g.basedon}}</p>\n			</ion-item>\n			<ion-card-content>\n				<p>{{g.description}}</p>\n			</ion-card-content>\n			<ion-row>\n				<ion-col>\n					<button ion-button icon-left clear small>\n						<ion-icon name=\'people\'></ion-icon>\n						<div>{{g.nmembers}} Members</div>\n					</button>\n				</ion-col>\n				<ion-col>\n					<button ion-button icon-left clear small>\n						<ion-icon name="text"></ion-icon>\n						<div>{{g.nposts}} Posts</div>\n					</button>\n				</ion-col>\n				<ion-col>\n					<ion-note>\n					<button ion-button icon-right clear small (click)="joingroup($event, g)">\n						<div>Join Group</div>\n						<ion-icon name="person-add"></ion-icon>\n					</button>\n					</ion-note>\n				</ion-col>\n			</ion-row>\n		</ion-card>\n	</ion-list>\n\n</ion-content>\n'/*ion-inline-end:"/Users/snehak/ionic-heroku-button/src/pages/groupsearch/groupsearch.html"*/,
+        selector: 'page-groupsearch',template:/*ion-inline-start:"/Users/snehak/ionic-heroku-button/src/pages/groupsearch/groupsearch.html"*/'<!--\n  Generated template for the GroupsearchPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Search</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n	<ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>\n	<ion-item>\n		<button ion-button full clear (click)="mygroups()">My Groups</button>\n	</ion-item>\n	<ion-list>\n		<ion-card *ngFor="let g of groupdetails" (click)="entergroup($event, g)">\n			<ion-item>\n				<h2 style="white-space: normal !important;">{{g.name}}</h2>\n				<p>{{g.basedon}}</p>\n			</ion-item>\n			<ion-card-content>\n				<p>{{g.description}}</p>\n				<ion-item>\n						<button item-start ion-button icon-left clear small>\n							<ion-icon name=\'people\'></ion-icon>\n							<div>{{g.nmembers}} Members</div>\n						</button>\n						<button item-end ion-button icon-left clear small>\n							<ion-icon name="text"></ion-icon>\n							<div>{{g.nposts}} Posts</div>\n						</button>\n				</ion-item>\n			</ion-card-content>\n		</ion-card>\n	</ion-list>\n\n</ion-content>\n'/*ion-inline-end:"/Users/snehak/ionic-heroku-button/src/pages/groupsearch/groupsearch.html"*/,
     }),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */], __WEBPACK_IMPORTED_MODULE_2__providers_group_group__["a" /* GroupProvider */],
-        __WEBPACK_IMPORTED_MODULE_3__providers_auth_service_auth_service__["a" /* AuthService */]])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__providers_group_group__["a" /* GroupProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__providers_group_group__["a" /* GroupProvider */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3__providers_auth_service_auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__providers_auth_service_auth_service__["a" /* AuthService */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_2__providers_group_group__["a" /* GroupProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__providers_group_group__["a" /* GroupProvider */]) === "function" && _e || Object])
 ], GroupsearchPage);
 
+var _a, _b, _c, _d, _e;
 //# sourceMappingURL=groupsearch.js.map
 
 /***/ }),
@@ -2492,47 +2438,49 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(31);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__app_component__ = __webpack_require__(462);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_home_home__ = __webpack_require__(138);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_home_home__ = __webpack_require__(139);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_list_list__ = __webpack_require__(802);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_treasures_treasures__ = __webpack_require__(65);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_treasure_detail_treasure_detail__ = __webpack_require__(408);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_treasures_edit_detail_treasures_edit_detail__ = __webpack_require__(409);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_profile_profile__ = __webpack_require__(411);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_treasure_detail_treasure_detail__ = __webpack_require__(409);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_treasures_edit_detail_treasures_edit_detail__ = __webpack_require__(410);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_profile_profile__ = __webpack_require__(412);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_login_login__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_register_register__ = __webpack_require__(273);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_register_register__ = __webpack_require__(274);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__pages_search_search__ = __webpack_require__(87);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__pages_searchresult_searchresult__ = __webpack_require__(394);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__pages_chat_chat__ = __webpack_require__(146);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__pages_onechat_onechat__ = __webpack_require__(395);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__pages_new_project_new_project__ = __webpack_require__(410);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__pages_searchresult_searchresult__ = __webpack_require__(395);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__pages_chat_chat__ = __webpack_require__(147);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__pages_onechat_onechat__ = __webpack_require__(396);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__pages_new_project_new_project__ = __webpack_require__(411);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__pages_new_request_new_request__ = __webpack_require__(88);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__pages_points_points__ = __webpack_require__(803);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__pages_earnpoints_earnpoints__ = __webpack_require__(804);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__pages_contacts_contacts__ = __webpack_require__(413);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__pages_contactprofile_contactprofile__ = __webpack_require__(414);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__pages_contacts_contacts__ = __webpack_require__(414);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__pages_contactprofile_contactprofile__ = __webpack_require__(415);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__pages_onesearchresult_onesearchresult__ = __webpack_require__(64);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__pages_editprofile_editprofile__ = __webpack_require__(412);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__pages_editprofile_editprofile__ = __webpack_require__(413);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__pages_groupadd_groupadd__ = __webpack_require__(418);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__pages_groupsearch_groupsearch__ = __webpack_require__(419);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__pages_groupshome_groupshome__ = __webpack_require__(416);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__pages_groupshome_groupshome__ = __webpack_require__(151);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__pages_onegroup_onegroup__ = __webpack_require__(417);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__pages_contactreasures_contactreasures__ = __webpack_require__(415);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__ionic_native_status_bar__ = __webpack_require__(244);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__ionic_native_splash_screen__ = __webpack_require__(249);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__providers_auth_service_auth_service__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__providers_requests_requests__ = __webpack_require__(89);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__providers_points_points__ = __webpack_require__(393);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__providers_treasuresprovider_treasuresprovider__ = __webpack_require__(32);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__providers_treasuresdetailprovider_treasuresdetailprovider__ = __webpack_require__(144);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__providers_treasureseditprovider_treasureseditprovider__ = __webpack_require__(805);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__providers_relation_relation__ = __webpack_require__(145);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__providers_group_group__ = __webpack_require__(150);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__pages_contactreasures_contactreasures__ = __webpack_require__(416);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__pages_searchfeedback_searchfeedback__ = __webpack_require__(805);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__ionic_native_status_bar__ = __webpack_require__(245);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__ionic_native_splash_screen__ = __webpack_require__(250);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__providers_auth_service_auth_service__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__providers_requests_requests__ = __webpack_require__(89);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__providers_points_points__ = __webpack_require__(394);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__providers_treasuresprovider_treasuresprovider__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__providers_treasuresdetailprovider_treasuresdetailprovider__ = __webpack_require__(145);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__providers_treasureseditprovider_treasureseditprovider__ = __webpack_require__(806);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__providers_relation_relation__ = __webpack_require__(146);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__providers_group_group__ = __webpack_require__(92);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -2606,7 +2554,8 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_26__pages_groupsearch_groupsearch__["a" /* GroupsearchPage */],
             __WEBPACK_IMPORTED_MODULE_27__pages_groupshome_groupshome__["a" /* GroupshomePage */],
             __WEBPACK_IMPORTED_MODULE_28__pages_onegroup_onegroup__["a" /* OnegroupPage */],
-            __WEBPACK_IMPORTED_MODULE_29__pages_contactreasures_contactreasures__["a" /* ContactreasuresPage */]
+            __WEBPACK_IMPORTED_MODULE_29__pages_contactreasures_contactreasures__["a" /* ContactreasuresPage */],
+            __WEBPACK_IMPORTED_MODULE_30__pages_searchfeedback_searchfeedback__["a" /* SearchfeedbackPage */]
         ],
         imports: [
             __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
@@ -2640,22 +2589,23 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_26__pages_groupsearch_groupsearch__["a" /* GroupsearchPage */],
             __WEBPACK_IMPORTED_MODULE_27__pages_groupshome_groupshome__["a" /* GroupshomePage */],
             __WEBPACK_IMPORTED_MODULE_28__pages_onegroup_onegroup__["a" /* OnegroupPage */],
-            __WEBPACK_IMPORTED_MODULE_29__pages_contactreasures_contactreasures__["a" /* ContactreasuresPage */]
+            __WEBPACK_IMPORTED_MODULE_29__pages_contactreasures_contactreasures__["a" /* ContactreasuresPage */],
+            __WEBPACK_IMPORTED_MODULE_30__pages_searchfeedback_searchfeedback__["a" /* SearchfeedbackPage */]
         ],
         providers: [
-            __WEBPACK_IMPORTED_MODULE_30__ionic_native_status_bar__["a" /* StatusBar */],
-            __WEBPACK_IMPORTED_MODULE_31__ionic_native_splash_screen__["a" /* SplashScreen */],
+            __WEBPACK_IMPORTED_MODULE_31__ionic_native_status_bar__["a" /* StatusBar */],
+            __WEBPACK_IMPORTED_MODULE_32__ionic_native_splash_screen__["a" /* SplashScreen */],
             { provide: __WEBPACK_IMPORTED_MODULE_1__angular_core__["v" /* ErrorHandler */], useClass: __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["e" /* IonicErrorHandler */] },
-            __WEBPACK_IMPORTED_MODULE_32__providers_auth_service_auth_service__["a" /* AuthService */],
-            __WEBPACK_IMPORTED_MODULE_33__providers_requests_requests__["a" /* RequestsProvider */],
-            __WEBPACK_IMPORTED_MODULE_34__providers_points_points__["a" /* PointsProvider */],
-            __WEBPACK_IMPORTED_MODULE_35__providers_treasuresprovider_treasuresprovider__["a" /* TreasuresProvider */],
-            __WEBPACK_IMPORTED_MODULE_36__providers_treasuresdetailprovider_treasuresdetailprovider__["a" /* TreasuresDetailProvider */],
-            __WEBPACK_IMPORTED_MODULE_37__providers_treasureseditprovider_treasureseditprovider__["a" /* TreasureseditproviderProvider */],
-            __WEBPACK_IMPORTED_MODULE_38__providers_relation_relation__["a" /* RelationProvider */],
-            __WEBPACK_IMPORTED_MODULE_38__providers_relation_relation__["a" /* RelationProvider */],
-            __WEBPACK_IMPORTED_MODULE_39__providers_group_group__["a" /* GroupProvider */],
-            __WEBPACK_IMPORTED_MODULE_39__providers_group_group__["a" /* GroupProvider */],
+            __WEBPACK_IMPORTED_MODULE_33__providers_auth_service_auth_service__["a" /* AuthService */],
+            __WEBPACK_IMPORTED_MODULE_34__providers_requests_requests__["a" /* RequestsProvider */],
+            __WEBPACK_IMPORTED_MODULE_35__providers_points_points__["a" /* PointsProvider */],
+            __WEBPACK_IMPORTED_MODULE_36__providers_treasuresprovider_treasuresprovider__["a" /* TreasuresProvider */],
+            __WEBPACK_IMPORTED_MODULE_37__providers_treasuresdetailprovider_treasuresdetailprovider__["a" /* TreasuresDetailProvider */],
+            __WEBPACK_IMPORTED_MODULE_38__providers_treasureseditprovider_treasureseditprovider__["a" /* TreasureseditproviderProvider */],
+            __WEBPACK_IMPORTED_MODULE_39__providers_relation_relation__["a" /* RelationProvider */],
+            __WEBPACK_IMPORTED_MODULE_39__providers_relation_relation__["a" /* RelationProvider */],
+            __WEBPACK_IMPORTED_MODULE_40__providers_group_group__["a" /* GroupProvider */],
+            __WEBPACK_IMPORTED_MODULE_40__providers_group_group__["a" /* GroupProvider */],
         ]
     })
 ], AppModule);
@@ -2671,16 +2621,16 @@ AppModule = __decorate([
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MyApp; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(244);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(249);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_home_home__ = __webpack_require__(138);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(245);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(250);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_home_home__ = __webpack_require__(139);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_login_login__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_profile_profile__ = __webpack_require__(411);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_profile_profile__ = __webpack_require__(412);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_search_search__ = __webpack_require__(87);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_chat_chat__ = __webpack_require__(146);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_chat_chat__ = __webpack_require__(147);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_treasures_treasures__ = __webpack_require__(65);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_contacts_contacts__ = __webpack_require__(413);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_groupshome_groupshome__ = __webpack_require__(416);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_contacts_contacts__ = __webpack_require__(414);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_groupshome_groupshome__ = __webpack_require__(151);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__providers_auth_service_auth_service__ = __webpack_require__(13);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -2792,8 +2742,8 @@ MyApp = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_auth_service_auth_service__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__register_register__ = __webpack_require__(273);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__home_home__ = __webpack_require__(138);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__register_register__ = __webpack_require__(274);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__home_home__ = __webpack_require__(139);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2878,7 +2828,7 @@ LoginPage = __decorate([
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return OnesearchresultPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_treasuresdetailprovider_treasuresdetailprovider__ = __webpack_require__(144);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_treasuresdetailprovider_treasuresdetailprovider__ = __webpack_require__(145);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_auth_service_auth_service__ = __webpack_require__(13);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -2970,9 +2920,9 @@ OnesearchresultPage = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_treasuresprovider_treasuresprovider__ = __webpack_require__(32);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(31);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__treasure_detail_treasure_detail__ = __webpack_require__(408);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__treasure_detail_treasure_detail__ = __webpack_require__(409);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_auth_service_auth_service__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__new_project_new_project__ = __webpack_require__(410);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__new_project_new_project__ = __webpack_require__(411);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3091,236 +3041,236 @@ TreasuresPage = __decorate([
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
-	"./af": 278,
-	"./af.js": 278,
-	"./ar": 279,
-	"./ar-dz": 280,
-	"./ar-dz.js": 280,
-	"./ar-kw": 281,
-	"./ar-kw.js": 281,
-	"./ar-ly": 282,
-	"./ar-ly.js": 282,
-	"./ar-ma": 283,
-	"./ar-ma.js": 283,
-	"./ar-sa": 284,
-	"./ar-sa.js": 284,
-	"./ar-tn": 285,
-	"./ar-tn.js": 285,
-	"./ar.js": 279,
-	"./az": 286,
-	"./az.js": 286,
-	"./be": 287,
-	"./be.js": 287,
-	"./bg": 288,
-	"./bg.js": 288,
-	"./bn": 289,
-	"./bn.js": 289,
-	"./bo": 290,
-	"./bo.js": 290,
-	"./br": 291,
-	"./br.js": 291,
-	"./bs": 292,
-	"./bs.js": 292,
-	"./ca": 293,
-	"./ca.js": 293,
-	"./cs": 294,
-	"./cs.js": 294,
-	"./cv": 295,
-	"./cv.js": 295,
-	"./cy": 296,
-	"./cy.js": 296,
-	"./da": 297,
-	"./da.js": 297,
-	"./de": 298,
-	"./de-at": 299,
-	"./de-at.js": 299,
-	"./de-ch": 300,
-	"./de-ch.js": 300,
-	"./de.js": 298,
-	"./dv": 301,
-	"./dv.js": 301,
-	"./el": 302,
-	"./el.js": 302,
-	"./en-au": 303,
-	"./en-au.js": 303,
-	"./en-ca": 304,
-	"./en-ca.js": 304,
-	"./en-gb": 305,
-	"./en-gb.js": 305,
-	"./en-ie": 306,
-	"./en-ie.js": 306,
-	"./en-nz": 307,
-	"./en-nz.js": 307,
-	"./eo": 308,
-	"./eo.js": 308,
-	"./es": 309,
-	"./es-do": 310,
-	"./es-do.js": 310,
-	"./es.js": 309,
-	"./et": 311,
-	"./et.js": 311,
-	"./eu": 312,
-	"./eu.js": 312,
-	"./fa": 313,
-	"./fa.js": 313,
-	"./fi": 314,
-	"./fi.js": 314,
-	"./fo": 315,
-	"./fo.js": 315,
-	"./fr": 316,
-	"./fr-ca": 317,
-	"./fr-ca.js": 317,
-	"./fr-ch": 318,
-	"./fr-ch.js": 318,
-	"./fr.js": 316,
-	"./fy": 319,
-	"./fy.js": 319,
-	"./gd": 320,
-	"./gd.js": 320,
-	"./gl": 321,
-	"./gl.js": 321,
-	"./gom-latn": 322,
-	"./gom-latn.js": 322,
-	"./he": 323,
-	"./he.js": 323,
-	"./hi": 324,
-	"./hi.js": 324,
-	"./hr": 325,
-	"./hr.js": 325,
-	"./hu": 326,
-	"./hu.js": 326,
-	"./hy-am": 327,
-	"./hy-am.js": 327,
-	"./id": 328,
-	"./id.js": 328,
-	"./is": 329,
-	"./is.js": 329,
-	"./it": 330,
-	"./it.js": 330,
-	"./ja": 331,
-	"./ja.js": 331,
-	"./jv": 332,
-	"./jv.js": 332,
-	"./ka": 333,
-	"./ka.js": 333,
-	"./kk": 334,
-	"./kk.js": 334,
-	"./km": 335,
-	"./km.js": 335,
-	"./kn": 336,
-	"./kn.js": 336,
-	"./ko": 337,
-	"./ko.js": 337,
-	"./ky": 338,
-	"./ky.js": 338,
-	"./lb": 339,
-	"./lb.js": 339,
-	"./lo": 340,
-	"./lo.js": 340,
-	"./lt": 341,
-	"./lt.js": 341,
-	"./lv": 342,
-	"./lv.js": 342,
-	"./me": 343,
-	"./me.js": 343,
-	"./mi": 344,
-	"./mi.js": 344,
-	"./mk": 345,
-	"./mk.js": 345,
-	"./ml": 346,
-	"./ml.js": 346,
-	"./mr": 347,
-	"./mr.js": 347,
-	"./ms": 348,
-	"./ms-my": 349,
-	"./ms-my.js": 349,
-	"./ms.js": 348,
-	"./my": 350,
-	"./my.js": 350,
-	"./nb": 351,
-	"./nb.js": 351,
-	"./ne": 352,
-	"./ne.js": 352,
-	"./nl": 353,
-	"./nl-be": 354,
-	"./nl-be.js": 354,
-	"./nl.js": 353,
-	"./nn": 355,
-	"./nn.js": 355,
-	"./pa-in": 356,
-	"./pa-in.js": 356,
-	"./pl": 357,
-	"./pl.js": 357,
-	"./pt": 358,
-	"./pt-br": 359,
-	"./pt-br.js": 359,
-	"./pt.js": 358,
-	"./ro": 360,
-	"./ro.js": 360,
-	"./ru": 361,
-	"./ru.js": 361,
-	"./sd": 362,
-	"./sd.js": 362,
-	"./se": 363,
-	"./se.js": 363,
-	"./si": 364,
-	"./si.js": 364,
-	"./sk": 365,
-	"./sk.js": 365,
-	"./sl": 366,
-	"./sl.js": 366,
-	"./sq": 367,
-	"./sq.js": 367,
-	"./sr": 368,
-	"./sr-cyrl": 369,
-	"./sr-cyrl.js": 369,
-	"./sr.js": 368,
-	"./ss": 370,
-	"./ss.js": 370,
-	"./sv": 371,
-	"./sv.js": 371,
-	"./sw": 372,
-	"./sw.js": 372,
-	"./ta": 373,
-	"./ta.js": 373,
-	"./te": 374,
-	"./te.js": 374,
-	"./tet": 375,
-	"./tet.js": 375,
-	"./th": 376,
-	"./th.js": 376,
-	"./tl-ph": 377,
-	"./tl-ph.js": 377,
-	"./tlh": 378,
-	"./tlh.js": 378,
-	"./tr": 379,
-	"./tr.js": 379,
-	"./tzl": 380,
-	"./tzl.js": 380,
-	"./tzm": 381,
-	"./tzm-latn": 382,
-	"./tzm-latn.js": 382,
-	"./tzm.js": 381,
-	"./uk": 383,
-	"./uk.js": 383,
-	"./ur": 384,
-	"./ur.js": 384,
-	"./uz": 385,
-	"./uz-latn": 386,
-	"./uz-latn.js": 386,
-	"./uz.js": 385,
-	"./vi": 387,
-	"./vi.js": 387,
-	"./x-pseudo": 388,
-	"./x-pseudo.js": 388,
-	"./yo": 389,
-	"./yo.js": 389,
-	"./zh-cn": 390,
-	"./zh-cn.js": 390,
-	"./zh-hk": 391,
-	"./zh-hk.js": 391,
-	"./zh-tw": 392,
-	"./zh-tw.js": 392
+	"./af": 279,
+	"./af.js": 279,
+	"./ar": 280,
+	"./ar-dz": 281,
+	"./ar-dz.js": 281,
+	"./ar-kw": 282,
+	"./ar-kw.js": 282,
+	"./ar-ly": 283,
+	"./ar-ly.js": 283,
+	"./ar-ma": 284,
+	"./ar-ma.js": 284,
+	"./ar-sa": 285,
+	"./ar-sa.js": 285,
+	"./ar-tn": 286,
+	"./ar-tn.js": 286,
+	"./ar.js": 280,
+	"./az": 287,
+	"./az.js": 287,
+	"./be": 288,
+	"./be.js": 288,
+	"./bg": 289,
+	"./bg.js": 289,
+	"./bn": 290,
+	"./bn.js": 290,
+	"./bo": 291,
+	"./bo.js": 291,
+	"./br": 292,
+	"./br.js": 292,
+	"./bs": 293,
+	"./bs.js": 293,
+	"./ca": 294,
+	"./ca.js": 294,
+	"./cs": 295,
+	"./cs.js": 295,
+	"./cv": 296,
+	"./cv.js": 296,
+	"./cy": 297,
+	"./cy.js": 297,
+	"./da": 298,
+	"./da.js": 298,
+	"./de": 299,
+	"./de-at": 300,
+	"./de-at.js": 300,
+	"./de-ch": 301,
+	"./de-ch.js": 301,
+	"./de.js": 299,
+	"./dv": 302,
+	"./dv.js": 302,
+	"./el": 303,
+	"./el.js": 303,
+	"./en-au": 304,
+	"./en-au.js": 304,
+	"./en-ca": 305,
+	"./en-ca.js": 305,
+	"./en-gb": 306,
+	"./en-gb.js": 306,
+	"./en-ie": 307,
+	"./en-ie.js": 307,
+	"./en-nz": 308,
+	"./en-nz.js": 308,
+	"./eo": 309,
+	"./eo.js": 309,
+	"./es": 310,
+	"./es-do": 311,
+	"./es-do.js": 311,
+	"./es.js": 310,
+	"./et": 312,
+	"./et.js": 312,
+	"./eu": 313,
+	"./eu.js": 313,
+	"./fa": 314,
+	"./fa.js": 314,
+	"./fi": 315,
+	"./fi.js": 315,
+	"./fo": 316,
+	"./fo.js": 316,
+	"./fr": 317,
+	"./fr-ca": 318,
+	"./fr-ca.js": 318,
+	"./fr-ch": 319,
+	"./fr-ch.js": 319,
+	"./fr.js": 317,
+	"./fy": 320,
+	"./fy.js": 320,
+	"./gd": 321,
+	"./gd.js": 321,
+	"./gl": 322,
+	"./gl.js": 322,
+	"./gom-latn": 323,
+	"./gom-latn.js": 323,
+	"./he": 324,
+	"./he.js": 324,
+	"./hi": 325,
+	"./hi.js": 325,
+	"./hr": 326,
+	"./hr.js": 326,
+	"./hu": 327,
+	"./hu.js": 327,
+	"./hy-am": 328,
+	"./hy-am.js": 328,
+	"./id": 329,
+	"./id.js": 329,
+	"./is": 330,
+	"./is.js": 330,
+	"./it": 331,
+	"./it.js": 331,
+	"./ja": 332,
+	"./ja.js": 332,
+	"./jv": 333,
+	"./jv.js": 333,
+	"./ka": 334,
+	"./ka.js": 334,
+	"./kk": 335,
+	"./kk.js": 335,
+	"./km": 336,
+	"./km.js": 336,
+	"./kn": 337,
+	"./kn.js": 337,
+	"./ko": 338,
+	"./ko.js": 338,
+	"./ky": 339,
+	"./ky.js": 339,
+	"./lb": 340,
+	"./lb.js": 340,
+	"./lo": 341,
+	"./lo.js": 341,
+	"./lt": 342,
+	"./lt.js": 342,
+	"./lv": 343,
+	"./lv.js": 343,
+	"./me": 344,
+	"./me.js": 344,
+	"./mi": 345,
+	"./mi.js": 345,
+	"./mk": 346,
+	"./mk.js": 346,
+	"./ml": 347,
+	"./ml.js": 347,
+	"./mr": 348,
+	"./mr.js": 348,
+	"./ms": 349,
+	"./ms-my": 350,
+	"./ms-my.js": 350,
+	"./ms.js": 349,
+	"./my": 351,
+	"./my.js": 351,
+	"./nb": 352,
+	"./nb.js": 352,
+	"./ne": 353,
+	"./ne.js": 353,
+	"./nl": 354,
+	"./nl-be": 355,
+	"./nl-be.js": 355,
+	"./nl.js": 354,
+	"./nn": 356,
+	"./nn.js": 356,
+	"./pa-in": 357,
+	"./pa-in.js": 357,
+	"./pl": 358,
+	"./pl.js": 358,
+	"./pt": 359,
+	"./pt-br": 360,
+	"./pt-br.js": 360,
+	"./pt.js": 359,
+	"./ro": 361,
+	"./ro.js": 361,
+	"./ru": 362,
+	"./ru.js": 362,
+	"./sd": 363,
+	"./sd.js": 363,
+	"./se": 364,
+	"./se.js": 364,
+	"./si": 365,
+	"./si.js": 365,
+	"./sk": 366,
+	"./sk.js": 366,
+	"./sl": 367,
+	"./sl.js": 367,
+	"./sq": 368,
+	"./sq.js": 368,
+	"./sr": 369,
+	"./sr-cyrl": 370,
+	"./sr-cyrl.js": 370,
+	"./sr.js": 369,
+	"./ss": 371,
+	"./ss.js": 371,
+	"./sv": 372,
+	"./sv.js": 372,
+	"./sw": 373,
+	"./sw.js": 373,
+	"./ta": 374,
+	"./ta.js": 374,
+	"./te": 375,
+	"./te.js": 375,
+	"./tet": 376,
+	"./tet.js": 376,
+	"./th": 377,
+	"./th.js": 377,
+	"./tl-ph": 378,
+	"./tl-ph.js": 378,
+	"./tlh": 379,
+	"./tlh.js": 379,
+	"./tr": 380,
+	"./tr.js": 380,
+	"./tzl": 381,
+	"./tzl.js": 381,
+	"./tzm": 382,
+	"./tzm-latn": 383,
+	"./tzm-latn.js": 383,
+	"./tzm.js": 382,
+	"./uk": 384,
+	"./uk.js": 384,
+	"./ur": 385,
+	"./ur.js": 385,
+	"./uz": 386,
+	"./uz-latn": 387,
+	"./uz-latn.js": 387,
+	"./uz.js": 386,
+	"./vi": 388,
+	"./vi.js": 388,
+	"./x-pseudo": 389,
+	"./x-pseudo.js": 389,
+	"./yo": 390,
+	"./yo.js": 390,
+	"./zh-cn": 391,
+	"./zh-cn.js": 391,
+	"./zh-hk": 392,
+	"./zh-hk.js": 392,
+	"./zh-tw": 393,
+	"./zh-tw.js": 393
 };
 function webpackContext(req) {
 	return __webpack_require__(webpackContextResolve(req));
@@ -3501,6 +3451,51 @@ EarnpointsPage = __decorate([
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SearchfeedbackPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+/**
+ * Generated class for the SearchfeedbackPage page.
+ *
+ * See http://ionicframework.com/docs/components/#navigation for more info
+ * on Ionic pages and navigation.
+ */
+var SearchfeedbackPage = (function () {
+    function SearchfeedbackPage(navCtrl, navParams) {
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+    }
+    SearchfeedbackPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad SearchfeedbackPage');
+    };
+    return SearchfeedbackPage;
+}());
+SearchfeedbackPage = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        selector: 'page-searchfeedback',template:/*ion-inline-start:"/Users/snehak/ionic-heroku-button/src/pages/searchfeedback/searchfeedback.html"*/'<!--\n  Generated template for the SearchfeedbackPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>searchfeedback</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n</ion-content>\n'/*ion-inline-end:"/Users/snehak/ionic-heroku-button/src/pages/searchfeedback/searchfeedback.html"*/,
+    }),
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
+], SearchfeedbackPage);
+
+//# sourceMappingURL=searchfeedback.js.map
+
+/***/ }),
+
+/***/ 806:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TreasureseditproviderProvider; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(31);
@@ -3549,7 +3544,7 @@ TreasureseditproviderProvider = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_auth_service_auth_service__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__login_login__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__searchresult_searchresult__ = __webpack_require__(394);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__searchresult_searchresult__ = __webpack_require__(395);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_treasuresprovider_treasuresprovider__ = __webpack_require__(32);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__onesearchresult_onesearchresult__ = __webpack_require__(64);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__new_request_new_request__ = __webpack_require__(88);
@@ -3673,7 +3668,7 @@ SearchPage = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_requests_requests__ = __webpack_require__(89);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_treasuresprovider_treasuresprovider__ = __webpack_require__(32);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_auth_service_auth_service__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_relation_relation__ = __webpack_require__(145);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_relation_relation__ = __webpack_require__(146);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3924,6 +3919,153 @@ RequestsProvider = __decorate([
 ], RequestsProvider);
 
 //# sourceMappingURL=requests.js.map
+
+/***/ }),
+
+/***/ 92:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GroupProvider; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__(38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+/*
+  Generated class for the GroupProvider provider.
+
+  See https://angular.io/docs/ts/latest/guide/dependency-injection.html
+  for more info on providers and Angular DI.
+*/
+var GroupProvider = (function () {
+    function GroupProvider(http) {
+        this.http = http;
+        console.log('Hello GroupProvider Provider');
+    }
+    GroupProvider.prototype.getallgroups = function () {
+        var _this = this;
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
+        headers.append('Content-Type', 'application/json');
+        return new Promise(function (resolve) {
+            _this.http.get('/api/group/')
+                .map(function (res) { return res.json(); })
+                .subscribe(function (data) {
+                resolve(data);
+            });
+        });
+    };
+    GroupProvider.prototype.getgroup = function (id) {
+        var _this = this;
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
+        headers.append('Content-Type', 'application/json');
+        return new Promise(function (resolve) {
+            _this.http.get('/api/group/groupid/' + id)
+                .map(function (res) { return res.json(); })
+                .subscribe(function (data) {
+                resolve(data[0]);
+            });
+        });
+    };
+    GroupProvider.prototype.getusergrouplist = function (id) {
+        var _this = this;
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
+        headers.append('Content-Type', 'application/json');
+        return new Promise(function (resolve) {
+            _this.http.get('/api/member/userid/' + id)
+                .map(function (res) { return res.json(); })
+                .subscribe(function (data) {
+                resolve(data);
+            });
+        });
+    };
+    GroupProvider.prototype.ismember = function (creds) {
+        var _this = this;
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
+        headers.append('Content-Type', 'application/json');
+        return new Promise(function (resolve) {
+            _this.http.get('/api/member', JSON.stringify(creds))
+                .map(function (res) { return res.json(); })
+                .subscribe(function (data) {
+                resolve(data);
+            });
+        });
+    };
+    GroupProvider.prototype.addgroup = function (group) {
+        var _this = this;
+        return new Promise(function (resolve) {
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
+            headers.append('Content-Type', 'application/json');
+            _this.http.post('/api/group', JSON.stringify(group), { headers: headers })
+                .map(function (res) { return res.json(); })
+                .subscribe(function (res) {
+                console.log(res);
+                resolve(res);
+            });
+        });
+    };
+    GroupProvider.prototype.searchgroup = function (search) {
+        var _this = this;
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
+        headers.append('Content-Type', 'application/json');
+        console.log("here");
+        var details = search;
+        return new Promise(function (resolve) {
+            _this.http.get('/api/group/search/' + details)
+                .map(function (res) { return res.json(); })
+                .subscribe(function (data) {
+                resolve(data);
+            });
+        });
+    };
+    GroupProvider.prototype.joingroup = function (creds) {
+        var _this = this;
+        console.log(creds);
+        return new Promise(function (resolve) {
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
+            headers.append('Content-Type', 'application/json');
+            _this.http.post('/api/member', JSON.stringify(creds), { headers: headers })
+                .subscribe(function (res) {
+                resolve(res);
+            });
+        });
+    };
+    GroupProvider.prototype.unjoingroup = function (creds) {
+        var _this = this;
+        console.log("provider leaving");
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
+        headers.append('Content-Type', 'application/json');
+        return new Promise(function (resolve) {
+            _this.http.delete('/api/member', new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({
+                headers: headers,
+                body: creds
+            }))
+                .map(function (res) { return res.json(); })
+                .subscribe(function (data) {
+                resolve(data);
+            });
+        });
+    };
+    return GroupProvider;
+}());
+GroupProvider = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
+], GroupProvider);
+
+var _a;
+//# sourceMappingURL=group.js.map
 
 /***/ })
 

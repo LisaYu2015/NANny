@@ -69,10 +69,10 @@ var assert = require('assert');
 console.log("Anyone here?");
 var local = 'mongodb://localhost:27017/testdb';
 var url2 = 'mongodb://website:Bosch1234567@ec2-54-87-140-197.compute-1.amazonaws.com:27017/testdb';
-mongoose.connect(url2); 
+mongoose.connect(local); 
 // When successfully connected
 mongoose.connection.on('connected', function () {  
-  console.log('Mongoose default connection open to ' + url2);
+  console.log('Mongoose default connection open to ' + local);
 }); 
 // If the connection throws an error
 mongoose.connection.on('error',function (err) {  
@@ -247,6 +247,7 @@ var TreasureComment = mongoose.model('treasurecomments', {
             .exec(function(err, docs) {
                 if(err)
                     res.send(err);
+                console.log(docs)
                 res.json(docs);
             });
     });
@@ -268,11 +269,19 @@ var TreasureComment = mongoose.model('treasurecomments', {
             res.send(docs);
         })
     });
+
+    app.get('/api/member', function(req, res) {
+        console.log('checking membership')
+        Membership.find({memberid:req.body.memberid, groupid:req.body.groupid}, function(err, docs){
+            if(err) 
+                res.send(err)
+            res.send(docs)
+        })
+    })
     
     //join group
-    app.post('/api/member', function(res, req) {
+    app.post('/api/member', function(req, res) {
         console.log("adding membership")
-
         var mem = new Membership();
         mem._id = new ObjectId();
         mem.groupid = req.body.groupid;
@@ -285,7 +294,8 @@ var TreasureComment = mongoose.model('treasurecomments', {
     })
 
     //unjoin group
-    app.delete('/api/member', function(res, req) {
+    app.delete('/api/member', function(req, res) {
+        console.log(req.body)
         Membership.remove({memberid:req.body.memberid, groupid:req.body.groupid}, function(err, docs){
             if(err)
                 res.send(err)
