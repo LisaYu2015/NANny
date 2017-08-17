@@ -23,16 +23,16 @@
     <div class="container">
       <h1>{{contact.fname}} {{contact.lname}}</h1>
       <p class="title">Level: {{contact.level}} 
-        <br> Points: {{total_points | number}} 
+        <br> Points: {{contact.total_points | number}} 
         <br> Expertise: {{contact.expertise}}
       </p>
-      <p>{{user.shop}}</p>
+      <p>{{contact.shop}}</p>
       <ion-row>
         <ion-col>
-          <button class='profilebutton'>View Fixes</button>
+          <button class='profilebutton' (click)="viewfixes()">View Fixes</button>
         </ion-col>
         <ion-col>
-          <button class="profilebutton">Get Help</button>
+          <button class="profilebutton" (click)="gethelp()">Get Help</button>
         </ion-col>
       </ion-row>
     </div>

@@ -31,9 +31,11 @@
           <ion-card-content>
             <canvas #lineCanvas></canvas>
           </ion-card-content>
-          <ion-row>
-            <div id="legend" class="chart-legend"></div>
-          </ion-row>
+            <ion-segment [(ngModel)]="timeframe">
+              <ion-segment-button value="week">This Week</ion-segment-button>
+              <ion-segment-button value="month">This Month</ion-segment-button>
+              <ion-segment-button value="year">This Year</ion-segment-button>
+            </ion-segment>
         </ion-card>
       </ion-col>
     </ion-row>

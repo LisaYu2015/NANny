@@ -5,7 +5,9 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
+	<button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
   <ion-navbar>
   	<button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
@@ -27,37 +29,25 @@
 		<button ion-button full clear (click)="groupsearch()">Search for new groups</button>
 	</ion-item>
 	<ion-list>
-		<button ion-card *ngFor="let g of groups" (click)="entergroup($event, g)">
+		<ion-card *ngFor="let g of groupdetails" (click)="entergroup($event, g)">
 			<ion-item>
-				<h2>{{g.name}}</h2>
-				<p>Created based on: {{g.basedon}}</p>
+				<h2 style="white-space: normal !important;">{{g.name}}</h2>
+				<p>{{g.basedon}}</p>
 			</ion-item>
 			<ion-card-content>
 				<p>{{g.description}}</p>
-			</ion-card-content>
-			<ion-row>
-				<ion-col>
-					<button ion-button icon-left clear small>
-						<ion-icon name='people'></ion-icon>
-						<div>{{g.nmembers}} Members</div>
-					</button>
-				</ion-col>
-				<ion-col>
-					<button ion-button icon-left clear small>
-						<ion-icon name="text"></ion-icon>
-						<div>{{g.nposts}} Posts</div>
-					</button>
-				</ion-col>
-				<ion-col>
-					<ion-note>
-						<button ion-button icon-right clear small (click)="removegroup($event, g)">
-							<div>Unjoin Group</div>
-							<ion-icon name="close"></ion-icon>
+				<ion-item>
+						<button item-start ion-button icon-left clear small>
+							<ion-icon name='people'></ion-icon>
+							<div>{{g.nmembers}} Members</div>
 						</button>
-					</ion-note>
-				</ion-col>
-			</ion-row>
-		</button>
+						<button item-end ion-button icon-left clear small>
+							<ion-icon name="text"></ion-icon>
+							<div>{{g.nposts}} Posts</div>
+						</button>
+				</ion-item>
+			</ion-card-content>
+		</ion-card>
 	</ion-list>
 
 </ion-content>

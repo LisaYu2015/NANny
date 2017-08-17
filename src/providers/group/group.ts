@@ -33,12 +33,37 @@ export class GroupProvider {
   	headers.append('Content-Type','application/json');
 
   	return new Promise(resolve => {
-  		this.http.get('/api/group/groupid' + id)
+  		this.http.get('/api/group/groupid/' + id)
   		.map(res => res.json() )
   		.subscribe(data => {
-  			resolve(data);
+  			resolve(data[0]);
   		})
   	})
+  }
+
+  getusergrouplist(id){
+    let headers = new Headers();
+    headers.append('Content-Type','application/json');
+
+    return new Promise(resolve => {
+      this.http.get('/api/member/userid/' + id)
+      .map(res => res.json() )
+      .subscribe(data => {
+        resolve(data);
+      })
+    })
+  }
+
+  ismember(creds){
+    let headers = new Headers();
+    headers.append('Content-Type','application/json');
+    return new Promise(resolve => {
+      this.http.get('/api/member/is/' + creds.memberid + '/' + creds.groupid)
+        .map(res => res.json() )
+        .subscribe(data => {
+          resolve(data);
+        })
+    })
   }
 
   addgroup(group){
@@ -46,7 +71,9 @@ export class GroupProvider {
       let headers = new Headers();
       headers.append('Content-Type', 'application/json');
       this.http.post('/api/group', JSON.stringify(group), {headers: headers})
+                  .map(res=>res.json())
                   .subscribe(res => {
+                    console.log(res)
                     resolve(res);
                   });
     });
@@ -56,6 +83,7 @@ export class GroupProvider {
   searchgroup(search){
   	let headers = new Headers();
   	headers.append('Content-Type','application/json');
+    console.log("here")
 
   	let details = search;
   	return new Promise(resolve => {
@@ -68,6 +96,7 @@ export class GroupProvider {
   }
 
   joingroup(creds){
+    console.log(creds)
   	return new Promise(resolve => {
       let headers = new Headers();
       headers.append('Content-Type', 'application/json');
@@ -79,6 +108,7 @@ export class GroupProvider {
   }
 
   unjoingroup(creds){
+    console.log("provider leaving")
   	let headers = new Headers();
   	headers.append('Content-Type','application/json');
 

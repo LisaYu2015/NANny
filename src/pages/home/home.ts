@@ -11,6 +11,7 @@ import { ChatPage } from '../chat/chat'
 import { TreasuresPage } from '../treasures/treasures'
 import { OnesearchresultPage } from '../onesearchresult/onesearchresult'
 import { TreasuresProvider } from '../../providers/treasuresprovider/treasuresprovider'
+import { NewProjectPage } from '../new-project/new-project'
  
 @Component({
   selector: 'page-home',
@@ -30,6 +31,8 @@ export class HomePage {
   p_request = [];
   p_total = [];
   searched = false;
+  labels = [];
+  timeframe = "week";
 
   
   constructor(private nav: NavController, private auth: AuthService, private p: PointsProvider, public modalCtrl: ModalController,
@@ -69,7 +72,7 @@ export class HomePage {
     this.lineChart = new Chart(this.lineCanvas.nativeElement, {
       type: 'line',
       data: {
-        labels: [],
+        labels: this.labels,
         datasets: [{
           label: "New Fixes",
           fill: false,
@@ -130,19 +133,26 @@ export class HomePage {
 
   ionViewDidLoad(){
 
-        this.p.getpoints(this.user._id).then((data) => {
+    this.p.getpoints(this.user._id).then((data) => {
       if(data){
         this.all_points = data;
         for (var i = 0; i < this.all_points.length ; i++) {
           let comments = this.all_points[i].a_comment;
           let fix = this.all_points[i].a_fix;
           let req = this.all_points[i].a_request;
+          let d = this.all_points[i].date;
+          console.log(d)
           this.p_comment.push(comments *5 + this.p_comment.reduce((pv, cv) => pv+cv, 0));
           this.p_fixes.push(fix *10 + this.p_fixes.reduce((pv, cv) => pv+cv, 0));
           this.p_request.push(req *2 + this.p_request.reduce((pv, cv) => pv+cv, 0));
+          this.labels.push(d)
           // this.p_total.push(comments *5 + fix *10 + req *2)
         }
         this.chartcreate()
+        console.log(this.p_comment)
+        console.log(this.p_fixes)
+        console.log(this.p_request)
+        console.log(this.labels)
       } 
     });
 
@@ -153,7 +163,11 @@ export class HomePage {
   }
 
   addtreasures(){
-    this.nav.setRoot(TreasuresPage)
+    let modal = this.modalCtrl.create(NewProjectPage);
+        modal.onDidDismiss(data => {
+        })
+        modal.present();
+        console.log("here12");
   }
 
   givehelp(){

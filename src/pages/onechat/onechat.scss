@@ -7,16 +7,16 @@ page-onechat {
 	  list-style-type:none;
 	}
 	.message {
-	    border-radius: .75rem;
-	    margin: 0 15px 10px;
-	    padding: 1rem;
-	    position: relative;
-	    max-width: 75%;
 	}
+	ion-item {
+         font-size: 0.9em;
+         box-shadow: none !important;
+        padding-bottom: 20px;
+        border: none !important;
+     }
 	.message.to {
 	    background-color: #158ffe;
 	    color: #fff;
-	    margin-left: 80px;
 	    text-align:right;
 	}
 	.message.from {

@@ -7,7 +7,10 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>onegroup</ion-title>
+  <ion-item>
+  		<button ion-button item-end icon-right *ngIf="member==0" small clear (click)="joingroup()">Join Group</button>
+		<button ion-button item-end icon-right *ngIf="member==1" small clear (click)="leavegroup()">Leave Group</button>
+	</ion-item>
   </ion-navbar>
 
 </ion-header>
@@ -15,4 +18,39 @@
 
 <ion-content padding>
 
+	<h2 item-start>{{group.name}}</h2>
+    <ion-item>
+    	<p style="white-space: normal;">
+    		{{group.basedon}}
+    	</p>
+		<p style="white-space: normal;"> <ion-icon name='people'></ion-icon>{{group.nmembers}} Members </p>
+		<p style="white-space: normal;">{{group.description}}</p>
+	</ion-item>
+
+	<ion-card *ngFor="let p of posts">
+		<ion-card-header>
+			<ion-avatar item-start>
+				<img src="">
+			</ion-avatar>
+			Member name
+		</ion-card-header>
+		<ion-card-content>
+			Post content
+		</ion-card-content>
+		<ion-row>
+			<p *ngIf="member==0">Join the group to see the comments</p>
+			<button *ngIf="member==1" col text-center ion-button clear (click)="viewcomments()"><ion-icon name="text"></ion-icon>Comments</button>
+		</ion-row>
+	</ion-card>
+
+
 </ion-content>
+
+<ion-footer *ngIf="member==1">
+    <form (ngSubmit)="post()" #newcommentform="ngForm">
+      <ion-row>
+          <ion-textarea name="posttext" placeholder="Write something..." [(ngModel)]="posttext"></ion-textarea>
+          <button ion-button icon-right clear item-end type="submit">Post <ion-icon name="send"></ion-icon></button>
+      </ion-row>
+    </form>
+</ion-footer>

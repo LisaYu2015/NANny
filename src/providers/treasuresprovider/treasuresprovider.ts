@@ -58,6 +58,20 @@ export class TreasuresProvider {
     });
   }
 
+  getusertreasuresuploaded(id) {
+
+    return new Promise(resolve => {
+
+      this.http.get('/api/Project/alluploaded/id/' + id)
+          .map(res => res.json())
+          .subscribe(data => {
+              this.data = data;
+              resolve(this.data);
+              console.log(data);
+          });
+    });
+  }
+
   getuploadedtreasures() {
 
     return new Promise(resolve => {
