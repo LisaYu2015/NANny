@@ -46,7 +46,7 @@ export class TreasureDetailPage {
     ionViewDidLoad() {
         console.log('ionViewDidLoad TreasuresDetailPage');
         console.log(this.ProjID);
-        this.treasuresDetailService.gettreasuresdetail().then((data) => {
+        this.treasuresService.getprojtreasuresdetail(this.ProjID._id).then((data) => {
             this.details = data;
             for (let i = 0; i < this.details.length; i++) {
                               

@@ -19,7 +19,7 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
   <ion-searchbar (ionInput)="searchsingle($event)"></ion-searchbar>
 
   <ion-item *ngIf="searchval">
@@ -30,20 +30,50 @@
   <ion-list >
 
      <ion-grid>
-    <ion-item *ngFor =" let Userproject of Userprojects; let i  = index ">
-     
+    <ion-item class="card-background-page" *ngFor =" let project of projects; let i  = index ">
+     <ion-card  (click)="showDetails(project)" >
      <ion-row >
-     <ion-col>    
-       <ion-card (click)="showDetails(Userproject)" >
-       <img src={{this.carlinks[i]}}>   
-       <div class="card-title" >{{Userproject.year}} {{Userproject.brand}} {{Userproject.model}} </div>
-       <div class="card-subtitle">{{Userproject.errorcode}}</div>
-       </ion-card>
+     <ion-col >    
+       
+
+        <ion-item >
+        <ion-avatar item-start>
+          <img src="https://s3.amazonaws.com/katcher/ProfilePics/{{project.Userid}}.jpg">
+          </ion-avatar>
+          <h2>{{Authors[i].fname}} {{Authors[i].lname}}</h2>
+          <p>{{Authors[i].expertise}} | {{Authors[i].level}}</p>
+        </ion-item>
+
+       <img  src={{this.carlinks[i]}}>   
+       <div class="card-title" >{{project.year}} {{project.brand}} {{project.model}} </div>
+       <div class="card-subtitle">{{project.errorcode}}</div>
+       
      </ion-col>
 
      
      </ion-row >
-       
+
+
+     <ion-row>
+    <ion-col>
+      <button ion-button icon-left clear small >
+        <ion-icon name="checkmark-circle"></ion-icon>
+        <div>{{project.verifications.length}} Verifications</div>
+      </button>
+    </ion-col>
+    <ion-col>
+      <button (click)="opencomments(project)" ion-button icon-left clear small>
+        <ion-icon name="chatbubbles"></ion-icon>
+        <div>{{project.numcomments}} Comments</div>
+      </button>
+    </ion-col>
+    <ion-col center text-center>
+      <ion-note>
+        11 hours ago
+      </ion-note>
+    </ion-col>
+  </ion-row>
+       </ion-card>
      </ion-item></ion-grid>
      </ion-list>
 

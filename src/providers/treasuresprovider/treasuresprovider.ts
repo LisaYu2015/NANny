@@ -29,6 +29,21 @@ export class TreasuresProvider {
   	})
   }
 
+    getprojtreasuresdetail(id) {
+
+    return new Promise(resolve => {
+
+      this.http.get('/api/Detail/ProjID/' + id)
+          .map(res => res.json())
+          .subscribe(data => {
+              this.data = data;
+              resolve(this.data);
+              console.log(data);
+          });
+    });
+  }
+
+
   getusertreasures(id) {
 
     return new Promise(resolve => {
@@ -42,6 +57,21 @@ export class TreasuresProvider {
           });
     });
   }
+
+  getuploadedtreasures() {
+
+    return new Promise(resolve => {
+
+      this.http.get('/api/Project/alluploaded')
+          .map(res => res.json())
+          .subscribe(data => {
+              this.data = data;
+              resolve(this.data);
+              console.log(data);
+          });
+    });
+  }
+
 
   posttreasures(project) {
     let headers = new Headers();
@@ -108,11 +138,11 @@ export class TreasuresProvider {
     });
   }
 
-  searchtreasures(make:string, model:string, symptoms:string, errorcodes:string){
+  searchtreasures(search:string){
   	let headers = new Headers();
   	headers.append('Content-Type','application/json');
 
-  	let details = make + " " + model + " " + symptoms + " " + errorcodes;
+  	let details = search;
   	return new Promise(resolve => {
   		this.http.get('api/Project/search/' + details)
   		.map(res => res.json() )
@@ -143,11 +173,51 @@ uploadimg(img){
     console.log(res.json());
     console.log("abc");
   });
-
-
-
-
 }
+
+
+  gettreasurecomment(treasureid) {
+    
+
+    return new Promise(resolve => {
+
+      this.http.get('/api/TreasureComment/' + treasureid)
+          .map(res => res.json())
+          .subscribe(data => {
+              this.data = data;
+              resolve(this.data);
+              
+          });
+    });
+  }
+
+  postcomment(comment) {
+        let headers = new Headers();
+    
+
+    //project.uploaded="yes"
+        
+    console.log(comment);
+
+    headers.append('Content-Type','application/json');
+
+    return new Promise(resolve => {
+
+    this.http.post('/api/trescomment',JSON.stringify(comment), {headers: headers})
+    .map(res => res.json())
+        .subscribe(data => {
+            resolve(data);
+            console.log(data);
+
+
+    
+    });
+  });
+  }
+
+
+
+
 }
 
 

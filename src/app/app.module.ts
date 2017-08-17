@@ -29,7 +29,8 @@ import { EditprofilePage } from '../pages/editprofile/editprofile';
 import { GroupaddPage } from '../pages/groupadd/groupadd';
 import { GroupsearchPage } from '../pages/groupsearch/groupsearch';
 import { GroupshomePage } from '../pages/groupshome/groupshome';
-import { OnegroupPage } from '../pages/onegroup/onegroup'
+import { OnegroupPage } from '../pages/onegroup/onegroup';
+import { CommentPage } from '../pages/commentpage/commentpage';
 
 
 
@@ -70,7 +71,8 @@ import { GroupProvider } from '../providers/group/group';
       GroupaddPage,
       GroupsearchPage,
       GroupshomePage,
-      OnegroupPage
+      OnegroupPage,
+      CommentPage
 
   ],
   imports: [
@@ -104,7 +106,8 @@ import { GroupProvider } from '../providers/group/group';
       GroupaddPage,
       GroupsearchPage,
       GroupshomePage,
-      OnegroupPage
+      OnegroupPage,
+      CommentPage
   ],
   providers: [
     StatusBar,
