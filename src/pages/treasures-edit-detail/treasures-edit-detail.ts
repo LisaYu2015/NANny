@@ -23,6 +23,7 @@ export class TreasuresEditDetailPage {
   newprojectconclusions = [];
   newprojectdiagnosis = [] ;
   newprojectsymptoms = [];
+  counter = Array;
 
  
 
@@ -213,5 +214,12 @@ addconclusion(){
                 });
 }
 
+ upimg(detail){
+  detail.numpic++;
+  console.log(this.newimg);
+  this.treasuresService.postdetails(detail);
+  this.treasuresService.uploadimg(this.newimg);
 
+
+}
 }

@@ -1,8 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
-import { HttpModule } from '@angular/http';
-
+import { HttpModule } from '@angular/http'
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -29,10 +28,10 @@ import { EditprofilePage } from '../pages/editprofile/editprofile';
 import { GroupaddPage } from '../pages/groupadd/groupadd';
 import { GroupsearchPage } from '../pages/groupsearch/groupsearch';
 import { GroupshomePage } from '../pages/groupshome/groupshome';
-import { OnegroupPage } from '../pages/onegroup/onegroup'
-import { ContactreasuresPage } from '../pages/contactreasures/contactreasures'
-import { SearchfeedbackPage } from '../pages/searchfeedback/searchfeedback'
-
+import { OnegroupPage } from '../pages/onegroup/onegroup';
+import { ContactreasuresPage } from '../pages/contactreasures/contactreasures';
+import { SearchfeedbackPage } from '../pages/searchfeedback/searchfeedback';
+import { CommentPage } from '../pages/commentpage/commentpage';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -73,8 +72,8 @@ import { GroupProvider } from '../providers/group/group';
       GroupshomePage,
       OnegroupPage,
       ContactreasuresPage,
-      SearchfeedbackPage
-
+      SearchfeedbackPage,
+      CommentPage
   ],
   imports: [
     BrowserModule,
@@ -109,7 +108,8 @@ import { GroupProvider } from '../providers/group/group';
       GroupshomePage,
       OnegroupPage,
       ContactreasuresPage,
-      SearchfeedbackPage
+      SearchfeedbackPage,
+      CommentPage
   ],
   providers: [
     StatusBar,

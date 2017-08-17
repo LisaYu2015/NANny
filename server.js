@@ -1,8 +1,4 @@
-//nodejs buckets
-var AWS = require('aws-sdk');
-var s3Bucket = new AWS.S3( );
-var myBucket = 'katcher';
-var myKey = 'AKIAJA3W3KOAYMVDGQNQ';
+
 
 //Set up host server for website
 var express = require('express'),
@@ -150,7 +146,8 @@ var Project = mongoose.model('Project', {
     uploaded: {type:String, default:'no'},
     numofpics: {type:Number, default:0},
     opendate: {type:Date, default:Date.now},
-    verifications: {type:Number, default:0}
+    verifications: {type:Array, default:[]},
+    numcomments: {type:Number, default:0}
 });
 
 //Data contains the details of each project/treasure
@@ -160,6 +157,7 @@ var Detail = mongoose.model('detail', {
     type:String,
     sentence:String,
     step: {type:Number, default:0},
+    numpic: {type:Number, default:0},
 });
 
 //Relationships track how mnay times someone has helped someone else
@@ -199,7 +197,7 @@ var PostComment = mongoose.model('postcomments', {
     content: {type:String, default:''}
 })
 
-var TreasureComment = mongoose.model('treasurecomments', {
+var TreasureComment = mongoose.model('trescomments', {
     _id: mongoose.Schema.Types.ObjectId,
     treasureid: {type:String, default:''},
     writerid: {type:String, default:''},
@@ -503,7 +501,10 @@ app.get('/api/post/postid/:postid')
             if(err)
                 res.send(err);
             res.json(users);
+        console.log(users);
+        
         });
+
     });
 
     //find one user with some username
@@ -627,13 +628,16 @@ app.get('/api/Project/alluploaded', function(req, res) {
         console.log("fetching Projects");
  
         //use mongoose to get all Projects in the database
-        Project.find({uploaded:"yes"},function(err, Project){
+        Project.find({uploaded:"yes"})
+        .sort({_id:-1})
+        .exec(function(err, Project){
             //if there is an error retrieving, send the error. nothing after res.send(err) will execute
             if (err)
                 res.send(err);
  
             res.json(Project);
-        });
+        })
+        ;
     });
 
 app.get('/api/Project/alluploaded/id/:id', function(req, res) {
@@ -674,6 +678,23 @@ app.get('/api/Project/id/:id', function(req, res){
                     res.send(err);
                 res.json(docs);       
                 console.log(docs)
+        });
+    });
+
+
+
+    app.get('/api/Detail/ProjID/:id', function(req, res) {
+ 
+        console.log("fetching detail");
+ 
+        //use mongoose to get all Projects in the database
+        Detail.find({ProjectID: req.params.id})
+            .sort({step: 1})
+            .exec(function(err, detail){
+            if (err)
+                res.send(err);
+            console.log(detail);
+            res.json(detail);
         });
     });
  
@@ -724,6 +745,8 @@ app.get('/api/Project/id/:id', function(req, res){
                     project.complete = req.body.complete;
                     project.uploaded = req.body.uploaded;
                     project.numofpics = req.body.numofpics;
+                    project.numcomments = req.body.numcomments;
+                    project.verifications = req.body.verifications;
            
                     project.save(function(err, proj) {
                       if (err)
@@ -787,6 +810,7 @@ app.get('/api/Project/id/:id', function(req, res){
             detail.type = req.body.type;
             detail.sentence = req.body.sentence;
             detail.step = req.body.step;
+            detail.numpic = req.body.numpic;
             detail.save(function(err, det) {
                 if (err)
                 {
@@ -813,6 +837,7 @@ app.get('/api/Project/id/:id', function(req, res){
                 detail.type = req.body.type;
                 detail.sentence= req.body.sentence;
                 detail.step = req.body.step;
+                detail.numpic =     req.body.numpic;
 
     
                 detail.save(function(err, det) {
@@ -854,19 +879,148 @@ app.get('/api/Project/id/:id', function(req, res){
 
 
 
-app.post('/api/img' , function(req,res){
 
-console.log(req);
-console.log("ghfkuhcv;l.i");
-// params = {Bucket: myBucket ,Key: myKey, Body: req};
 
-//     s3Bucket.putObject(params, function(err, data) {
-//         if (err) {
-//             console.log(err);
-//             }
-//         else {
-//             console.log("Successfully uploaded data to bucket");
-//         }
-//         });
+app.get('/api/TreasureComment/:treasureid', function(req, res){
+        console.log("getting comments");
+        TreasureComment.find({treasureid: req.params.treasureid})
+        .sort({_id:1})
+        .exec( function(err, com){
+            if(err)
+                res.send(err);
+            res.json(com);
+        });
+    });
 
-});
+
+app.post('/api/trescomment', function(req, res)   {
+            console.log("here");
+
+                        
+
+            trescomment = new TreasureComment(); 
+            trescomment._id = new ObjectId();
+            trescomment.treasureid = req.body.treasureid;
+            trescomment.writerid = req.body.writerid;
+            trescomment.content = req.body.content;
+
+            trescomment.save(function(err, com) {
+                if (err)
+                {
+                    console.log('error');
+                    console.log(err);
+                    res.send(err);
+                }
+                else
+                {
+                    console.log(trescomment);
+                    console.log('success');
+                    res.send(com);
+                }
+            });
+        });
+
+
+
+
+
+// //nodejs buckets
+// // var AWS = require('aws-sdk');
+// // var s3Bucket = new AWS.S3( );
+// // var myBucket = 'katcher';
+// // var myKey = 'AKIAJA3W3KOAYMVDGQNQ';
+// var AWS = require('aws-sdk');
+
+// var s3 = new AWS.S3( { params: {Bucket: 'katcher'} } );
+
+
+// // Bucket names must be unique across all S3 users
+
+// var myBucket = 'katcher';
+
+// var myKey = 'AKIAJA3W3KOAYMVDGQNQ';
+
+
+
+//      params = {Bucket: myBucket, Key: myKey, Body: ''};
+
+//      s3.putObject(params, function(err, data) {
+
+//          if (err) {
+
+//              console.log(err)
+
+//          } else {
+
+//              console.log("Successfully uploaded data to myBucket/myKey");
+
+//          }
+
+//       });
+
+
+
+
+
+
+
+
+
+// app.post('/api/img' , function(req,res){
+
+// console.log(req.body.image);
+  // buf = new Buffer(req.body.imageBinary.replace(/^data:image\/\w+;base64,/, ""),'base64')
+  // var data = {
+  //   Key: req.body.userId, 
+  //   Body: buf,
+  //   ContentEncoding: 'base64',
+  //   ContentType: 'image/jpg'
+  // };
+  // s3Bucket.putObject(data, function(err, data){
+  //     if (err) { 
+  //       console.log(err);
+  //       console.log('Error uploading data: ', data); 
+  //     } else {
+  //       console.log('succesfully uploaded the image!');
+  //     }
+  // });
+
+// });
+
+
+// var uploadFile = function (file_name,file_path) {
+//             var deferred = $q.defer();
+//             $cordovaFile.readAsArrayBuffer(file_name,file_path)
+//                 .then(function (success) {
+//                     //AWS.config.region = 'us-east-1';
+//                     AWS.config.update({
+                        
+//                     });
+//                     var bucket = new AWS.S3({
+//                         params: {
+//                             Bucket: 'katcher'
+//                         }
+//                     });
+//                     var params = {
+//                         Key: "uploads/"+file_name,
+//                         Body: success
+//                     };
+
+//                     bucket.upload(params).on('httpUploadProgress',function(evt){
+//                         $scope.uploading = true;
+//                         $scope.progress = parseInt((evt.loaded*100)/ evt.total);
+//                         console.log("Uploaded :: " + $scope.progress);
+//                         $scope.$apply();
+//                     }).send(function (err, data) {
+//                         $scope.uploading = false;
+//                         $scope.$apply();
+//                         deferred.resolve(data);
+
+//                     });
+//                     $scope.i++;
+
+//                 }, function (error) {
+//                     deferred.reject(error);
+//                 });
+//             return deferred.promise;
+//         };
