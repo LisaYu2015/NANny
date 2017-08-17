@@ -7,8 +7,8 @@ webpackJsonp([0],{
 /* unused harmony export User */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(31);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__ = __webpack_require__(469);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__ = __webpack_require__(468);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_Rx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_Rx__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__ = __webpack_require__(38);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_map__);
@@ -39,8 +39,6 @@ var User = (function () {
 var AuthService = (function () {
     function AuthService(http) {
         this.http = http;
-        //url = 'https://texconnect.herokuapp.com'
-        this.url = 'http://localhost:5000';
         this.data = null;
     }
     AuthService.prototype.login = function (credentials) {
@@ -49,7 +47,7 @@ var AuthService = (function () {
             return Promise.reject("Please insert credentials");
         }
         return new Promise(function (resolve) {
-            _this.http.get(_this.url + '/api/email/' + credentials.email)
+            _this.http.get('/api/email/' + credentials.email)
                 .map(function (res) { return res.json(); })
                 .subscribe(function (data) {
                 _this.data = data;
@@ -106,7 +104,7 @@ var AuthService = (function () {
             _this.http.get('/api/user/id/' + id)
                 .map(function (res) { return res.json(); })
                 .subscribe(function (res) {
-                user = res;
+                user = res[0];
                 var name = user.fname.toString() + " " + user.lname.toString();
                 console.log(name);
                 resolve(name);
@@ -119,7 +117,8 @@ var AuthService = (function () {
         return new Promise(function (resolve) {
             _this.http.get('/api/user/id/' + id)
                 .map(function (res) { return res.json(); })
-                .subscribe(function (user) {
+                .subscribe(function (res) {
+                user = res[0];
                 console.log(user);
                 resolve(user);
             });
@@ -157,7 +156,7 @@ AuthService = __decorate([
 
 /***/ }),
 
-/***/ 139:
+/***/ 137:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -166,14 +165,14 @@ AuthService = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_auth_service_auth_service__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__login_login__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_chart_js__ = __webpack_require__(733);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_chart_js__ = __webpack_require__(732);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_chart_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_chart_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_points_points__ = __webpack_require__(394);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__search_search__ = __webpack_require__(87);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__chat_chat__ = __webpack_require__(147);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__onesearchresult_onesearchresult__ = __webpack_require__(64);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__providers_treasuresprovider_treasuresprovider__ = __webpack_require__(32);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__new_project_new_project__ = __webpack_require__(411);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_points_points__ = __webpack_require__(392);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__search_search__ = __webpack_require__(86);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__chat_chat__ = __webpack_require__(145);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__treasures_treasures__ = __webpack_require__(64);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__onesearchresult_onesearchresult__ = __webpack_require__(87);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__providers_treasuresprovider_treasuresprovider__ = __webpack_require__(28);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -208,8 +207,6 @@ var HomePage = (function () {
         this.p_request = [];
         this.p_total = [];
         this.searched = false;
-        this.labels = [];
-        this.timeframe = "week";
         var info = this.auth.getUserInfo();
         this.username = info.fname;
         this.email = info.email;
@@ -241,7 +238,7 @@ var HomePage = (function () {
         this.lineChart = new __WEBPACK_IMPORTED_MODULE_4_chart_js__["Chart"](this.lineCanvas.nativeElement, {
             type: 'line',
             data: {
-                labels: this.labels,
+                labels: [],
                 datasets: [{
                         label: "New Fixes",
                         fill: false,
@@ -304,30 +301,19 @@ var HomePage = (function () {
                     var comments = _this.all_points[i].a_comment;
                     var fix = _this.all_points[i].a_fix;
                     var req = _this.all_points[i].a_request;
-                    var d = _this.all_points[i].date;
-                    console.log(d);
                     _this.p_comment.push(comments * 5 + _this.p_comment.reduce(function (pv, cv) { return pv + cv; }, 0));
                     _this.p_fixes.push(fix * 10 + _this.p_fixes.reduce(function (pv, cv) { return pv + cv; }, 0));
                     _this.p_request.push(req * 2 + _this.p_request.reduce(function (pv, cv) { return pv + cv; }, 0));
-                    _this.labels.push(d);
                     // this.p_total.push(comments *5 + fix *10 + req *2)
                 }
                 _this.chartcreate();
-                console.log(_this.p_comment);
-                console.log(_this.p_fixes);
-                console.log(_this.p_request);
-                console.log(_this.labels);
             }
         });
         console.log("hello from homepage");
         // this.legend.html = this.lineChart.generateLegend();
     };
     HomePage.prototype.addtreasures = function () {
-        var modal = this.modalCtrl.create(__WEBPACK_IMPORTED_MODULE_10__new_project_new_project__["a" /* NewProjectPage */]);
-        modal.onDidDismiss(function (data) {
-        });
-        modal.present();
-        console.log("here12");
+        this.nav.setRoot(__WEBPACK_IMPORTED_MODULE_8__treasures_treasures__["a" /* TreasuresPage */]);
     };
     HomePage.prototype.givehelp = function () {
         this.nav.setRoot(__WEBPACK_IMPORTED_MODULE_7__chat_chat__["a" /* ChatPage */]);
@@ -336,7 +322,7 @@ var HomePage = (function () {
         var _this = this;
         this.tres.getonetreasure(this.user.last_viewed).then(function (project) {
             console.log(project[0]);
-            _this.nav.push(__WEBPACK_IMPORTED_MODULE_8__onesearchresult_onesearchresult__["a" /* OnesearchresultPage */], project[0]);
+            _this.nav.push(__WEBPACK_IMPORTED_MODULE_9__onesearchresult_onesearchresult__["a" /* OnesearchresultPage */], project[0]);
         });
     };
     HomePage.prototype.pointsmodal = function () {
@@ -398,25 +384,27 @@ __decorate([
 ], HomePage.prototype, "legend", void 0);
 HomePage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-home',template:/*ion-inline-start:"/Users/snehak/ionic-heroku-button/src/pages/home/home.html"*/'<ion-header>\n  <ion-navbar color="dark">\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>Home</ion-title>\n    <ion-buttons end>\n      <button ion-button (click)="logout()">\n          <ion-icon name="log-out"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n \n<ion-content class="home" padding>\n  \n\n  <ion-grid>\n    <ion-row class="points">\n      <div col text-center>\n        <h1>Welcome to TexConnect!</h1>\n        <button center round ion-button (click)="pointsmodal()">140 Points Available</button>\n      </div>\n    </ion-row>\n    <ion-row>\n      <ion-col col-12>\n        <ion-card>\n          <ion-card-header>\n            Your Points History\n          </ion-card-header>\n          <ion-card-content>\n            <canvas #lineCanvas></canvas>\n          </ion-card-content>\n            <ion-segment [(ngModel)]="timeframe">\n              <ion-segment-button value="week">This Week</ion-segment-button>\n              <ion-segment-button value="month">This Month</ion-segment-button>\n              <ion-segment-button value="year">This Year</ion-segment-button>\n            </ion-segment>\n        </ion-card>\n      </ion-col>\n    </ion-row>\n\n    <ion-card>\n      <ion-card-header style="white-space: normal;">\n        Perform one of the below activities 50 times to become a Texconnect A level expert.\n      </ion-card-header>\n      <ion-card-content>\n        <ion-row>\n          <button ion-button clear (click)="givehelp()">Answer a request</button>\n        </ion-row>\n        <ion-row>\n          <button ion-button clear (click)="addtreasures()">Add a treasure</button>\n        </ion-row>\n        <ion-row>\n          <button ion-button clear *ngIf=\'searched\' (click)="searchfeedback()">Provide feedback on your last search</button>\n        </ion-row>\n      </ion-card-content>\n    </ion-card>\n\n  </ion-grid>\n\n</ion-content>\n'/*ion-inline-end:"/Users/snehak/ionic-heroku-button/src/pages/home/home.html"*/
+        selector: 'page-home',template:/*ion-inline-start:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\home\home.html"*/'<ion-header>\n\n  <ion-navbar color="dark">\n\n    <button ion-button menuToggle>\n\n      <ion-icon name="menu"></ion-icon>\n\n    </button>\n\n    <ion-title>Home</ion-title>\n\n    <ion-buttons end>\n\n      <button ion-button (click)="logout()">\n\n          <ion-icon name="log-out"></ion-icon>\n\n      </button>\n\n    </ion-buttons>\n\n  </ion-navbar>\n\n</ion-header>\n\n \n\n<ion-content class="home" padding>\n\n  \n\n\n\n  <ion-grid>\n\n    <ion-row class="points">\n\n      <div col text-center>\n\n        <h1>Welcome to TexConnect!</h1>\n\n        <button center round ion-button (click)="pointsmodal()">140 Points Available</button>\n\n      </div>\n\n    </ion-row>\n\n    <ion-row>\n\n      <ion-col col-12>\n\n        <ion-card>\n\n          <ion-card-header>\n\n            Your Points History\n\n          </ion-card-header>\n\n          <ion-card-content>\n\n            <canvas #lineCanvas></canvas>\n\n          </ion-card-content>\n\n          <ion-row>\n\n            <div id="legend" class="chart-legend"></div>\n\n          </ion-row>\n\n        </ion-card>\n\n      </ion-col>\n\n    </ion-row>\n\n\n\n    <ion-card>\n\n      <ion-card-header style="white-space: normal;">\n\n        Perform one of the below activities 50 times to become a Texconnect A level expert.\n\n      </ion-card-header>\n\n      <ion-card-content>\n\n        <ion-row>\n\n          <button ion-button clear (click)="givehelp()">Answer a request</button>\n\n        </ion-row>\n\n        <ion-row>\n\n          <button ion-button clear (click)="addtreasures()">Add a treasure</button>\n\n        </ion-row>\n\n        <ion-row>\n\n          <button ion-button clear *ngIf=\'searched\' (click)="searchfeedback()">Provide feedback on your last search</button>\n\n        </ion-row>\n\n      </ion-card-content>\n\n    </ion-card>\n\n\n\n  </ion-grid>\n\n\n\n</ion-content>\n\n'/*ion-inline-end:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\home\home.html"*/
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__providers_auth_service_auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__providers_auth_service_auth_service__["a" /* AuthService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_5__providers_points_points__["a" /* PointsProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_5__providers_points_points__["a" /* PointsProvider */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* ModalController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* ModalController */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* ActionSheetController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* ActionSheetController */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* AlertController */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_9__providers_treasuresprovider_treasuresprovider__["a" /* TreasuresProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_9__providers_treasuresprovider_treasuresprovider__["a" /* TreasuresProvider */]) === "function" && _g || Object])
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_2__providers_auth_service_auth_service__["a" /* AuthService */], __WEBPACK_IMPORTED_MODULE_5__providers_points_points__["a" /* PointsProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* ModalController */],
+        __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* ActionSheetController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* AlertController */], __WEBPACK_IMPORTED_MODULE_10__providers_treasuresprovider_treasuresprovider__["a" /* TreasuresProvider */]])
 ], HomePage);
 
-var _a, _b, _c, _d, _e, _f, _g;
 //# sourceMappingURL=home.js.map
 
 /***/ }),
 
-/***/ 145:
+/***/ 143:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TreasuresDetailProvider; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NewRequestPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(31);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__(38);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_requests_requests__ = __webpack_require__(88);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_treasuresprovider_treasuresprovider__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_auth_service_auth_service__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_relation_relation__ = __webpack_require__(144);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -429,48 +417,90 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-/*
-  Generated class for the TreasuresProvider provider.
 
-  See https://angular.io/docs/ts/latest/guide/dependency-injection.html
-  for more info on providers and Angular DI.
-*/
-var TreasuresDetailProvider = (function () {
-    function TreasuresDetailProvider(http) {
-        this.http = http;
-        console.log('Hello TreasuresDetailProvider Provider');
-        this.data = null;
+
+
+/**
+ * Generated class for the NewRequestPage page.
+ *
+ * See http://ionicframework.com/docs/components/#navigation for more info
+ * on Ionic pages and navigation.
+ */
+var NewRequestPage = (function () {
+    function NewRequestPage(navCtrl, navParams, req, tres, auth, rel) {
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+        this.req = req;
+        this.tres = tres;
+        this.auth = auth;
+        this.rel = rel;
+        this.nrequest = { year: '', brand: '', model: '', error: '', symptoms: '' };
+        this.searchreq = { year: 'Year', make: 'Make', model: 'Model', error: 'Error', symptoms: 'Describe the issues that you are seeing.' };
+        this.nrequestq = { content: '', requesterid: '', helperid: '', projectid: '' };
+        this.expertise = { expertise: '' };
+        // let tmp = this.navParams.get('searchparams')
+        // if(tmp.year)
+        //   this.searchreq.year = tmp.year;
+        // if(tmp.make != '')
+        //   this.searchreq.make = tmp.make;
+        // if(tmp.model != '')
+        //   this.searchreq.model = tmp.model;
+        // if(tmp.error != '')
+        //   this.searchreq.error = tmp.error;
+        // if(tmp.symptoms != '')
+        //   this.searchreq.symptoms = tmp.symptoms;
     }
-    TreasuresDetailProvider.prototype.gettreasuresdetail = function () {
+    NewRequestPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad NewRequestPage');
+        console.log(this.nrequest);
+    };
+    NewRequestPage.prototype.createnewproj = function () {
+        this.project = this.tres.posttreasures(this.nrequest);
+    };
+    NewRequestPage.prototype.send = function () {
         var _this = this;
-        return new Promise(function (resolve) {
-            _this.http.get('/api/Detail')
-                .map(function (res) { return res.json(); })
-                .subscribe(function (data) {
-                _this.data = data;
-                resolve(_this.data);
-                console.log(data);
+        //create new project
+        console.log(this.nrequest);
+        this.tres.posttreasures(this.nrequest).then(function (data) {
+            _this.project = data;
+            console.log(JSON.stringify(_this.project));
+            _this.nrequestq.requesterid = _this.auth.getUserid();
+            _this.nrequestq.projectid = _this.project._id;
+            //match: currently, we are simply doing an expertise text search
+            _this.auth.searchbyexpertise(_this.expertise.expertise).then(function (data) {
+                var t = data[0];
+                _this.nrequestq.helperid = t._id;
+                console.log(_this.nrequestq);
+                //create new request
+                _this.req.createrequest(_this.nrequestq).then(function (data) {
+                    console.log("before pop");
+                    _this.rel.addupdaterelation({ requesterid: _this.nrequestq.requesterid, helperid: _this.nrequestq.helperid });
+                    _this.navCtrl.pop();
+                });
             });
         });
     };
-    return TreasuresDetailProvider;
+    return NewRequestPage;
 }());
-TreasuresDetailProvider = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]])
-], TreasuresDetailProvider);
+NewRequestPage = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        selector: 'page-new-request',template:/*ion-inline-start:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\new-request\new-request.html"*/'<!--\n\n  Generated template for the NewRequestPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n\n\n  <ion-navbar>\n\n    <ion-title>NewRequest</ion-title>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n	<form (ngSubmit)="send()" #nreqform="ngForm">\n\n      <ion-row>\n\n        <ion-col>\n\n          <ion-list inset>\n\n            \n\n            <ion-item>\n\n              <ion-label stacked>Year</ion-label>\n\n              <ion-input type="text" name="year" [(ngModel)]="nrequest.year"></ion-input>\n\n            </ion-item>\n\n            \n\n            <ion-item>\n\n              <ion-label stacked>Make</ion-label>\n\n              <ion-input type="text" name="brand" [(ngModel)]="nrequest.brand" ></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label stacked>Model</ion-label>\n\n              <ion-input type="text" name="model" [(ngModel)]="nrequest.model"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label stacked>ErrorCodes</ion-label>\n\n              <ion-input type="text"  name="error" [(ngModel)]="nrequest.error"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label stacked>Symptoms</ion-label>\n\n            	<ion-textarea [(ngModel)]=\'nrequest.symptoms\' name="symptoms" placeholder="Describe the issues you are seeing."></ion-textarea>\n\n        	  </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-textarea [(ngModel)]=\'nrequestq.content\' name="content" placeholder="What help do you need? Please include what have you already tried to do to solve the issue and what components you have already checked?"></ion-textarea>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-textarea [(ngModel)]=\'expertise.expertise\' placeholder="What kind of expertise should your helper have?" name="expertise" ></ion-textarea>\n\n            </ion-item>\n\n            \n\n          </ion-list>\n\n        </ion-col>\n\n      </ion-row>\n\n      <ion-row>\n\n        <ion-col class="signup-col">\n\n          <button ion-button class="submit-btn" full type="submit" [disabled]="!nreqform.form.valid">Ask for Help</button>\n\n        </ion-col>\n\n      </ion-row>\n\n      \n\n    </form>\n\n</ion-content>\n\n'/*ion-inline-end:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\new-request\new-request.html"*/,
+    }),
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */], __WEBPACK_IMPORTED_MODULE_2__providers_requests_requests__["a" /* RequestsProvider */],
+        __WEBPACK_IMPORTED_MODULE_3__providers_treasuresprovider_treasuresprovider__["a" /* TreasuresProvider */], __WEBPACK_IMPORTED_MODULE_4__providers_auth_service_auth_service__["a" /* AuthService */], __WEBPACK_IMPORTED_MODULE_5__providers_relation_relation__["a" /* RelationProvider */]])
+], NewRequestPage);
 
-//# sourceMappingURL=treasuresdetailprovider.js.map
+//# sourceMappingURL=new-request.js.map
 
 /***/ }),
 
-/***/ 146:
+/***/ 144:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RelationProvider; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(32);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__(38);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__auth_service_auth_service__ = __webpack_require__(13);
@@ -532,9 +562,8 @@ var RelationProvider = (function () {
             _this.http.get('/api/relation/help/' + _this.user._id)
                 .map(function (res) { return res.json(); })
                 .subscribe(function (data) {
-                _this.helplist = data;
-                console.log(_this.helplist);
-                resolve(_this.helplist);
+                _this.reqlist = data;
+                resolve(_this.reqlist);
             });
         });
     };
@@ -549,7 +578,7 @@ RelationProvider = __decorate([
 
 /***/ }),
 
-/***/ 147:
+/***/ 145:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -558,9 +587,9 @@ RelationProvider = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_auth_service_auth_service__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__login_login__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__onechat_onechat__ = __webpack_require__(396);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__search_search__ = __webpack_require__(87);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__providers_requests_requests__ = __webpack_require__(89);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__onechat_onechat__ = __webpack_require__(394);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__search_search__ = __webpack_require__(86);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__providers_requests_requests__ = __webpack_require__(88);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -630,7 +659,7 @@ var ChatPage = (function () {
 }());
 ChatPage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-chat',template:/*ion-inline-start:"/Users/snehak/ionic-heroku-button/src/pages/chat/chat.html"*/'<ion-header>\n  <ion-navbar color="dark">\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>Requests</ion-title>\n    <ion-buttons end>\n      <button ion-button (click)="logout()">\n          <ion-icon name="log-out"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content>\n<!-- 	<button ion-button (click)=\'newrequest()\'>Create New Request</button>\n -->  \n  <ion-item style="white-space: normal;" *ngIf="len == 0">\n    <p style="white-space: normal;">You do not have any requests at this time. To open a new request, first <a (click)="opensearch()">search</a> the database to see if you can find help. </p>\n  </ion-item>\n  <ion-list>\n    <button ion-item *ngFor="let item of chats" (click)="itemTapped($event, item)">\n      <h2>{{item.year}} {{item.make}} {{item.model}}</h2>\n        <p>Error codes: {{item.error}}</p>\n	     <p>Symptoms: {{item.symptoms}}</p>\n      <div class="date" item-end>\n        {{item.opendate}}\n      </div>\n    </button>\n  </ion-list>\n</ion-content>'/*ion-inline-end:"/Users/snehak/ionic-heroku-button/src/pages/chat/chat.html"*/,
+        selector: 'page-chat',template:/*ion-inline-start:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\chat\chat.html"*/'<ion-header>\n\n  <ion-navbar color="dark">\n\n    <button ion-button menuToggle>\n\n      <ion-icon name="menu"></ion-icon>\n\n    </button>\n\n    <ion-title>Requests</ion-title>\n\n    <ion-buttons end>\n\n      <button ion-button (click)="logout()">\n\n          <ion-icon name="log-out"></ion-icon>\n\n      </button>\n\n    </ion-buttons>\n\n  </ion-navbar>\n\n</ion-header>\n\n\n\n<ion-content>\n\n<!-- 	<button ion-button (click)=\'newrequest()\'>Create New Request</button>\n\n -->  \n\n  <ion-item style="white-space: normal;" *ngIf="len == 0">\n\n    <p style="white-space: normal;">You do not have any requests at this time. To open a new request, first <a (click)="opensearch()">search</a> the database to see if you can find help. </p>\n\n  </ion-item>\n\n  <ion-list>\n\n    <button ion-item *ngFor="let item of chats" (click)="itemTapped($event, item)">\n\n      <h2>{{item.year}} {{item.make}} {{item.model}}</h2>\n\n        <p>Error codes: {{item.error}}</p>\n\n	     <p>Symptoms: {{item.symptoms}}</p>\n\n      <div class="date" item-end>\n\n        {{item.opendate}}\n\n      </div>\n\n    </button>\n\n  </ion-list>\n\n</ion-content>'/*ion-inline-end:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\chat\chat.html"*/,
     }),
     __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */], __WEBPACK_IMPORTED_MODULE_2__providers_auth_service_auth_service__["a" /* AuthService */], __WEBPACK_IMPORTED_MODULE_6__providers_requests_requests__["a" /* RequestsProvider */]])
 ], ChatPage);
@@ -639,18 +668,15 @@ ChatPage = __decorate([
 
 /***/ }),
 
-/***/ 151:
+/***/ 149:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GroupshomePage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GroupProvider; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_group_group__ = __webpack_require__(92);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_auth_service_auth_service__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__onegroup_onegroup__ = __webpack_require__(417);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__groupadd_groupadd__ = __webpack_require__(418);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__groupsearch_groupsearch__ = __webpack_require__(419);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__(38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -663,84 +689,103 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+/*
+  Generated class for the GroupProvider provider.
 
-
-
-
-/**
- * Generated class for the GroupshomePage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
-var GroupshomePage = (function () {
-    function GroupshomePage(navCtrl, navParams, auth, groupCtrl, modalCtrl) {
-        this.navCtrl = navCtrl;
-        this.navParams = navParams;
-        this.auth = auth;
-        this.groupCtrl = groupCtrl;
-        this.modalCtrl = modalCtrl;
-        this.groupdetails = [];
-        this.memberof = [];
-        this.user = this.auth.getUserInfo();
+  See https://angular.io/docs/ts/latest/guide/dependency-injection.html
+  for more info on providers and Angular DI.
+*/
+var GroupProvider = (function () {
+    function GroupProvider(http) {
+        this.http = http;
+        console.log('Hello GroupProvider Provider');
     }
-    GroupshomePage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad GroupshomePage');
-    };
-    GroupshomePage.prototype.ionViewDidEnter = function () {
+    GroupProvider.prototype.getallgroups = function () {
         var _this = this;
-        console.log("groupshome enter");
-        this.groupdetails = [];
-        this.groupCtrl.getusergrouplist(this.user._id).then(function (data) {
-            _this.groups = data;
-            for (var i = 0; i < _this.groups.length; i++) {
-                _this.groupCtrl.getgroup(_this.groups[i].groupid).then(function (res) {
-                    _this.groupdetails.push(res);
-                });
-            }
-        });
-    };
-    GroupshomePage.prototype.newgroup = function () {
-        var _this = this;
-        console.log("clicked");
-        //modal to add a new group
-        var modal = this.modalCtrl.create(__WEBPACK_IMPORTED_MODULE_5__groupadd_groupadd__["a" /* GroupaddPage */]);
-        modal.present();
-        modal.onDidDismiss(function (data) {
-            _this.ionViewDidEnter();
-        });
-    };
-    GroupshomePage.prototype.groupsearch = function () {
-        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_6__groupsearch_groupsearch__["a" /* GroupsearchPage */]);
-    };
-    GroupshomePage.prototype.entergroup = function (event, group) {
-        console.log(group);
-        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_4__onegroup_onegroup__["a" /* OnegroupPage */], { group: group });
-    };
-    GroupshomePage.prototype.removegroup = function (event, group) {
-        var _this = this;
-        var membership = { groupid: group._id, memberid: this.user._id };
-        this.groupCtrl.unjoingroup(membership).then(function (data) {
-            _this.groupCtrl.getgroup(_this.user._id).then(function (groups) {
-                _this.groups = groups;
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
+        headers.append('Content-Type', 'application/json');
+        return new Promise(function (resolve) {
+            _this.http.get('/api/group/')
+                .map(function (res) { return res.json(); })
+                .subscribe(function (data) {
+                resolve(data);
             });
         });
     };
-    return GroupshomePage;
+    GroupProvider.prototype.getgroup = function (id) {
+        var _this = this;
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
+        headers.append('Content-Type', 'application/json');
+        return new Promise(function (resolve) {
+            _this.http.get('/api/group/groupid' + id)
+                .map(function (res) { return res.json(); })
+                .subscribe(function (data) {
+                resolve(data);
+            });
+        });
+    };
+    GroupProvider.prototype.addgroup = function (group) {
+        var _this = this;
+        return new Promise(function (resolve) {
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
+            headers.append('Content-Type', 'application/json');
+            _this.http.post('/api/group', JSON.stringify(group), { headers: headers })
+                .subscribe(function (res) {
+                resolve(res);
+            });
+        });
+    };
+    GroupProvider.prototype.searchgroup = function (search) {
+        var _this = this;
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
+        headers.append('Content-Type', 'application/json');
+        var details = search;
+        return new Promise(function (resolve) {
+            _this.http.get('/api/group/search/' + details)
+                .map(function (res) { return res.json(); })
+                .subscribe(function (data) {
+                resolve(data);
+            });
+        });
+    };
+    GroupProvider.prototype.joingroup = function (creds) {
+        var _this = this;
+        return new Promise(function (resolve) {
+            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
+            headers.append('Content-Type', 'application/json');
+            _this.http.post('/api/member', JSON.stringify(creds), { headers: headers })
+                .subscribe(function (res) {
+                resolve(res);
+            });
+        });
+    };
+    GroupProvider.prototype.unjoingroup = function (creds) {
+        var _this = this;
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
+        headers.append('Content-Type', 'application/json');
+        return new Promise(function (resolve) {
+            _this.http.delete('/api/member', new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({
+                headers: headers,
+                body: creds
+            }))
+                .map(function (res) { return res.json(); })
+                .subscribe(function (data) {
+                resolve(data);
+            });
+        });
+    };
+    return GroupProvider;
 }());
-GroupshomePage = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-groupshome',template:/*ion-inline-start:"/Users/snehak/ionic-heroku-button/src/pages/groupshome/groupshome.html"*/'<!--\n  Generated template for the GroupshomePage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n	<button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n  <ion-navbar>\n  	<button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>My Groups</ion-title>\n    <ion-buttons end>\n      <button ion-button icon-right (click)="newgroup()">\n      		Create new group\n          <ion-icon name="add"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n	<ion-item>\n		<button ion-button full clear (click)="groupsearch()">Search for new groups</button>\n	</ion-item>\n	<ion-list>\n		<ion-card *ngFor="let g of groupdetails" (click)="entergroup($event, g)">\n			<ion-item>\n				<h2 style="white-space: normal !important;">{{g.name}}</h2>\n				<p>{{g.basedon}}</p>\n			</ion-item>\n			<ion-card-content>\n				<p>{{g.description}}</p>\n				<ion-item>\n						<button item-start ion-button icon-left clear small>\n							<ion-icon name=\'people\'></ion-icon>\n							<div>{{g.nmembers}} Members</div>\n						</button>\n						<button item-end ion-button icon-left clear small>\n							<ion-icon name="text"></ion-icon>\n							<div>{{g.nposts}} Posts</div>\n						</button>\n				</ion-item>\n			</ion-card-content>\n		</ion-card>\n	</ion-list>\n\n</ion-content>\n'/*ion-inline-end:"/Users/snehak/ionic-heroku-button/src/pages/groupshome/groupshome.html"*/,
-    }),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */], __WEBPACK_IMPORTED_MODULE_3__providers_auth_service_auth_service__["a" /* AuthService */],
-        __WEBPACK_IMPORTED_MODULE_2__providers_group_group__["a" /* GroupProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* ModalController */]])
-], GroupshomePage);
+GroupProvider = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]])
+], GroupProvider);
 
-//# sourceMappingURL=groupshome.js.map
+//# sourceMappingURL=group.js.map
 
 /***/ }),
 
-/***/ 162:
+/***/ 160:
 /***/ (function(module, exports) {
 
 function webpackEmptyAsyncContext(req) {
@@ -749,11 +794,11 @@ function webpackEmptyAsyncContext(req) {
 webpackEmptyAsyncContext.keys = function() { return []; };
 webpackEmptyAsyncContext.resolve = webpackEmptyAsyncContext;
 module.exports = webpackEmptyAsyncContext;
-webpackEmptyAsyncContext.id = 162;
+webpackEmptyAsyncContext.id = 160;
 
 /***/ }),
 
-/***/ 205:
+/***/ 203:
 /***/ (function(module, exports) {
 
 function webpackEmptyAsyncContext(req) {
@@ -762,11 +807,11 @@ function webpackEmptyAsyncContext(req) {
 webpackEmptyAsyncContext.keys = function() { return []; };
 webpackEmptyAsyncContext.resolve = webpackEmptyAsyncContext;
 module.exports = webpackEmptyAsyncContext;
-webpackEmptyAsyncContext.id = 205;
+webpackEmptyAsyncContext.id = 203;
 
 /***/ }),
 
-/***/ 274:
+/***/ 272:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -823,7 +868,7 @@ var RegisterPage = (function () {
 }());
 RegisterPage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-register',template:/*ion-inline-start:"/Users/snehak/ionic-heroku-button/src/pages/register/register.html"*/'<ion-header>\n  <ion-navbar color="dark">\n    <ion-title>Register</ion-title>\n  </ion-navbar>\n</ion-header>\n \n<ion-content class="login-content" padding>\n  <div class="login-box">\n    \n    <form (ngSubmit)="register()" #registerForm="ngForm">\n      <ion-row>\n        <ion-col>\n          <ion-list inset>\n            \n            <ion-item>\n              <ion-input type="text" placeholder="Email" name="email" [(ngModel)]="registerCredentials.email" required></ion-input>\n            </ion-item>\n            \n            <ion-item>\n              <ion-input type="password" placeholder="Password" name="password" [(ngModel)]="registerCredentials.password" required></ion-input>\n            </ion-item>\n            \n            <ion-item>\n              <ion-input type="text" placeholder="First Name" name="fname" [(ngModel)]="registerCredentials.fname" required></ion-input>\n            </ion-item>\n\n            <ion-item>\n              <ion-input type="text" placeholder="Last Name" name="lname" [(ngModel)]="registerCredentials.lname" required></ion-input>\n            </ion-item>\n\n            <ion-item>\n              <ion-input type="text" placeholder="Shop" name="shop" [(ngModel)]="registerCredentials.shop" required></ion-input>\n            </ion-item>\n\n            <!-- Need to convert to dropdowns and radio buttons\n            expertise\n            <ion-item>\n              <ion-input type="text" placeholder="First Name" name="fname" [(ngModel)]="registerCredentials.fname" required></ion-input>\n            </ion-item>\n\n            experience\n            <ion-item>\n              <ion-input type="text" placeholder="First Name" name="fname" [(ngModel)]="registerCredentials.fname" required></ion-input>\n            </ion-item>\n            -->\n\n          </ion-list>\n        </ion-col>\n      </ion-row>\n      \n      <ion-row>\n        <ion-col class="signup-col">\n          <button ion-button class="submit-btn" full type="submit" [disabled]="!registerForm.form.valid">Register</button>\n        </ion-col>\n      </ion-row>\n      \n    </form>\n  </div>\n</ion-content>\n\n<ion-footer>\n     <img src="../../assets/images/bosch_background.png" width=\'100%\' height="10px" />\n</ion-footer>\n'/*ion-inline-end:"/Users/snehak/ionic-heroku-button/src/pages/register/register.html"*/,
+        selector: 'page-register',template:/*ion-inline-start:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\register\register.html"*/'<ion-header>\n\n  <ion-navbar color="dark">\n\n    <ion-title>Register</ion-title>\n\n  </ion-navbar>\n\n</ion-header>\n\n \n\n<ion-content class="login-content" padding>\n\n  <div class="login-box">\n\n    \n\n    <form (ngSubmit)="register()" #registerForm="ngForm">\n\n      <ion-row>\n\n        <ion-col>\n\n          <ion-list inset>\n\n            \n\n            <ion-item>\n\n              <ion-input type="text" placeholder="Email" name="email" [(ngModel)]="registerCredentials.email" required></ion-input>\n\n            </ion-item>\n\n            \n\n            <ion-item>\n\n              <ion-input type="password" placeholder="Password" name="password" [(ngModel)]="registerCredentials.password" required></ion-input>\n\n            </ion-item>\n\n            \n\n            <ion-item>\n\n              <ion-input type="text" placeholder="First Name" name="fname" [(ngModel)]="registerCredentials.fname" required></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-input type="text" placeholder="Last Name" name="lname" [(ngModel)]="registerCredentials.lname" required></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-input type="text" placeholder="Shop" name="shop" [(ngModel)]="registerCredentials.shop" required></ion-input>\n\n            </ion-item>\n\n\n\n            <!-- Need to convert to dropdowns and radio buttons\n\n            expertise\n\n            <ion-item>\n\n              <ion-input type="text" placeholder="First Name" name="fname" [(ngModel)]="registerCredentials.fname" required></ion-input>\n\n            </ion-item>\n\n\n\n            experience\n\n            <ion-item>\n\n              <ion-input type="text" placeholder="First Name" name="fname" [(ngModel)]="registerCredentials.fname" required></ion-input>\n\n            </ion-item>\n\n            -->\n\n\n\n          </ion-list>\n\n        </ion-col>\n\n      </ion-row>\n\n      \n\n      <ion-row>\n\n        <ion-col class="signup-col">\n\n          <button ion-button class="submit-btn" full type="submit" [disabled]="!registerForm.form.valid">Register</button>\n\n        </ion-col>\n\n      </ion-row>\n\n      \n\n    </form>\n\n  </div>\n\n</ion-content>\n\n\n\n<ion-footer>\n\n     <img src="../../assets/images/bosch_background.png" width=\'100%\' height="10px" />\n\n</ion-footer>\n\n'/*ion-inline-end:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\register\register.html"*/,
     }),
     __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_2__providers_auth_service_auth_service__["a" /* AuthService */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* AlertController */]])
 ], RegisterPage);
@@ -832,13 +877,13 @@ RegisterPage = __decorate([
 
 /***/ }),
 
-/***/ 32:
+/***/ 28:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TreasuresProvider; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(32);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__(38);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -876,10 +921,10 @@ var TreasuresProvider = (function () {
             });
         });
     };
-    TreasuresProvider.prototype.getusertreasures = function (id) {
+    TreasuresProvider.prototype.getprojtreasuresdetail = function (id) {
         var _this = this;
         return new Promise(function (resolve) {
-            _this.http.get('/api/Project/UserID/' + id)
+            _this.http.get('/api/Detail/ProjID/' + id)
                 .map(function (res) { return res.json(); })
                 .subscribe(function (data) {
                 _this.data = data;
@@ -888,10 +933,10 @@ var TreasuresProvider = (function () {
             });
         });
     };
-    TreasuresProvider.prototype.getusertreasuresuploaded = function (id) {
+    TreasuresProvider.prototype.getusertreasures = function (id) {
         var _this = this;
         return new Promise(function (resolve) {
-            _this.http.get('/api/Project/alluploaded/id/' + id)
+            _this.http.get('/api/Project/UserID/' + id)
                 .map(function (res) { return res.json(); })
                 .subscribe(function (data) {
                 _this.data = data;
@@ -958,7 +1003,6 @@ var TreasuresProvider = (function () {
         var _this = this;
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
         headers.append('Content-Type', 'application/json');
-        // let details = make + " " + model + " " + symptoms + " " + errorcodes;
         var details = search;
         return new Promise(function (resolve) {
             _this.http.get('api/Project/search/' + details)
@@ -976,10 +1020,37 @@ var TreasuresProvider = (function () {
     TreasuresProvider.prototype.uploadimg = function (img) {
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
         console.log("gah");
+        console.log(img);
         this.http.post('/api/img', JSON.stringify(img), { headers: headers })
             .subscribe(function (res) {
             console.log(res.json());
             console.log("abc");
+        });
+    };
+    TreasuresProvider.prototype.gettreasurecomment = function (treasureid) {
+        var _this = this;
+        return new Promise(function (resolve) {
+            _this.http.get('/api/TreasureComment/' + treasureid)
+                .map(function (res) { return res.json(); })
+                .subscribe(function (data) {
+                _this.data = data;
+                resolve(_this.data);
+            });
+        });
+    };
+    TreasuresProvider.prototype.postcomment = function (comment) {
+        var _this = this;
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
+        //project.uploaded="yes"
+        console.log(comment);
+        headers.append('Content-Type', 'application/json');
+        return new Promise(function (resolve) {
+            _this.http.post('/api/trescomment', JSON.stringify(comment), { headers: headers })
+                .map(function (res) { return res.json(); })
+                .subscribe(function (data) {
+                resolve(data);
+                console.log(data);
+            });
         });
     };
     return TreasuresProvider;
@@ -993,14 +1064,14 @@ TreasuresProvider = __decorate([
 
 /***/ }),
 
-/***/ 394:
+/***/ 392:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* unused harmony export Points */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PointsProvider; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(32);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__(38);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -1051,23 +1122,22 @@ var PointsProvider = (function () {
 }());
 PointsProvider = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]])
 ], PointsProvider);
 
-var _a;
 //# sourceMappingURL=points.js.map
 
 /***/ }),
 
-/***/ 395:
+/***/ 393:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SearchresultPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__onesearchresult_onesearchresult__ = __webpack_require__(64);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__new_request_new_request__ = __webpack_require__(88);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__onesearchresult_onesearchresult__ = __webpack_require__(87);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__new_request_new_request__ = __webpack_require__(143);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1121,7 +1191,7 @@ var SearchresultPage = (function () {
 }());
 SearchresultPage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-searchresult',template:/*ion-inline-start:"/Users/snehak/ionic-heroku-button/src/pages/searchresult/searchresult.html"*/'<!--\n  Generated template for the SearchresultPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>Results</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content class="card-background-page">	\n\n	<ion-item>\n		<p>Didn\'t find what you are looking for?  </p>\n		<p><a (click)="newrequest()">Create a new request</a></p>\n	</ion-item>\n\n	<ion-list >\n\n     <ion-grid>\n		<ion-item *ngFor =" let Userproject of Userprojects; let i  = index ">\n     \n     <ion-row >\n	   <ion-col>  	\n	     <ion-card (click)="showDetails(Userproject)" >\n	     <img src={{this.carlinks[i]}}>   \n	     <div class="card-title" >{{Userproject.year}} {{Userproject.brand}} {{Userproject.model}}      {{i%2==0}}</div>\n	     <div class="card-subtitle">{{Userproject.errorcode}}</div>\n	     </ion-card>\n     </ion-col>\n\n     \n     </ion-row >\n       \n     </ion-item></ion-grid>\n     </ion-list>\n     </ion-content>\n'/*ion-inline-end:"/Users/snehak/ionic-heroku-button/src/pages/searchresult/searchresult.html"*/,
+        selector: 'page-searchresult',template:/*ion-inline-start:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\searchresult\searchresult.html"*/'<!--\n\n  Generated template for the SearchresultPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n\n\n  <ion-navbar>\n\n    <ion-title>Results</ion-title>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content class="card-background-page">	\n\n\n\n	<ion-item>\n\n		<p>Didn\'t find what you are looking for?  </p>\n\n		<p><a (click)="newrequest()">Create a new request</a></p>\n\n	</ion-item>\n\n\n\n	<ion-list >\n\n\n\n     <ion-grid>\n\n		<ion-item *ngFor =" let Userproject of Userprojects; let i  = index ">\n\n     \n\n     <ion-row >\n\n	   <ion-col>  	\n\n	     <ion-card (click)="showDetails(Userproject)" >\n\n	     <img src={{this.carlinks[i]}}>   \n\n	     <div class="card-title" >{{Userproject.year}} {{Userproject.brand}} {{Userproject.model}}      {{i%2==0}}</div>\n\n	     <div class="card-subtitle">{{Userproject.errorcode}}</div>\n\n	     </ion-card>\n\n     </ion-col>\n\n\n\n     \n\n     </ion-row >\n\n       \n\n     </ion-item></ion-grid>\n\n     </ion-list>\n\n     </ion-content>\n\n'/*ion-inline-end:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\searchresult\searchresult.html"*/,
     }),
     __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
 ], SearchresultPage);
@@ -1130,7 +1200,7 @@ SearchresultPage = __decorate([
 
 /***/ }),
 
-/***/ 396:
+/***/ 394:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1138,8 +1208,8 @@ SearchresultPage = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_auth_service_auth_service__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_requests_requests__ = __webpack_require__(89);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_socket_io_client__ = __webpack_require__(780);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_requests_requests__ = __webpack_require__(88);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_socket_io_client__ = __webpack_require__(779);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_socket_io_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_socket_io_client__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1226,7 +1296,7 @@ __decorate([
 ], OneChatPage.prototype, "content", void 0);
 OneChatPage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-onechat',template:/*ion-inline-start:"/Users/snehak/ionic-heroku-button/src/pages/onechat/onechat.html"*/'<!--\n  Generated template for the OnechatPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n\n<ion-header>\n  <ion-navbar color="dark">\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title> {{chat.year}} {{chat.make}} {{chat.model}} </ion-title>\n    <ion-buttons end>\n      <button ion-button (click)="logout()">\n          <ion-icon name="log-out"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content #content>\n  <ion-item>\n    <p>Error codes: {{chat.error}}</p>\n    <p>Symptoms: {{chat.symptoms}}</p>\n  </ion-item> \n\n  <!-- <p *ngIf="ng.isundefined(disc)"> No messages in this thread </p> -->\n\n  <ion-list no-lines class="messages-wrapper">\n    <ion-row *ngFor="let d of disc">\n    <ion-item>\n      <button item-end ion-button round small style="text-transform: none;" *ngIf="d.author==currentuser._id" class="message to">{{d.comment}}</button>\n      <button ion-button round small style="text-transform: none;" *ngIf="d.author!=currentuser._id" class="message from">{{d.comment}}</button>\n      </ion-item>\n    </ion-row>\n  </ion-list>\n\n  	\n</ion-content>\n\n<ion-footer>\n    <form (ngSubmit)="addcomment()" #newcommentform="ngForm">\n      <ion-row>\n          <ion-textarea name="ncomment" placeholder="Comment..." [(ngModel)]="ncomment"></ion-textarea>\n          <button ion-button clear item-end type="submit"><ion-icon name="send"></ion-icon></button>\n      </ion-row>\n    </form>\n</ion-footer>\n'/*ion-inline-end:"/Users/snehak/ionic-heroku-button/src/pages/onechat/onechat.html"*/,
+        selector: 'page-onechat',template:/*ion-inline-start:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\onechat\onechat.html"*/'<!--\n\n  Generated template for the OnechatPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n\n\n<ion-header>\n\n  <ion-navbar color="dark">\n\n    <button ion-button menuToggle>\n\n      <ion-icon name="menu"></ion-icon>\n\n    </button>\n\n    <ion-title> {{chat.year}} {{chat.make}} {{chat.model}} </ion-title>\n\n    <ion-buttons end>\n\n      <button ion-button (click)="logout()">\n\n          <ion-icon name="log-out"></ion-icon>\n\n      </button>\n\n    </ion-buttons>\n\n  </ion-navbar>\n\n</ion-header>\n\n\n\n<ion-content #content>\n\n  <ion-item>\n\n    <p>Error codes: {{chat.error}}</p>\n\n    <p>Symptoms: {{chat.symptoms}}</p>\n\n  </ion-item> \n\n\n\n  <!-- <p *ngIf="ng.isundefined(disc)"> No messages in this thread </p> -->\n\n\n\n  <div class="messages-wrapper">\n\n    <div *ngFor="let d of disc">\n\n      <div *ngIf="d.author==currentuser._id" class="message to">{{d.comment}}</div>\n\n      <div *ngIf="d.author!=currentuser._id" class="message from">{{d.comment}}</div>\n\n    </div>\n\n  </div>\n\n\n\n  	\n\n</ion-content>\n\n\n\n<ion-footer>\n\n    <form (ngSubmit)="addcomment()" #newcommentform="ngForm">\n\n      <ion-row>\n\n          <ion-textarea name="ncomment" placeholder="Comment..." [(ngModel)]="ncomment"></ion-textarea>\n\n          <button ion-button clear item-end type="submit"><ion-icon name="send"></ion-icon></button>\n\n      </ion-row>\n\n    </form>\n\n</ion-footer>\n\n'/*ion-inline-end:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\onechat\onechat.html"*/,
     }),
     __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */], __WEBPACK_IMPORTED_MODULE_2__providers_auth_service_auth_service__["a" /* AuthService */],
         __WEBPACK_IMPORTED_MODULE_3__providers_requests_requests__["a" /* RequestsProvider */]])
@@ -1236,16 +1306,16 @@ OneChatPage = __decorate([
 
 /***/ }),
 
-/***/ 409:
+/***/ 407:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TreasureDetailPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_treasuresprovider_treasuresprovider__ = __webpack_require__(32);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_treasuresdetailprovider_treasuresdetailprovider__ = __webpack_require__(145);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_treasures_edit_detail_treasures_edit_detail__ = __webpack_require__(410);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_treasuresprovider_treasuresprovider__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_treasuresdetailprovider_treasuresdetailprovider__ = __webpack_require__(408);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_treasures_edit_detail_treasures_edit_detail__ = __webpack_require__(409);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1284,13 +1354,14 @@ var TreasureDetailPage = TreasureDetailPage_1 = (function () {
         this.projectsymptoms = [];
         this.projectuploadstatus = "cloud-upload";
         this.completestatusimg = "radio-button-off";
+        this.counter = Array;
         this.ProjID = navParams.data;
     }
     TreasureDetailPage.prototype.ionViewDidLoad = function () {
         var _this = this;
         console.log('ionViewDidLoad TreasuresDetailPage');
         console.log(this.ProjID);
-        this.treasuresDetailService.gettreasuresdetail().then(function (data) {
+        this.treasuresService.getprojtreasuresdetail(this.ProjID._id).then(function (data) {
             _this.details = data;
             for (var i = 0; i < _this.details.length; i++) {
                 if (_this.details[i].ProjectID == _this.ProjID._id) {
@@ -1407,7 +1478,7 @@ var TreasureDetailPage = TreasureDetailPage_1 = (function () {
 }());
 TreasureDetailPage = TreasureDetailPage_1 = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-treasure-detail',template:/*ion-inline-start:"/Users/snehak/ionic-heroku-button/src/pages/treasure-detail/treasure-detail.html"*/'<!--\n  Generated template for the TreasuresPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n    <ion-navbar>\n        <ion-title>Details</ion-title>\n        \n    </ion-navbar>\n\n</ion-header>\n\n<ion-content>\n\n      <ion-card>\n        <ion-card-content>\n\n            <ion-fab top right>\n              <button ion-fab><ion-icon name="construct"></ion-icon></button>\n              <ion-fab-list>\n                <button ion-fab color="danger" (click)="editDetails(ProjID,projectdetails)"><ion-icon name="create"></ion-icon></button>\n                <button ion-fab color="primary" (click)="complete(ProjID)"><ion-icon name={{this.completestatusimg}}></ion-icon></button>\n                <button ion-fab color="green" (click)="upload1(ProjID)"><ion-icon name={{this.projectuploadstatus}}></ion-icon></button>\n                <button ion-fab color="danger" (click)="deleteproject(ProjID._id)"><ion-icon name="trash"></ion-icon></button>\n                </ion-fab-list>\n                </ion-fab>\n\n       \n            <ion-card-title>\n                [{{this.completestatus}}] {{ProjID.year}} {{this.ProjID.brand}} {{this.ProjID.model}} {{this.ProjID.engine}}\n            </ion-card-title>\n            <p>Error Code: {{this.ProjID.errorcode}}</p>         \n            <ul>Symptoms:\n            <li *ngFor =" let projectsymptom of projectsymptoms; let i = index ">{{this.projectsymptom.sentence}} </li>  \n            </ul>\n            <p></p>\n            <ul>Diagnosis:\n            <li *ngFor =" let projectdiagnosi of projectdiagnosis; let i = index ">{{this.projectdiagnosi.sentence}} </li>  \n            </ul>\n            <p></p>\n            <ul>conclusion:\n            <li *ngFor =" let projectconclusion of projectconclusions; let i = index ">{{this.projectconclusion.sentence}} </li>  \n            </ul>\n\n             <p *ngFor =" let link of links; let i = index ">\n            <img src={{this.links[i]}}/>\n            </p>\n            </ion-card-content>\n            </ion-card>\n            </ion-content>\n\n     '/*ion-inline-end:"/Users/snehak/ionic-heroku-button/src/pages/treasure-detail/treasure-detail.html"*/,
+        selector: 'page-treasure-detail',template:/*ion-inline-start:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\treasure-detail\treasure-detail.html"*/'<!--\n\n  Generated template for the TreasuresPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n    <ion-navbar>\n\n        <ion-title>Details</ion-title>\n\n        \n\n    </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n<ion-content>\n\n\n\n      <ion-card>\n\n        <ion-card-content>\n\n\n\n            <ion-fab top right>\n\n              <button ion-fab><ion-icon name="construct"></ion-icon></button>\n\n              <ion-fab-list>\n\n                <button ion-fab color="danger" (click)="editDetails(ProjID,projectdetails)"><ion-icon name="create"></ion-icon></button>\n\n                <button ion-fab color="primary" (click)="complete(ProjID)"><ion-icon name={{this.completestatusimg}}></ion-icon></button>\n\n                <button ion-fab color="green" (click)="upload1(ProjID)"><ion-icon name={{this.projectuploadstatus}}></ion-icon></button>\n\n                <button ion-fab color="danger" (click)="deleteproject(ProjID._id)"><ion-icon name="trash"></ion-icon></button>\n\n                </ion-fab-list>\n\n                </ion-fab>\n\n\n\n       \n\n            <ion-card-title>\n\n                [{{this.completestatus}}] {{ProjID.year}} {{this.ProjID.brand}} {{this.ProjID.model}} {{this.ProjID.engine}}\n\n            </ion-card-title>\n\n            <p>Error Code: {{this.ProjID.errorcode}}</p>         \n\n            <ul>Symptoms:\n\n            <li *ngFor =" let projectsymptom of projectsymptoms; let i = index ">{{this.projectsymptom.sentence}}  \n\n            <p *ngFor =" let loop of counter(projectsymptoms[i].numpic); let j = index " >\n\n            <img src="https://s3.amazonaws.com/katcher/{{projectsymptoms[i]._id}}/{{j+1}}.jpg"/>\n\n            </p>\n\n            </li>\n\n            </ul>\n\n            <p></p>\n\n            <ul>Diagnosis:\n\n            <li *ngFor =" let projectdiagnosi of projectdiagnosis; let i = index ">{{this.projectdiagnosi.sentence}}\n\n            <p *ngFor =" let loop of counter(projectdiagnosis[i].numpic); let j = index " >\n\n            <img src="https://s3.amazonaws.com/katcher/{{this.projectdiagnosi._id}}/{{j+1}}.jpg"/>\n\n            </p>\n\n            </li>  \n\n            </ul>\n\n            <p></p>\n\n            <ul>conclusion:\n\n            <li *ngFor =" let projectconclusion of projectconclusions; let i = index ">{{this.projectconclusion.sentence}} \n\n            <p *ngFor =" let loop of counter(projectconclusions[i].numpic); let j = index " >\n\n            <img src="https://s3.amazonaws.com/katcher/{{this.projectconclusion._id}}/{{j+1}}.jpg"/>\n\n            </p>\n\n            </li>  \n\n            </ul>\n\n\n\n             <p *ngFor =" let link of links; let i = index ">\n\n            <img src={{this.links[i]}}/>\n\n            </p>\n\n            </ion-card-content>\n\n            </ion-card>\n\n            </ion-content>\n\n\n\n     '/*ion-inline-end:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\treasure-detail\treasure-detail.html"*/,
     }),
     __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_2__providers_treasuresprovider_treasuresprovider__["a" /* TreasuresProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* AlertController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */], __WEBPACK_IMPORTED_MODULE_3__providers_treasuresdetailprovider_treasuresdetailprovider__["a" /* TreasuresDetailProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* ToastController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* ModalController */]])
 ], TreasureDetailPage);
@@ -1417,14 +1488,70 @@ var TreasureDetailPage_1;
 
 /***/ }),
 
-/***/ 410:
+/***/ 408:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TreasuresDetailProvider; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__(38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+/*
+  Generated class for the TreasuresProvider provider.
+
+  See https://angular.io/docs/ts/latest/guide/dependency-injection.html
+  for more info on providers and Angular DI.
+*/
+var TreasuresDetailProvider = (function () {
+    function TreasuresDetailProvider(http) {
+        this.http = http;
+        console.log('Hello TreasuresDetailProvider Provider');
+        this.data = null;
+    }
+    TreasuresDetailProvider.prototype.gettreasuresdetail = function () {
+        var _this = this;
+        return new Promise(function (resolve) {
+            _this.http.get('/api/Detail')
+                .map(function (res) { return res.json(); })
+                .subscribe(function (data) {
+                _this.data = data;
+                resolve(_this.data);
+                console.log(data);
+            });
+        });
+    };
+    return TreasuresDetailProvider;
+}());
+TreasuresDetailProvider = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]])
+], TreasuresDetailProvider);
+
+//# sourceMappingURL=treasuresdetailprovider.js.map
+
+/***/ }),
+
+/***/ 409:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TreasuresEditDetailPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_treasuresprovider_treasuresprovider__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_treasuresprovider_treasuresprovider__ = __webpack_require__(28);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1454,6 +1581,7 @@ var TreasuresEditDetailPage = (function () {
         this.newprojectconclusions = [];
         this.newprojectdiagnosis = [];
         this.newprojectsymptoms = [];
+        this.counter = Array;
         this.ProjID = navParams.get('project');
         this.projdetails = navParams.get('details');
     }
@@ -1603,11 +1731,17 @@ var TreasuresEditDetailPage = (function () {
             sentence: "",
         });
     };
+    TreasuresEditDetailPage.prototype.upimg = function (detail) {
+        detail.numpic++;
+        console.log(this.newimg);
+        this.treasuresService.postdetails(detail);
+        this.treasuresService.uploadimg(this.newimg);
+    };
     return TreasuresEditDetailPage;
 }());
 TreasuresEditDetailPage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-treasures-edit-detail',template:/*ion-inline-start:"/Users/snehak/ionic-heroku-button/src/pages/treasures-edit-detail/treasures-edit-detail.html"*/'<!--\n  Generated template for the TreasuresEditDetailPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n  <ion-item>\n   	<ion-title>Edit</ion-title>\n   	\n   	  <button item-end ion-button color="danger" (click)="dismiss()">\n          <ion-icon name="close"></ion-icon>\n      </button>\n      \n      </ion-item>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n\n     \n<ion-list>\n       \n            <ion-item>\n            <ion-label stacked>\n                Year\n            </ion-label>\n            <ion-input type="number" placeholder="{{this.newyear}}"    [(ngModel)]="this.newyear"></ion-input>\n            </ion-item>\n\n            <ion-item>\n            <ion-label stacked>\n                Brand\n            </ion-label>\n            <ion-input type="text" placeholder="{{this.newbrand}}" [(ngModel)]="this.newbrand"></ion-input>\n            </ion-item>\n\n            <ion-item>\n            <ion-label stacked>\n                Model\n            </ion-label>\n            <ion-input type="text" placeholder="{{this.newmodel}}" [(ngModel)]="this.newmodel"></ion-input>\n            </ion-item>\n\n            <ion-item>\n            <ion-label stacked>\n                Error Code\n            </ion-label>\n            <ion-input type="text" placeholder="{{this.newerrorcode}}" [(ngModel)]="this.newerrorcode"></ion-input>\n            </ion-item>\n</ion-list>\n\n     \n            \n<ion-list>\n        	<ion-item *ngFor =" let projectsymptom of projectsymptoms; let i = index ">\n        		<ion-label stacked>Symptom: {{i+1}}</ion-label>\n        		<ion-input type="text" placeholder="{{newprojectsymptoms[i]}}"     [(ngModel)]="newprojectsymptoms[i]"></ion-input>\n        		<button ion-button item-end ><ion-icon name="camera"></ion-icon></button>\n        		<button ion-button item-end ><ion-icon name="film"></ion-icon></button>\n        	</ion-item>\n\n        	<button ion-button (click)="addsymptom()"><ion-icon name="add" >Add Symptom</ion-icon></button>\n\n			<ion-item *ngFor =" let projectdiagnosi of projectdiagnosis; let i = index ">\n				<ion-label stacked>Diagnosis Step: {{i+1}}</ion-label>\n        		<ion-input type="text" placeholder="{{newprojectdiagnosis[i]}}"   [(ngModel)]="newprojectdiagnosis[i]"></ion-input>	\n        		<button ion-button item-end ><ion-icon name="camera"></ion-icon></button>\n        		<button ion-button item-end ><ion-icon name="film"></ion-icon></button>\n        	</ion-item>\n        	<button ion-button (click)="adddiagnosis()"><ion-icon name="add" >Add Diagnosis</ion-icon></button>\n\n        	<ion-item *ngFor = " let projectconclusion of projectconclusions; let i = index ">\n        		<ion-label stacked>Conclusion: {{i+1}}</ion-label>\n        		<ion-input type="text" placeholder="{{newprojectconclusions[i]}}"   [(ngModel)]="newprojectconclusions[i]"></ion-input>\n        		<button ion-button item-end ><ion-icon name="camera"></ion-icon></button>\n        		<button ion-button item-end ><ion-icon name="film"></ion-icon></button>\n        	</ion-item>\n        	<button ion-button (click)="addconclusion()"><ion-icon name="add" >Add Conclusion</ion-icon></button>\n        	\n        	\n\n\n</ion-list>  \n\n<ion-item>\n<button ion-button full large round (click)="save()">Save</button>\n</ion-item>  \n\n\n\n\n\n\n\n</ion-content>\n\n'/*ion-inline-end:"/Users/snehak/ionic-heroku-button/src/pages/treasures-edit-detail/treasures-edit-detail.html"*/,
+        selector: 'page-treasures-edit-detail',template:/*ion-inline-start:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\treasures-edit-detail\treasures-edit-detail.html"*/'<!--\n\n  Generated template for the TreasuresEditDetailPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n\n\n  <ion-navbar>\n\n  <ion-item>\n\n   	<ion-title>Edit</ion-title>\n\n   	\n\n   	  <button item-end ion-button color="danger" (click)="dismiss()">\n\n          <ion-icon name="close"></ion-icon>\n\n      </button>\n\n      \n\n      </ion-item>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n\n\n\n\n     \n\n<ion-list>\n\n       \n\n            <ion-item>\n\n            <ion-label stacked>\n\n                Year\n\n            </ion-label>\n\n            <ion-input type="number" placeholder="{{this.newyear}}"    [(ngModel)]="this.newyear"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n            <ion-label stacked>\n\n                Brand\n\n            </ion-label>\n\n            <ion-input type="text" placeholder="{{this.newbrand}}" [(ngModel)]="this.newbrand"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n            <ion-label stacked>\n\n                Model\n\n            </ion-label>\n\n            <ion-input type="text" placeholder="{{this.newmodel}}" [(ngModel)]="this.newmodel"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n            <ion-label stacked>\n\n                Error Code\n\n            </ion-label>\n\n            <ion-input type="text" placeholder="{{this.newerrorcode}}" [(ngModel)]="this.newerrorcode"></ion-input>\n\n            </ion-item>\n\n</ion-list>\n\n\n\n     \n\n            \n\n<ion-list>\n\n			<ion-card *ngFor =" let projectsymptom of projectsymptoms; let i = index ">\n\n        	<ion-item>\n\n        		<ion-label stacked>Symptom: {{i+1}}</ion-label>\n\n        		<ion-input type="text" placeholder="{{newprojectsymptoms[i]}}"     [(ngModel)]="newprojectsymptoms[i]"></ion-input>\n\n        		<!-- <ion-input type="file" (change)="upimg(projectsymptom)" [(ngModel)]="newimg"></ion-input>\n\n        		<button ion-button item-end ><ion-icon name="film"></ion-icon></button> -->\n\n        		</ion-item>\n\n\n\n        		<p *ngFor =" let loop of counter(projectsymptoms[i].numpic); let j = index " >\n\n        		<img src="https://s3.amazonaws.com/katcher/{{projectsymptoms[i]._id}}/{{j+1}}.jpg"/>\n\n	            </p>\n\n\n\n        		\n\n\n\n\n\n        	</ion-card>	\n\n\n\n        	<button ion-button (click)="addsymptom()"><ion-icon name="add" >Add Symptom</ion-icon></button>\n\n\n\n        	<ion-card *ngFor =" let projectdiagnosi of projectdiagnosis; let i = index ">\n\n			<ion-item>\n\n				<ion-label stacked>Diagnosis Step: {{i+1}}</ion-label>\n\n        		<ion-input type="text" placeholder="{{newprojectdiagnosis[i]}}"   [(ngModel)]="newprojectdiagnosis[i]"></ion-input>	\n\n        		<!-- <button ion-button item-end ><ion-icon name="camera"></ion-icon></button>\n\n        		<button ion-button item-end ><ion-icon name="film"></ion-icon></button> -->\n\n        		</ion-item>\n\n\n\n        		<p *ngFor =" let loop of counter(projectdiagnosis[i].numpic); let j = index " >\n\n	            <img src="https://s3.amazonaws.com/katcher/{{this.projectdiagnosi._id}}/{{j+1}}.jpg"/>\n\n	            </p>\n\n        	</ion-card>\n\n        	<button ion-button (click)="adddiagnosis()"><ion-icon name="add" >Add Diagnosis</ion-icon></button>\n\n        	<ion-card *ngFor = " let projectconclusion of projectconclusions; let i = index ">\n\n        	<ion-item>\n\n        		<ion-label stacked>Conclusion: {{i+1}}</ion-label>\n\n        		<ion-input type="text" placeholder="{{newprojectconclusions[i]}}"   [(ngModel)]="newprojectconclusions[i]"></ion-input>\n\n        		<!-- <button ion-button item-end ><ion-icon name="camera"></ion-icon></button>\n\n        		<button ion-button item-end ><ion-icon name="film"></ion-icon></button> -->\n\n        		</ion-item>\n\n        		<p *ngFor =" let loop of counter(projectconclusions[i].numpic); let j = index " >\n\n	            <img src="https://s3.amazonaws.com/katcher/{{this.projectconclusion._id}}/{{j+1}}.jpg"/>\n\n	            </p>\n\n        	</ion-card>\n\n        	<button ion-button (click)="addconclusion()"><ion-icon name="add" >Add Conclusion</ion-icon></button>\n\n        	\n\n        	\n\n\n\n\n\n</ion-list>  \n\n\n\n<ion-item>\n\n<button ion-button full large round (click)="save()">Save</button>\n\n</ion-item>  \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n</ion-content>\n\n\n\n'/*ion-inline-end:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\treasures-edit-detail\treasures-edit-detail.html"*/,
     }),
     __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["c" /* App */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* ToastController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["n" /* ViewController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* AlertController */], __WEBPACK_IMPORTED_MODULE_2__providers_treasuresprovider_treasuresprovider__["a" /* TreasuresProvider */]])
 ], TreasuresEditDetailPage);
@@ -1616,16 +1750,16 @@ TreasuresEditDetailPage = __decorate([
 
 /***/ }),
 
-/***/ 411:
+/***/ 410:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NewProjectPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_treasuresprovider_treasuresprovider__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_treasuresprovider_treasuresprovider__ = __webpack_require__(28);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_auth_service_auth_service__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__treasures_treasures__ = __webpack_require__(65);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__treasures_treasures__ = __webpack_require__(64);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1777,7 +1911,7 @@ var NewProjectPage = (function () {
 }());
 NewProjectPage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-new-project',template:/*ion-inline-start:"/Users/snehak/ionic-heroku-button/src/pages/new-project/new-project.html"*/'<ion-header>\n\n  <ion-navbar>\n  <ion-item>\n   	<ion-title>Add a new Project</ion-title>\n   	\n   	  <button item-end ion-button color="danger" (click)="dismiss()">\n          <ion-icon name="close"></ion-icon>\n      </button>\n      </ion-item>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n\n     \n<ion-list>\n       \n            <ion-item>\n            <ion-label stacked>\n                Year\n            </ion-label>\n            <ion-input type="number" placeholder="Enter Year"    [(ngModel)]="this.newyear"></ion-input>\n            </ion-item>\n\n            <ion-item>\n            <ion-label stacked>\n                Brand\n            </ion-label>\n            <ion-input type="text" placeholder="Enter Brand" [(ngModel)]="this.newbrand"></ion-input>\n            </ion-item>	\n\n            <ion-item>\n            <ion-label stacked>\n                Model\n            </ion-label>\n            <ion-input type="text" placeholder="Enter Model" [(ngModel)]="this.newmodel"></ion-input>\n            </ion-item>\n\n            <ion-item>\n            <ion-label stacked>\n                Engine\n            </ion-label>\n            <ion-input type="text" placeholder="Enter Engine" [(ngModel)]="this.newengine"></ion-input>\n            </ion-item>\n\n            <ion-item>\n            <ion-label stacked>\n                Error Code\n            </ion-label>\n            <ion-input type="text" placeholder="Enter Error Code" [(ngModel)]="this.newerrorcode"></ion-input>\n            </ion-item>\n            	\n\n</ion-list>\n\n\n\n     \n<ion-list>\n\n			\n        	<ion-item *ngFor =" let projectsymptom of projectsymptoms; let i = index ">\n        		<ion-label stacked>Symptom: {{i+1}}</ion-label>\n        		<ion-input type="text" placeholder="Enter Symptoms here"     [(ngModel)]="this.newprojectsymptoms[i]"></ion-input>\n        	</ion-item>\n        	<button ion-button (click)="addsymptom()"><ion-icon name="add" >Add Symptom</ion-icon></button>\n			\n			<ion-item *ngFor =" let projectdiagnosi of projectdiagnosis; let i = index ">\n        		<ion-label stacked>Diagnosis Step: {{i+1}}</ion-label>\n        		<ion-input type="text" placeholder="Enter Diagnosis"   [(ngModel)]="this.newprojectdiagnosis[i]"></ion-input>	\n        	</ion-item>\n        	<button ion-button (click)="adddiagnosis()"><ion-icon name="add" >Add Diagnosis</ion-icon></button>\n        	\n        	<ion-item *ngFor =" let projectconclusion of projectconclusions; let i = index ">\n        		<ion-label stacked>Conclusion: {{i+1}}</ion-label>\n        		<ion-input type="text" placeholder="Enter Conclusion"   [(ngModel)]="this.newprojectconclusions[i]"></ion-input>\n        	</ion-item>\n        	<button ion-button (click)="addconclusion()"><ion-icon name="add" >Add Conclusion</ion-icon></button>\n        	\n\n<ion-item>\n<button ion-button full large round (click)="save()">Save</button>\n</ion-item>  \n\n'/*ion-inline-end:"/Users/snehak/ionic-heroku-button/src/pages/new-project/new-project.html"*/,
+        selector: 'page-new-project',template:/*ion-inline-start:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\new-project\new-project.html"*/'<ion-header>\n\n\n\n  <ion-navbar>\n\n  <ion-item>\n\n   	<ion-title>Add a new Project</ion-title>\n\n   	\n\n   	  <button item-end ion-button color="danger" (click)="dismiss()">\n\n          <ion-icon name="close"></ion-icon>\n\n      </button>\n\n      </ion-item>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n\n\n\n\n     \n\n<ion-list>\n\n       \n\n            <ion-item>\n\n            <ion-label stacked>\n\n                Year\n\n            </ion-label>\n\n            <ion-input type="number" placeholder="Enter Year"    [(ngModel)]="this.newyear"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n            <ion-label stacked>\n\n                Brand\n\n            </ion-label>\n\n            <ion-input type="text" placeholder="Enter Brand" [(ngModel)]="this.newbrand"></ion-input>\n\n            </ion-item>	\n\n\n\n            <ion-item>\n\n            <ion-label stacked>\n\n                Model\n\n            </ion-label>\n\n            <ion-input type="text" placeholder="Enter Model" [(ngModel)]="this.newmodel"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n            <ion-label stacked>\n\n                Engine\n\n            </ion-label>\n\n            <ion-input type="text" placeholder="Enter Engine" [(ngModel)]="this.newengine"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n            <ion-label stacked>\n\n                Error Code\n\n            </ion-label>\n\n            <ion-input type="text" placeholder="Enter Error Code" [(ngModel)]="this.newerrorcode"></ion-input>\n\n            </ion-item>\n\n            	\n\n\n\n</ion-list>\n\n\n\n\n\n\n\n     \n\n<ion-list>\n\n\n\n			\n\n        	<ion-item *ngFor =" let projectsymptom of projectsymptoms; let i = index ">\n\n        		<ion-label stacked>Symptom: {{i+1}}</ion-label>\n\n        		<ion-input type="text" placeholder="Enter Symptoms here"     [(ngModel)]="this.newprojectsymptoms[i]"></ion-input>\n\n        	</ion-item>\n\n        	<button ion-button (click)="addsymptom()"><ion-icon name="add" >Add Symptom</ion-icon></button>\n\n			\n\n			<ion-item *ngFor =" let projectdiagnosi of projectdiagnosis; let i = index ">\n\n        		<ion-label stacked>Diagnosis Step: {{i+1}}</ion-label>\n\n        		<ion-input type="text" placeholder="Enter Diagnosis"   [(ngModel)]="this.newprojectdiagnosis[i]"></ion-input>	\n\n        	</ion-item>\n\n        	<button ion-button (click)="adddiagnosis()"><ion-icon name="add" >Add Diagnosis</ion-icon></button>\n\n        	\n\n        	<ion-item *ngFor =" let projectconclusion of projectconclusions; let i = index ">\n\n        		<ion-label stacked>Conclusion: {{i+1}}</ion-label>\n\n        		<ion-input type="text" placeholder="Enter Conclusion"   [(ngModel)]="this.newprojectconclusions[i]"></ion-input>\n\n        	</ion-item>\n\n        	<button ion-button (click)="addconclusion()"><ion-icon name="add" >Add Conclusion</ion-icon></button>\n\n        	\n\n\n\n<ion-item>\n\n<button ion-button full large round (click)="save()">Save</button>\n\n</ion-item>  \n\n\n\n'/*ion-inline-end:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\new-project\new-project.html"*/,
     }),
     __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["c" /* App */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* ToastController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["n" /* ViewController */], __WEBPACK_IMPORTED_MODULE_3__providers_auth_service_auth_service__["a" /* AuthService */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* AlertController */], __WEBPACK_IMPORTED_MODULE_2__providers_treasuresprovider_treasuresprovider__["a" /* TreasuresProvider */]])
 ], NewProjectPage);
@@ -1786,7 +1920,7 @@ NewProjectPage = __decorate([
 
 /***/ }),
 
-/***/ 412:
+/***/ 411:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1795,8 +1929,8 @@ NewProjectPage = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_auth_service_auth_service__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__login_login__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__treasures_treasures__ = __webpack_require__(65);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__editprofile_editprofile__ = __webpack_require__(413);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__treasures_treasures__ = __webpack_require__(64);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__editprofile_editprofile__ = __webpack_require__(412);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1843,7 +1977,7 @@ var ProfilePage = (function () {
 }());
 ProfilePage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-profile',template:/*ion-inline-start:"/Users/snehak/ionic-heroku-button/src/pages/profile/profile.html"*/'<ion-header>\n  <ion-navbar color="dark">\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>Profile</ion-title>\n  </ion-navbar>\n</ion-header>\n \n<ion-content class="home" padding>\n            <ion-fab top right>\n              <button ion-fab (click)="editprofile()"><ion-icon name="create"></ion-icon></button>\n            </ion-fab>\n\n\n  <div class="card">\n    <img width="80%" src="../../assets/images/default-profile-picture.png">\n    <div class="container">\n      <h1>{{user.fname}} {{user.lname}}</h1>\n      <p class="title">Level: {{user.level}} \n        <br> Points: {{total_points | number}} \n        <br> Expertise: {{user.expertise}}\n      </p>\n      <p>Shop: {{user.shop}}</p>\n      <p>Email: {{user.email}}</p>\n      <button class=\'profilebutton\' (click)="gototreasures()">My Fixes</button>\n    </div>\n  </div>\n\n  <br>\n\n    <ion-card>\n      <ion-card-header>\n        You rank #23 in your network\n      </ion-card-header>\n      <ion-card-content>\n        <ion-row>\n          <ion-col>\n          </ion-col>\n          <ion-col>\n            <ion-list>\n              <ion-item>\n                <ion-badge item-start>1</ion-badge>\n                Lisa Yu\n              </ion-item>\n              <ion-item>\n                <ion-badge item-start>2</ion-badge>\n                Tim Nickel\n              </ion-item>\n              <ion-item col text-center>\n                *<br>\n                *<br>\n                *<br>\n              </ion-item>\n              <ion-item>\n                <ion-badge item-start>22</ion-badge>\n                Bjorn Michele\n              </ion-item>\n              <ion-item>\n                <ion-badge item-start>23</ion-badge>\n                Sneha Krishna\n              </ion-item>\n              <ion-item>\n                <ion-badge item-start>25</ion-badge>\n                Yi-Chieh Lee\n              </ion-item>\n            </ion-list>\n          </ion-col>\n          <ion-col>\n          </ion-col>\n        </ion-row>\n      </ion-card-content>\n    </ion-card>\n\n</ion-content>\n\n'/*ion-inline-end:"/Users/snehak/ionic-heroku-button/src/pages/profile/profile.html"*/,
+        selector: 'page-profile',template:/*ion-inline-start:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\profile\profile.html"*/'<ion-header>\n\n  <ion-navbar color="dark">\n\n    <button ion-button menuToggle>\n\n      <ion-icon name="menu"></ion-icon>\n\n    </button>\n\n    <ion-title>Profile</ion-title>\n\n  </ion-navbar>\n\n</ion-header>\n\n \n\n<ion-content class="home" padding>\n\n            <ion-fab top right>\n\n              <button ion-fab (click)="editprofile()"><ion-icon name="create"></ion-icon></button>\n\n            </ion-fab>\n\n\n\n\n\n  <div class="card">\n\n    <img width="80%" src="../../assets/images/default-profile-picture.png">\n\n    <div class="container">\n\n      <h1>{{user.fname}} {{user.lname}}</h1>\n\n      <p class="title">Level: {{user.level}} \n\n        <br> Points: {{total_points | number}} \n\n        <br> Expertise: {{user.expertise}}\n\n      </p>\n\n      <p>Shop: {{user.shop}}</p>\n\n      <p>Email: {{user.email}}</p>\n\n      <button class=\'profilebutton\' (click)="gototreasures()">My Fixes</button>\n\n    </div>\n\n  </div>\n\n\n\n  <br>\n\n\n\n    <ion-card>\n\n      <ion-card-header>\n\n        You rank #23 in your network\n\n      </ion-card-header>\n\n      <ion-card-content>\n\n        <ion-row>\n\n          <ion-col>\n\n          </ion-col>\n\n          <ion-col>\n\n            <ion-list>\n\n              <ion-item>\n\n                <ion-badge item-start>1</ion-badge>\n\n                Lisa Yu\n\n              </ion-item>\n\n              <ion-item>\n\n                <ion-badge item-start>2</ion-badge>\n\n                Tim Nickel\n\n              </ion-item>\n\n              <ion-item col text-center>\n\n                *<br>\n\n                *<br>\n\n                *<br>\n\n              </ion-item>\n\n              <ion-item>\n\n                <ion-badge item-start>22</ion-badge>\n\n                Bjorn Michele\n\n              </ion-item>\n\n              <ion-item>\n\n                <ion-badge item-start>23</ion-badge>\n\n                Sneha Krishna\n\n              </ion-item>\n\n              <ion-item>\n\n                <ion-badge item-start>25</ion-badge>\n\n                Yi-Chieh Lee\n\n              </ion-item>\n\n            </ion-list>\n\n          </ion-col>\n\n          <ion-col>\n\n          </ion-col>\n\n        </ion-row>\n\n      </ion-card-content>\n\n    </ion-card>\n\n\n\n</ion-content>\n\n\n\n'/*ion-inline-end:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\profile\profile.html"*/,
     }),
     __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */], __WEBPACK_IMPORTED_MODULE_2__providers_auth_service_auth_service__["a" /* AuthService */]])
 ], ProfilePage);
@@ -1852,7 +1986,7 @@ ProfilePage = __decorate([
 
 /***/ }),
 
-/***/ 413:
+/***/ 412:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1906,7 +2040,7 @@ var EditprofilePage = (function () {
 }());
 EditprofilePage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-editprofile',template:/*ion-inline-start:"/Users/snehak/ionic-heroku-button/src/pages/editprofile/editprofile.html"*/'<ion-header>\n  <ion-navbar color="dark">\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n      Cancel\n    </button>\n  </ion-navbar>\n</ion-header>\n \n<ion-content class="home" padding>\n\n<form (ngSubmit)="login()" #changeform="ngForm">\n\n  <div class="card">\n  	<ion-row>\n  		<ion-col>\n  			<img width="80%" src="../../assets/images/default-profile-picture.png">\n		    <ion-fab right bottom>\n		    	<button ion-fab (click)="newprofilepic()"><ion-icon ion-small name="create"></ion-icon></button>\n		    </ion-fab>\n  		</ion-col>\n  	</ion-row>\n\n    <div class="container">\n    	<ion-row>\n    		<ion-col>\n    			<h1>\n            <ion-label stacked>First Name</ion-label>\n		    		<ion-input type="text" name="fname" placeholder="{{user.fname}}" [(ngModel)]="newcreds.fname"></ion-input>\n		    	</h1>\n    		</ion-col>\n    		<ion-col>\n    			<h1>\n            <ion-label stacked>Last Name</ion-label>\n		    		<ion-input type="text" name="lname" placeholder="{{user.lname}}" [(ngModel)]="newcreds.lname"></ion-input>\n		    	</h1>\n    		</ion-col>\n    	</ion-row>\n    	<p>\n        <ion-label stacked>Expertise</ion-label>\n        <ion-input type="text" name="expertise" placeholder="{{user.expertise}}" [(ngModel)]="newcreds.expertise"></ion-input>\n      </p>\n      <p>\n        <ion-label stacked>Shop</ion-label>\n      	<ion-input type="text" name="shop" placeholder="{{user.shop}}" [(ngModel)]="newcreds.shop"></ion-input>\n	      <br>\n        <ion-label stacked>Email</ion-label>\n      	<ion-input type="text" name="email" placeholder="{{user.email}}" [(ngModel)]="newcreds.email"></ion-input>\n      </p>\n\n      <button class=\'profilebutton\' type="submit" [disabled]="!changeform.form.valid">Save</button>\n    </div>\n  </div>\n\n</form>\n</ion-content>\n\n'/*ion-inline-end:"/Users/snehak/ionic-heroku-button/src/pages/editprofile/editprofile.html"*/,
+        selector: 'page-editprofile',template:/*ion-inline-start:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\editprofile\editprofile.html"*/'<ion-header>\n\n  <ion-navbar color="dark">\n\n    <button ion-button menuToggle>\n\n      <ion-icon name="menu"></ion-icon>\n\n      Cancel\n\n    </button>\n\n  </ion-navbar>\n\n</ion-header>\n\n \n\n<ion-content class="home" padding>\n\n\n\n<form (ngSubmit)="login()" #changeform="ngForm">\n\n\n\n  <div class="card">\n\n  	<ion-row>\n\n  		<ion-col>\n\n  			<img width="80%" src="../../assets/images/default-profile-picture.png">\n\n		    <ion-fab right bottom>\n\n		    	<button ion-fab (click)="newprofilepic()"><ion-icon ion-small name="create"></ion-icon></button>\n\n		    </ion-fab>\n\n  		</ion-col>\n\n  	</ion-row>\n\n\n\n    <div class="container">\n\n    	<ion-row>\n\n    		<ion-col>\n\n    			<h1>\n\n            <ion-label stacked>First Name</ion-label>\n\n		    		<ion-input type="text" name="fname" placeholder="{{user.fname}}" [(ngModel)]="newcreds.fname"></ion-input>\n\n		    	</h1>\n\n    		</ion-col>\n\n    		<ion-col>\n\n    			<h1>\n\n            <ion-label stacked>Last Name</ion-label>\n\n		    		<ion-input type="text" name="lname" placeholder="{{user.lname}}" [(ngModel)]="newcreds.lname"></ion-input>\n\n		    	</h1>\n\n    		</ion-col>\n\n    	</ion-row>\n\n    	<p>\n\n        <ion-label stacked>Expertise</ion-label>\n\n        <ion-input type="text" name="expertise" placeholder="{{user.expertise}}" [(ngModel)]="newcreds.expertise"></ion-input>\n\n      </p>\n\n      <p>\n\n        <ion-label stacked>Shop</ion-label>\n\n      	<ion-input type="text" name="shop" placeholder="{{user.shop}}" [(ngModel)]="newcreds.shop"></ion-input>\n\n	      <br>\n\n        <ion-label stacked>Email</ion-label>\n\n      	<ion-input type="text" name="email" placeholder="{{user.email}}" [(ngModel)]="newcreds.email"></ion-input>\n\n      </p>\n\n\n\n      <button class=\'profilebutton\' type="submit" [disabled]="!changeform.form.valid">Save</button>\n\n    </div>\n\n  </div>\n\n\n\n</form>\n\n</ion-content>\n\n\n\n'/*ion-inline-end:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\editprofile\editprofile.html"*/,
     }),
     __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */], __WEBPACK_IMPORTED_MODULE_2__providers_auth_service_auth_service__["a" /* AuthService */]])
 ], EditprofilePage);
@@ -1915,7 +2049,7 @@ EditprofilePage = __decorate([
 
 /***/ }),
 
-/***/ 414:
+/***/ 413:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1923,9 +2057,9 @@ EditprofilePage = __decorate([
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContactsPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_relation_relation__ = __webpack_require__(146);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_relation_relation__ = __webpack_require__(144);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_auth_service_auth_service__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__contactprofile_contactprofile__ = __webpack_require__(415);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__contactprofile_contactprofile__ = __webpack_require__(414);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1947,23 +2081,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  * on Ionic pages and navigation.
  */
 var Track = (function () {
-    function Track(id) {
+    function Track(id, name) {
         this.id = id;
-        this.name = '';
+        this.name = name;
         this.helped = 0;
         this.request = 0;
     }
     Track.prototype.setrequest = function (n) {
         this.request = n;
     };
-    Track.prototype.setname = function (name) {
-        this.name = name;
-    };
     Track.prototype.sethelped = function (n) {
         this.helped = n;
-    };
-    Track.prototype.getid = function () {
-        return this.id;
     };
     return Track;
 }());
@@ -1978,69 +2106,46 @@ var ContactsPage = (function () {
         this.user = this.auth.getUserInfo();
     }
     ContactsPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad ContactsPage');
-    };
-    ContactsPage.prototype.ionViewDidEnter = function () {
         var _this = this;
-        this.helplist = null;
-        this.reqlist = null;
-        this.rellist = [];
+        console.log('ionViewDidLoad ContactsPage');
         this.rel.getrelationshelp(this.user._id).then(function (help) {
             _this.helplist = help;
-            console.log(_this.helplist);
             _this.rel.getrelationsreq(_this.user._id).then(function (req) {
-                _this.reqlist = req;
-                console.log(_this.reqlist);
-                var t;
                 for (var i = 0; i < _this.helplist.length; i++) {
                     var id = _this.helplist[i].requester;
-                    t = new Track(id);
-                    t.setrequest(_this.helplist[i].n);
+                    var name_1 = _this.auth.getusernamebyid(id);
+                    var t = new Track(id, name_1);
+                    t.sethelped(_this.helplist[i].n);
                     _this.rellist.push(t);
                 }
                 for (var j = 0; j < _this.reqlist.length; j++) {
                     var id = _this.reqlist[j].helper;
                     for (var i = 0; i < _this.rellist.length; i++) {
-                        console.log("here");
                         if (id == _this.rellist[i].id) {
-                            console.log("here");
-                            _this.rellist[i].sethelped(_this.reqlist[j].n);
+                            _this.rellist[i].setrequest(_this.reqlist[j].n);
                         }
                         else {
-                            t = new Track(id);
-                            t.sethelped(_this.reqlist[i].n);
+                            var id_1 = _this.reqlist[i].helper;
+                            var name_2 = _this.auth.getusernamebyid(id_1);
+                            var t = new Track(id_1, name_2);
+                            t.setrequest(_this.reqlist[i].n);
                             _this.rellist.push(t);
                         }
                     }
                 }
-                var _loop_1 = function (k) {
-                    var id = _this.rellist[k].getid();
-                    _this.auth.getusernamebyid(id).then(function (name) {
-                        _this.rellist[k].setname(name);
-                        console.log(_this.rellist);
-                    });
-                };
-                for (var k = 0; k < _this.rellist.length; k++) {
-                    _loop_1(k);
-                }
             });
         });
     };
-    ContactsPage.prototype.opencontactpage = function (event, person) {
-        var _this = this;
-        console.log(person);
-        var id = person.id;
-        this.auth.getuserbyid(id).then(function (user) {
-            var contact = user;
-            console.log(contact);
-            _this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_4__contactprofile_contactprofile__["a" /* ContactprofilePage */], { contact: contact });
-        });
+    ContactsPage.prototype.ionViewDidEnter = function () {
+    };
+    ContactsPage.prototype.opencontactpage = function (event, contact) {
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_4__contactprofile_contactprofile__["a" /* ContactprofilePage */], { contact: contact });
     };
     return ContactsPage;
 }());
 ContactsPage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-contacts',template:/*ion-inline-start:"/Users/snehak/ionic-heroku-button/src/pages/contacts/contacts.html"*/'<!--\n  Generated template for the ContactsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar color="dark">\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>Network</ion-title>\n  </ion-navbar>\n</ion-header>\n\n\n<ion-content padding>\n\n	<ion-list>\n		<ion-item style="white-space: normal;" *ngIf="rellist.length == 0">\n			<p style="white-space: normal;">Build up a network by giving and getting help through the <a>Requests</a> page. You can also join groups in the <a>Groups</a> page.</p>\n		</ion-item>\n		<button ion-item *ngFor="let contact of rellist" (click)="opencontactpage($event, contact)">\n			<ion-thumbnail item-start>\n        		<img src="img/thumbnail-totoro.png">\n			</ion-thumbnail>\n			<!-- <ion-icon [name]="item.icon" item-left></ion-icon> -->\n			<h2>{{contact.name}}</h2>\n			<p>Has helped you {{contact.helped}} times. <br>\n				You have helped them {{contact.request}} times.\n			</p>\n		</button>\n	</ion-list>\n\n</ion-content>\n'/*ion-inline-end:"/Users/snehak/ionic-heroku-button/src/pages/contacts/contacts.html"*/,
+        selector: 'page-contacts',template:/*ion-inline-start:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\contacts\contacts.html"*/'<!--\n\n  Generated template for the ContactsPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n  <ion-navbar color="dark">\n\n    <button ion-button menuToggle>\n\n      <ion-icon name="menu"></ion-icon>\n\n    </button>\n\n    <ion-title>Network</ion-title>\n\n  </ion-navbar>\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n\n\n	<ion-list>\n\n		<ion-item style="white-space: normal;" *ngIf="rellist.length == 0">\n\n			<p style="white-space: normal;">Build up a network by giving and getting help through the <a>Requests</a> page. You can also join groups in the <a>Groups</a> page.</p>\n\n		</ion-item>\n\n		<button ion-item *ngFor="let contact of rellist" (click)="opencontactpage($event, contact)">\n\n			<ion-thumbnail item-start>\n\n        		<img src="img/thumbnail-totoro.png">\n\n			</ion-thumbnail>\n\n			<!-- <ion-icon [name]="item.icon" item-left></ion-icon> -->\n\n			<h2>{{contact.name}}</h2>\n\n			<p>Has helped you {{contact.helped}} times. <br>\n\n				You have helped them {{contact.request}} times.\n\n			</p>\n\n		</button>\n\n	</ion-list>\n\n\n\n</ion-content>\n\n'/*ion-inline-end:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\contacts\contacts.html"*/,
     }),
     __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */], __WEBPACK_IMPORTED_MODULE_2__providers_relation_relation__["a" /* RelationProvider */],
         __WEBPACK_IMPORTED_MODULE_3__providers_auth_service_auth_service__["a" /* AuthService */]])
@@ -2050,7 +2155,7 @@ ContactsPage = __decorate([
 
 /***/ }),
 
-/***/ 415:
+/***/ 414:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2058,8 +2163,6 @@ ContactsPage = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_auth_service_auth_service__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__new_request_new_request__ = __webpack_require__(88);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__contactreasures_contactreasures__ = __webpack_require__(416);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2069,8 +2172,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-
-
 
 
 
@@ -2085,23 +2186,17 @@ var ContactprofilePage = (function () {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
         this.auth = auth;
-        this.contact = this.navParams.get('contact');
-        console.log(this.contact);
+        var id = this.navParams.get('contact').id;
+        this.contact = this.auth.getuserbyid(id);
     }
     ContactprofilePage.prototype.ionViewDidLoad = function () {
         console.log('ionViewDidLoad ContactprofilePage');
-    };
-    ContactprofilePage.prototype.viewfixes = function () {
-        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_4__contactreasures_contactreasures__["a" /* ContactreasuresPage */], { id: this.contact._id });
-    };
-    ContactprofilePage.prototype.gethelp = function () {
-        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_3__new_request_new_request__["a" /* NewRequestPage */]);
     };
     return ContactprofilePage;
 }());
 ContactprofilePage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-contactprofile',template:/*ion-inline-start:"/Users/snehak/ionic-heroku-button/src/pages/contactprofile/contactprofile.html"*/'<ion-header>\n  <ion-navbar color="dark">\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>Profile</ion-title>\n    <ion-buttons end>\n      <button ion-button (click)="logout()">\n          <ion-icon name="log-out"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n \n<ion-content class="home" padding>\n            <ion-fab top right>\n              <button ion-fab (click)="editprofile()"><ion-icon name="create"></ion-icon></button>\n            </ion-fab>\n\n\n  <div class="card">\n    <img width="80%" src="../../assets/images/default-profile-picture.png">\n    <div class="container">\n      <h1>{{contact.fname}} {{contact.lname}}</h1>\n      <p class="title">Level: {{contact.level}} \n        <br> Points: {{contact.total_points | number}} \n        <br> Expertise: {{contact.expertise}}\n      </p>\n      <p>{{contact.shop}}</p>\n      <ion-row>\n        <ion-col>\n          <button class=\'profilebutton\' (click)="viewfixes()">View Fixes</button>\n        </ion-col>\n        <ion-col>\n          <button class="profilebutton" (click)="gethelp()">Get Help</button>\n        </ion-col>\n      </ion-row>\n    </div>\n  </div>\n</ion-content>\n\n'/*ion-inline-end:"/Users/snehak/ionic-heroku-button/src/pages/contactprofile/contactprofile.html"*/,
+        selector: 'page-contactprofile',template:/*ion-inline-start:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\contactprofile\contactprofile.html"*/'<ion-header>\n\n  <ion-navbar color="dark">\n\n    <button ion-button menuToggle>\n\n      <ion-icon name="menu"></ion-icon>\n\n    </button>\n\n    <ion-title>Profile</ion-title>\n\n    <ion-buttons end>\n\n      <button ion-button (click)="logout()">\n\n          <ion-icon name="log-out"></ion-icon>\n\n      </button>\n\n    </ion-buttons>\n\n  </ion-navbar>\n\n</ion-header>\n\n \n\n<ion-content class="home" padding>\n\n            <ion-fab top right>\n\n              <button ion-fab (click)="editprofile()"><ion-icon name="create"></ion-icon></button>\n\n            </ion-fab>\n\n\n\n\n\n  <div class="card">\n\n    <img width="80%" src="../../assets/images/default-profile-picture.png">\n\n    <div class="container">\n\n      <h1>{{contact.fname}} {{contact.lname}}</h1>\n\n      <p class="title">Level: {{contact.level}} \n\n        <br> Points: {{contact.total_points | number}} \n\n        <br> Expertise: {{contact.expertise}}\n\n      </p>\n\n      <p>{{contact.shop}}</p>\n\n      <ion-row>\n\n        <ion-col>\n\n          <button class=\'profilebutton\' (click)="viewfixes()">View Fixes</button>\n\n        </ion-col>\n\n        <ion-col>\n\n          <button class="profilebutton" (click)="gethelp()">Get Help</button>\n\n        </ion-col>\n\n      </ion-row>\n\n    </div>\n\n  </div>\n\n</ion-content>\n\n\n\n'/*ion-inline-end:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\contactprofile\contactprofile.html"*/,
     }),
     __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */], __WEBPACK_IMPORTED_MODULE_2__providers_auth_service_auth_service__["a" /* AuthService */]])
 ], ContactprofilePage);
@@ -2110,16 +2205,18 @@ ContactprofilePage = __decorate([
 
 /***/ }),
 
-/***/ 416:
+/***/ 415:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContactreasuresPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GroupshomePage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_auth_service_auth_service__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_treasuresprovider_treasuresprovider__ = __webpack_require__(32);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__onesearchresult_onesearchresult__ = __webpack_require__(64);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_group_group__ = __webpack_require__(149);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_auth_service_auth_service__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__onegroup_onegroup__ = __webpack_require__(416);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__groupadd_groupadd__ = __webpack_require__(417);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__groupsearch_groupsearch__ = __webpack_require__(418);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2129,79 +2226,77 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
+
 
 
 
 
 
 /**
- * Generated class for the SearchPage page.
+ * Generated class for the GroupshomePage page.
  *
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
-var ContactreasuresPage = (function () {
-    function ContactreasuresPage(navCtrl, navParams, auth, tres) {
+var GroupshomePage = (function () {
+    function GroupshomePage(navCtrl, navParams, auth, groupCtrl, modalCtrl) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
         this.auth = auth;
-        this.tres = tres;
-        this.carlinks = [];
-        this.Userprojects = [];
-        this.links = [];
-        this.buttonimg = [];
-        this.searchval = false;
-        this.id = this.navParams.get('id');
+        this.groupCtrl = groupCtrl;
+        this.modalCtrl = modalCtrl;
+        this.user = this.auth.getUserInfo();
     }
-    ContactreasuresPage.prototype.ionViewDidLoad = function () {
+    GroupshomePage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad GroupshomePage');
+    };
+    GroupshomePage.prototype.ionViewDidEnter = function () {
         var _this = this;
-        console.log('ionViewDidLoad SearchPage');
-        this.tres.getusertreasuresuploaded(this.id).then(function (data) {
-            _this.projects = data;
-            _this.display();
+        this.groupCtrl.getgroup(this.user._id).then(function (data) {
+            _this.groups = data;
         });
     };
-    ContactreasuresPage.prototype.display = function () {
-        this.Userprojects = [];
-        this.carlinks = [];
-        this.links = [];
-        console.log("in display");
-        for (var i = 0; i < this.projects.length; i++) {
-            this.Userprojects.push(this.projects[i]);
-        }
-        for (var i = 0; i < this.Userprojects.length; i++) {
-            this.carlinks[i] = "https://s3.amazonaws.com/katcher/Brands/" + this.Userprojects[i].brand + "/" + this.Userprojects[i].model + ".jpg";
-            this.links[i] = "https://s3.amazonaws.com/katcher/PID" + this.Userprojects[i].PID + "/Photo/1.jpg";
-        }
+    GroupshomePage.prototype.newgroup = function (event, group) {
+        //modal to add a new group
+        var modal = this.modalCtrl.create(__WEBPACK_IMPORTED_MODULE_5__groupadd_groupadd__["a" /* GroupaddPage */]);
     };
-    ContactreasuresPage.prototype.showDetails = function (project) {
-        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_4__onesearchresult_onesearchresult__["a" /* OnesearchresultPage */], project);
-        //let modal = this.modalCtrl.create(TreasureDetailPage );
-        //modal.present();
+    GroupshomePage.prototype.searchgroup = function () {
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_6__groupsearch_groupsearch__["a" /* GroupsearchPage */]);
     };
-    return ContactreasuresPage;
+    GroupshomePage.prototype.entergroup = function (event, group) {
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_4__onegroup_onegroup__["a" /* OnegroupPage */], group);
+    };
+    GroupshomePage.prototype.removegroup = function (event, group) {
+        var _this = this;
+        var membership = { groupid: group._id, memberid: this.user._id };
+        this.groupCtrl.unjoingroup(membership).then(function (data) {
+            _this.groupCtrl.getgroup(_this.user._id).then(function (groups) {
+                _this.groups = groups;
+            });
+        });
+    };
+    return GroupshomePage;
 }());
-ContactreasuresPage = __decorate([
+GroupshomePage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-contactreasures',template:/*ion-inline-start:"/Users/snehak/ionic-heroku-button/src/pages/contactreasures/contactreasures.html"*/'<!--\n  Generated template for the TreasuresPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar>\n      <button ion-button menuToggle>\n          <ion-icon name="menu"></ion-icon>\n      </button>\n      <ion-buttons end>\n      </ion-buttons>\n\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content class="card-background-page">	\n\n  <ion-list >\n\n     <ion-grid>\n    <ion-item *ngFor =" let Userproject of Userprojects; let i  = index ">\n     \n     <ion-row >\n     <ion-col>    \n       <ion-card (click)="showDetails(Userproject)" >\n       <img src={{this.carlinks[i]}}>   \n       <div class="card-title" >{{Userproject.year}} {{Userproject.brand}} {{Userproject.model}} </div>\n       <div class="card-subtitle">{{Userproject.errorcode}}</div>\n       </ion-card>\n     </ion-col>\n\n     \n     </ion-row >\n       \n     </ion-item></ion-grid>\n     </ion-list>\n     </ion-content>\n     '/*ion-inline-end:"/Users/snehak/ionic-heroku-button/src/pages/contactreasures/contactreasures.html"*/,
+        selector: 'page-groupshome',template:/*ion-inline-start:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\groupshome\groupshome.html"*/'<!--\n\n  Generated template for the GroupshomePage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n\n\n  <ion-navbar>\n\n  	<button ion-button menuToggle>\n\n      <ion-icon name="menu"></ion-icon>\n\n    </button>\n\n    <ion-title>My Groups</ion-title>\n\n    <ion-buttons end>\n\n      <button ion-button icon-right (click)="newgroup()">\n\n      		Create new group\n\n          <ion-icon name="add"></ion-icon>\n\n      </button>\n\n    </ion-buttons>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n	<ion-item>\n\n		<button ion-button full clear (click)="groupsearch()">Search for new groups</button>\n\n	</ion-item>\n\n	<ion-list>\n\n		<button ion-card *ngFor="let g of groups" (click)="entergroup($event, g)">\n\n			<ion-item>\n\n				<h2>{{g.name}}</h2>\n\n				<p>Created based on: {{g.basedon}}</p>\n\n			</ion-item>\n\n			<ion-card-content>\n\n				<p>{{g.description}}</p>\n\n			</ion-card-content>\n\n			<ion-row>\n\n				<ion-col>\n\n					<button ion-button icon-left clear small>\n\n						<ion-icon name=\'people\'></ion-icon>\n\n						<div>{{g.nmembers}} Members</div>\n\n					</button>\n\n				</ion-col>\n\n				<ion-col>\n\n					<button ion-button icon-left clear small>\n\n						<ion-icon name="text"></ion-icon>\n\n						<div>{{g.nposts}} Posts</div>\n\n					</button>\n\n				</ion-col>\n\n				<ion-col>\n\n					<ion-note>\n\n						<button ion-button icon-right clear small (click)="removegroup($event, g)">\n\n							<div>Unjoin Group</div>\n\n							<ion-icon name="close"></ion-icon>\n\n						</button>\n\n					</ion-note>\n\n				</ion-col>\n\n			</ion-row>\n\n		</button>\n\n	</ion-list>\n\n\n\n</ion-content>\n\n'/*ion-inline-end:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\groupshome\groupshome.html"*/,
     }),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */], __WEBPACK_IMPORTED_MODULE_2__providers_auth_service_auth_service__["a" /* AuthService */],
-        __WEBPACK_IMPORTED_MODULE_3__providers_treasuresprovider_treasuresprovider__["a" /* TreasuresProvider */]])
-], ContactreasuresPage);
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */], __WEBPACK_IMPORTED_MODULE_3__providers_auth_service_auth_service__["a" /* AuthService */],
+        __WEBPACK_IMPORTED_MODULE_2__providers_group_group__["a" /* GroupProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* ModalController */]])
+], GroupshomePage);
 
-//# sourceMappingURL=contactreasures.js.map
+//# sourceMappingURL=groupshome.js.map
 
 /***/ }),
 
-/***/ 417:
+/***/ 416:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return OnegroupPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_auth_service_auth_service__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_group_group__ = __webpack_require__(92);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2211,8 +2306,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-
-
 
 
 /**
@@ -2222,85 +2315,33 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  * on Ionic pages and navigation.
  */
 var OnegroupPage = (function () {
-    function OnegroupPage(navCtrl, navParams, auth, groupctrl) {
-        var _this = this;
+    function OnegroupPage(navCtrl, navParams) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
-        this.auth = auth;
-        this.groupctrl = groupctrl;
-        this.group = this.navParams.get("group");
-        this.user = this.auth.getUserInfo();
-        console.log(this.user._id);
-        console.log(this.group._id);
-        this.groupctrl.ismember({ memberid: this.user._id, groupid: this.group._id }).then(function (mem) {
-            console.log(mem);
-            _this.ismember = mem;
-            if (_this.ismember.length > 0) {
-                _this.member = 1;
-            }
-            else {
-                _this.member = 0;
-            }
-        });
     }
     OnegroupPage.prototype.ionViewDidLoad = function () {
         console.log('ionViewDidLoad OnegroupPage');
-    };
-    OnegroupPage.prototype.ionViewDidEnter = function () {
-        var _this = this;
-        console.log(this.user._id);
-        console.log(this.group._id);
-        this.groupctrl.ismember({ memberid: this.user._id, groupid: this.group._id }).then(function (mem) {
-            console.log(mem);
-            _this.ismember = mem;
-            if (_this.ismember.length > 0) {
-                _this.member = 1;
-            }
-            else {
-                _this.member = 0;
-            }
-        });
-    };
-    OnegroupPage.prototype.viewcomments = function () { };
-    OnegroupPage.prototype.post = function () {
-    };
-    OnegroupPage.prototype.joingroup = function () {
-        var _this = this;
-        this.groupctrl.joingroup({ memberid: this.user._id, groupid: this.group._id }).then(function (data) {
-            _this.member = 1;
-        });
-    };
-    OnegroupPage.prototype.leavegroup = function () {
-        var _this = this;
-        console.log("trying to leave");
-        this.groupctrl.unjoingroup({ memberid: this.user._id, groupid: this.group._id }).then(function (data) {
-            console.log("left");
-            _this.member = 0;
-        });
     };
     return OnegroupPage;
 }());
 OnegroupPage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-onegroup',template:/*ion-inline-start:"/Users/snehak/ionic-heroku-button/src/pages/onegroup/onegroup.html"*/'<!--\n  Generated template for the OnegroupPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n  <ion-item>\n  		<button ion-button item-end icon-right *ngIf="member==0" small clear (click)="joingroup()">Join Group</button>\n		<button ion-button item-end icon-right *ngIf="member==1" small clear (click)="leavegroup()">Leave Group</button>\n	</ion-item>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n	<h2 item-start>{{group.name}}</h2>\n    <ion-item>\n    	<p style="white-space: normal;">\n    		{{group.basedon}}\n    	</p>\n		<p style="white-space: normal;"> <ion-icon name=\'people\'></ion-icon>{{group.nmembers}} Members </p>\n		<p style="white-space: normal;">{{group.description}}</p>\n	</ion-item>\n\n	<ion-card *ngFor="let p of posts">\n		<ion-card-header>\n			<ion-avatar item-start>\n				<img src="">\n			</ion-avatar>\n			Member name\n		</ion-card-header>\n		<ion-card-content>\n			Post content\n		</ion-card-content>\n		<ion-row>\n			<p *ngIf="member==0">Join the group to see the comments</p>\n			<button *ngIf="member==1" col text-center ion-button clear (click)="viewcomments()"><ion-icon name="text"></ion-icon>Comments</button>\n		</ion-row>\n	</ion-card>\n\n\n</ion-content>\n\n<ion-footer *ngIf="member==1">\n    <form (ngSubmit)="post()" #newcommentform="ngForm">\n      <ion-row>\n          <ion-textarea name="posttext" placeholder="Write something..." [(ngModel)]="posttext"></ion-textarea>\n          <button ion-button icon-right clear item-end type="submit">Post <ion-icon name="send"></ion-icon></button>\n      </ion-row>\n    </form>\n</ion-footer>\n'/*ion-inline-end:"/Users/snehak/ionic-heroku-button/src/pages/onegroup/onegroup.html"*/,
+        selector: 'page-onegroup',template:/*ion-inline-start:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\onegroup\onegroup.html"*/'<!--\n\n  Generated template for the OnegroupPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n\n\n  <ion-navbar>\n\n    <ion-title>onegroup</ion-title>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n\n\n</ion-content>\n\n'/*ion-inline-end:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\onegroup\onegroup.html"*/,
     }),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */], __WEBPACK_IMPORTED_MODULE_2__providers_auth_service_auth_service__["a" /* AuthService */],
-        __WEBPACK_IMPORTED_MODULE_3__providers_group_group__["a" /* GroupProvider */]])
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
 ], OnegroupPage);
 
 //# sourceMappingURL=onegroup.js.map
 
 /***/ }),
 
-/***/ 418:
+/***/ 417:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GroupaddPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_group_group__ = __webpack_require__(92);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_auth_service_auth_service__ = __webpack_require__(13);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2310,8 +2351,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-
-
 
 
 /**
@@ -2321,53 +2360,35 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  * on Ionic pages and navigation.
  */
 var GroupaddPage = (function () {
-    function GroupaddPage(navCtrl, navParams, group, auth, view) {
+    function GroupaddPage(navCtrl, navParams) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
-        this.group = group;
-        this.auth = auth;
-        this.view = view;
-        this.ngroup = { name: '', basedon: '', description: '' };
-        this.user = this.auth.getUserInfo();
     }
     GroupaddPage.prototype.ionViewDidLoad = function () {
         console.log('ionViewDidLoad GroupaddPage');
-    };
-    GroupaddPage.prototype.send = function () {
-        var _this = this;
-        this.group.addgroup(this.ngroup).then(function (res) {
-            var userid = _this.user._id;
-            _this.groupid = res;
-            _this.group.joingroup({ groupid: _this.groupid._id, memberid: userid }).then(function (data) {
-                _this.view.dismiss();
-            });
-        });
     };
     return GroupaddPage;
 }());
 GroupaddPage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-groupadd',template:/*ion-inline-start:"/Users/snehak/ionic-heroku-button/src/pages/groupadd/groupadd.html"*/'<ion-header>\n\n  <ion-navbar>\n    <ion-title>Add a New Group</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n	<form (ngSubmit)="send()" #ngroupform="ngForm">\n      <ion-row>\n        <ion-col>\n          <ion-list inset>\n            \n            <ion-item>\n              <ion-label stacked>Name</ion-label>\n              <ion-input type="text" name="name" [(ngModel)]="ngroup.name"></ion-input>\n            </ion-item>\n            \n            <ion-item>\n              <ion-label stacked>What group is this?</ion-label>\n              <ion-input type="text" name="basedon" [(ngModel)]="ngroup.basedon" ></ion-input>\n            </ion-item>\n\n            <ion-item>\n              <ion-label stacked>Describe this group</ion-label>\n              <ion-input type="text" name="description" [(ngModel)]="ngroup.description"></ion-input>\n            </ion-item>\n            \n          </ion-list>\n        </ion-col>\n      </ion-row>\n      <ion-row>\n        <ion-col class="signup-col">\n          <button ion-button class="submit-btn" full type="submit" [disabled]="!ngroupform.form.valid">Create</button>\n        </ion-col>\n      </ion-row>\n      \n    </form>\n</ion-content>'/*ion-inline-end:"/Users/snehak/ionic-heroku-button/src/pages/groupadd/groupadd.html"*/,
+        selector: 'page-groupadd',template:/*ion-inline-start:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\groupadd\groupadd.html"*/'<ion-header>\n\n\n\n  <ion-navbar>\n\n    <ion-title>Add a New Group</ion-title>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n	<form (ngSubmit)="send()" #ngroupform="ngForm">\n\n      <ion-row>\n\n        <ion-col>\n\n          <ion-list inset>\n\n            \n\n            <ion-item>\n\n              <ion-label stacked>Name</ion-label>\n\n              <ion-input type="text" name="name" [(ngModel)]="ngroup.name"></ion-input>\n\n            </ion-item>\n\n            \n\n            <ion-item>\n\n              <ion-label stacked>What group is this?</ion-label>\n\n              <ion-input type="text" name="basedon" [(ngModel)]="ngroup.basedon" ></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-label stacked>Describe this group</ion-label>\n\n              <ion-input type="text" name="description" [(ngModel)]="ngroup.description"></ion-input>\n\n            </ion-item>\n\n            \n\n          </ion-list>\n\n        </ion-col>\n\n      </ion-row>\n\n      <ion-row>\n\n        <ion-col class="signup-col">\n\n          <button ion-button class="submit-btn" full type="submit" [disabled]="!ngroupform.form.valid">Create</button>\n\n        </ion-col>\n\n      </ion-row>\n\n      \n\n    </form>\n\n</ion-content>'/*ion-inline-end:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\groupadd\groupadd.html"*/,
     }),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */], __WEBPACK_IMPORTED_MODULE_2__providers_group_group__["a" /* GroupProvider */],
-        __WEBPACK_IMPORTED_MODULE_3__providers_auth_service_auth_service__["a" /* AuthService */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["n" /* ViewController */]])
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
 ], GroupaddPage);
 
 //# sourceMappingURL=groupadd.js.map
 
 /***/ }),
 
-/***/ 419:
+/***/ 418:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GroupsearchPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_group_group__ = __webpack_require__(92);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_group_group__ = __webpack_require__(149);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_auth_service_auth_service__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__onegroup_onegroup__ = __webpack_require__(417);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__groupshome_groupshome__ = __webpack_require__(151);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2377,8 +2398,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-
-
 
 
 
@@ -2390,66 +2409,56 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  * on Ionic pages and navigation.
  */
 var GroupsearchPage = (function () {
-    function GroupsearchPage(navCtrl, navParams, groupctrl, auth, groupCtrl) {
+    function GroupsearchPage(navCtrl, navParams, groupctrl, auth) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
         this.groupctrl = groupctrl;
         this.auth = auth;
-        this.groupCtrl = groupCtrl;
         this.user = this.auth.getUserInfo();
     }
     GroupsearchPage.prototype.ionViewDidLoad = function () {
         console.log('ionViewDidLoad GroupsearchPage');
     };
-    GroupsearchPage.prototype.ionViewDidEnter = function () {
+    GroupsearchPage.prototype.getallgroups = function () {
         var _this = this;
-        console.log("groupshome enter");
-        this.groupdetails = [];
-        this.groupCtrl.getallgroups().then(function (data) {
-            _this.groupdetails = data;
+        this.groupctrl.getallgroups().then(function (data) {
+            _this.groups = data;
         });
     };
-    GroupsearchPage.prototype.mygroups = function () {
-        this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_5__groupshome_groupshome__["a" /* GroupshomePage */]);
-    };
-    GroupsearchPage.prototype.entergroup = function (event, group) {
-        console.log(group);
-        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_4__onegroup_onegroup__["a" /* OnegroupPage */], { group: group });
-    };
-    GroupsearchPage.prototype.getItems = function (ev) {
+    GroupsearchPage.prototype.getitems = function (ev) {
         var _this = this;
+        this.getallgroups(); //reset groups
         var val = ev.target.value; //get value of the searchbar
         if (val != '') {
             this.groupctrl.searchgroup(val).then(function (data) {
-                console.log(data);
-                _this.groupdetails = data;
+                _this.groups = data;
             });
         }
-        else {
-            this.ionViewDidEnter(); //reset groups
-        }
+    };
+    GroupsearchPage.prototype.joingroup = function (event, g) {
+        this.groupctrl.joingroup({ groupid: g._id, memberid: this.user._id });
     };
     return GroupsearchPage;
 }());
 GroupsearchPage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-groupsearch',template:/*ion-inline-start:"/Users/snehak/ionic-heroku-button/src/pages/groupsearch/groupsearch.html"*/'<!--\n  Generated template for the GroupsearchPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n	<button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n  <ion-navbar>\n    <ion-title>Search</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n	<ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>\n	<ion-item>\n		<button ion-button full clear (click)="mygroups()">My Groups</button>\n	</ion-item>\n	<ion-list>\n		<ion-card *ngFor="let g of groupdetails" (click)="entergroup($event, g)">\n			<ion-item>\n				<h2 style="white-space: normal !important;">{{g.name}}</h2>\n				<p>{{g.basedon}}</p>\n			</ion-item>\n			<ion-card-content>\n				<p>{{g.description}}</p>\n				<ion-item>\n						<button item-start ion-button icon-left clear small>\n							<ion-icon name=\'people\'></ion-icon>\n							<div>{{g.nmembers}} Members</div>\n						</button>\n						<button item-end ion-button icon-left clear small>\n							<ion-icon name="text"></ion-icon>\n							<div>{{g.nposts}} Posts</div>\n						</button>\n				</ion-item>\n			</ion-card-content>\n		</ion-card>\n	</ion-list>\n\n</ion-content>\n'/*ion-inline-end:"/Users/snehak/ionic-heroku-button/src/pages/groupsearch/groupsearch.html"*/,
+        selector: 'page-groupsearch',template:/*ion-inline-start:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\groupsearch\groupsearch.html"*/'<!--\n\n  Generated template for the GroupsearchPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n\n\n  <ion-navbar>\n\n    <ion-title>Search</ion-title>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n	<ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>\n\n	<ion-list>\n\n		<ion-card *ngFor="let g of groups">\n\n			<ion-item>\n\n				<h2>{{g.name}}</h2>\n\n				<p>Created based on: {{g.basedon}}</p>\n\n			</ion-item>\n\n			<ion-card-content>\n\n				<p>{{g.description}}</p>\n\n			</ion-card-content>\n\n			<ion-row>\n\n				<ion-col>\n\n					<button ion-button icon-left clear small>\n\n						<ion-icon name=\'people\'></ion-icon>\n\n						<div>{{g.nmembers}} Members</div>\n\n					</button>\n\n				</ion-col>\n\n				<ion-col>\n\n					<button ion-button icon-left clear small>\n\n						<ion-icon name="text"></ion-icon>\n\n						<div>{{g.nposts}} Posts</div>\n\n					</button>\n\n				</ion-col>\n\n				<ion-col>\n\n					<ion-note>\n\n					<button ion-button icon-right clear small (click)="joingroup($event, g)">\n\n						<div>Join Group</div>\n\n						<ion-icon name="person-add"></ion-icon>\n\n					</button>\n\n					</ion-note>\n\n				</ion-col>\n\n			</ion-row>\n\n		</ion-card>\n\n	</ion-list>\n\n\n\n</ion-content>\n\n'/*ion-inline-end:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\groupsearch\groupsearch.html"*/,
     }),
     __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */], __WEBPACK_IMPORTED_MODULE_2__providers_group_group__["a" /* GroupProvider */],
-        __WEBPACK_IMPORTED_MODULE_3__providers_auth_service_auth_service__["a" /* AuthService */], __WEBPACK_IMPORTED_MODULE_2__providers_group_group__["a" /* GroupProvider */]])
+        __WEBPACK_IMPORTED_MODULE_3__providers_auth_service_auth_service__["a" /* AuthService */]])
 ], GroupsearchPage);
 
 //# sourceMappingURL=groupsearch.js.map
 
 /***/ }),
 
-/***/ 420:
+/***/ 419:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(421);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_module__ = __webpack_require__(425);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(420);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_module__ = __webpack_require__(424);
 
 
 Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* platformBrowserDynamic */])().bootstrapModule(__WEBPACK_IMPORTED_MODULE_1__app_module__["a" /* AppModule */]);
@@ -2457,7 +2466,7 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 
 /***/ }),
 
-/***/ 425:
+/***/ 424:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2465,50 +2474,53 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__ = __webpack_require__(46);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(31);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__app_component__ = __webpack_require__(462);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_home_home__ = __webpack_require__(139);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_list_list__ = __webpack_require__(802);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_treasures_treasures__ = __webpack_require__(65);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_treasure_detail_treasure_detail__ = __webpack_require__(409);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_treasures_edit_detail_treasures_edit_detail__ = __webpack_require__(410);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_profile_profile__ = __webpack_require__(412);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__app_component__ = __webpack_require__(461);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_home_home__ = __webpack_require__(137);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_list_list__ = __webpack_require__(801);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_treasures_treasures__ = __webpack_require__(64);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_treasure_detail_treasure_detail__ = __webpack_require__(407);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_treasures_edit_detail_treasures_edit_detail__ = __webpack_require__(409);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_profile_profile__ = __webpack_require__(411);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_login_login__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_register_register__ = __webpack_require__(274);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__pages_search_search__ = __webpack_require__(87);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__pages_searchresult_searchresult__ = __webpack_require__(395);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__pages_chat_chat__ = __webpack_require__(147);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__pages_onechat_onechat__ = __webpack_require__(396);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__pages_new_project_new_project__ = __webpack_require__(411);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__pages_new_request_new_request__ = __webpack_require__(88);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__pages_points_points__ = __webpack_require__(803);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__pages_earnpoints_earnpoints__ = __webpack_require__(804);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__pages_contacts_contacts__ = __webpack_require__(414);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__pages_contactprofile_contactprofile__ = __webpack_require__(415);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__pages_onesearchresult_onesearchresult__ = __webpack_require__(64);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__pages_editprofile_editprofile__ = __webpack_require__(413);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__pages_groupadd_groupadd__ = __webpack_require__(418);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__pages_groupsearch_groupsearch__ = __webpack_require__(419);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__pages_groupshome_groupshome__ = __webpack_require__(151);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__pages_onegroup_onegroup__ = __webpack_require__(417);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__pages_contactreasures_contactreasures__ = __webpack_require__(416);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__pages_searchfeedback_searchfeedback__ = __webpack_require__(805);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__ionic_native_status_bar__ = __webpack_require__(245);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__ionic_native_splash_screen__ = __webpack_require__(250);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__providers_auth_service_auth_service__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__providers_requests_requests__ = __webpack_require__(89);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__providers_points_points__ = __webpack_require__(394);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__providers_treasuresprovider_treasuresprovider__ = __webpack_require__(32);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__providers_treasuresdetailprovider_treasuresdetailprovider__ = __webpack_require__(145);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__providers_treasureseditprovider_treasureseditprovider__ = __webpack_require__(806);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__providers_relation_relation__ = __webpack_require__(146);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__providers_group_group__ = __webpack_require__(92);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_register_register__ = __webpack_require__(272);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__pages_search_search__ = __webpack_require__(86);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__pages_searchresult_searchresult__ = __webpack_require__(393);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__pages_chat_chat__ = __webpack_require__(145);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__pages_onechat_onechat__ = __webpack_require__(394);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__pages_new_project_new_project__ = __webpack_require__(410);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__pages_new_request_new_request__ = __webpack_require__(143);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__pages_points_points__ = __webpack_require__(802);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__pages_earnpoints_earnpoints__ = __webpack_require__(803);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__pages_contacts_contacts__ = __webpack_require__(413);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_22__pages_contactprofile_contactprofile__ = __webpack_require__(414);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__pages_onesearchresult_onesearchresult__ = __webpack_require__(87);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__pages_editprofile_editprofile__ = __webpack_require__(412);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__pages_groupadd_groupadd__ = __webpack_require__(417);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_26__pages_groupsearch_groupsearch__ = __webpack_require__(418);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_27__pages_groupshome_groupshome__ = __webpack_require__(415);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__pages_onegroup_onegroup__ = __webpack_require__(416);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__pages_contactreasures_contactreasures__ = __webpack_require__(806);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__pages_contactreasures_contactreasures___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_29__pages_contactreasures_contactreasures__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__pages_searchfeedback_searchfeedback__ = __webpack_require__(807);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__pages_commentpage_commentpage__ = __webpack_require__(804);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__ionic_native_status_bar__ = __webpack_require__(243);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_33__ionic_native_splash_screen__ = __webpack_require__(248);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_34__providers_auth_service_auth_service__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_35__providers_requests_requests__ = __webpack_require__(88);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_36__providers_points_points__ = __webpack_require__(392);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_37__providers_treasuresprovider_treasuresprovider__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_38__providers_treasuresdetailprovider_treasuresdetailprovider__ = __webpack_require__(408);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_39__providers_treasureseditprovider_treasureseditprovider__ = __webpack_require__(805);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_40__providers_relation_relation__ = __webpack_require__(144);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_41__providers_group_group__ = __webpack_require__(149);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -2583,8 +2595,9 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_26__pages_groupsearch_groupsearch__["a" /* GroupsearchPage */],
             __WEBPACK_IMPORTED_MODULE_27__pages_groupshome_groupshome__["a" /* GroupshomePage */],
             __WEBPACK_IMPORTED_MODULE_28__pages_onegroup_onegroup__["a" /* OnegroupPage */],
-            __WEBPACK_IMPORTED_MODULE_29__pages_contactreasures_contactreasures__["a" /* ContactreasuresPage */],
-            __WEBPACK_IMPORTED_MODULE_30__pages_searchfeedback_searchfeedback__["a" /* SearchfeedbackPage */]
+            __WEBPACK_IMPORTED_MODULE_29__pages_contactreasures_contactreasures__["ContactreasuresPage"],
+            __WEBPACK_IMPORTED_MODULE_30__pages_searchfeedback_searchfeedback__["a" /* SearchfeedbackPage */],
+            __WEBPACK_IMPORTED_MODULE_31__pages_commentpage_commentpage__["a" /* CommentPage */]
         ],
         imports: [
             __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
@@ -2618,23 +2631,24 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_26__pages_groupsearch_groupsearch__["a" /* GroupsearchPage */],
             __WEBPACK_IMPORTED_MODULE_27__pages_groupshome_groupshome__["a" /* GroupshomePage */],
             __WEBPACK_IMPORTED_MODULE_28__pages_onegroup_onegroup__["a" /* OnegroupPage */],
-            __WEBPACK_IMPORTED_MODULE_29__pages_contactreasures_contactreasures__["a" /* ContactreasuresPage */],
-            __WEBPACK_IMPORTED_MODULE_30__pages_searchfeedback_searchfeedback__["a" /* SearchfeedbackPage */]
+            __WEBPACK_IMPORTED_MODULE_29__pages_contactreasures_contactreasures__["ContactreasuresPage"],
+            __WEBPACK_IMPORTED_MODULE_30__pages_searchfeedback_searchfeedback__["a" /* SearchfeedbackPage */],
+            __WEBPACK_IMPORTED_MODULE_31__pages_commentpage_commentpage__["a" /* CommentPage */]
         ],
         providers: [
-            __WEBPACK_IMPORTED_MODULE_31__ionic_native_status_bar__["a" /* StatusBar */],
-            __WEBPACK_IMPORTED_MODULE_32__ionic_native_splash_screen__["a" /* SplashScreen */],
+            __WEBPACK_IMPORTED_MODULE_32__ionic_native_status_bar__["a" /* StatusBar */],
+            __WEBPACK_IMPORTED_MODULE_33__ionic_native_splash_screen__["a" /* SplashScreen */],
             { provide: __WEBPACK_IMPORTED_MODULE_1__angular_core__["v" /* ErrorHandler */], useClass: __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["e" /* IonicErrorHandler */] },
-            __WEBPACK_IMPORTED_MODULE_33__providers_auth_service_auth_service__["a" /* AuthService */],
-            __WEBPACK_IMPORTED_MODULE_34__providers_requests_requests__["a" /* RequestsProvider */],
-            __WEBPACK_IMPORTED_MODULE_35__providers_points_points__["a" /* PointsProvider */],
-            __WEBPACK_IMPORTED_MODULE_36__providers_treasuresprovider_treasuresprovider__["a" /* TreasuresProvider */],
-            __WEBPACK_IMPORTED_MODULE_37__providers_treasuresdetailprovider_treasuresdetailprovider__["a" /* TreasuresDetailProvider */],
-            __WEBPACK_IMPORTED_MODULE_38__providers_treasureseditprovider_treasureseditprovider__["a" /* TreasureseditproviderProvider */],
-            __WEBPACK_IMPORTED_MODULE_39__providers_relation_relation__["a" /* RelationProvider */],
-            __WEBPACK_IMPORTED_MODULE_39__providers_relation_relation__["a" /* RelationProvider */],
-            __WEBPACK_IMPORTED_MODULE_40__providers_group_group__["a" /* GroupProvider */],
-            __WEBPACK_IMPORTED_MODULE_40__providers_group_group__["a" /* GroupProvider */],
+            __WEBPACK_IMPORTED_MODULE_34__providers_auth_service_auth_service__["a" /* AuthService */],
+            __WEBPACK_IMPORTED_MODULE_35__providers_requests_requests__["a" /* RequestsProvider */],
+            __WEBPACK_IMPORTED_MODULE_36__providers_points_points__["a" /* PointsProvider */],
+            __WEBPACK_IMPORTED_MODULE_37__providers_treasuresprovider_treasuresprovider__["a" /* TreasuresProvider */],
+            __WEBPACK_IMPORTED_MODULE_38__providers_treasuresdetailprovider_treasuresdetailprovider__["a" /* TreasuresDetailProvider */],
+            __WEBPACK_IMPORTED_MODULE_39__providers_treasureseditprovider_treasureseditprovider__["a" /* TreasureseditproviderProvider */],
+            __WEBPACK_IMPORTED_MODULE_40__providers_relation_relation__["a" /* RelationProvider */],
+            __WEBPACK_IMPORTED_MODULE_40__providers_relation_relation__["a" /* RelationProvider */],
+            __WEBPACK_IMPORTED_MODULE_41__providers_group_group__["a" /* GroupProvider */],
+            __WEBPACK_IMPORTED_MODULE_41__providers_group_group__["a" /* GroupProvider */],
         ]
     })
 ], AppModule);
@@ -2643,23 +2657,23 @@ AppModule = __decorate([
 
 /***/ }),
 
-/***/ 462:
+/***/ 461:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MyApp; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(245);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(250);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_home_home__ = __webpack_require__(139);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(243);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(248);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_home_home__ = __webpack_require__(137);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_login_login__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_profile_profile__ = __webpack_require__(412);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_search_search__ = __webpack_require__(87);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_chat_chat__ = __webpack_require__(147);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_treasures_treasures__ = __webpack_require__(65);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_contacts_contacts__ = __webpack_require__(414);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_groupshome_groupshome__ = __webpack_require__(151);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_profile_profile__ = __webpack_require__(411);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_search_search__ = __webpack_require__(86);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_chat_chat__ = __webpack_require__(145);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_treasures_treasures__ = __webpack_require__(64);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_contacts_contacts__ = __webpack_require__(413);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_groupshome_groupshome__ = __webpack_require__(415);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__providers_auth_service_auth_service__ = __webpack_require__(13);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -2753,7 +2767,7 @@ __decorate([
     __metadata("design:type", __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* Nav */])
 ], MyApp.prototype, "nav", void 0);
 MyApp = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({template:/*ion-inline-start:"/Users/snehak/ionic-heroku-button/src/app/app.html"*/'<ion-menu [content]="content">\n  <ion-header>\n    <ion-toolbar>\n      <ion-title>Menu</ion-title>\n    </ion-toolbar>\n  </ion-header>\n\n  <ion-content>\n    <ion-list>\n      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">\n        {{p.title}}\n      </button>\n    </ion-list>\n  </ion-content>\n\n  <ion-footer>\n    <button menuClose ion-item (click)="logout()">\n      Logout\n    </button>\n  </ion-footer>\n\n</ion-menu>\n\n<!-- Disable swipe-to-go-back because it\'s poor UX to combine STGB with side menus -->\n<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>'/*ion-inline-end:"/Users/snehak/ionic-heroku-button/src/app/app.html"*/
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({template:/*ion-inline-start:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\app\app.html"*/'<ion-menu [content]="content">\n\n  <ion-header>\n\n    <ion-toolbar>\n\n      <ion-title>Menu</ion-title>\n\n    </ion-toolbar>\n\n  </ion-header>\n\n\n\n  <ion-content>\n\n    <ion-list>\n\n      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">\n\n        {{p.title}}\n\n      </button>\n\n    </ion-list>\n\n  </ion-content>\n\n\n\n  <ion-footer>\n\n    <button menuClose ion-item (click)="logout()">\n\n      Logout\n\n    </button>\n\n  </ion-footer>\n\n\n\n</ion-menu>\n\n\n\n<!-- Disable swipe-to-go-back because it\'s poor UX to combine STGB with side menus -->\n\n<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>'/*ion-inline-end:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\app\app.html"*/
     }),
     __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* Platform */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */],
         __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* ToastController */], __WEBPACK_IMPORTED_MODULE_12__providers_auth_service_auth_service__["a" /* AuthService */]])
@@ -2771,8 +2785,8 @@ MyApp = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_auth_service_auth_service__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__register_register__ = __webpack_require__(274);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__home_home__ = __webpack_require__(139);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__register_register__ = __webpack_require__(272);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__home_home__ = __webpack_require__(137);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2841,7 +2855,7 @@ var LoginPage = (function () {
 }());
 LoginPage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-login',template:/*ion-inline-start:"/Users/snehak/ionic-heroku-button/src/pages/login/login.html"*/'<!--\n  Generated template for the LoginPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n<img src="../../assets/images/bosch_background.png" width=\'100%\' height="50px" />\n</ion-header>\n\n<ion-content class="login-content" padding>\n<!--   <ion-row class="logo-row">\n    <ion-col></ion-col>\n    <ion-col width-67> -->\n      <img src="../../assets/images/texconnect_logo.png" width="100%" />\n<!--     </ion-col>\n    <ion-col></ion-col>\n  </ion-row> -->\n</ion-content>\n\n<ion-footer>\n  <div class="login-box">\n    <form (ngSubmit)="login()" #registerForm="ngForm">\n      <ion-row>\n        <ion-col>\n          <ion-list inset>\n            \n            <ion-item>\n              <ion-input type="text" placeholder="Email" name="email" [(ngModel)]="registerCredentials.email" required></ion-input>\n            </ion-item>\n            \n            <ion-item>\n              <ion-input type="password" placeholder="Password" name="password" [(ngModel)]="registerCredentials.password" required></ion-input>\n            </ion-item>\n            \n          </ion-list>\n        </ion-col>\n      </ion-row>\n      <ion-row>\n        <ion-col col-12 class="signup-col">\n          <button ion-button class="submit-btn" full type="submit" [disabled]="!registerForm.form.valid">Login</button>\n        </ion-col>\n      </ion-row>\n      \n    </form>\n\n    <ion-row>\n          <button ion-button class="register-btn" block clear (click)="createAccount()">Create New Account</button> \n    </ion-row>\n    <img src="../../assets/images/bosch_background.png" width=\'100%\' height="10px" />\n  </div>\n</ion-footer>\n'/*ion-inline-end:"/Users/snehak/ionic-heroku-button/src/pages/login/login.html"*/,
+        selector: 'page-login',template:/*ion-inline-start:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\login\login.html"*/'<!--\n\n  Generated template for the LoginPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n<img src="../../assets/images/bosch_background.png" width=\'100%\' height="50px" />\n\n</ion-header>\n\n\n\n<ion-content class="login-content" padding>\n\n<!--   <ion-row class="logo-row">\n\n    <ion-col></ion-col>\n\n    <ion-col width-67> -->\n\n      <img src="../../assets/images/texconnect_logo.png" width="100%" />\n\n<!--     </ion-col>\n\n    <ion-col></ion-col>\n\n  </ion-row> -->\n\n</ion-content>\n\n\n\n<ion-footer>\n\n  <div class="login-box">\n\n    <form (ngSubmit)="login()" #registerForm="ngForm">\n\n      <ion-row>\n\n        <ion-col>\n\n          <ion-list inset>\n\n            \n\n            <ion-item>\n\n              <ion-input type="text" placeholder="Email" name="email" [(ngModel)]="registerCredentials.email" required></ion-input>\n\n            </ion-item>\n\n            \n\n            <ion-item>\n\n              <ion-input type="password" placeholder="Password" name="password" [(ngModel)]="registerCredentials.password" required></ion-input>\n\n            </ion-item>\n\n            \n\n          </ion-list>\n\n        </ion-col>\n\n      </ion-row>\n\n      <ion-row>\n\n        <ion-col col-12 class="signup-col">\n\n          <button ion-button class="submit-btn" full type="submit" [disabled]="!registerForm.form.valid">Login</button>\n\n        </ion-col>\n\n      </ion-row>\n\n      \n\n    </form>\n\n\n\n    <ion-row>\n\n          <button ion-button class="register-btn" block clear (click)="createAccount()">Create New Account</button> \n\n    </ion-row>\n\n    <img src="../../assets/images/bosch_background.png" width=\'100%\' height="10px" />\n\n  </div>\n\n</ion-footer>\n\n'/*ion-inline-end:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\login\login.html"*/,
     }),
     __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_2__providers_auth_service_auth_service__["a" /* AuthService */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["b" /* AlertController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* LoadingController */]])
 ], LoginPage);
@@ -2854,104 +2868,14 @@ LoginPage = __decorate([
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return OnesearchresultPage; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_treasuresdetailprovider_treasuresdetailprovider__ = __webpack_require__(145);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_auth_service_auth_service__ = __webpack_require__(13);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-/**
- * Generated class for the OnesearchresultPage page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
-var OnesearchresultPage = (function () {
-    function OnesearchresultPage(navCtrl, navParams, treasuresDetailService, auth) {
-        this.navCtrl = navCtrl;
-        this.navParams = navParams;
-        this.treasuresDetailService = treasuresDetailService;
-        this.auth = auth;
-        this.links = [];
-        this.completestatus = "error";
-        this.projectdetails = [];
-        this.projectproblems = [];
-        this.projectconclusions = [];
-        this.projectdiagnosis = [];
-        this.projectsymptoms = [];
-        this.projectuploadstatus = "cloud-upload";
-        this.completestatusimg = "radio-button-off";
-        this.ProjID = navParams.data;
-        this.user = this.auth.getUserInfo();
-        console.log(this.ProjID);
-        console.log(this.user);
-        this.user.last_viewed = this.ProjID._id.toString();
-        console.log(this.user);
-        this.auth.updateuser(this.user);
-    }
-    OnesearchresultPage.prototype.ionViewDidLoad = function () {
-        var _this = this;
-        console.log('ionViewDidLoad OnesearchresultPage');
-        console.log(this.ProjID);
-        this.treasuresDetailService.gettreasuresdetail().then(function (data) {
-            _this.details = data;
-            for (var i = 0; i < _this.details.length; i++) {
-                if (_this.details[i].ProjectID == _this.ProjID._id) {
-                    _this.projectdetails.push(_this.details[i]);
-                    if (_this.details[i].type == "problem")
-                        _this.projectproblems.push(_this.details[i]);
-                    else if (_this.details[i].type == "conclusion")
-                        _this.projectconclusions.push(_this.details[i]);
-                    else if (_this.details[i].type == "diagnosis")
-                        _this.projectdiagnosis.push(_this.details[i]);
-                    else if (_this.details[i].type == "symptom")
-                        _this.projectsymptoms.push(_this.details[i]);
-                }
-            }
-            for (var i = 1; i <= _this.ProjID.numofpics; i++) {
-                _this.links[i] = "https://s3.amazonaws.com/katcher/PID" + _this.ProjID.PID + "/Photo/" + i + ".jpg";
-                console.log(_this.links[i]);
-            }
-        });
-    };
-    return OnesearchresultPage;
-}());
-OnesearchresultPage = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-onesearchresult',template:/*ion-inline-start:"/Users/snehak/ionic-heroku-button/src/pages/onesearchresult/onesearchresult.html"*/'<!--\n  Generated template for the TreasuresPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n    <ion-navbar>\n        <ion-title>Details</ion-title>\n    </ion-navbar>\n\n</ion-header>\n\n<ion-content>\n\n      <ion-card>\n        <ion-card-content>\n       \n            <ion-card-title>\n                [{{this.completestatus}}] {{ProjID.year}} {{this.ProjID.brand}} {{this.ProjID.model}} \n            </ion-card-title>\n            <p>Error Code: {{this.ProjID.errorcode}}</p>         \n            <ul>Symptoms:\n            <li *ngFor =" let projectsymptom of projectsymptoms; let i = index ">{{this.projectsymptom.sentence}} </li>  \n            </ul>\n            <p></p>\n            <ul>Diagnosis:\n            <li *ngFor =" let projectdiagnosi of projectdiagnosis; let i = index ">{{this.projectdiagnosi.sentence}} </li>  \n            </ul>\n            <p></p>\n            <ul>conclusion:\n            <li *ngFor =" let projectconclusion of projectconclusions; let i = index ">{{this.projectconclusion.sentence}} </li>  \n            </ul>\n\n             <p *ngFor =" let link of links; let i = index ">\n            <img src={{this.links[i]}}/>\n            </p>\n            </ion-card-content>\n            </ion-card>\n            </ion-content>\n\n     '/*ion-inline-end:"/Users/snehak/ionic-heroku-button/src/pages/onesearchresult/onesearchresult.html"*/,
-    }),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */], __WEBPACK_IMPORTED_MODULE_2__providers_treasuresdetailprovider_treasuresdetailprovider__["a" /* TreasuresDetailProvider */],
-        __WEBPACK_IMPORTED_MODULE_3__providers_auth_service_auth_service__["a" /* AuthService */]])
-], OnesearchresultPage);
-
-//# sourceMappingURL=onesearchresult.js.map
-
-/***/ }),
-
-/***/ 65:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TreasuresPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_treasuresprovider_treasuresprovider__ = __webpack_require__(32);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(31);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__treasure_detail_treasure_detail__ = __webpack_require__(409);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_treasuresprovider_treasuresprovider__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__treasure_detail_treasure_detail__ = __webpack_require__(407);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_auth_service_auth_service__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__new_project_new_project__ = __webpack_require__(411);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__new_project_new_project__ = __webpack_require__(410);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3057,7 +2981,7 @@ var TreasuresPage = (function () {
 }());
 TreasuresPage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-treasures',template:/*ion-inline-start:"/Users/snehak/ionic-heroku-button/src/pages/treasures/treasures.html"*/'<!--\n  Generated template for the TreasuresPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar>\n    <ion-title>Treasures</ion-title>\n      <button ion-button menuToggle>\n          <ion-icon name="menu"></ion-icon>\n      </button>\n      <ion-buttons end>\n      <button ion-button (click)="addProject()"><ion-icon name="add">Add Project</ion-icon></button>\n      </ion-buttons>\n\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content class="card-background-page">	\n\n\n	<ion-list>\n\n     <ion-grid>\n\n		 <ion-item *ngFor =" let project of projects; let i  = index ">\n     \n     <ion-row >\n	   <ion-col>  	\n     <ion-card (click)="showDetails(project)" >\n     <img src={{this.carlinks[i]}}>   \n     <div class="card-title" >{{project.year}} {{project.brand}} {{project.model}}</div>\n     <div class="card-subtitle">{{project.errorcode}}</div>\n     </ion-card>\n     <button class="sharebutton" ion-button icon-only (click)="upload(project, i)"><ion-icon name={{this.buttonimg[i]}}></ion-icon></button>\n     </ion-col>\n\n     \n     </ion-row >\n       \n     </ion-item></ion-grid>\n     </ion-list>\n     </ion-content>\n     '/*ion-inline-end:"/Users/snehak/ionic-heroku-button/src/pages/treasures/treasures.html"*/,
+        selector: 'page-treasures',template:/*ion-inline-start:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\treasures\treasures.html"*/'<!--\n\n  Generated template for the TreasuresPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n  <ion-navbar>\n\n    <ion-title>Treasures</ion-title>\n\n      <button ion-button menuToggle>\n\n          <ion-icon name="menu"></ion-icon>\n\n      </button>\n\n      <ion-buttons end>\n\n      <button ion-button (click)="addProject()"><ion-icon name="add">Add Project</ion-icon></button>\n\n      </ion-buttons>\n\n\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content class="card-background-page">	\n\n\n\n\n\n	<ion-list>\n\n\n\n     <ion-grid>\n\n\n\n		 <ion-item *ngFor =" let project of projects; let i  = index ">\n\n     \n\n     <ion-row >\n\n	   <ion-col>  	\n\n     <ion-card (click)="showDetails(project)" >\n\n     <img src={{this.carlinks[i]}}>   \n\n     <div class="card-title" >{{project.year}} {{project.brand}} {{project.model}}</div>\n\n     <div class="card-subtitle">{{project.errorcode}}</div>\n\n     </ion-card>\n\n     <button class="sharebutton" ion-button icon-only (click)="upload(project, i)"><ion-icon name={{this.buttonimg[i]}}></ion-icon></button>\n\n     </ion-col>\n\n\n\n     \n\n     </ion-row >\n\n       \n\n     </ion-item></ion-grid>\n\n     </ion-list>\n\n     </ion-content>\n\n     '/*ion-inline-end:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\treasures\treasures.html"*/,
     }),
     __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */], __WEBPACK_IMPORTED_MODULE_2__providers_treasuresprovider_treasuresprovider__["a" /* TreasuresProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* ModalController */], __WEBPACK_IMPORTED_MODULE_5__providers_auth_service_auth_service__["a" /* AuthService */], __WEBPACK_IMPORTED_MODULE_3__angular_http__["b" /* Http */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* ToastController */]])
 ], TreasuresPage);
@@ -3066,240 +2990,240 @@ TreasuresPage = __decorate([
 
 /***/ }),
 
-/***/ 763:
+/***/ 762:
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
-	"./af": 279,
-	"./af.js": 279,
-	"./ar": 280,
-	"./ar-dz": 281,
-	"./ar-dz.js": 281,
-	"./ar-kw": 282,
-	"./ar-kw.js": 282,
-	"./ar-ly": 283,
-	"./ar-ly.js": 283,
-	"./ar-ma": 284,
-	"./ar-ma.js": 284,
-	"./ar-sa": 285,
-	"./ar-sa.js": 285,
-	"./ar-tn": 286,
-	"./ar-tn.js": 286,
-	"./ar.js": 280,
-	"./az": 287,
-	"./az.js": 287,
-	"./be": 288,
-	"./be.js": 288,
-	"./bg": 289,
-	"./bg.js": 289,
-	"./bn": 290,
-	"./bn.js": 290,
-	"./bo": 291,
-	"./bo.js": 291,
-	"./br": 292,
-	"./br.js": 292,
-	"./bs": 293,
-	"./bs.js": 293,
-	"./ca": 294,
-	"./ca.js": 294,
-	"./cs": 295,
-	"./cs.js": 295,
-	"./cv": 296,
-	"./cv.js": 296,
-	"./cy": 297,
-	"./cy.js": 297,
-	"./da": 298,
-	"./da.js": 298,
-	"./de": 299,
-	"./de-at": 300,
-	"./de-at.js": 300,
-	"./de-ch": 301,
-	"./de-ch.js": 301,
-	"./de.js": 299,
-	"./dv": 302,
-	"./dv.js": 302,
-	"./el": 303,
-	"./el.js": 303,
-	"./en-au": 304,
-	"./en-au.js": 304,
-	"./en-ca": 305,
-	"./en-ca.js": 305,
-	"./en-gb": 306,
-	"./en-gb.js": 306,
-	"./en-ie": 307,
-	"./en-ie.js": 307,
-	"./en-nz": 308,
-	"./en-nz.js": 308,
-	"./eo": 309,
-	"./eo.js": 309,
-	"./es": 310,
-	"./es-do": 311,
-	"./es-do.js": 311,
-	"./es.js": 310,
-	"./et": 312,
-	"./et.js": 312,
-	"./eu": 313,
-	"./eu.js": 313,
-	"./fa": 314,
-	"./fa.js": 314,
-	"./fi": 315,
-	"./fi.js": 315,
-	"./fo": 316,
-	"./fo.js": 316,
-	"./fr": 317,
-	"./fr-ca": 318,
-	"./fr-ca.js": 318,
-	"./fr-ch": 319,
-	"./fr-ch.js": 319,
-	"./fr.js": 317,
-	"./fy": 320,
-	"./fy.js": 320,
-	"./gd": 321,
-	"./gd.js": 321,
-	"./gl": 322,
-	"./gl.js": 322,
-	"./gom-latn": 323,
-	"./gom-latn.js": 323,
-	"./he": 324,
-	"./he.js": 324,
-	"./hi": 325,
-	"./hi.js": 325,
-	"./hr": 326,
-	"./hr.js": 326,
-	"./hu": 327,
-	"./hu.js": 327,
-	"./hy-am": 328,
-	"./hy-am.js": 328,
-	"./id": 329,
-	"./id.js": 329,
-	"./is": 330,
-	"./is.js": 330,
-	"./it": 331,
-	"./it.js": 331,
-	"./ja": 332,
-	"./ja.js": 332,
-	"./jv": 333,
-	"./jv.js": 333,
-	"./ka": 334,
-	"./ka.js": 334,
-	"./kk": 335,
-	"./kk.js": 335,
-	"./km": 336,
-	"./km.js": 336,
-	"./kn": 337,
-	"./kn.js": 337,
-	"./ko": 338,
-	"./ko.js": 338,
-	"./ky": 339,
-	"./ky.js": 339,
-	"./lb": 340,
-	"./lb.js": 340,
-	"./lo": 341,
-	"./lo.js": 341,
-	"./lt": 342,
-	"./lt.js": 342,
-	"./lv": 343,
-	"./lv.js": 343,
-	"./me": 344,
-	"./me.js": 344,
-	"./mi": 345,
-	"./mi.js": 345,
-	"./mk": 346,
-	"./mk.js": 346,
-	"./ml": 347,
-	"./ml.js": 347,
-	"./mr": 348,
-	"./mr.js": 348,
-	"./ms": 349,
-	"./ms-my": 350,
-	"./ms-my.js": 350,
-	"./ms.js": 349,
-	"./my": 351,
-	"./my.js": 351,
-	"./nb": 352,
-	"./nb.js": 352,
-	"./ne": 353,
-	"./ne.js": 353,
-	"./nl": 354,
-	"./nl-be": 355,
-	"./nl-be.js": 355,
-	"./nl.js": 354,
-	"./nn": 356,
-	"./nn.js": 356,
-	"./pa-in": 357,
-	"./pa-in.js": 357,
-	"./pl": 358,
-	"./pl.js": 358,
-	"./pt": 359,
-	"./pt-br": 360,
-	"./pt-br.js": 360,
-	"./pt.js": 359,
-	"./ro": 361,
-	"./ro.js": 361,
-	"./ru": 362,
-	"./ru.js": 362,
-	"./sd": 363,
-	"./sd.js": 363,
-	"./se": 364,
-	"./se.js": 364,
-	"./si": 365,
-	"./si.js": 365,
-	"./sk": 366,
-	"./sk.js": 366,
-	"./sl": 367,
-	"./sl.js": 367,
-	"./sq": 368,
-	"./sq.js": 368,
-	"./sr": 369,
-	"./sr-cyrl": 370,
-	"./sr-cyrl.js": 370,
-	"./sr.js": 369,
-	"./ss": 371,
-	"./ss.js": 371,
-	"./sv": 372,
-	"./sv.js": 372,
-	"./sw": 373,
-	"./sw.js": 373,
-	"./ta": 374,
-	"./ta.js": 374,
-	"./te": 375,
-	"./te.js": 375,
-	"./tet": 376,
-	"./tet.js": 376,
-	"./th": 377,
-	"./th.js": 377,
-	"./tl-ph": 378,
-	"./tl-ph.js": 378,
-	"./tlh": 379,
-	"./tlh.js": 379,
-	"./tr": 380,
-	"./tr.js": 380,
-	"./tzl": 381,
-	"./tzl.js": 381,
-	"./tzm": 382,
-	"./tzm-latn": 383,
-	"./tzm-latn.js": 383,
-	"./tzm.js": 382,
-	"./uk": 384,
-	"./uk.js": 384,
-	"./ur": 385,
-	"./ur.js": 385,
-	"./uz": 386,
-	"./uz-latn": 387,
-	"./uz-latn.js": 387,
-	"./uz.js": 386,
-	"./vi": 388,
-	"./vi.js": 388,
-	"./x-pseudo": 389,
-	"./x-pseudo.js": 389,
-	"./yo": 390,
-	"./yo.js": 390,
-	"./zh-cn": 391,
-	"./zh-cn.js": 391,
-	"./zh-hk": 392,
-	"./zh-hk.js": 392,
-	"./zh-tw": 393,
-	"./zh-tw.js": 393
+	"./af": 277,
+	"./af.js": 277,
+	"./ar": 278,
+	"./ar-dz": 279,
+	"./ar-dz.js": 279,
+	"./ar-kw": 280,
+	"./ar-kw.js": 280,
+	"./ar-ly": 281,
+	"./ar-ly.js": 281,
+	"./ar-ma": 282,
+	"./ar-ma.js": 282,
+	"./ar-sa": 283,
+	"./ar-sa.js": 283,
+	"./ar-tn": 284,
+	"./ar-tn.js": 284,
+	"./ar.js": 278,
+	"./az": 285,
+	"./az.js": 285,
+	"./be": 286,
+	"./be.js": 286,
+	"./bg": 287,
+	"./bg.js": 287,
+	"./bn": 288,
+	"./bn.js": 288,
+	"./bo": 289,
+	"./bo.js": 289,
+	"./br": 290,
+	"./br.js": 290,
+	"./bs": 291,
+	"./bs.js": 291,
+	"./ca": 292,
+	"./ca.js": 292,
+	"./cs": 293,
+	"./cs.js": 293,
+	"./cv": 294,
+	"./cv.js": 294,
+	"./cy": 295,
+	"./cy.js": 295,
+	"./da": 296,
+	"./da.js": 296,
+	"./de": 297,
+	"./de-at": 298,
+	"./de-at.js": 298,
+	"./de-ch": 299,
+	"./de-ch.js": 299,
+	"./de.js": 297,
+	"./dv": 300,
+	"./dv.js": 300,
+	"./el": 301,
+	"./el.js": 301,
+	"./en-au": 302,
+	"./en-au.js": 302,
+	"./en-ca": 303,
+	"./en-ca.js": 303,
+	"./en-gb": 304,
+	"./en-gb.js": 304,
+	"./en-ie": 305,
+	"./en-ie.js": 305,
+	"./en-nz": 306,
+	"./en-nz.js": 306,
+	"./eo": 307,
+	"./eo.js": 307,
+	"./es": 308,
+	"./es-do": 309,
+	"./es-do.js": 309,
+	"./es.js": 308,
+	"./et": 310,
+	"./et.js": 310,
+	"./eu": 311,
+	"./eu.js": 311,
+	"./fa": 312,
+	"./fa.js": 312,
+	"./fi": 313,
+	"./fi.js": 313,
+	"./fo": 314,
+	"./fo.js": 314,
+	"./fr": 315,
+	"./fr-ca": 316,
+	"./fr-ca.js": 316,
+	"./fr-ch": 317,
+	"./fr-ch.js": 317,
+	"./fr.js": 315,
+	"./fy": 318,
+	"./fy.js": 318,
+	"./gd": 319,
+	"./gd.js": 319,
+	"./gl": 320,
+	"./gl.js": 320,
+	"./gom-latn": 321,
+	"./gom-latn.js": 321,
+	"./he": 322,
+	"./he.js": 322,
+	"./hi": 323,
+	"./hi.js": 323,
+	"./hr": 324,
+	"./hr.js": 324,
+	"./hu": 325,
+	"./hu.js": 325,
+	"./hy-am": 326,
+	"./hy-am.js": 326,
+	"./id": 327,
+	"./id.js": 327,
+	"./is": 328,
+	"./is.js": 328,
+	"./it": 329,
+	"./it.js": 329,
+	"./ja": 330,
+	"./ja.js": 330,
+	"./jv": 331,
+	"./jv.js": 331,
+	"./ka": 332,
+	"./ka.js": 332,
+	"./kk": 333,
+	"./kk.js": 333,
+	"./km": 334,
+	"./km.js": 334,
+	"./kn": 335,
+	"./kn.js": 335,
+	"./ko": 336,
+	"./ko.js": 336,
+	"./ky": 337,
+	"./ky.js": 337,
+	"./lb": 338,
+	"./lb.js": 338,
+	"./lo": 339,
+	"./lo.js": 339,
+	"./lt": 340,
+	"./lt.js": 340,
+	"./lv": 341,
+	"./lv.js": 341,
+	"./me": 342,
+	"./me.js": 342,
+	"./mi": 343,
+	"./mi.js": 343,
+	"./mk": 344,
+	"./mk.js": 344,
+	"./ml": 345,
+	"./ml.js": 345,
+	"./mr": 346,
+	"./mr.js": 346,
+	"./ms": 347,
+	"./ms-my": 348,
+	"./ms-my.js": 348,
+	"./ms.js": 347,
+	"./my": 349,
+	"./my.js": 349,
+	"./nb": 350,
+	"./nb.js": 350,
+	"./ne": 351,
+	"./ne.js": 351,
+	"./nl": 352,
+	"./nl-be": 353,
+	"./nl-be.js": 353,
+	"./nl.js": 352,
+	"./nn": 354,
+	"./nn.js": 354,
+	"./pa-in": 355,
+	"./pa-in.js": 355,
+	"./pl": 356,
+	"./pl.js": 356,
+	"./pt": 357,
+	"./pt-br": 358,
+	"./pt-br.js": 358,
+	"./pt.js": 357,
+	"./ro": 359,
+	"./ro.js": 359,
+	"./ru": 360,
+	"./ru.js": 360,
+	"./sd": 361,
+	"./sd.js": 361,
+	"./se": 362,
+	"./se.js": 362,
+	"./si": 363,
+	"./si.js": 363,
+	"./sk": 364,
+	"./sk.js": 364,
+	"./sl": 365,
+	"./sl.js": 365,
+	"./sq": 366,
+	"./sq.js": 366,
+	"./sr": 367,
+	"./sr-cyrl": 368,
+	"./sr-cyrl.js": 368,
+	"./sr.js": 367,
+	"./ss": 369,
+	"./ss.js": 369,
+	"./sv": 370,
+	"./sv.js": 370,
+	"./sw": 371,
+	"./sw.js": 371,
+	"./ta": 372,
+	"./ta.js": 372,
+	"./te": 373,
+	"./te.js": 373,
+	"./tet": 374,
+	"./tet.js": 374,
+	"./th": 375,
+	"./th.js": 375,
+	"./tl-ph": 376,
+	"./tl-ph.js": 376,
+	"./tlh": 377,
+	"./tlh.js": 377,
+	"./tr": 378,
+	"./tr.js": 378,
+	"./tzl": 379,
+	"./tzl.js": 379,
+	"./tzm": 380,
+	"./tzm-latn": 381,
+	"./tzm-latn.js": 381,
+	"./tzm.js": 380,
+	"./uk": 382,
+	"./uk.js": 382,
+	"./ur": 383,
+	"./ur.js": 383,
+	"./uz": 384,
+	"./uz-latn": 385,
+	"./uz-latn.js": 385,
+	"./uz.js": 384,
+	"./vi": 386,
+	"./vi.js": 386,
+	"./x-pseudo": 387,
+	"./x-pseudo.js": 387,
+	"./yo": 388,
+	"./yo.js": 388,
+	"./zh-cn": 389,
+	"./zh-cn.js": 389,
+	"./zh-hk": 390,
+	"./zh-hk.js": 390,
+	"./zh-tw": 391,
+	"./zh-tw.js": 391
 };
 function webpackContext(req) {
 	return __webpack_require__(webpackContextResolve(req));
@@ -3315,18 +3239,18 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 763;
+webpackContext.id = 762;
 
 /***/ }),
 
-/***/ 798:
+/***/ 797:
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
 
-/***/ 802:
+/***/ 801:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3372,7 +3296,7 @@ var ListPage = ListPage_1 = (function () {
 }());
 ListPage = ListPage_1 = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-list',template:/*ion-inline-start:"/Users/snehak/ionic-heroku-button/src/pages/list/list.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>List</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content>\n  <ion-list>\n    <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">\n      <ion-icon [name]="item.icon" item-left></ion-icon>\n      {{item.title}}\n      <div class="item-note" item-right>\n        {{item.note}}\n      </div>\n    </button>\n  </ion-list>\n  <div *ngIf="selectedItem" padding>\n    You navigated here from <b>{{selectedItem.title}}</b>\n  </div>\n</ion-content>\n'/*ion-inline-end:"/Users/snehak/ionic-heroku-button/src/pages/list/list.html"*/
+        selector: 'page-list',template:/*ion-inline-start:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\list\list.html"*/'<ion-header>\n\n  <ion-navbar>\n\n    <button ion-button menuToggle>\n\n      <ion-icon name="menu"></ion-icon>\n\n    </button>\n\n    <ion-title>List</ion-title>\n\n  </ion-navbar>\n\n</ion-header>\n\n\n\n<ion-content>\n\n  <ion-list>\n\n    <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">\n\n      <ion-icon [name]="item.icon" item-left></ion-icon>\n\n      {{item.title}}\n\n      <div class="item-note" item-right>\n\n        {{item.note}}\n\n      </div>\n\n    </button>\n\n  </ion-list>\n\n  <div *ngIf="selectedItem" padding>\n\n    You navigated here from <b>{{selectedItem.title}}</b>\n\n  </div>\n\n</ion-content>\n\n'/*ion-inline-end:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\list\list.html"*/
     }),
     __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
 ], ListPage);
@@ -3382,7 +3306,7 @@ var ListPage_1;
 
 /***/ }),
 
-/***/ 803:
+/***/ 802:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3422,7 +3346,7 @@ var PointsPage = (function () {
 }());
 PointsPage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-points',template:/*ion-inline-start:"/Users/snehak/ionic-heroku-button/src/pages/points/points.html"*/'<!--\n  Generated template for the PointsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n  <ion-item>\n    <ion-title>Points</ion-title>\n    <button item-end ion-button color="danger" (click)="dismiss()">\n          <ion-icon name="close"></ion-icon>\n    </button>\n  </ion-item>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\nYou have 17 points\n\n</ion-content>\n'/*ion-inline-end:"/Users/snehak/ionic-heroku-button/src/pages/points/points.html"*/,
+        selector: 'page-points',template:/*ion-inline-start:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\points\points.html"*/'<!--\n\n  Generated template for the PointsPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n\n\n  <ion-navbar>\n\n  <ion-item>\n\n    <ion-title>Points</ion-title>\n\n    <button item-end ion-button color="danger" (click)="dismiss()">\n\n          <ion-icon name="close"></ion-icon>\n\n    </button>\n\n  </ion-item>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n\n\nYou have 17 points\n\n\n\n</ion-content>\n\n'/*ion-inline-end:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\points\points.html"*/,
     }),
     __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["n" /* ViewController */]])
 ], PointsPage);
@@ -3431,7 +3355,7 @@ PointsPage = __decorate([
 
 /***/ }),
 
-/***/ 804:
+/***/ 803:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3467,7 +3391,7 @@ var EarnpointsPage = (function () {
 }());
 EarnpointsPage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-earnpoints',template:/*ion-inline-start:"/Users/snehak/ionic-heroku-button/src/pages/earnpoints/earnpoints.html"*/'<!--\n  Generated template for the EarnpointsPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>earnpoints</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n</ion-content>\n'/*ion-inline-end:"/Users/snehak/ionic-heroku-button/src/pages/earnpoints/earnpoints.html"*/,
+        selector: 'page-earnpoints',template:/*ion-inline-start:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\earnpoints\earnpoints.html"*/'<!--\n\n  Generated template for the EarnpointsPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n\n\n  <ion-navbar>\n\n    <ion-title>earnpoints</ion-title>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n\n\n</ion-content>\n\n'/*ion-inline-end:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\earnpoints\earnpoints.html"*/,
     }),
     __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
 ], EarnpointsPage);
@@ -3476,13 +3400,15 @@ EarnpointsPage = __decorate([
 
 /***/ }),
 
-/***/ 805:
+/***/ 804:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SearchfeedbackPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CommentPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_treasuresprovider_treasuresprovider__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_auth_service_auth_service__ = __webpack_require__(13);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3494,40 +3420,85 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
+
 /**
- * Generated class for the SearchfeedbackPage page.
+ * Generated class for the CommentpagePage page.
  *
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
-var SearchfeedbackPage = (function () {
-    function SearchfeedbackPage(navCtrl, navParams) {
+var CommentPage = (function () {
+    function CommentPage(navCtrl, auth, navParams, tres, viewCtrl) {
         this.navCtrl = navCtrl;
+        this.auth = auth;
         this.navParams = navParams;
+        this.tres = tres;
+        this.viewCtrl = viewCtrl;
+        this.authornames = [];
+        this.newcomment = {
+            treasureid: '',
+            content: '',
+            writerid: '',
+        };
+        this.proj = navParams.get('Project');
+        this.UserID = this.auth.getUserInfo();
     }
-    SearchfeedbackPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad SearchfeedbackPage');
+    CommentPage.prototype.ionViewDidLoad = function () {
+        var _this = this;
+        console.log('ionViewDidLoad CommentpagePage');
+        this.tres.gettreasurecomment(this.proj._id).then(function (data) {
+            _this.comments = data;
+            console.log(_this.comments);
+            _this.authornames = [_this.comments.length];
+            var _loop_1 = function (i) {
+                console.log(_this.comments[i].writerid);
+                _this.auth.getusernamebyid(_this.comments[i].writerid).then(function (name) {
+                    _this.authornames[i] = name;
+                });
+                console.log(_this.authornames);
+            };
+            for (var i = 0; i < _this.comments.length; i++) {
+                _loop_1(i);
+            }
+        });
     };
-    return SearchfeedbackPage;
+    CommentPage.prototype.send = function () {
+        this.newcomment.treasureid = this.proj._id;
+        this.newcomment.writerid = this.UserID._id;
+        this.newcomment.content = this.message;
+        this.message = '';
+        console.log(this.newcomment);
+        this.tres.postcomment(this.newcomment);
+        this.comments.push(this.newcomment);
+        console.log(this.comments.length);
+        this.ionViewDidLoad();
+        this.proj.numcomments = this.comments.length;
+        this.tres.posttreasures(this.proj);
+    };
+    CommentPage.prototype.dismiss = function () {
+        this.viewCtrl.dismiss();
+    };
+    return CommentPage;
 }());
-SearchfeedbackPage = __decorate([
+CommentPage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-searchfeedback',template:/*ion-inline-start:"/Users/snehak/ionic-heroku-button/src/pages/searchfeedback/searchfeedback.html"*/'<!--\n  Generated template for the SearchfeedbackPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>searchfeedback</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n</ion-content>\n'/*ion-inline-end:"/Users/snehak/ionic-heroku-button/src/pages/searchfeedback/searchfeedback.html"*/,
+        selector: 'page-commentpage',template:/*ion-inline-start:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\commentpage\commentpage.html"*/'<!--\n\n  Generated template for the CommentpagePage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n\n\n  <ion-navbar>\n\n  <ion-item>\n\n    <ion-title>{{proj.year}} {{proj.brand}} {{proj.model}}</ion-title>\n\n    <button item-end ion-button color="danger" (click)="dismiss()">\n\n          <ion-icon name="close"></ion-icon>\n\n      </button>\n\n      </ion-item>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n<ion-list no-lines>\n\n<ion-item *ngFor=" let comment of comments; let i = index ">\n\n\n\n<ion-avatar  item-start>\n\n<img src="https://s3.amazonaws.com/katcher/ProfilePics/{{comment.writerid}}.jpg">\n\n</ion-avatar>\n\n<h2 item-start>{{comment.content}}</h2>\n\n<p item-end> {{this.authornames[i]}} </p>\n\n\n\n\n\n\n\n\n\n\n\n</ion-item>\n\n\n\n\n\n\n\n</ion-list>\n\n\n\n<ion-footer>\n\n<form (ngSubmit)="send()" #registerForm="ngForm">\n\n\n\n<ion-item>\n\n<ion-input type="text" placeholder="Type a message" name="message"  [(ngModel)]="this.message">  </ion-input>\n\n<button item-end ion-button ion-icon icon-only class="submit-btn"  type="submit" [disabled]="!registerForm.form.valid"><ion-icon name="paper-plane"></ion-icon></button>\n\n</ion-item>\n\n</form>\n\n\n\n</ion-footer>\n\n\n\n</ion-content>\n\n'/*ion-inline-end:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\commentpage\commentpage.html"*/,
     }),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
-], SearchfeedbackPage);
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_3__providers_auth_service_auth_service__["a" /* AuthService */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */], __WEBPACK_IMPORTED_MODULE_2__providers_treasuresprovider_treasuresprovider__["a" /* TreasuresProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["n" /* ViewController */]])
+], CommentPage);
 
-//# sourceMappingURL=searchfeedback.js.map
+//# sourceMappingURL=commentpage.js.map
 
 /***/ }),
 
-/***/ 806:
+/***/ 805:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TreasureseditproviderProvider; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(32);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__(38);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -3564,7 +3535,59 @@ TreasureseditproviderProvider = __decorate([
 
 /***/ }),
 
-/***/ 87:
+/***/ 806:
+/***/ (function(module, exports) {
+
+throw new Error("Module build failed: Error: ENOENT: no such file or directory, open 'C:\\Users\\iik8fe\\Documents\\Visual Studio 2017\\Projects\\ionic-heroku-button\\src\\pages\\contactreasures\\contactreasures.js'\n    at Error (native)");
+
+/***/ }),
+
+/***/ 807:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SearchfeedbackPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+/**
+ * Generated class for the SearchfeedbackPage page.
+ *
+ * See http://ionicframework.com/docs/components/#navigation for more info
+ * on Ionic pages and navigation.
+ */
+var SearchfeedbackPage = (function () {
+    function SearchfeedbackPage(navCtrl, navParams) {
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+    }
+    SearchfeedbackPage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad SearchfeedbackPage');
+    };
+    return SearchfeedbackPage;
+}());
+SearchfeedbackPage = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+        selector: 'page-searchfeedback',template:/*ion-inline-start:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\searchfeedback\searchfeedback.html"*/'<!--\n\n  Generated template for the SearchfeedbackPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n\n\n  <ion-navbar>\n\n    <ion-title>searchfeedback</ion-title>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n\n\n</ion-content>\n\n'/*ion-inline-end:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\searchfeedback\searchfeedback.html"*/,
+    }),
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]])
+], SearchfeedbackPage);
+
+//# sourceMappingURL=searchfeedback.js.map
+
+/***/ }),
+
+/***/ 86:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3573,10 +3596,10 @@ TreasureseditproviderProvider = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_auth_service_auth_service__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__login_login__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__searchresult_searchresult__ = __webpack_require__(395);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_treasuresprovider_treasuresprovider__ = __webpack_require__(32);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__onesearchresult_onesearchresult__ = __webpack_require__(64);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__new_request_new_request__ = __webpack_require__(88);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__searchresult_searchresult__ = __webpack_require__(393);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_treasuresprovider_treasuresprovider__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__onesearchresult_onesearchresult__ = __webpack_require__(87);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__new_request_new_request__ = __webpack_require__(143);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3601,17 +3624,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
  * on Ionic pages and navigation.
  */
 var SearchPage = (function () {
-    function SearchPage(navCtrl, navParams, auth, tres) {
+    function SearchPage(navCtrl, navParams, auth, tres, toastCtrl, modalCtrl) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
         this.auth = auth;
         this.tres = tres;
+        this.toastCtrl = toastCtrl;
+        this.modalCtrl = modalCtrl;
         this.nrequest = { year: '', make: '', model: '', error: '', symptoms: '' };
         this.carlinks = [];
-        this.Userprojects = [];
-        this.links = [];
+        this.projectage = [];
         this.buttonimg = [];
         this.searchval = false;
+        this.verifications = [];
+        this.Authors = [];
+        this.UserID = this.auth.getUserInfo();
     }
     SearchPage.prototype.ionViewDidLoad = function () {
         var _this = this;
@@ -3630,16 +3657,19 @@ var SearchPage = (function () {
         });
     };
     SearchPage.prototype.display = function () {
-        this.Userprojects = [];
+        var _this = this;
         this.carlinks = [];
-        this.links = [];
         console.log("in display");
+        var _loop_1 = function (i) {
+            this_1.carlinks[i] = "https://s3.amazonaws.com/katcher/Brands/" + this_1.projects[i].brand + "/" + this_1.projects[i].model + ".jpg";
+            this_1.auth.getuserbyid(this_1.projects[i].Userid).then(function (user) {
+                _this.Authors[i] = user;
+                console.log(_this.Authors);
+            });
+        };
+        var this_1 = this;
         for (var i = 0; i < this.projects.length; i++) {
-            this.Userprojects.push(this.projects[i]);
-        }
-        for (var i = 0; i < this.Userprojects.length; i++) {
-            this.carlinks[i] = "https://s3.amazonaws.com/katcher/Brands/" + this.Userprojects[i].brand + "/" + this.Userprojects[i].model + ".jpg";
-            this.links[i] = "https://s3.amazonaws.com/katcher/PID" + this.Userprojects[i].PID + "/Photo/1.jpg";
+            _loop_1(i);
         }
     };
     SearchPage.prototype.searchsingle = function (ev) {
@@ -3677,27 +3707,25 @@ var SearchPage = (function () {
 }());
 SearchPage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-search',template:/*ion-inline-start:"/Users/snehak/ionic-heroku-button/src/pages/search/search.html"*/'<!--\n  Generated template for the SearchPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n  <ion-navbar color="dark">\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>Search</ion-title>\n    <ion-buttons end>\n      <button ion-button (click)="logout()">\n          <ion-icon name="log-out"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n\n<ion-content padding>\n  <ion-searchbar (ionInput)="searchsingle($event)"></ion-searchbar>\n\n  <ion-item *ngIf="searchval">\n    <p>Didn\'t find what you are looking for?  </p>\n    <p><a (click)="newrequest()">Create a new request</a></p>\n  </ion-item>\n\n  <ion-list >\n\n     <ion-grid>\n    <ion-item *ngFor =" let Userproject of Userprojects; let i  = index ">\n     \n     <ion-row >\n     <ion-col>    \n       <ion-card (click)="showDetails(Userproject)" >\n       <img src={{this.carlinks[i]}}>   \n       <div class="card-title" >{{Userproject.year}} {{Userproject.brand}} {{Userproject.model}} </div>\n       <div class="card-subtitle">{{Userproject.errorcode}}</div>\n       </ion-card>\n     </ion-col>\n\n     \n     </ion-row >\n       \n     </ion-item></ion-grid>\n     </ion-list>\n\n<!-- 	<form (ngSubmit)="search()" #nrequestform="ngForm">\n      <ion-row>\n        <ion-col>\n          <ion-list inset>\n            \n            <ion-item>\n              <ion-input type="text" placeholder="Year" name="year" [(ngModel)]="nrequest.year"></ion-input>\n            </ion-item>\n            \n            <ion-item>\n              <ion-input type="text" placeholder="Make" name="make" [(ngModel)]="nrequest.make" ></ion-input>\n            </ion-item>\n\n            <ion-item>\n              <ion-input type="text" placeholder="Model" name="model" [(ngModel)]="nrequest.model"></ion-input>\n            </ion-item>\n\n            <ion-item>\n              <ion-input type="text" placeholder="Error Codes" name="error" [(ngModel)]="nrequest.error"></ion-input>\n            </ion-item>\n\n            <ion-item>\n            	<ion-textarea [(ngModel)]=\'nrequest.symptoms\' name="symptoms" placeholder="Describe the issues that you are seeing. What have you already tried to do to solve the issue? What components have you already checked?"></ion-textarea>\n        	</ion-item>\n            \n          </ion-list>\n        </ion-col>\n      </ion-row>\n      <ion-row>\n        <ion-col class="signup-col">\n          <button ion-button class="submit-btn" full type="submit" [disabled]="!nrequestform.form.valid" >Search</button>\n        </ion-col>\n      </ion-row>\n      \n    </form> -->\n\n</ion-content>\n'/*ion-inline-end:"/Users/snehak/ionic-heroku-button/src/pages/search/search.html"*/,
+        selector: 'page-search',template:/*ion-inline-start:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\search\search.html"*/'<!--\n\n  Generated template for the SearchPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n  <ion-navbar color="dark">\n\n    <button ion-button menuToggle>\n\n      <ion-icon name="menu"></ion-icon>\n\n    </button>\n\n    <ion-title>Search</ion-title>\n\n    <ion-buttons end>\n\n      <button ion-button (click)="logout()">\n\n          <ion-icon name="log-out"></ion-icon>\n\n      </button>\n\n    </ion-buttons>\n\n  </ion-navbar>\n\n</ion-header>\n\n\n\n\n\n<ion-content>\n\n  <ion-searchbar (ionInput)="searchsingle($event)"></ion-searchbar>\n\n\n\n  <ion-item *ngIf="searchval">\n\n    <p>Didn\'t find what you are looking for?  </p>\n\n    <p><a (click)="newrequest()">Create a new request</a></p>\n\n  </ion-item>\n\n\n\n  <ion-list >\n\n\n\n     <ion-grid>\n\n    <ion-item class="card-background-page" *ngFor =" let project of projects; let i  = index ">\n\n     <ion-card  (click)="showDetails(project)" >\n\n     <ion-row >\n\n     <ion-col >    \n\n       \n\n\n\n        <ion-item >\n\n        <ion-avatar item-start>\n\n          <img src="https://s3.amazonaws.com/katcher/ProfilePics/{{project.Userid}}.jpg">\n\n          </ion-avatar>\n\n          <h2>{{Authors[i].fname}} {{Authors[i].lname}}</h2>\n\n          <p>{{Authors[i].expertise}} | {{Authors[i].level}}</p>\n\n        </ion-item>\n\n\n\n       <img  src={{this.carlinks[i]}}>   \n\n       <div class="card-title" >{{project.year}} {{project.brand}} {{project.model}} </div>\n\n       <div class="card-subtitle">{{project.errorcode}}</div>\n\n       \n\n     </ion-col>\n\n\n\n     \n\n     </ion-row >\n\n\n\n\n\n     <ion-row>\n\n    <ion-col>\n\n      <button ion-button icon-left clear small >\n\n        <ion-icon name="checkmark-circle"></ion-icon>\n\n        <div>{{project.verifications.length}} Verifications</div>\n\n      </button>\n\n    </ion-col>\n\n    <ion-col>\n\n      <button (click)="opencomments(project)" ion-button icon-left clear small>\n\n        <ion-icon name="chatbubbles"></ion-icon>\n\n        <div>{{project.numcomments}} Comments</div>\n\n      </button>\n\n    </ion-col>\n\n    <ion-col center text-center>\n\n      <ion-note>\n\n        11 hours ago\n\n      </ion-note>\n\n    </ion-col>\n\n  </ion-row>\n\n       </ion-card>\n\n     </ion-item></ion-grid>\n\n     </ion-list>\n\n\n\n<!-- 	<form (ngSubmit)="search()" #nrequestform="ngForm">\n\n      <ion-row>\n\n        <ion-col>\n\n          <ion-list inset>\n\n            \n\n            <ion-item>\n\n              <ion-input type="text" placeholder="Year" name="year" [(ngModel)]="nrequest.year"></ion-input>\n\n            </ion-item>\n\n            \n\n            <ion-item>\n\n              <ion-input type="text" placeholder="Make" name="make" [(ngModel)]="nrequest.make" ></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-input type="text" placeholder="Model" name="model" [(ngModel)]="nrequest.model"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n              <ion-input type="text" placeholder="Error Codes" name="error" [(ngModel)]="nrequest.error"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n            	<ion-textarea [(ngModel)]=\'nrequest.symptoms\' name="symptoms" placeholder="Describe the issues that you are seeing. What have you already tried to do to solve the issue? What components have you already checked?"></ion-textarea>\n\n        	</ion-item>\n\n            \n\n          </ion-list>\n\n        </ion-col>\n\n      </ion-row>\n\n      <ion-row>\n\n        <ion-col class="signup-col">\n\n          <button ion-button class="submit-btn" full type="submit" [disabled]="!nrequestform.form.valid" >Search</button>\n\n        </ion-col>\n\n      </ion-row>\n\n      \n\n    </form> -->\n\n\n\n</ion-content>\n\n'/*ion-inline-end:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\search\search.html"*/,
     }),
     __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */], __WEBPACK_IMPORTED_MODULE_2__providers_auth_service_auth_service__["a" /* AuthService */],
-        __WEBPACK_IMPORTED_MODULE_5__providers_treasuresprovider_treasuresprovider__["a" /* TreasuresProvider */]])
+        __WEBPACK_IMPORTED_MODULE_5__providers_treasuresprovider_treasuresprovider__["a" /* TreasuresProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* ToastController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* ModalController */]])
 ], SearchPage);
 
 //# sourceMappingURL=search.js.map
 
 /***/ }),
 
-/***/ 88:
+/***/ 87:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NewRequestPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return OnesearchresultPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_requests_requests__ = __webpack_require__(89);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_treasuresprovider_treasuresprovider__ = __webpack_require__(32);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_auth_service_auth_service__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__providers_relation_relation__ = __webpack_require__(146);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_treasuresprovider_treasuresprovider__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_auth_service_auth_service__ = __webpack_require__(13);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3711,83 +3739,172 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
-
 /**
- * Generated class for the NewRequestPage page.
+ * Generated class for the OnesearchresultPage page.
  *
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
-var NewRequestPage = (function () {
-    function NewRequestPage(navCtrl, navParams, req, tres, auth, rel) {
+var OnesearchresultPage = (function () {
+    function OnesearchresultPage(navCtrl, navParams, auth, tres, toastCtrl, modalCtrl) {
         this.navCtrl = navCtrl;
         this.navParams = navParams;
-        this.req = req;
-        this.tres = tres;
         this.auth = auth;
-        this.rel = rel;
-        this.nrequest = { year: '', brand: '', model: '', error: '', symptoms: '' };
-        this.searchreq = { year: 'Year', make: 'Make', model: 'Model', error: 'Error', symptoms: 'Describe the issues that you are seeing.' };
-        this.nrequestq = { content: '', requesterid: '', helperid: '', projectid: '' };
-        this.expertise = { expertise: '' };
-        // let tmp = this.navParams.get('searchparams')
-        // if(tmp.year)
-        //   this.searchreq.year = tmp.year;
-        // if(tmp.make != '')
-        //   this.searchreq.make = tmp.make;
-        // if(tmp.model != '')
-        //   this.searchreq.model = tmp.model;
-        // if(tmp.error != '')
-        //   this.searchreq.error = tmp.error;
-        // if(tmp.symptoms != '')
-        //   this.searchreq.symptoms = tmp.symptoms;
+        this.tres = tres;
+        this.toastCtrl = toastCtrl;
+        this.modalCtrl = modalCtrl;
+        this.links = [];
+        this.completestatus = "error";
+        this.projectdetails = [];
+        this.projectproblems = [];
+        this.projectconclusions = [];
+        this.projectdiagnosis = [];
+        this.projectsymptoms = [];
+        this.projectuploadstatus = "cloud-upload";
+        this.completestatusimg = "radio-button-off";
+        this.verifications = [];
+        this.counter = Array;
+        this.authornames = [];
+        this.newcomment = {
+            treasureid: '',
+            content: '',
+            writerid: '',
+        };
+        this.ProjID = navParams.data;
+        this.user = this.auth.getUserInfo();
+        console.log(this.ProjID);
+        console.log(this.user);
+        this.user.last_viewed = this.ProjID._id.toString();
+        console.log(this.user);
+        this.auth.updateuser(this.user);
     }
-    NewRequestPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad NewRequestPage');
-        console.log(this.nrequest);
-    };
-    NewRequestPage.prototype.createnewproj = function () {
-        this.project = this.tres.posttreasures(this.nrequest);
-    };
-    NewRequestPage.prototype.send = function () {
+    OnesearchresultPage.prototype.ionViewDidLoad = function () {
         var _this = this;
-        //create new project
-        console.log(this.nrequest);
-        this.tres.posttreasures(this.nrequest).then(function (data) {
-            _this.project = data;
-            console.log(JSON.stringify(_this.project));
-            _this.nrequestq.requesterid = _this.auth.getUserid();
-            _this.nrequestq.projectid = _this.project._id;
-            //match: currently, we are simply doing an expertise text search
-            _this.auth.searchbyexpertise(_this.expertise.expertise).then(function (data) {
-                var t = data[0];
-                _this.nrequestq.helperid = t._id;
-                console.log(_this.nrequestq);
-                //create new request
-                _this.req.createrequest(_this.nrequestq).then(function (data) {
-                    console.log("before pop");
-                    _this.rel.addupdaterelation({ requesterid: _this.nrequestq.requesterid, helperid: _this.nrequestq.helperid });
-                    _this.navCtrl.pop();
+        console.log('ionViewDidLoad OnesearchresultPage');
+        console.log(this.ProjID);
+        this.details = [];
+        this.projectdetails = [];
+        this.projectproblems = [];
+        this.projectconclusions = [];
+        this.projectdiagnosis = [];
+        this.projectsymptoms = [];
+        this.tres.getprojtreasuresdetail(this.ProjID._id).then(function (data) {
+            _this.details = data;
+            for (var i = 0; i < _this.details.length; i++) {
+                _this.projectdetails.push(_this.details[i]);
+                if (_this.details[i].type == "problem")
+                    _this.projectproblems.push(_this.details[i]);
+                else if (_this.details[i].type == "conclusion")
+                    _this.projectconclusions.push(_this.details[i]);
+                else if (_this.details[i].type == "diagnosis")
+                    _this.projectdiagnosis.push(_this.details[i]);
+                else if (_this.details[i].type == "symptom")
+                    _this.projectsymptoms.push(_this.details[i]);
+            }
+            for (var i = 1; i <= _this.ProjID.numofpics; i++) {
+                _this.links[i] = "https://s3.amazonaws.com/katcher/PID" + _this.ProjID.PID + "/Photo/" + i + ".jpg";
+                console.log(_this.links[i]);
+            }
+        });
+        this.tres.gettreasurecomment(this.ProjID._id).then(function (data) {
+            _this.comments = data;
+            console.log(_this.comments);
+            _this.authornames = [_this.comments.length];
+            var _loop_1 = function (i) {
+                console.log(_this.comments[i].writerid);
+                _this.auth.getusernamebyid(_this.comments[i].writerid).then(function (name) {
+                    _this.authornames[i] = name;
                 });
-            });
+                console.log(_this.authornames);
+            };
+            for (var i = 0; i < _this.comments.length; i++) {
+                _loop_1(i);
+            }
         });
     };
-    return NewRequestPage;
+    OnesearchresultPage.prototype.chat = function () {
+        var _this = this;
+        this.tres.gettreasurecomment(this.ProjID._id).then(function (data) {
+            _this.comments = data;
+            console.log(_this.comments);
+            _this.authornames = [_this.comments.length];
+            var _loop_2 = function (i) {
+                console.log(_this.comments[i].writerid);
+                _this.auth.getusernamebyid(_this.comments[i].writerid).then(function (name) {
+                    _this.authornames[i] = name;
+                });
+                console.log(_this.authornames);
+            };
+            for (var i = 0; i < _this.comments.length; i++) {
+                _loop_2(i);
+            }
+        });
+    };
+    OnesearchresultPage.prototype.verify = function (project) {
+        this.hit = 0;
+        for (var i = 0; i < project.verifications.length; i++) {
+            if (this.user._id == project.verifications[i]) {
+                project.verifications.splice(i, 1);
+                this.hit = 1;
+                var toast = this.toastCtrl.create({
+                    message: 'You removed your verification from this project',
+                    duration: 1500,
+                    position: 'middle'
+                });
+                toast.present();
+                this.tres.posttreasures(project);
+            }
+        }
+        if (this.hit == 0) {
+            if (project.Userid != this.user._id) {
+                project.verifications.push(this.user._id);
+                var toast = this.toastCtrl.create({
+                    message: 'You verified this project',
+                    duration: 1500,
+                    position: 'middle'
+                });
+                toast.present();
+                this.tres.posttreasures(project);
+            }
+            else {
+                var toast = this.toastCtrl.create({
+                    message: 'You connot verify your own project',
+                    duration: 1500,
+                    position: 'middle'
+                });
+                toast.present();
+            }
+        }
+    };
+    OnesearchresultPage.prototype.send = function () {
+        this.newcomment.treasureid = this.ProjID._id;
+        this.newcomment.writerid = this.user._id;
+        this.newcomment.content = this.message;
+        this.message = '';
+        console.log(this.newcomment);
+        this.tres.postcomment(this.newcomment);
+        this.comments.push(this.newcomment);
+        console.log(this.comments.length);
+        this.chat();
+        this.ProjID.numcomments = this.comments.length;
+        this.tres.posttreasures(this.ProjID);
+    };
+    return OnesearchresultPage;
 }());
-NewRequestPage = __decorate([
+OnesearchresultPage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-new-request',template:/*ion-inline-start:"/Users/snehak/ionic-heroku-button/src/pages/new-request/new-request.html"*/'<!--\n  Generated template for the NewRequestPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>NewRequest</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n	<form (ngSubmit)="send()" #nreqform="ngForm">\n      <ion-row>\n        <ion-col>\n          <ion-list inset>\n            \n            <ion-item>\n              <ion-label stacked>Year</ion-label>\n              <ion-input type="text" name="year" [(ngModel)]="nrequest.year"></ion-input>\n            </ion-item>\n            \n            <ion-item>\n              <ion-label stacked>Make</ion-label>\n              <ion-input type="text" name="brand" [(ngModel)]="nrequest.brand" ></ion-input>\n            </ion-item>\n\n            <ion-item>\n              <ion-label stacked>Model</ion-label>\n              <ion-input type="text" name="model" [(ngModel)]="nrequest.model"></ion-input>\n            </ion-item>\n\n            <ion-item>\n              <ion-label stacked>ErrorCodes</ion-label>\n              <ion-input type="text"  name="error" [(ngModel)]="nrequest.error"></ion-input>\n            </ion-item>\n\n            <ion-item>\n              <ion-label stacked>Symptoms</ion-label>\n            	<ion-textarea [(ngModel)]=\'nrequest.symptoms\' name="symptoms" placeholder="Describe the issues you are seeing."></ion-textarea>\n        	  </ion-item>\n\n            <ion-item>\n              <ion-textarea [(ngModel)]=\'nrequestq.content\' name="content" placeholder="What help do you need? Please include what have you already tried to do to solve the issue and what components you have already checked?"></ion-textarea>\n            </ion-item>\n\n            <ion-item>\n              <ion-textarea [(ngModel)]=\'expertise.expertise\' placeholder="What kind of expertise should your helper have?" name="expertise" ></ion-textarea>\n            </ion-item>\n            \n          </ion-list>\n        </ion-col>\n      </ion-row>\n      <ion-row>\n        <ion-col class="signup-col">\n          <button ion-button class="submit-btn" full type="submit" [disabled]="!nreqform.form.valid">Ask for Help</button>\n        </ion-col>\n      </ion-row>\n      \n    </form>\n</ion-content>\n'/*ion-inline-end:"/Users/snehak/ionic-heroku-button/src/pages/new-request/new-request.html"*/,
+        selector: 'page-onesearchresult',template:/*ion-inline-start:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\onesearchresult\onesearchresult.html"*/'<!--\n\n  Generated template for the TreasuresPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<!-- <ion-header>\n\n    <ion-navbar>\n\n        <ion-title>Details</ion-title>\n\n    </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n<ion-content>\n\n\n\n      <ion-card>\n\n        <ion-card-content>\n\n       \n\n            <ion-card-title>\n\n                [{{this.completestatus}}] {{ProjID.year}} {{this.ProjID.brand}} {{this.ProjID.model}} \n\n            </ion-card-title>\n\n            <p>Error Code: {{this.ProjID.errorcode}}</p>         \n\n            <ul>Symptoms:\n\n            <li *ngFor =" let projectsymptom of projectsymptoms; let i = index ">{{this.projectsymptom.sentence}} </li>  \n\n            </ul>\n\n            <p></p>\n\n            <ul>Diagnosis:\n\n            <li *ngFor =" let projectdiagnosi of projectdiagnosis; let i = index ">{{this.projectdiagnosi.sentence}} </li>  \n\n            </ul>\n\n            <p></p>\n\n            <ul>conclusion:\n\n            <li *ngFor =" let projectconclusion of projectconclusions; let i = index ">{{this.projectconclusion.sentence}} </li>  \n\n            </ul>\n\n\n\n             <p *ngFor =" let link of links; let i = index ">\n\n            <img src={{this.links[i]}}/>\n\n            </p>\n\n            </ion-card-content>\n\n            </ion-card>\n\n            </ion-content>\n\n -->\n\n     \n\n\n\n     <ion-header>\n\n    <ion-navbar>\n\n        <ion-title>Details on {{ProjID.year}} {{this.ProjID.brand}} {{this.ProjID.model}} {{this.ProjID.engine}}</ion-title>\n\n        \n\n    </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n<ion-content>\n\n\n\n      <ion-card>\n\n        <ion-card-content>\n\n\n\n            <ion-fab top right>\n\n              <button ion-fab><ion-icon name="construct"></ion-icon></button>\n\n              <ion-fab-list>\n\n                <button ion-fab color="danger" (click)="verify(this.ProjID)"><ion-icon name="checkmark-circle"></ion-icon></button>\n\n                <button ion-fab color="primary" (click)="opencomments(this.ProjID)"><ion-icon name="chatbubbles"></ion-icon></button>\n\n                \n\n                </ion-fab-list>\n\n                </ion-fab>\n\n\n\n       \n\n            <ion-card-title>\n\n                 {{ProjID.year}} {{this.ProjID.brand}} {{this.ProjID.model}} {{this.ProjID.engine}}\n\n            </ion-card-title>\n\n            <p>Error Code: {{this.ProjID.errorcode}}</p>         \n\n            <ul>Symptoms:\n\n            <li *ngFor =" let projectsymptom of projectsymptoms; let i = index ">{{this.projectsymptom.sentence}}  \n\n            <p *ngFor =" let loop of counter(projectsymptoms[i].numpic); let j = index " >\n\n            <img src="https://s3.amazonaws.com/katcher/{{projectsymptoms[i]._id}}/{{j+1}}.jpg"/>\n\n            </p>\n\n            </li>\n\n            </ul>\n\n            <p></p>\n\n            <ul>Diagnosis:\n\n            <li *ngFor =" let projectdiagnosi of projectdiagnosis; let i = index ">{{this.projectdiagnosi.sentence}}\n\n            <p *ngFor =" let loop of counter(projectdiagnosis[i].numpic); let j = index " >\n\n            <img src="https://s3.amazonaws.com/katcher/{{this.projectdiagnosi._id}}/{{j+1}}.jpg"/>\n\n            </p>\n\n            </li>  \n\n            </ul>\n\n            <p></p>\n\n            <ul>conclusion:\n\n            <li *ngFor =" let projectconclusion of projectconclusions; let i = index ">{{this.projectconclusion.sentence}} \n\n            <p *ngFor =" let loop of counter(projectconclusions[i].numpic); let j = index " >\n\n            <img src="https://s3.amazonaws.com/katcher/{{this.projectconclusion._id}}/{{j+1}}.jpg"/>\n\n            </p>\n\n            </li>  \n\n            </ul>\n\n\n\n             <p *ngFor =" let link of links; let i = index ">\n\n            <img src={{this.links[i]}}/>\n\n            </p>\n\n            </ion-card-content>\n\n            </ion-card>\n\n\n\n\n\n\n\n\n\n            <ion-list no-lines>\n\n            <ion-item *ngFor=" let comment of comments; let i = index ">\n\n\n\n            <ion-avatar  item-start>\n\n                <img src="https://s3.amazonaws.com/katcher/ProfilePics/{{comment.writerid}}.jpg">\n\n            </ion-avatar>\n\n            <h2 item-start>{{comment.content}}</h2>\n\n            <p item-end> {{this.authornames[i]}} </p>\n\n\n\n\n\n\n\n\n\n\n\n            </ion-item>\n\n\n\n\n\n\n\n            </ion-list>\n\n\n\n\n\n\n\n\n\n            </ion-content>\n\n\n\n            <ion-footer>\n\n            <form (ngSubmit)="send()" #registerForm="ngForm">\n\n\n\n            <ion-item>\n\n            <ion-input type="text" placeholder="Type a message" name="message"  [(ngModel)]="this.message">  </ion-input>\n\n            <button item-end ion-button ion-icon icon-only class="submit-btn"  type="submit" [disabled]="!registerForm.form.valid"><ion-icon name="paper-plane"></ion-icon></button>\n\n            </ion-item>\n\n            </form>\n\n\n\n            </ion-footer>\n\n     '/*ion-inline-end:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\onesearchresult\onesearchresult.html"*/,
     }),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */], __WEBPACK_IMPORTED_MODULE_2__providers_requests_requests__["a" /* RequestsProvider */],
-        __WEBPACK_IMPORTED_MODULE_3__providers_treasuresprovider_treasuresprovider__["a" /* TreasuresProvider */], __WEBPACK_IMPORTED_MODULE_4__providers_auth_service_auth_service__["a" /* AuthService */], __WEBPACK_IMPORTED_MODULE_5__providers_relation_relation__["a" /* RelationProvider */]])
-], NewRequestPage);
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */],
+        __WEBPACK_IMPORTED_MODULE_3__providers_auth_service_auth_service__["a" /* AuthService */],
+        __WEBPACK_IMPORTED_MODULE_2__providers_treasuresprovider_treasuresprovider__["a" /* TreasuresProvider */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* ToastController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* ModalController */]])
+], OnesearchresultPage);
 
-//# sourceMappingURL=new-request.js.map
+//# sourceMappingURL=onesearchresult.js.map
 
 /***/ }),
 
-/***/ 89:
+/***/ 88:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3795,9 +3912,9 @@ NewRequestPage = __decorate([
 /* unused harmony export Comment */
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RequestsProvider; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(32);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_auth_service_auth_service__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_treasuresprovider_treasuresprovider__ = __webpack_require__(32);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_treasuresprovider_treasuresprovider__ = __webpack_require__(28);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_map__ = __webpack_require__(38);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_map__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -3949,153 +4066,7 @@ RequestsProvider = __decorate([
 
 //# sourceMappingURL=requests.js.map
 
-/***/ }),
-
-/***/ 92:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GroupProvider; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(31);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__(38);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-/*
-  Generated class for the GroupProvider provider.
-
-  See https://angular.io/docs/ts/latest/guide/dependency-injection.html
-  for more info on providers and Angular DI.
-*/
-var GroupProvider = (function () {
-    function GroupProvider(http) {
-        this.http = http;
-        console.log('Hello GroupProvider Provider');
-    }
-    GroupProvider.prototype.getallgroups = function () {
-        var _this = this;
-        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
-        headers.append('Content-Type', 'application/json');
-        return new Promise(function (resolve) {
-            _this.http.get('/api/group/')
-                .map(function (res) { return res.json(); })
-                .subscribe(function (data) {
-                resolve(data);
-            });
-        });
-    };
-    GroupProvider.prototype.getgroup = function (id) {
-        var _this = this;
-        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
-        headers.append('Content-Type', 'application/json');
-        return new Promise(function (resolve) {
-            _this.http.get('/api/group/groupid/' + id)
-                .map(function (res) { return res.json(); })
-                .subscribe(function (data) {
-                resolve(data[0]);
-            });
-        });
-    };
-    GroupProvider.prototype.getusergrouplist = function (id) {
-        var _this = this;
-        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
-        headers.append('Content-Type', 'application/json');
-        return new Promise(function (resolve) {
-            _this.http.get('/api/member/userid/' + id)
-                .map(function (res) { return res.json(); })
-                .subscribe(function (data) {
-                resolve(data);
-            });
-        });
-    };
-    GroupProvider.prototype.ismember = function (creds) {
-        var _this = this;
-        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
-        headers.append('Content-Type', 'application/json');
-        return new Promise(function (resolve) {
-            _this.http.get('/api/member/is/' + creds.memberid + '/' + creds.groupid)
-                .map(function (res) { return res.json(); })
-                .subscribe(function (data) {
-                resolve(data);
-            });
-        });
-    };
-    GroupProvider.prototype.addgroup = function (group) {
-        var _this = this;
-        return new Promise(function (resolve) {
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
-            headers.append('Content-Type', 'application/json');
-            _this.http.post('/api/group', JSON.stringify(group), { headers: headers })
-                .map(function (res) { return res.json(); })
-                .subscribe(function (res) {
-                console.log(res);
-                resolve(res);
-            });
-        });
-    };
-    GroupProvider.prototype.searchgroup = function (search) {
-        var _this = this;
-        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
-        headers.append('Content-Type', 'application/json');
-        console.log("here");
-        var details = search;
-        return new Promise(function (resolve) {
-            _this.http.get('/api/group/search/' + details)
-                .map(function (res) { return res.json(); })
-                .subscribe(function (data) {
-                resolve(data);
-            });
-        });
-    };
-    GroupProvider.prototype.joingroup = function (creds) {
-        var _this = this;
-        console.log(creds);
-        return new Promise(function (resolve) {
-            var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
-            headers.append('Content-Type', 'application/json');
-            _this.http.post('/api/member', JSON.stringify(creds), { headers: headers })
-                .subscribe(function (res) {
-                resolve(res);
-            });
-        });
-    };
-    GroupProvider.prototype.unjoingroup = function (creds) {
-        var _this = this;
-        console.log("provider leaving");
-        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
-        headers.append('Content-Type', 'application/json');
-        return new Promise(function (resolve) {
-            _this.http.delete('/api/member', new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({
-                headers: headers,
-                body: creds
-            }))
-                .map(function (res) { return res.json(); })
-                .subscribe(function (data) {
-                resolve(data);
-            });
-        });
-    };
-    return GroupProvider;
-}());
-GroupProvider = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]])
-], GroupProvider);
-
-//# sourceMappingURL=group.js.map
-
 /***/ })
 
-},[420]);
+},[419]);
 //# sourceMappingURL=main.js.map

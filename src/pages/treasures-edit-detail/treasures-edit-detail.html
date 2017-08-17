@@ -62,8 +62,8 @@
         	<ion-item>
         		<ion-label stacked>Symptom: {{i+1}}</ion-label>
         		<ion-input type="text" placeholder="{{newprojectsymptoms[i]}}"     [(ngModel)]="newprojectsymptoms[i]"></ion-input>
-        		<ion-input type="file" (change)="upimg(projectsymptom)" [(ngModel)]="newimg"></ion-input>
-        		<button ion-button item-end ><ion-icon name="film"></ion-icon></button>
+        		<!-- <ion-input type="file" (change)="upimg(projectsymptom)" [(ngModel)]="newimg"></ion-input>
+        		<button ion-button item-end ><ion-icon name="film"></ion-icon></button> -->
         		</ion-item>
 
         		<p *ngFor =" let loop of counter(projectsymptoms[i].numpic); let j = index " >
@@ -81,8 +81,8 @@
 			<ion-item>
 				<ion-label stacked>Diagnosis Step: {{i+1}}</ion-label>
         		<ion-input type="text" placeholder="{{newprojectdiagnosis[i]}}"   [(ngModel)]="newprojectdiagnosis[i]"></ion-input>	
-        		<button ion-button item-end ><ion-icon name="camera"></ion-icon></button>
-        		<button ion-button item-end ><ion-icon name="film"></ion-icon></button>
+        		<!-- <button ion-button item-end ><ion-icon name="camera"></ion-icon></button>
+        		<button ion-button item-end ><ion-icon name="film"></ion-icon></button> -->
         		</ion-item>
 
         		<p *ngFor =" let loop of counter(projectdiagnosis[i].numpic); let j = index " >
@@ -94,8 +94,8 @@
         	<ion-item>
         		<ion-label stacked>Conclusion: {{i+1}}</ion-label>
         		<ion-input type="text" placeholder="{{newprojectconclusions[i]}}"   [(ngModel)]="newprojectconclusions[i]"></ion-input>
-        		<button ion-button item-end ><ion-icon name="camera"></ion-icon></button>
-        		<button ion-button item-end ><ion-icon name="film"></ion-icon></button>
+        		<!-- <button ion-button item-end ><ion-icon name="camera"></ion-icon></button>
+        		<button ion-button item-end ><ion-icon name="film"></ion-icon></button> -->
         		</ion-item>
         		<p *ngFor =" let loop of counter(projectconclusions[i].numpic); let j = index " >
 	            <img src="https://s3.amazonaws.com/katcher/{{this.projectconclusion._id}}/{{j+1}}.jpg"/>
