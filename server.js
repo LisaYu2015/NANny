@@ -69,10 +69,10 @@ var assert = require('assert');
 console.log("Anyone here?");
 var local = 'mongodb://localhost:27017/testdb';
 var url2 = 'mongodb://website:Bosch1234567@ec2-54-87-140-197.compute-1.amazonaws.com:27017/testdb';
-mongoose.connect(url2); 
+mongoose.connect(local); 
 // When successfully connected
 mongoose.connection.on('connected', function () {  
-  console.log('Mongoose default connection open to ' + url2);
+  console.log('Mongoose default connection open to ' + local);
 }); 
 // If the connection throws an error
 mongoose.connection.on('error',function (err) {  
@@ -131,7 +131,7 @@ var Point = mongoose.model('Points', {
     a_comment: Number,
     a_fix: Number,
     a_request: Number,
-    date: { type: Date, default: Date.now }
+    date: { type: String, default: '' }
 });
 
 //Project contains the general details of each car
@@ -206,6 +206,12 @@ var TreasureComment = mongoose.model('treasurecomments', {
     content: {type:String, default:''}
 })
 
+// routes for Posts and Postscomments
+app.post('/api/post/add')
+app.post('/api/post/comment')
+app.get('/api/post/groupid/:groupid')
+app.get('/api/post/postid/:postid')
+
 // routes for groups and memberships
     //get group by group id
     app.get('/api/group/groupid/:groupid', function(req, res){
@@ -270,11 +276,13 @@ var TreasureComment = mongoose.model('treasurecomments', {
         })
     });
 
-    app.get('/api/member', function(req, res) {
+    app.get('/api/member/is/:memberid/:groupid', function(req, res) {
         console.log('checking membership')
-        Membership.find({memberid:req.body.memberid, groupid:req.body.groupid}, function(err, docs){
+        console.log(req.params)
+        Membership.find({memberid:req.params.memberid, groupid:req.params.groupid}, function(err, docs){
             if(err) 
                 res.send(err)
+            console.log(docs)
             res.send(docs)
         })
     })
@@ -403,7 +411,7 @@ var TreasureComment = mongoose.model('treasurecomments', {
         var nquestion = new Question();
         nquestion._id = new ObjectId();
         nquestion.content = req.body.content;
-        // nquestion.helperID = req.body.helperID;
+        nquestion.helperID = req.body.helperid;
         nquestion.requesterID = req.body.requesterid;
         nquestion.ProjectID = req.body.projectid;
         nquestion.save(function(err, question){

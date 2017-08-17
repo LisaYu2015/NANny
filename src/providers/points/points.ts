@@ -13,7 +13,7 @@ export class Points{
     a_comment: number;
     a_fix: number;
     a_request: number;
-    date: Date;
+    date: string;
 }
 
 @Injectable()

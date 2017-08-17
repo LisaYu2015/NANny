@@ -58,7 +58,7 @@ export class GroupProvider {
     let headers = new Headers();
     headers.append('Content-Type','application/json');
     return new Promise(resolve => {
-      this.http.get('/api/member', JSON.stringify(creds))
+      this.http.get('/api/member/is/' + creds.memberid + '/' + creds.groupid)
         .map(res => res.json() )
         .subscribe(data => {
           resolve(data);

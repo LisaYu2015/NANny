@@ -27,12 +27,14 @@
 
   <!-- <p *ngIf="ng.isundefined(disc)"> No messages in this thread </p> -->
 
-  <div class="messages-wrapper">
-    <div *ngFor="let d of disc">
-      <div *ngIf="d.author==currentuser._id" class="message to">{{d.comment}}</div>
-      <div *ngIf="d.author!=currentuser._id" class="message from">{{d.comment}}</div>
-    </div>
-  </div>
+  <ion-list no-lines class="messages-wrapper">
+    <ion-row *ngFor="let d of disc">
+    <ion-item>
+      <button item-end ion-button round small style="text-transform: none;" *ngIf="d.author==currentuser._id" class="message to">{{d.comment}}</button>
+      <button ion-button round small style="text-transform: none;" *ngIf="d.author!=currentuser._id" class="message from">{{d.comment}}</button>
+      </ion-item>
+    </ion-row>
+  </ion-list>
 
   	
 </ion-content>

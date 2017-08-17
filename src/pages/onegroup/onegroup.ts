@@ -24,7 +24,17 @@ export class OnegroupPage {
   			  public groupctrl:GroupProvider) {
   	this.group = this.navParams.get("group")
   	this.user = this.auth.getUserInfo();
-  	console.log(this.group)
+  	console.log(this.user._id)
+  	console.log(this.group._id)
+  	this.groupctrl.ismember({memberid:this.user._id, groupid:this.group._id}).then(mem => {
+  		console.log(mem)
+  		this.ismember = mem
+  		if(this.ismember.length > 0){
+  			this.member = 1
+  		} else {
+  			this.member = 0
+  		}
+  	})
   }
 
   ionViewDidLoad() {
@@ -32,7 +42,10 @@ export class OnegroupPage {
   }
 
   ionViewDidEnter(){
+  	console.log(this.user._id)
+  	console.log(this.group._id)
   	this.groupctrl.ismember({memberid:this.user._id, groupid:this.group._id}).then(mem => {
+  		console.log(mem)
   		this.ismember = mem
   		if(this.ismember.length > 0){
   			this.member = 1
@@ -44,7 +57,9 @@ export class OnegroupPage {
 
   viewcomments(){}
 
-  post(){}
+  post(){
+  	
+  }
 
   joingroup(){
   	this.groupctrl.joingroup({memberid:this.user._id, groupid:this.group._id}).then(data => {

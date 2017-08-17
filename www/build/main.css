@@ -25372,18 +25372,17 @@ page-onechat .messages-wrapper {
   list-style-type: none;
 }
 
-page-onechat .message {
-  border-radius: .75rem;
-  margin: 0 15px 10px;
-  padding: 1rem;
-  position: relative;
-  max-width: 75%;
+page-onechat ion-item {
+  font-size: 0.9em;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  padding-bottom: 20px;
+  border: none !important;
 }
 
 page-onechat .message.to {
   background-color: #158ffe;
   color: #fff;
-  margin-left: 80px;
   text-align: right;
 }
 
