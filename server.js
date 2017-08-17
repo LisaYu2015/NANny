@@ -386,7 +386,7 @@ var TreasureComment = mongoose.model('trescomments', {
         var nquestion = new Question();
         nquestion._id = new ObjectId();
         nquestion.content = req.body.content;
-        // nquestion.helperID = req.body.helperID;
+        nquestion.helperID = req.body.helperid;
         nquestion.requesterID = req.body.requesterid;
         nquestion.ProjectID = req.body.projectid;
         nquestion.save(function(err, question){
