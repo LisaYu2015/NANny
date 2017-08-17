@@ -124,4 +124,26 @@ export class GroupProvider {
   	})
   }
 
+  addpost(post){
+    console.log(post)
+    return new Promise(resolve => {
+      let headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+      this.http.post('/api/post/add', JSON.stringify(post), {headers: headers})
+                  .subscribe(res => {
+                    resolve(res);
+                  });
+    });
+  }
+
+  getposts(groupid){
+    return new Promise(resolve => {
+      this.http.get('/api/post/groupid/' + groupid)
+          .map(res=>res.json())
+          .subscribe(data => {
+            resolve(data)
+          })
+    })
+  }
+
 }

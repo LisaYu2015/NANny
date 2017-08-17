@@ -34,7 +34,7 @@ export class AuthService {
   currentUser: User;
   data: any;
   //url = 'https://texconnect.herokuapp.com'
-  url='http://localhost:5000'
+  url='ec2-54-87-140-197.compute-1.amazonaws.com:5000'
 
   constructor(private http: Http) {
     this.data = null;
@@ -97,7 +97,7 @@ export class AuthService {
   }
 
   public getUserName() {
-    return this.currentUser.fname.toString + " " + this.currentUser.lname.toString;
+    return this.currentUser.fname.toString() + " " + this.currentUser.lname.toString();
   }
 
   public getusernamebyid(id){

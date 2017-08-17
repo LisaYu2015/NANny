@@ -16,16 +16,19 @@
 <!-- 	<button ion-button (click)='newrequest()'>Create New Request</button>
  -->  
   <ion-item style="white-space: normal;" *ngIf="len == 0">
-    <p style="white-space: normal;">You do not have any requests at this time. To open a new request, first <a (click)="opensearch()">search</a> the database to see if you can find help. </p>
+    <p text-center style="white-space: normal;">You do not have any requests at this time. To open a new request, first <a (click)="opensearch()">search</a> the database to see if you can find help. </p>
+    <ion-row>
+      <ion-col text-center><p><ion-icon icon-left name="star">You are helping</ion-icon></p></ion-col>
+      <ion-col text-center><p><ion-icon icon-left name="help-circle">You requested help</ion-icon></p></ion-col>
+    </ion-row>
   </ion-item>
   <ion-list>
-    <button ion-item *ngFor="let item of chats" (click)="itemTapped($event, item)">
+    <ion-item *ngFor="let item of chats" (click)="itemTapped($event, item)">
       <h2>{{item.year}} {{item.make}} {{item.model}}</h2>
         <p>Error codes: {{item.error}}</p>
 	     <p>Symptoms: {{item.symptoms}}</p>
-      <div class="date" item-end>
-        {{item.opendate}}
-      </div>
-    </button>
+      <p item-end *ngIf='userid==item.helperID'>{{item.requestername}} <ion-icon item-end icon-right name="star" ></ion-icon></p>
+      <p item-end *ngIf='userid==item.requesterID'>{{item.helpername}} <ion-icon item-end icon-right name="help-circle"></ion-icon></p>
+    </ion-item>
   </ion-list>
 </ion-content>

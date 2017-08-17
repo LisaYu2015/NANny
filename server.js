@@ -65,10 +65,10 @@ var assert = require('assert');
 console.log("Anyone here?");
 var local = 'mongodb://localhost:27017/testdb';
 var url2 = 'mongodb://website:Bosch1234567@ec2-54-87-140-197.compute-1.amazonaws.com:27017/testdb';
-mongoose.connect(local); 
+mongoose.connect(url2); 
 // When successfully connected
 mongoose.connection.on('connected', function () {  
-  console.log('Mongoose default connection open to ' + local);
+  console.log('Mongoose default connection open to ' + url2);
 }); 
 // If the connection throws an error
 mongoose.connection.on('error',function (err) {  
@@ -205,10 +205,28 @@ var TreasureComment = mongoose.model('trescomments', {
 })
 
 // routes for Posts and Postscomments
-app.post('/api/post/add')
-app.post('/api/post/comment')
-app.get('/api/post/groupid/:groupid')
-app.get('/api/post/postid/:postid')
+    app.post('/api/post/add', function(req, res) {
+        p = new Post()
+        p._id = new ObjectId();
+        p.groupid = req.body.groupid;
+        p.memberid = req.body.memberid;
+        p.content = req.body.content;
+        p.save(function (err, docs) {
+            if(err)
+                res.send(err)
+            console.log(docs)
+            res.send(docs)
+        })
+    })
+
+    app.get('/api/post/groupid/:groupid', function(req, res) {
+        Post.find({groupid:req.params.groupid}, function (err, docs){
+            if (err)
+                res.send(err)
+            console.log(docs)
+            res.send(docs)
+        })
+    })
 
 // routes for groups and memberships
     //get group by group id
