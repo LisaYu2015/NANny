@@ -14,7 +14,7 @@ import { TreasuresPage} from '../pages/treasures/treasures';
 import { ContactsPage } from '../pages/contacts/contacts';
 import { GroupshomePage } from '../pages/groupshome/groupshome';
 
-import { AuthService } from '../providers/auth-service/auth-service'
+import { AuthService,User } from '../providers/auth-service/auth-service'
 
 @Component({
   templateUrl: 'app.html'
@@ -27,6 +27,8 @@ export class MyApp {
   socket: any;
 
   pages: Array<{title: string, component: any}>;
+  user: User;
+  name:any;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,
               public toast:ToastController, public auth:AuthService) {
@@ -42,36 +44,7 @@ export class MyApp {
       { title: 'Requests', component: ChatPage },
       { title: 'Profile', component: ProfilePage },
     ];
-
-    // this.socket = io();
-
-    // this.socket.on("comment",(data:any) => {
-    //   console.log(data)
-    //   this.presentToast();
-    // });
-
-    // this.socket.on("chat",(data:any) => {
-    //   console.log(data)
-    //   this.presentToastchat();
-    // });
-
   }
-
-  // presentToast(){
-  //   let toast = this.toast.create({
-  //     message: 'You have a new message',
-  //     duration: 3000
-  //   });
-  //   toast.present();
-  // }
-
-  // presentToastchat(){
-  //   let toast = this.toast.create({
-  //     message: 'Someone has requested you for help',
-  //     duration: 3000
-  //   });
-  //   toast.present();
-  // }
 
   initializeApp() {
     this.platform.ready().then(() => {

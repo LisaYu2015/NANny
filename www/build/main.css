@@ -25199,6 +25199,15 @@ ion-navbar.toolbar {
   }
 }
 
+.menu-title {
+  position: absolute;
+  bottom: 10%;
+  font-size: 2.0em;
+  width: 100%;
+  font-weight: bold;
+  color: #FCFCFC;
+}
+
 page-contactprofile .card {
   -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -25232,6 +25241,35 @@ page-contactprofile a {
   text-decoration: none;
   font-size: 22px;
   color: black;
+}
+
+page-contactreasures .card-background-page ion-card {
+  position: relative;
+  text-align: center;
+}
+
+page-contactreasures .card-background-page .card-title {
+  position: absolute;
+  top: 36%;
+  font-size: 2.0em;
+  width: 100%;
+  font-weight: bold;
+  color: #FCFCFC;
+}
+
+page-contactreasures .card-background-page .card-subtitle {
+  font-size: 1.0em;
+  position: absolute;
+  top: 52%;
+  width: 100%;
+  color: #FCFCFC;
+}
+
+page-contactreasures .card-background-page .sharebutton {
+  font-size: 1.0em;
+  position: absolute;
+  top: 0%;
+  color: #FCFCFC;
 }
 
 page-editprofile .card {
@@ -25471,6 +25509,35 @@ page-register .item-inner {
 page-register .submit-btn {
   border-radius: 30px !important;
   border: 1px solid #ffffff;
+}
+
+page-search .card-background-page ion-card {
+  position: relative;
+  text-align: center;
+}
+
+page-search .card-background-page .card-title {
+  position: absolute;
+  top: 36%;
+  font-size: 2.0em;
+  width: 100%;
+  font-weight: bold;
+  color: #FCFCFC;
+}
+
+page-search .card-background-page .card-subtitle {
+  font-size: 1.0em;
+  position: absolute;
+  top: 52%;
+  width: 100%;
+  color: #FCFCFC;
+}
+
+page-search .card-background-page .sharebutton {
+  font-size: 1.0em;
+  position: absolute;
+  top: 0%;
+  color: #FCFCFC;
 }
 
 page-searchresult .card-background-page ion-card {

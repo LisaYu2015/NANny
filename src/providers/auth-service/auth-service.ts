@@ -106,7 +106,7 @@ export class AuthService {
     this.http.get('/api/user/id/' + id)
         .map(res => res.json())
         .subscribe(res => {
-          user = res[0]
+          user = res
           let name = user.fname.toString() + " " + user.lname.toString();
           console.log(name);
           resolve(name);
@@ -121,7 +121,7 @@ export class AuthService {
     this.http.get('/api/user/id/' + id)
         .map(res => res.json())
         .subscribe(res => {
-          user = res[0]
+          user = res
           console.log(user);
           resolve(user);
         })

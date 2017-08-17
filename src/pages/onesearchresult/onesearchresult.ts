@@ -126,6 +126,8 @@ this.tres.gettreasurecomment(this.ProjID._id).then((data) => {
 
   }
 
+  
+
 
     verify (project) {
     this.hit=0;

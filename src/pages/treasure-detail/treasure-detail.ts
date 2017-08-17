@@ -4,6 +4,7 @@ import { TreasuresProvider } from '../../providers/treasuresprovider/treasurespr
 import { TreasuresDetailProvider } from '../../providers/treasuresdetailprovider/treasuresdetailprovider';
 import { Http, HttpModule } from '@angular/http';
 import { TreasuresEditDetailPage } from '../../pages/treasures-edit-detail/treasures-edit-detail';
+import { AuthService } from '../../providers/auth-service/auth-service';
 
  
 /**
@@ -34,9 +35,16 @@ export class TreasureDetailPage {
     projectuploadstatus = "cloud-upload";
     completestatusimg = "radio-button-off";
     counter = Array;
+    newcomment = {
+    treasureid:'',
+    content:'',
+    writerid:'',};
+    message : string;
+    comments:any;
+    authornames =[];
 
 
-    constructor(public navCtrl: NavController, public treasuresService: TreasuresProvider , public alertCtrl: AlertController , public navParams: NavParams, public treasuresDetailService: TreasuresDetailProvider, private toastCtrl:ToastController, public modalCtrl : ModalController) {
+    constructor(public navCtrl: NavController , public auth: AuthService , public treasuresService: TreasuresProvider , public alertCtrl: AlertController , public navParams: NavParams, public treasuresDetailService: TreasuresDetailProvider, private toastCtrl:ToastController, public modalCtrl : ModalController) {
         this.ProjID = navParams.data;
         
        
@@ -84,6 +92,24 @@ export class TreasureDetailPage {
         else
             this.projectuploadstatus="cloud-upload";
 
+
+
+              this.treasuresService.gettreasurecomment(this.ProjID._id).then((data) => {
+          this.comments = data;
+          console.log(this.comments)
+          this.authornames = [this.comments.length]
+          
+          for (let i=0; i < this.comments.length; i++){
+            
+            console.log(this.comments[i].writerid);
+            this.auth.getusernamebyid(this.comments[i].writerid).then(name=> {
+              this.authornames[i] = name
+            })
+            console.log(this.authornames)
+
+          }
+        });
+
     }
 
 
@@ -122,6 +148,46 @@ export class TreasureDetailPage {
 
       }
 
+      chat(){
+
+          this.treasuresService.gettreasurecomment(this.ProjID._id).then((data) => {
+          this.comments = data;
+          console.log(this.comments)
+          this.authornames = [this.comments.length]
+          
+          for (let i=0; i < this.comments.length; i++){
+            
+            console.log(this.comments[i].writerid);
+            this.auth.getusernamebyid(this.comments[i].writerid).then(name=> {
+              this.authornames[i] = name
+            })
+            console.log(this.authornames)
+
+          }
+        });
+        
+  
+
+  }
+  send(){
+  this.newcomment.treasureid=this.ProjID._id;
+  this.newcomment.writerid=this.auth.getUserid();
+  this.newcomment.content=this.message;
+ 
+  this.message='';
+  console.log(this.newcomment);
+  this.treasuresService.postcomment(this.newcomment);
+  this.comments.push(this.newcomment);
+console.log(this.comments.length)
+  this.chat();
+  this.ProjID.numcomments=this.comments.length;
+  this.treasuresService.posttreasures(this.ProjID);
+
+
+
+  
+
+}
 
 
 

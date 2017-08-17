@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ViewController } from 'ionic-angular';
 import { RequestsProvider } from '../../providers/requests/requests'
 import { TreasuresProvider } from '../../providers/treasuresprovider/treasuresprovider'
 import { User, AuthService } from '../../providers/auth-service/auth-service';
@@ -17,7 +17,7 @@ import { RelationProvider } from '../../providers/relation/relation'
   templateUrl: 'new-request.html',
 })
 export class NewRequestPage {
-  nrequest= {year:'', brand:'', model:'', error:'', symptoms:''};
+  nrequest= {year:'', brand:'', model:'', errorcode:'', symptoms:''};
   searchreq={year:'Year', make:'Make', model:'Model', error:'Error', symptoms:'Describe the issues that you are seeing.'};
   nrequestq = {content:'', requesterid:'', helperid:'', projectid:''};
   project: any;
@@ -25,7 +25,8 @@ export class NewRequestPage {
   expertise = {expertise:''};
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public req: RequestsProvider, 
-              public tres:TreasuresProvider, private auth: AuthService, public rel:RelationProvider) {
+              public tres:TreasuresProvider, private auth: AuthService, public rel:RelationProvider,
+              public viewCtrl:ViewController) {
     // let tmp = this.navParams.get('searchparams')
     // if(tmp.year)
     //   this.searchreq.year = tmp.year;
@@ -42,7 +43,14 @@ export class NewRequestPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad NewRequestPage');
     console.log(this.nrequest)
+
+
   }
+
+   dismiss() {
+    this.viewCtrl.dismiss();
+  }
+
 
   createnewproj(){
     this.project = this.tres.posttreasures(this.nrequest);
@@ -61,6 +69,7 @@ export class NewRequestPage {
       //match: currently, we are simply doing an expertise text search
       this.auth.searchbyexpertise(this.expertise.expertise).then(data=>{
         var t = data[0];
+        console.log(t);
         this.nrequestq.helperid = t._id;
 
         console.log(this.nrequestq);
@@ -69,7 +78,7 @@ export class NewRequestPage {
         this.req.createrequest(this.nrequestq).then((data)=>{
           console.log("before pop");
           this.rel.addupdaterelation({requesterid:this.nrequestq.requesterid, helperid:this.nrequestq.helperid})
-          this.navCtrl.pop();
+          this.viewCtrl.dismiss()
         });
       })
     })
