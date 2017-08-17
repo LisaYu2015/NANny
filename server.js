@@ -489,7 +489,7 @@ app.get('/api/post/postid/:postid')
             .exec(function(err, docs) {
                 if(err)
                     res.send(err);
-                res.json(docs);
+                res.send(docs);
             });
     });
 

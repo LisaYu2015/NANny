@@ -14,3 +14,13 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+
+  .menu-title {
+    position: absolute;
+    bottom: 10%;
+    font-size: 2.0em;
+    width: 100%;
+    font-weight: bold;
+    color: #FCFCFC;
+  }

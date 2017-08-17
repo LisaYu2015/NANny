@@ -39,4 +39,9 @@ export class GroupaddPage {
   	})
   }
 
+   dismiss() {
+    this.view.dismiss();
+  }
+
+
 }

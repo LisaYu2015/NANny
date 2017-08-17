@@ -42,7 +42,7 @@
      
 
      <ion-header>
-    <ion-navbar>
+    <ion-navbar  color="dark">
         <ion-title>Details on {{ProjID.year}} {{this.ProjID.brand}} {{this.ProjID.model}} {{this.ProjID.engine}}</ion-title>
         
     </ion-navbar>
@@ -58,7 +58,6 @@
               <button ion-fab><ion-icon name="construct"></ion-icon></button>
               <ion-fab-list>
                 <button ion-fab color="danger" (click)="verify(this.ProjID)"><ion-icon name="checkmark-circle"></ion-icon></button>
-                <button ion-fab color="primary" (click)="opencomments(this.ProjID)"><ion-icon name="chatbubbles"></ion-icon></button>
                 
                 </ion-fab-list>
                 </ion-fab>
@@ -107,8 +106,11 @@
             <ion-avatar  item-start>
                 <img src="https://s3.amazonaws.com/katcher/ProfilePics/{{comment.writerid}}.jpg">
             </ion-avatar>
-            <h2 item-start>{{comment.content}}</h2>
-            <p item-end> {{this.authornames[i]}} </p>
+            <h4 item-end> {{this.authornames[i]}} </h4>
+            <ion-item>
+                <p item-start style="white-space: normal !important;">{{comment.content}}</p>
+            </ion-item>
+            
 
 
 

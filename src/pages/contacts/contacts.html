@@ -21,9 +21,9 @@
 			<p style="white-space: normal;">Build up a network by giving and getting help through the <a>Requests</a> page. You can also join groups in the <a>Groups</a> page.</p>
 		</ion-item>
 		<button ion-item *ngFor="let contact of rellist" (click)="opencontactpage($event, contact)">
-			<ion-thumbnail item-start>
-        		<img src="img/thumbnail-totoro.png">
-			</ion-thumbnail>
+			<ion-avatar item-start>
+        		<img src="https://s3.amazonaws.com/katcher/ProfilePics/{{contact.id}}.jpg">
+			</ion-avatar>
 			<!-- <ion-icon [name]="item.icon" item-left></ion-icon> -->
 			<h2>{{contact.name}}</h2>
 			<p>Has helped you {{contact.helped}} times. <br>

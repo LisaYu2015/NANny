@@ -70,26 +70,36 @@ export class ContactsPage {
       console.log(this.helplist)
       this.rel.getrelationsreq(this.user._id).then(req=>{
         this.reqlist = req;
-        console.log(this.reqlist)
         let t;
-        for(let i=0; i < this.helplist.length; i++){
-          let id = this.helplist[i].requester;
-            t = new Track(id);
-            t.setrequest(this.helplist[i].n)
-            this.rellist.push(t);
-        }
+        if(this.helplist.length ==0){
+          for(let i=0; i < this.reqlist.length; i++){
+            let id = this.reqlist[i].helper;
+              t = new Track(id);
+              t.sethelped(this.reqlist[i].n)
+              this.rellist.push(t);
+              console.log("abc")
+          }
+        } else {
+          for(let i=0; i < this.helplist.length; i++){
+            let id = this.helplist[i].requester;
+              t = new Track(id);
+              t.setrequest(this.helplist[i].n)
+              this.rellist.push(t);
+              console.log("abc")
+          }
 
-        for(let j=0; j < this.reqlist.length; j++){
-          let id = this.reqlist[j].helper
-          for(let i=0; i<this.rellist.length; i++){
-            console.log("here")
-            if(id == this.rellist[i].id){
+          for(let j=0; j < this.reqlist.length; j++){
+            let id = this.reqlist[j].helper
+            for(let i=0; i<this.rellist.length; i++){
               console.log("here")
-              this.rellist[i].sethelped(this.reqlist[j].n)
-            } else {
-                t = new Track(id);
-                t.sethelped(this.reqlist[i].n)
-                this.rellist.push(t);
+              if(id == this.rellist[i].id){
+                console.log("here")
+                this.rellist[i].sethelped(this.reqlist[j].n)
+              } else {
+                  t = new Track(id);
+                  t.sethelped(this.reqlist[i].n)
+                  this.rellist.push(t);
+              }
             }
           }
         }

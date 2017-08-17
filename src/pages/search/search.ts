@@ -99,7 +99,9 @@ export class SearchPage {
    }
 
   newrequest(){
-    this.navCtrl.push(NewRequestPage);
+    let modal = this.modalCtrl.create(NewRequestPage)
+    modal.present()
+    // this.navCtrl.push(NewRequestPage);
   }
 
   public logout() {
