@@ -64,7 +64,7 @@ var mongoose = require('mongoose');
 var assert = require('assert');
 console.log("Anyone here?");
 var local = 'mongodb://localhost:27017/testdb';
-var url2 = 'mongodb://website:website@ec2-54-87-140-197.compute-1.amazonaws.com:27017/testdb';
+var url2 = 'mongodb://website:Bosch1234567@ec2-54-87-140-197.compute-1.amazonaws.com:27017/testdb';
 mongoose.connect(local); 
 // When successfully connected
 mongoose.connection.on('connected', function () {  
@@ -146,7 +146,8 @@ var Project = mongoose.model('Project', {
     uploaded: {type:String, default:'no'},
     numofpics: {type:Number, default:0},
     opendate: {type:Date, default:Date.now},
-    verifications: {type:Number, default:0}
+    verifications: {type:Array, default:[]},
+    numcomments: {type:Number, default:0}
 });
 
 //Data contains the details of each project/treasure
@@ -196,7 +197,7 @@ var PostComment = mongoose.model('postcomments', {
     content: {type:String, default:''}
 })
 
-var TreasureComment = mongoose.model('treasurecomments', {
+var TreasureComment = mongoose.model('trescomments', {
     _id: mongoose.Schema.Types.ObjectId,
     treasureid: {type:String, default:''},
     writerid: {type:String, default:''},
@@ -476,7 +477,10 @@ var TreasureComment = mongoose.model('treasurecomments', {
             if(err)
                 res.send(err);
             res.json(users);
+        console.log(users);
+        
         });
+
     });
 
     //find one user with some username
@@ -600,13 +604,16 @@ app.get('/api/Project/alluploaded', function(req, res) {
         console.log("fetching Projects");
  
         //use mongoose to get all Projects in the database
-        Project.find({uploaded:"yes"},function(err, Project){
+        Project.find({uploaded:"yes"})
+        .sort({_id:-1})
+        .exec(function(err, Project){
             //if there is an error retrieving, send the error. nothing after res.send(err) will execute
             if (err)
                 res.send(err);
  
             res.json(Project);
-        });
+        })
+        ;
     });
 
 
@@ -634,6 +641,23 @@ app.get('/api/Project/id/:id', function(req, res){
                     res.send(err);
                 res.json(docs);       
                 console.log(docs)
+        });
+    });
+
+
+
+    app.get('/api/Detail/ProjID/:id', function(req, res) {
+ 
+        console.log("fetching detail");
+ 
+        //use mongoose to get all Projects in the database
+        Detail.find({ProjectID: req.params.id})
+            .sort({step: 1})
+            .exec(function(err, detail){
+            if (err)
+                res.send(err);
+            console.log(detail);
+            res.json(detail);
         });
     });
  
@@ -684,6 +708,8 @@ app.get('/api/Project/id/:id', function(req, res){
                     project.complete = req.body.complete;
                     project.uploaded = req.body.uploaded;
                     project.numofpics = req.body.numofpics;
+                    project.numcomments = req.body.numcomments;
+                    project.verifications = req.body.verifications;
            
                     project.save(function(err, proj) {
                       if (err)
@@ -818,9 +844,44 @@ app.get('/api/Project/id/:id', function(req, res){
 
 
 
+app.get('/api/TreasureComment/:treasureid', function(req, res){
+        console.log("getting comments");
+        TreasureComment.find({treasureid: req.params.treasureid})
+        .sort({_id:1})
+        .exec( function(err, com){
+            if(err)
+                res.send(err);
+            res.json(com);
+        });
+    });
 
 
+app.post('/api/trescomment', function(req, res)   {
+            console.log("here");
 
+                        
+
+            trescomment = new TreasureComment(); 
+            trescomment._id = new ObjectId();
+            trescomment.treasureid = req.body.treasureid;
+            trescomment.writerid = req.body.writerid;
+            trescomment.content = req.body.content;
+
+            trescomment.save(function(err, com) {
+                if (err)
+                {
+                    console.log('error');
+                    console.log(err);
+                    res.send(err);
+                }
+                else
+                {
+                    console.log(trescomment);
+                    console.log('success');
+                    res.send(com);
+                }
+            });
+        });
 
 
 
