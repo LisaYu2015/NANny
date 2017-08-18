@@ -16,11 +16,11 @@ export class TreasuresEditDetailPage {
   newimg : any;
 	projdetails : any;
 	projectproblems= [];
-  projectconclusions = [];
+  projectsummarys = [];
   projectdiagnosis = [];
   projectsymptoms = [];
   newprojectproblems = [] ;
-  newprojectconclusions = [];
+  newprojectsummarys = [];
   newprojectdiagnosis = [] ;
   newprojectsymptoms = [];
   counter = Array;
@@ -47,9 +47,9 @@ console.log(this.projdetails);
 	    if (this.projdetails[i].type == "problem")
 		    {this.projectproblems.push(this.projdetails[i]);
 	    	this.newprojectproblems.push(this.projdetails[i].sentence);}
-		else if (this.projdetails[i].type == "conclusion")
-		    {this.projectconclusions.push(this.projdetails[i]);
-	    	this.newprojectconclusions.push(this.projdetails[i].sentence);}
+		else if (this.projdetails[i].type == "summary")
+		    {this.projectsummarys.push(this.projdetails[i]);
+	    	this.newprojectsummarys.push(this.projdetails[i].sentence);}
 		else if (this.projdetails[i].type == "diagnosis")
 		    {this.projectdiagnosis.push(this.projdetails[i]); 
 		    this.newprojectdiagnosis.push(this.projdetails[i].sentence);}
@@ -107,21 +107,21 @@ console.log(this.projdetails);
 
               }
   				}
-  				for (let i = 0; i < this.projectconclusions.length; i++) {
-  					if (this.newprojectconclusions[i]!=this.projectconclusions[i].sentence&&this.newprojectconclusions[i]!="")
+  				for (let i = 0; i < this.projectsummarys.length; i++) {
+  					if (this.newprojectsummarys[i]!=this.projectsummarys[i].sentence&&this.newprojectsummarys[i]!="")
   						{	
-  							this.projectconclusions[i].sentence=this.newprojectconclusions[i];
+  							this.projectsummarys[i].sentence=this.newprojectsummarys[i];
   							let projdetails ={
-                _id:this.projectconclusions[i]._id,
+                _id:this.projectsummarys[i]._id,
 	  						ProjectID:this.ProjID._id,
 	  						type:"conclusion",
-	  						sentence:this.newprojectconclusions[i],
+	  						sentence:this.newprojectsummarys[i],
 	  						}
 	  						this.treasuresService.postdetails(projdetails);
   						}
-              else if (this.newprojectconclusions[i]==""&&this.projectconclusions[i]._id!=null)
+              else if (this.newprojectsummarys[i]==""&&this.projectsummarys[i]._id!=null)
               {
-                  this.treasuresService.deletedetails(this.projectconclusions[i]._id);
+                  this.treasuresService.deletedetails(this.projectsummarys[i]._id);
               }
   						
   				}
@@ -204,9 +204,9 @@ adddiagnosis(){
                 });
 	}
 
-addconclusion(){
-	this.newprojectconclusions[this.newprojectconclusions.length]="";
-	this.projectconclusions.push(
+addsummary(){
+	this.newprojectsummarys[this.newprojectsummarys.length]="";
+	this.projectsummarys.push(
                 {
                 ProjectID:this.ProjID._id,
                 type:"conclusion",

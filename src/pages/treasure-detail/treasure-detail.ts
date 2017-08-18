@@ -28,10 +28,11 @@ export class TreasureDetailPage {
     ProjID: any;
     completestatus = "error";
     projectdetails = [];
-    projectproblems = [];
-    projectconclusions = [];
+    projectcauses = [];
+    projectsummarys = [];
     projectdiagnosis = [];
     projectsymptoms = [];
+    projectreasonings = [];
     projectuploadstatus = "cloud-upload";
     completestatusimg = "radio-button-off";
     counter = Array;
@@ -61,14 +62,17 @@ export class TreasureDetailPage {
                 if (this.details[i].ProjectID==this.ProjID._id)
                 {
                     this.projectdetails.push(this.details[i]);
-                    if (this.details[i].type == "problem")
-                        this.projectproblems.push(this.details[i]);
-                    else if (this.details[i].type == "conclusion")
-                        this.projectconclusions.push(this.details[i]);
+                    if (this.details[i].type == "cause")
+                        this.projectcauses.push(this.details[i]);
+                    else if (this.details[i].type == "summary")
+                        this.projectsummarys.push(this.details[i]);
                     else if (this.details[i].type == "diagnosis")
                         this.projectdiagnosis.push(this.details[i]); 
                     else if (this.details[i].type == "symptom")
                         this.projectsymptoms.push(this.details[i]); 
+                    else if (this.details[i].type == "reasoning")
+                        this.projectreasonings.push(this.details[i]); 
+
                 }
                 
             }

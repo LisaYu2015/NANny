@@ -31,34 +31,74 @@
             <ion-card-title>
                 [{{this.completestatus}}] {{ProjID.year}} {{this.ProjID.brand}} {{this.ProjID.model}} {{this.ProjID.engine}}
             </ion-card-title>
-            <p>Error Code: {{this.ProjID.errorcode}}</p>         
-            <ul>Symptoms:
-            <li *ngFor =" let projectsymptom of projectsymptoms; let i = index ">{{this.projectsymptom.sentence}}  
-            <p *ngFor =" let loop of counter(projectsymptoms[i].numpic); let j = index " >
-            <img src="https://s3.amazonaws.com/katcher/{{projectsymptoms[i]._id}}/{{j+1}}.jpg"/>
+            <p>Error Code: {{this.ProjID.errorcode}}</p>     
+            <p>Symptoms:</p>
+                <ul>
+                    <li *ngFor =" let projectsymptom of projectsymptoms; let i = index ">{{this.projectsymptom.sentence}}  
+                    <p *ngFor =" let loop of counter(projectsymptoms[i].numpic); let j = index " >
+                    <img src="https://s3.amazonaws.com/katcher/{{this.projectsymptom._id}}/{{j+1}}.jpg"/>
+                    </p>
+
+                    <p *ngFor =" let loop of counter(projectsymptoms[i].numvid); let j = index " >
+                    <video width="320" heigth="240" controls>
+                    <source src="https://s3.amazonaws.com/katcher/{{projectsymptoms[i]._id}}/{{j+1}}.mp4" type="video/mp4"/>
+                    </video>
+                    </p>
+                    </li>
+                </ul>
+            <p></p>
+
+            <p>Summary:</p>
+            <ul>
+            <li *ngFor =" let projectsummary of projectsummarys; let i = index ">{{this.projectsummary.sentence}} 
+            <p *ngFor =" let loop of counter(projectsummarys[i].numpic); let j = index " >
+            <img src="https://s3.amazonaws.com/katcher/{{this.projectsummary._id}}/{{j+1}}.jpg"/>
+            </p>
+
+            <p *ngFor =" let loop of counter(projectsummarys[i].numvid); let j = index " >
+            <video width="320" heigth="240" controls>
+            <source src="https://s3.amazonaws.com/katcher/{{projectsummarys[i]._id}}/{{j+1}}.mp4" type="video/mp4"/>
+            </video>
+            </p>
+            </li>  
+            </ul>
+            <ul><!-- Reasoning: -->
+            <li *ngFor =" let projectreasoning of projectreasonings; let i = index ">{{this.projectreasoning.sentence}}  
+            <p *ngFor =" let loop of counter(projectreasonings[i].numpic); let j = index " >
+            <img src="https://s3.amazonaws.com/katcher/{{this.projectreasoning._id}}/{{j+1}}.jpg"/>
+            </p>
+
+            <p *ngFor =" let loop of counter(projectreasonings[i].numvid); let j = index " >
+            <video width="320" heigth="240" controls>
+            <source src="https://s3.amazonaws.com/katcher/{{projectreasonings[i]._id}}/{{j+1}}.mp4" type="video/mp4"/>
+            </video>
             </p>
             </li>
             </ul>
             <p></p>
-            <ul>Diagnosis:
+
+
+            <p >Diagnosis:</p>
+            <ul>
             <li *ngFor =" let projectdiagnosi of projectdiagnosis; let i = index ">{{this.projectdiagnosi.sentence}}
             <p *ngFor =" let loop of counter(projectdiagnosis[i].numpic); let j = index " >
             <img src="https://s3.amazonaws.com/katcher/{{this.projectdiagnosi._id}}/{{j+1}}.jpg"/>
             </p>
+
+            <p *ngFor =" let loop of counter(projectdiagnosis[i].numvid); let j = index " >
+            <video width="320" heigth="240" controls>
+            <source src="https://s3.amazonaws.com/katcher/{{projectdiagnosis[i]._id}}/{{j+1}}.mp4" type="video/mp4"/>
+            </video>
+            </p>
             </li>  
             </ul>
             <p></p>
-            <ul>conclusion:
-            <li *ngFor =" let projectconclusion of projectconclusions; let i = index ">{{this.projectconclusion.sentence}} 
-            <p *ngFor =" let loop of counter(projectconclusions[i].numpic); let j = index " >
-            <img src="https://s3.amazonaws.com/katcher/{{this.projectconclusion._id}}/{{j+1}}.jpg"/>
-            </p>
-            </li>  
-            </ul>
 
-             <p *ngFor =" let link of links; let i = index ">
-            <img src={{this.links[i]}}/>
-            </p>
+
+                                
+            
+
+             
             </ion-card-content>
             </ion-card>
 

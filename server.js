@@ -158,6 +158,7 @@ var Detail = mongoose.model('detail', {
     sentence:String,
     step: {type:Number, default:0},
     numpic: {type:Number, default:0},
+    numvid: {type:Number, default:0},
 });
 
 //Relationships track how mnay times someone has helped someone else
@@ -811,6 +812,7 @@ app.get('/api/Project/id/:id', function(req, res){
             detail.sentence = req.body.sentence;
             detail.step = req.body.step;
             detail.numpic = req.body.numpic;
+            detail.numvid = req.body.numvid;
             detail.save(function(err, det) {
                 if (err)
                 {
@@ -838,6 +840,7 @@ app.get('/api/Project/id/:id', function(req, res){
                 detail.sentence= req.body.sentence;
                 detail.step = req.body.step;
                 detail.numpic =     req.body.numpic;
+                detail.numvid = req.body.numvid;
 
     
                 detail.save(function(err, det) {

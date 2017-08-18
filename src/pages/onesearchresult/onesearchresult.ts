@@ -24,10 +24,12 @@ export class OnesearchresultPage {
     ProjID: any;
     completestatus = "error";
     projectdetails = [];
-    projectproblems = [];
+    projectcauses = [];
     projectconclusions = [];
     projectdiagnosis = [];
     projectsymptoms = [];
+    projectsummarys =[];
+    projectreasonings = [];
     projectuploadstatus = "cloud-upload";
     completestatusimg = "radio-button-off";
     user: User;
@@ -60,28 +62,28 @@ export class OnesearchresultPage {
     console.log(this.ProjID);
     this.details=[];
     this.projectdetails = [];
-    this.projectproblems = [];
-    this.projectconclusions = [];
+    this.projectsummarys = [];
+    this.projectcauses = [];
+    this.projectreasonings = [];
     this.projectdiagnosis = [];
     this.projectsymptoms = [];
 
         this.tres.getprojtreasuresdetail(this.ProjID._id).then((data) => {
             this.details = data;
             for (let i = 0; i < this.details.length; i++) {
-                              
-                
                     this.projectdetails.push(this.details[i]);
-                    if (this.details[i].type == "problem")
-                        this.projectproblems.push(this.details[i]);
-                    else if (this.details[i].type == "conclusion")
-                        this.projectconclusions.push(this.details[i]);
+                    if (this.details[i].type == "cause")
+                        this.projectcauses.push(this.details[i]);
+                    else if (this.details[i].type == "summary")
+                        this.projectsummarys.push(this.details[i]);
                     else if (this.details[i].type == "diagnosis")
                         this.projectdiagnosis.push(this.details[i]); 
                     else if (this.details[i].type == "symptom")
                         this.projectsymptoms.push(this.details[i]); 
-                
-                
-            }
+                    else if (this.details[i].type == "reasoning")
+                        this.projectreasonings.push(this.details[i]); 
+
+                }
             for (let i=1; i<= this.ProjID.numofpics; i++){
                 this.links[i] = "https://s3.amazonaws.com/katcher/PID" + this.ProjID.PID + "/Photo/" + i + ".jpg";
                 console.log(this.links[i]);
