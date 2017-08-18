@@ -10,7 +10,7 @@ import 'rxjs/add/operator/map';
 */
 @Injectable()
 export class GroupProvider {
-  url='ec2-54-87-140-197.compute-1.amazonaws.com:5000'
+  url='http://ec2-54-87-140-197.compute-1.amazonaws.com:5000'
   //url = ''
 
   constructor(public http: Http) {

@@ -41,7 +41,7 @@ var AuthService = (function () {
     function AuthService(http) {
         this.http = http;
         //url = 'https://texconnect.herokuapp.com'
-        this.url = 'ec2-54-87-140-197.compute-1.amazonaws.com:5000';
+        this.url = 'http://ec2-54-87-140-197.compute-1.amazonaws.com:5000';
         this.data = null;
     }
     AuthService.prototype.login = function (credentials) {
@@ -152,9 +152,10 @@ var AuthService = (function () {
 }());
 AuthService = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
 ], AuthService);
 
+var _a;
 //# sourceMappingURL=auth-service.js.map
 
 /***/ }),
@@ -446,7 +447,7 @@ var RelationProvider = (function () {
         this.auth = auth;
         this.helplist = [];
         this.reqlist = [];
-        this.url = 'ec2-54-87-140-197.compute-1.amazonaws.com:5000';
+        this.url = 'http://ec2-54-87-140-197.compute-1.amazonaws.com:5000';
         console.log('Hello RelationProvider Provider');
         this.user = this.auth.getUserInfo();
     }
@@ -490,9 +491,10 @@ var RelationProvider = (function () {
 }());
 RelationProvider = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */], __WEBPACK_IMPORTED_MODULE_3__auth_service_auth_service__["a" /* AuthService */]])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__auth_service_auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__auth_service_auth_service__["a" /* AuthService */]) === "function" && _b || Object])
 ], RelationProvider);
 
+var _a, _b;
 //# sourceMappingURL=relation.js.map
 
 /***/ }),
@@ -1039,7 +1041,7 @@ var TreasuresProvider = (function () {
     //url = ''
     function TreasuresProvider(http) {
         this.http = http;
-        this.url = 'ec2-54-87-140-197.compute-1.amazonaws.com:5000';
+        this.url = 'http://ec2-54-87-140-197.compute-1.amazonaws.com:5000';
         console.log('Hello TreasuresProvider Provider');
         this.data = null;
     }
@@ -1202,9 +1204,10 @@ var TreasuresProvider = (function () {
 }());
 TreasuresProvider = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
 ], TreasuresProvider);
 
+var _a;
 //# sourceMappingURL=treasuresprovider.js.map
 
 /***/ }),
@@ -1313,7 +1316,7 @@ var PointsProvider = (function () {
     //url = ''
     function PointsProvider(http) {
         this.http = http;
-        this.url = 'ec2-54-87-140-197.compute-1.amazonaws.com:5000';
+        this.url = 'http://ec2-54-87-140-197.compute-1.amazonaws.com:5000';
         console.log('Hello PointsProvider Provider');
     }
     PointsProvider.prototype.getpoints = function (id) {
@@ -1335,9 +1338,10 @@ var PointsProvider = (function () {
 }());
 PointsProvider = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
 ], PointsProvider);
 
+var _a;
 //# sourceMappingURL=points.js.map
 
 /***/ }),
@@ -1790,7 +1794,7 @@ var TreasuresDetailProvider = (function () {
     //url = ''
     function TreasuresDetailProvider(http) {
         this.http = http;
-        this.url = 'ec2-54-87-140-197.compute-1.amazonaws.com:5000';
+        this.url = 'http://ec2-54-87-140-197.compute-1.amazonaws.com:5000';
         console.log('Hello TreasuresDetailProvider Provider');
         this.data = null;
     }
@@ -1810,9 +1814,10 @@ var TreasuresDetailProvider = (function () {
 }());
 TreasuresDetailProvider = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
 ], TreasuresDetailProvider);
 
+var _a;
 //# sourceMappingURL=treasuresdetailprovider.js.map
 
 /***/ }),
@@ -3209,7 +3214,7 @@ var GroupProvider = (function () {
     //url = ''
     function GroupProvider(http) {
         this.http = http;
-        this.url = 'ec2-54-87-140-197.compute-1.amazonaws.com:5000';
+        this.url = 'http://ec2-54-87-140-197.compute-1.amazonaws.com:5000';
         console.log('Hello GroupProvider Provider');
     }
     GroupProvider.prototype.getallgroups = function () {
@@ -3341,9 +3346,10 @@ var GroupProvider = (function () {
 }());
 GroupProvider = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object])
 ], GroupProvider);
 
+var _a;
 //# sourceMappingURL=group.js.map
 
 /***/ }),
@@ -4281,7 +4287,7 @@ var RequestsProvider = (function () {
         this.auth = auth;
         this.tres = tres;
         this.disc = Array();
-        this.url = 'ec2-54-87-140-197.compute-1.amazonaws.com:5000';
+        this.url = 'http://ec2-54-87-140-197.compute-1.amazonaws.com:5000';
         console.log('Hello RequestsProvider Provider');
     }
     RequestsProvider.prototype.convertdatatochat = function (data, type) {
@@ -4405,9 +4411,10 @@ var RequestsProvider = (function () {
 }());
 RequestsProvider = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */], __WEBPACK_IMPORTED_MODULE_2__providers_auth_service_auth_service__["a" /* AuthService */], __WEBPACK_IMPORTED_MODULE_3__providers_treasuresprovider_treasuresprovider__["a" /* TreasuresProvider */]])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__providers_auth_service_auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__providers_auth_service_auth_service__["a" /* AuthService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3__providers_treasuresprovider_treasuresprovider__["a" /* TreasuresProvider */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__providers_treasuresprovider_treasuresprovider__["a" /* TreasuresProvider */]) === "function" && _c || Object])
 ], RequestsProvider);
 
+var _a, _b, _c;
 //# sourceMappingURL=requests.js.map
 
 /***/ }),

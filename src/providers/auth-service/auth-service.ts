@@ -34,7 +34,7 @@ export class AuthService {
   currentUser: User;
   data: any;
   //url = 'https://texconnect.herokuapp.com'
-  url='ec2-54-87-140-197.compute-1.amazonaws.com:5000'
+  url='http://ec2-54-87-140-197.compute-1.amazonaws.com:5000'
   //url = ''
   constructor(private http: Http) {
     this.data = null;
