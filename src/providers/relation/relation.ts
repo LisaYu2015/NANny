@@ -14,6 +14,8 @@ export class RelationProvider {
 	helplist= []
 	reqlist = []
 	user: User;
+  url='ec2-54-87-140-197.compute-1.amazonaws.com:5000'
+  //url = ''
 
   constructor(public http: Http, public auth:AuthService) {
     console.log('Hello RelationProvider Provider');
@@ -26,7 +28,7 @@ export class RelationProvider {
 
   	return new Promise(resolve => {
 
-            this.http.post('/api/relation/', JSON.stringify(relation), {headers: headers})
+            this.http.post(this.url + '/api/relation/', JSON.stringify(relation), {headers: headers})
                 .map(res => res.json())
                 .subscribe(data => {
                     this.reqlist = data;
@@ -37,7 +39,7 @@ export class RelationProvider {
   getrelationsreq(id){
   	return new Promise(resolve => {
 
-          this.http.get('/api/relation/req/' + this.user._id)
+          this.http.get(this.url + '/api/relation/req/' + this.user._id)
               .map(res => res.json())
               .subscribe(data => {
                   this.reqlist = data;
@@ -50,7 +52,7 @@ export class RelationProvider {
   getrelationshelp(id){
   	return new Promise(resolve => {
 
-          this.http.get('/api/relation/help/' + this.user._id)
+          this.http.get(this.url + '/api/relation/help/' + this.user._id)
               .map(res => res.json())
               .subscribe(data => {
                   this.helplist = data;

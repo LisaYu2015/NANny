@@ -10,6 +10,8 @@ import 'rxjs/add/operator/map';
 */
 @Injectable()
 export class GroupProvider {
+  url='ec2-54-87-140-197.compute-1.amazonaws.com:5000'
+  //url = ''
 
   constructor(public http: Http) {
     console.log('Hello GroupProvider Provider');
@@ -20,7 +22,7 @@ export class GroupProvider {
   	headers.append('Content-Type','application/json');
 
   	return new Promise(resolve => {
-  		this.http.get('/api/group/')
+  		this.http.get(this.url + '/api/group/')
   		.map(res => res.json() )
   		.subscribe(data => {
   			resolve(data);
@@ -33,7 +35,7 @@ export class GroupProvider {
   	headers.append('Content-Type','application/json');
 
   	return new Promise(resolve => {
-  		this.http.get('/api/group/groupid/' + id)
+  		this.http.get(this.url + '/api/group/groupid/' + id)
   		.map(res => res.json() )
   		.subscribe(data => {
   			resolve(data[0]);
@@ -46,7 +48,7 @@ export class GroupProvider {
     headers.append('Content-Type','application/json');
 
     return new Promise(resolve => {
-      this.http.get('/api/member/userid/' + id)
+      this.http.get(this.url + '/api/member/userid/' + id)
       .map(res => res.json() )
       .subscribe(data => {
         resolve(data);
@@ -58,7 +60,7 @@ export class GroupProvider {
     let headers = new Headers();
     headers.append('Content-Type','application/json');
     return new Promise(resolve => {
-      this.http.get('/api/member/is/' + creds.memberid + '/' + creds.groupid)
+      this.http.get(this.url + '/api/member/is/' + creds.memberid + '/' + creds.groupid)
         .map(res => res.json() )
         .subscribe(data => {
           resolve(data);
@@ -70,7 +72,7 @@ export class GroupProvider {
   	return new Promise(resolve => {
       let headers = new Headers();
       headers.append('Content-Type', 'application/json');
-      this.http.post('/api/group', JSON.stringify(group), {headers: headers})
+      this.http.post(this.url + '/api/group', JSON.stringify(group), {headers: headers})
                   .map(res=>res.json())
                   .subscribe(res => {
                     console.log(res)
@@ -87,7 +89,7 @@ export class GroupProvider {
 
   	let details = search;
   	return new Promise(resolve => {
-  		this.http.get('/api/group/search/' + details)
+  		this.http.get(this.url + '/api/group/search/' + details)
   		.map(res => res.json() )
   		.subscribe(data => {
   			resolve(data);
@@ -100,7 +102,7 @@ export class GroupProvider {
   	return new Promise(resolve => {
       let headers = new Headers();
       headers.append('Content-Type', 'application/json');
-      this.http.post('/api/member', JSON.stringify(creds), {headers: headers})
+      this.http.post(this.url + '/api/member', JSON.stringify(creds), {headers: headers})
                   .subscribe(res => {
                     resolve(res);
                   });
@@ -113,7 +115,7 @@ export class GroupProvider {
   	headers.append('Content-Type','application/json');
 
   	return new Promise(resolve => {
-  		this.http.delete('/api/member', new RequestOptions({
+  		this.http.delete(this.url + '/api/member', new RequestOptions({
   			headers: headers,
   			body:creds
   		}))
@@ -129,7 +131,7 @@ export class GroupProvider {
     return new Promise(resolve => {
       let headers = new Headers();
       headers.append('Content-Type', 'application/json');
-      this.http.post('/api/post/add', JSON.stringify(post), {headers: headers})
+      this.http.post(this.url + '/api/post/add', JSON.stringify(post), {headers: headers})
                   .subscribe(res => {
                     resolve(res);
                   });
@@ -138,7 +140,7 @@ export class GroupProvider {
 
   getposts(groupid){
     return new Promise(resolve => {
-      this.http.get('/api/post/groupid/' + groupid)
+      this.http.get(this.url + '/api/post/groupid/' + groupid)
           .map(res=>res.json())
           .subscribe(data => {
             resolve(data)

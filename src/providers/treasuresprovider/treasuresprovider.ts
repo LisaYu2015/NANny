@@ -12,6 +12,8 @@ import 'rxjs/add/operator/map';
 export class TreasuresProvider {
 
     data: any;
+    url='ec2-54-87-140-197.compute-1.amazonaws.com:5000'
+  //url = ''
 
   constructor(public http: Http) {
       console.log('Hello TreasuresProvider Provider');
@@ -20,7 +22,7 @@ export class TreasuresProvider {
 
   getonetreasure(id){
   	return new Promise(resolve=>{
-  		this.http.get('/api/Project/id/' + id)
+  		this.http.get(this.url + '/api/Project/id/' + id)
   			.map(res=>res.json())
   			.subscribe(proj => {
   				console.log(proj)
@@ -33,7 +35,7 @@ export class TreasuresProvider {
 
     return new Promise(resolve => {
 
-      this.http.get('/api/Detail/ProjID/' + id)
+      this.http.get(this.url + '/api/Detail/ProjID/' + id)
           .map(res => res.json())
           .subscribe(data => {
               this.data = data;

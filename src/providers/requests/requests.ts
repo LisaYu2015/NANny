@@ -57,6 +57,8 @@ export class RequestsProvider {
 	chats : Array<Chat>;
 	disc = Array<Comment>();
   username: any;
+  url='ec2-54-87-140-197.compute-1.amazonaws.com:5000'
+  //url = ''
 
 
   constructor(public http: Http, public auth: AuthService, public tres: TreasuresProvider) {
@@ -129,7 +131,7 @@ export class RequestsProvider {
     console.log(this.username)
 
   	return new Promise(resolve => {
-      this.http.get('/api/question/reqid/'+ id)
+      this.http.get(this.url + '/api/question/reqid/'+ id)
         .map(res => res.json())
         .subscribe(data => {
           console.log("in subscribe")
@@ -138,7 +140,7 @@ export class RequestsProvider {
             this.convertdatatochat(data, "req");
           }
 
-          this.http.get('/api/question/helpid/'+id)
+          this.http.get(this.url + '/api/question/helpid/'+id)
             .map(res => res.json())
             .subscribe(data => {
               if(data){
@@ -154,7 +156,7 @@ export class RequestsProvider {
   //where id is the _id of the chat
   getdiscussion(id){
   	return new Promise(resolve => {
-      this.http.get('/api/disc/id/'+ id)
+      this.http.get(this.url + '/api/disc/id/'+ id)
         .map(res => res.json())
         .subscribe(data => {
           this.disc = data;
@@ -170,7 +172,7 @@ export class RequestsProvider {
     return new Promise(resolve => {
       let headers = new Headers();
       headers.append('Content-Type', 'application/json');
-      this.http.post('/api/disc', JSON.stringify(info), {headers: headers})
+      this.http.post(this.url + '/api/disc', JSON.stringify(info), {headers: headers})
                   .subscribe(res => {
                     resolve(res);
                   });
@@ -183,7 +185,7 @@ export class RequestsProvider {
     return new Promise(resolve => {
       let headers = new Headers();
       headers.append('Content-Type', 'application/json');
-      this.http.post('/api/question', JSON.stringify(info), {headers: headers})
+      this.http.post(this.url + '/api/question', JSON.stringify(info), {headers: headers})
                   .subscribe(res => {
                     resolve(res);
                   });

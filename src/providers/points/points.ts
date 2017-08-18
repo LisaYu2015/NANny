@@ -19,6 +19,8 @@ export class Points{
 @Injectable()
 export class PointsProvider {
 	points: Array<Points>;
+  url='ec2-54-87-140-197.compute-1.amazonaws.com:5000'
+  //url = ''
 
   constructor(public http: Http) {
     console.log('Hello PointsProvider Provider');
@@ -26,7 +28,7 @@ export class PointsProvider {
 
   getpoints(id){
     return new Promise(resolve => {
-      this.http.get('/api/points/id/'+ id)
+      this.http.get(this.url + '/api/points/id/'+ id)
         .map(res => res.json())
         .subscribe(data => {
           this.points = data;

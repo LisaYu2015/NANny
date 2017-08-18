@@ -12,6 +12,8 @@ import 'rxjs/add/operator/map';
 export class TreasuresDetailProvider {
 
     data: any;
+    url='ec2-54-87-140-197.compute-1.amazonaws.com:5000'
+  //url = ''
 
     constructor(public http: Http) {
         console.log('Hello TreasuresDetailProvider Provider');
@@ -25,7 +27,7 @@ export class TreasuresDetailProvider {
         return new Promise(resolve => {
             
 
-            this.http.get('/api/Detail')
+            this.http.get(this.url + '/api/Detail')
                 .map(res => res.json())
                 .subscribe(data => {
                     this.data = data;

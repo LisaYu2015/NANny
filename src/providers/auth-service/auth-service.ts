@@ -34,8 +34,8 @@ export class AuthService {
   currentUser: User;
   data: any;
   //url = 'https://texconnect.herokuapp.com'
-  //url='ec2-54-87-140-197.compute-1.amazonaws.com:5000'
-  url = ''
+  url='ec2-54-87-140-197.compute-1.amazonaws.com:5000'
+  //url = ''
   constructor(private http: Http) {
     this.data = null;
   }
@@ -63,7 +63,7 @@ export class AuthService {
     return new Promise(resolve => {
       let headers = new Headers();
       headers.append('Content-Type', 'application/json');
-      this.http.post('/api/user', JSON.stringify(credentials), {headers: headers})
+      this.http.post(this.url + '/api/user', JSON.stringify(credentials), {headers: headers})
                   .subscribe(res => {
                     this.currentUser = res[0];
                     resolve(res);
@@ -77,7 +77,7 @@ export class AuthService {
     return new Promise(resolve => {
       let headers = new Headers();
       headers.append('Content-Type', 'application/json');
-      this.http.post('/api/user/update', JSON.stringify(info), {headers: headers})
+      this.http.post(this.url + '/api/user/update', JSON.stringify(info), {headers: headers})
                   .map(res => res.json())
                   .subscribe(res => {
                     console.log(res)
@@ -103,7 +103,7 @@ export class AuthService {
   public getusernamebyid(id){
     var user;
     return new Promise(resolve => {
-    this.http.get('/api/user/id/' + id)
+    this.http.get(this.url + '/api/user/id/' + id)
         .map(res => res.json())
         .subscribe(res => {
           user = res
@@ -118,7 +118,7 @@ export class AuthService {
   public getuserbyid(id){
     var user;
     return new Promise(resolve => {
-    this.http.get('/api/user/id/' + id)
+    this.http.get(this.url + '/api/user/id/' + id)
         .map(res => res.json())
         .subscribe(res => {
           user = res
@@ -134,7 +134,7 @@ export class AuthService {
 
     let details = ex;
     return new Promise(resolve => {
-      this.http.get('api/user/search/' + details)
+      this.http.get(this.url + '/api/user/search/' + details)
       .map(res => res.json() )
       .subscribe(data => {
         resolve(data);
