@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Home</ion-title>
+    <ion-title>Welcome to TexConnect!</ion-title>
     <ion-buttons end>
       <button ion-button (click)="logout()">
           <ion-icon name="log-out"></ion-icon>
@@ -18,8 +18,8 @@
   <ion-grid>
     <ion-row class="points">
       <div col text-center>
-        <h1>Welcome to TexConnect!</h1>
-        <button center round ion-button (click)="pointsmodal()">140 Points Available</button>
+<!--         <h1>Welcome to TexConnect!</h1>
+ -->        <button center round ion-button (click)="pointsmodal()">140 Points Available</button>
       </div>
     </ion-row>
     <ion-row>
@@ -46,13 +46,13 @@
       </ion-card-header>
       <ion-card-content>
         <ion-row>
-          <button ion-button clear (click)="givehelp()">Answer a request</button>
+          <button ion-button block clear (click)="givehelp()">Answer a request</button>
         </ion-row>
         <ion-row>
-          <button ion-button clear (click)="addtreasures()">Add a treasure</button>
+          <button ion-button block clear (click)="addtreasures()">Add a treasure</button>
         </ion-row>
         <ion-row>
-          <button ion-button clear *ngIf='searched' (click)="searchfeedback()">Provide feedback on your last search</button>
+          <button ion-button block clear *ngIf='searched' (click)="searchfeedback()">Provide feedback on your last search</button>
         </ion-row>
       </ion-card-content>
     </ion-card>

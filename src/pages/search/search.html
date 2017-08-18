@@ -55,23 +55,21 @@
 
 
      <ion-row>
-    <ion-col>
+     <ion-col>
       <button ion-button icon-left clear small >
         <ion-icon name="checkmark-circle"></ion-icon>
         <div>{{project.verifications.length}} Verifications</div>
       </button>
-    </ion-col>
-    <ion-col>
       <button (click)="opencomments(project)" ion-button icon-left clear small>
         <ion-icon name="chatbubbles"></ion-icon>
         <div>{{project.numcomments}} Comments</div>
       </button>
-    </ion-col>
-    <ion-col center text-center>
-      <ion-note>
-        11 hours ago
-      </ion-note>
-    </ion-col>
+      </ion-col>
+      <ion-col text-right>
+        <ion-note>
+          11 hours ago
+        </ion-note>
+      </ion-col>
   </ion-row>
        </ion-card>
      </ion-item></ion-grid>
