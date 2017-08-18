@@ -27,21 +27,17 @@
 		<p style="white-space: normal;">{{group.description}}</p>
 	</ion-item>
 
-	<ion-card *ngFor="let p of posts">
-		<ion-card-header>
-			<ion-avatar item-start>
-				<img src="">
-			</ion-avatar>
-			Member name
-		</ion-card-header>
-		<ion-card-content>
-			Post content
-		</ion-card-content>
-		<ion-row>
-			<p *ngIf="member==0">Join the group to see the comments</p>
-			<button *ngIf="member==1" col text-center ion-button clear (click)="viewcomments()"><ion-icon name="text"></ion-icon>Comments</button>
-		</ion-row>
-	</ion-card>
+	<ion-list no-lines>
+        <ion-item *ngFor="let p of writers">
+            <ion-avatar  item-start>
+                <img src="https://s3.amazonaws.com/katcher/ProfilePics/{{p.id}}.jpg">
+            </ion-avatar>
+            <h4 item-end> {{p.name}} </h4>
+            <ion-item>
+                <p item-start style="white-space: normal !important;">{{p.content}}</p>
+            </ion-item>
+        </ion-item>
+    </ion-list>
 
 
 </ion-content>

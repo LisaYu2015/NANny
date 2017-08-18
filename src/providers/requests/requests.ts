@@ -63,30 +63,61 @@ export class RequestsProvider {
     console.log('Hello RequestsProvider Provider');
   }
 
-  convertdatatochat(data){
+  convertdatatochat(data, type){
       for (var i =  0; i < data.length; i++) {
+        let requestername;
+        let r = data[i]
+        var helpername;
+        var request;
+        var data2;
+
+
               console.log("inloop")
-              let r = data[i]
-              var helpername;
-              var request;
-              var data2;
-              if(r.helperID)
-                helpername = this.auth.getusernamebyid(r.helperID);
-              else
-                helpername = "Not Matched";
+
 
               //find project
               this.tres.getonetreasure(r.ProjectID)
                   .then((project)=>{
                     console.log(project)
                     data2 = project[0];
-                    request = new Chat(r._id, r.content, r.helperID, r.requesterID, helpername, this.username
+                    if(type=="req"){
+                      if(r.helperID){
+                        this.auth.getusernamebyid(r.helperID).then(name => {
+                          helpername = name
+                          requestername = this.auth.getUserName()
+                          request = new Chat(r._id, r.content, r.helperID, r.requesterID, helpername, requestername
                         , data2.year, data2.brand, data2.model, data2.errorcode, data2.symptoms, data2.complete);
-                    // if(data2.opendate){
-                    //   request.setopendate(data2.opendate.getTime().toString())
-                    // } 
-                    this.chats.push(request);
-                    console.log(request);
+                          // if(data2.opendate){
+                          //   request.setopendate(data2.opendate.getTime().toString())
+                          // } 
+                          this.chats.push(request);
+                          console.log(request);
+                        })
+                      } else{
+                        helpername = "Not Matched";
+                        request = new Chat(r._id, r.content, r.helperID, r.requesterID, helpername, requestername
+                        , data2.year, data2.brand, data2.model, data2.errorcode, data2.symptoms, data2.complete);
+                          // if(data2.opendate){
+                          //   request.setopendate(data2.opendate.getTime().toString())
+                          // } 
+                          this.chats.push(request);
+                          console.log(request);
+                      }
+                    } else {
+                      this.auth.getusernamebyid(r.requesterID).then(name => {
+                        requestername = this.auth.getUserName();
+                        helpername = name
+                        request = new Chat(r._id, r.content, r.helperID, r.requesterID, helpername, requestername
+                        , data2.year, data2.brand, data2.model, data2.errorcode, data2.symptoms, data2.complete);
+                          // if(data2.opendate){
+                          //   request.setopendate(data2.opendate.getTime().toString())
+                          // } 
+                          this.chats.push(request);
+                          console.log(request);
+                      })
+                    }
+                    
+                    
                   })
         }
   }
@@ -95,6 +126,7 @@ export class RequestsProvider {
   getallrequests(id){
     this.chats = new Array<Chat>();
   	this.username = this.auth.getUserName();
+    console.log(this.username)
 
   	return new Promise(resolve => {
       this.http.get('/api/question/reqid/'+ id)
@@ -103,7 +135,7 @@ export class RequestsProvider {
           console.log("in subscribe")
           if(data){
             console.log(data)
-            this.convertdatatochat(data);
+            this.convertdatatochat(data, "req");
           }
 
           this.http.get('/api/question/helpid/'+id)
@@ -111,7 +143,7 @@ export class RequestsProvider {
             .subscribe(data => {
               if(data){
                 console.log("in here after  subscribe")
-                this.convertdatatochat(data);
+                this.convertdatatochat(data, "help");
                 }
               });
         });

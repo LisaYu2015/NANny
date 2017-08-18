@@ -43,6 +43,7 @@ import { TreasuresDetailProvider } from '../providers/treasuresdetailprovider/tr
 import { TreasureseditproviderProvider } from '../providers/treasureseditprovider/treasureseditprovider';
 import { RelationProvider } from '../providers/relation/relation';
 import { GroupProvider } from '../providers/group/group';
+import { GrouppostsProvider } from '../providers/groupposts/groupposts';
 
 @NgModule({
   declarations: [
@@ -125,6 +126,7 @@ import { GroupProvider } from '../providers/group/group';
     RelationProvider,
     GroupProvider,
     GroupProvider,
+    GrouppostsProvider,
   ]
 })
 export class AppModule {}

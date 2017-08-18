@@ -19,6 +19,9 @@ export class OnegroupPage {
 	member:number;
 	user: User;
 	ismember:any;
+  posts:any;
+  writers = [];
+  posttext:string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public auth:AuthService,
   			  public groupctrl:GroupProvider) {
@@ -53,12 +56,30 @@ export class OnegroupPage {
   			this.member = 0
   		}
   	})
+    this.getposts()
   }
 
-  viewcomments(){}
+  getposts(){
+    this.groupctrl.getposts(this.group._id).then(data2=>{
+      this.posts = data2
+      this.writers = [this.posts.length]
+      for(let i=0;i<this.posts.length;i++){
+        this.auth.getusernamebyid(this.posts[i].memberid).then(name => {
+          let name2 = name
+          let content = this.posts[i].content
+          let id = this.posts[i].memberid
+          this.writers[i] = {name:name2, content:content, id:id}
+          console.log(this.writers[i])
+        })
+      }
+    })
+  }
 
   post(){
-  	
+    let p =  {groupid:this.group._id, memberid:this.user._id, content:this.posttext}
+  	this.groupctrl.addpost(p).then(data =>{
+      this.getposts()
+    })
   }
 
   joingroup(){
