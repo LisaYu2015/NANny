@@ -27,11 +27,11 @@ export class NewProjectPage {
   newengine : any;
 	projdetails : any;
 	projectproblems = [];
-    projectconclusions = [];
+    projectsummarys = [];
     projectdiagnosis = [];
     projectsymptoms = [];
     newprojectproblems = [] ;
-    newprojectconclusions = [];
+    newprojectsummarys = [];
     newprojectdiagnosis = [] ;
     newprojectsymptoms = [];
     details : any ;
@@ -98,13 +98,13 @@ export class NewProjectPage {
   					}
 
   				}
-  				for (let i = 0; i < this.projectconclusions.length; i++) {
-  					if (this.newprojectconclusions[i]!="")
+  				for (let i = 0; i < this.projectsummarys.length; i++) {
+  					if (this.newprojectsummarys[i]!="")
   						{	
   						let projdetails ={
   						ProjectID:this.ProjID._id,
-  						type:"conclusion",
-  						sentence:this.newprojectconclusions[i],
+  						type:"summary",
+  						sentence:this.newprojectsummarys[i],
   						}
   						this.treasuresService.postdetails(projdetails);
   						}
@@ -169,9 +169,9 @@ adddiagnosis(){
 	this.projectdiagnosis[this.projectdiagnosis.length]="";
 	}
 
-addconclusion(){
-	this.newprojectconclusions[this.newprojectconclusions.length]="";
-	this.projectconclusions[this.projectconclusions.length]="";
+addsummary(){
+	this.newprojectsummarys[this.newprojectsummarys.length]="";
+	this.projectsummarys[this.projectsummarys.length]="";
 	}
 
 

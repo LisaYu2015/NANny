@@ -69,18 +69,20 @@
         		<ion-input type="text" placeholder="Enter Symptoms here"     [(ngModel)]="this.newprojectsymptoms[i]"></ion-input>
         	</ion-item>
         	<button ion-button (click)="addsymptom()"><ion-icon name="add" >Add Symptom</ion-icon></button>
-			
+
+			<ion-item *ngFor =" let projectsummary of projectsummarys; let i = index ">
+                <ion-label stacked>Summary: {{i+1}}</ion-label>
+                <ion-input type="text" placeholder="Enter Summary"   [(ngModel)]="this.newprojectsummarys[i]"></ion-input>
+            </ion-item>
+            <button ion-button (click)="addsummary()"><ion-icon name="add" >Add Summary</ion-icon></button>
+
 			<ion-item *ngFor =" let projectdiagnosi of projectdiagnosis; let i = index ">
         		<ion-label stacked>Diagnosis Step: {{i+1}}</ion-label>
         		<ion-input type="text" placeholder="Enter Diagnosis"   [(ngModel)]="this.newprojectdiagnosis[i]"></ion-input>	
         	</ion-item>
         	<button ion-button (click)="adddiagnosis()"><ion-icon name="add" >Add Diagnosis</ion-icon></button>
         	
-        	<ion-item *ngFor =" let projectconclusion of projectconclusions; let i = index ">
-        		<ion-label stacked>Conclusion: {{i+1}}</ion-label>
-        		<ion-input type="text" placeholder="Enter Conclusion"   [(ngModel)]="this.newprojectconclusions[i]"></ion-input>
-        	</ion-item>
-        	<button ion-button (click)="addconclusion()"><ion-icon name="add" >Add Conclusion</ion-icon></button>
+        	
         	
 
 <ion-item>
