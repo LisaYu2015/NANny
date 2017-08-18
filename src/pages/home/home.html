@@ -46,13 +46,13 @@
       </ion-card-header>
       <ion-card-content>
         <ion-row>
-          <button ion-button block clear (click)="givehelp()">Answer a request</button>
+          <button class="item-text-wrap" ion-button no-padding block clear (click)="givehelp()">Answer a request</button>
         </ion-row>
         <ion-row>
-          <button ion-button block clear (click)="addtreasures()">Add a treasure</button>
+          <button class="item-text-wrap" ion-button no-padding block clear (click)="addtreasures()">Add a treasure</button>
         </ion-row>
         <ion-row>
-          <button ion-button block clear *ngIf='searched' (click)="searchfeedback()">Provide feedback on your last search</button>
+          <button class="item-text-wrap" ion-button no-padding block clear *ngIf='searched' (click)="searchfeedback()">Provide feedback on your last search</button>
         </ion-row>
       </ion-card-content>
     </ion-card>

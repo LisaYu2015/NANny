@@ -25331,6 +25331,10 @@ page-home .center {
   text-align: center;
 }
 
+page-home .no-padding {
+  padding: 0px !important;
+}
+
 page-login ion-row {
   -webkit-box-align: center !important;
   -webkit-align-items: center !important;
