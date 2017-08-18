@@ -45,14 +45,14 @@
         Perform one of the below activities 50 times to become a Texconnect A level expert.
       </ion-card-header>
       <ion-card-content>
-        <ion-row>
-          <button class="item-text-wrap" ion-button no-padding block clear (click)="givehelp()">Answer a request</button>
+        <ion-row no-padding>
+          <button text-wrap ion-button block clear (click)="givehelp()">Answer a request</button>
         </ion-row>
-        <ion-row>
-          <button class="item-text-wrap" ion-button no-padding block clear (click)="addtreasures()">Add a treasure</button>
+        <ion-row no-padding>
+          <button text-wrap ion-button no-padding block clear (click)="addtreasures()">Add a treasure</button>
         </ion-row>
-        <ion-row>
-          <button class="item-text-wrap" ion-button no-padding block clear *ngIf='searched' (click)="searchfeedback()">Provide feedback on your last search</button>
+        <ion-row no-padding>
+          <button text-wrap ion-button no-padding block clear *ngIf='searched' (click)="searchfeedback()">Provide feedback on your last search</button>
         </ion-row>
       </ion-card-content>
     </ion-card>
