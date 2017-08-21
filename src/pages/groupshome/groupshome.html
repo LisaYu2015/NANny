@@ -29,8 +29,7 @@
 	<ion-list>
 		<ion-card *ngFor="let g of groupdetails" (click)="entergroup($event, g)">
 			<ion-item>
-				<h2 style="white-space: normal !important;">{{g.name}}</h2>
-				<p item-end>{{g.basedon}}</p>
+				<h2 style="white-space: normal !important;">{{g.basedon}} -- {{g.name}}</h2>
 			</ion-item>
 			<ion-card-content>
 				<p>{{g.description}}</p>

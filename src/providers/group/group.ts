@@ -109,6 +109,30 @@ export class GroupProvider {
     });
   }
 
+  addmember(creds){
+    console.log(creds)
+    return new Promise(resolve => {
+      let headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+      this.http.post(this.url + '/api/group/addmember/', JSON.stringify(creds), {headers: headers})
+                  .subscribe(res => {
+                    resolve(res);
+                  });
+    });
+  }
+
+  addposttogroup(creds){
+    console.log(creds)
+    return new Promise(resolve => {
+      let headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+      this.http.post(this.url + '/api/group/addpost/', JSON.stringify(creds), {headers: headers})
+                  .subscribe(res => {
+                    resolve(res);
+                  });
+    });
+  }
+
   unjoingroup(creds){
     console.log("provider leaving")
   	let headers = new Headers();
