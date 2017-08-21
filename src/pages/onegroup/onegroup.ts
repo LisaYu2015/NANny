@@ -79,6 +79,7 @@ export class OnegroupPage {
     let p =  {groupid:this.group._id, memberid:this.user._id, content:this.posttext}
   	this.groupctrl.addpost(p).then(data =>{
       this.getposts()
+      this.posttext = ''
     })
   }
 

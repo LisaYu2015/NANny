@@ -275,6 +275,20 @@ var TreasureComment = mongoose.model('trescomments', {
             });
     });
 
+    //change n members
+    app.post('/api/group/addmember/:groupid', function(req, res) {
+        Group.findById(req.params.groupid, function(err, docs) {
+            if(err)
+                res.send(err)
+            docs.nmembers = docs.nmembers + 1
+            docs.save( function(err2, group) {
+                if(err2)
+                    res.send(err2)
+                res.send(group)
+            })
+        })
+    })
+
     //add new group
     app.post('/api/group', function(req, res) {
  
