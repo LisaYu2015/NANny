@@ -86,7 +86,9 @@ export class OnegroupPage {
 
   joingroup(){
   	this.groupctrl.joingroup({memberid:this.user._id, groupid:this.group._id}).then(data => {
-      this.groupctrl.addmember({groupid:this.group._id})
+      this.groupctrl.addmember({groupid:this.group._id}).then(data2 => {
+        console.log("done")
+      })
   	})
   }
   leavegroup(){

@@ -958,7 +958,9 @@ var OnegroupPage = (function () {
     OnegroupPage.prototype.joingroup = function () {
         var _this = this;
         this.groupctrl.joingroup({ memberid: this.user._id, groupid: this.group._id }).then(function (data) {
-            _this.groupctrl.addmember({ groupid: _this.group._id });
+            _this.groupctrl.addmember({ groupid: _this.group._id }).then(function (data2) {
+                console.log("done");
+            });
         });
     };
     OnegroupPage.prototype.leavegroup = function () {
@@ -973,7 +975,7 @@ var OnegroupPage = (function () {
 }());
 OnegroupPage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-onegroup',template:/*ion-inline-start:"/Users/snehak/ionic-heroku-button/src/pages/onegroup/onegroup.html"*/'<!--\n  Generated template for the OnegroupPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n  <ion-item>\n  		<button ion-button item-end icon-right *ngIf="member==0" small clear (click)="joingroup()">Join Group</button>\n		<button ion-button item-end icon-right *ngIf="member==1" small clear (click)="leavegroup()">Leave Group</button>\n	</ion-item>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n	<h2 item-start>{{group.name}}</h2>\n    <ion-item>\n    	<p style="white-space: normal;">\n    		{{group.basedon}}\n    	</p>\n		<p style="white-space: normal;"> <ion-icon name=\'people\'></ion-icon>{{group.nmembers}} Members </p>\n		<p style="white-space: normal;">{{group.description}}</p>\n	</ion-item>\n\n	<ion-list no-lines>\n        <ion-item *ngFor="let p of writers">\n          <ion-row no-lines>\n            <ion-avatar  item-start>\n                <img src="https://s3.amazonaws.com/katcher/ProfilePics/{{p.id}}.jpg">\n            </ion-avatar>\n            <h4> {{p.name}} </h4>\n          </ion-row>\n          <ion-row no-lines>\n             <p item-start style="white-space: normal !important;">{{p.content}}</p>\n          </ion-row>\n        </ion-item>\n    </ion-list>\n\n\n</ion-content>\n\n<ion-footer *ngIf="member==1">\n    <form (ngSubmit)="post()" #newcommentform="ngForm">\n      <ion-row>\n          <ion-textarea name="posttext" placeholder="Write something..." [(ngModel)]="posttext"></ion-textarea>\n          <button ion-button icon-right clear item-end type="submit">Post <ion-icon name="send"></ion-icon></button>\n      </ion-row>\n    </form>\n</ion-footer>\n'/*ion-inline-end:"/Users/snehak/ionic-heroku-button/src/pages/onegroup/onegroup.html"*/,
+        selector: 'page-onegroup',template:/*ion-inline-start:"/Users/snehak/ionic-heroku-button/src/pages/onegroup/onegroup.html"*/'<!--\n  Generated template for the OnegroupPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar color="dark">\n  <ion-item>\n  		<button ion-button item-end icon-right *ngIf="member==0" small clear (click)="joingroup()">Join Group</button>\n		<button ion-button item-end icon-right *ngIf="member==1" small clear (click)="leavegroup()">Leave Group</button>\n	</ion-item>\n  </ion-navbar>\n\n</ion-header>\n\n\n<ion-content padding>\n\n	<h2 item-start>{{group.name}}</h2>\n    <ion-item>\n    	<p style="white-space: normal;">\n    		{{group.basedon}}\n    	</p>\n		<p style="white-space: normal;"> <ion-icon name=\'people\'></ion-icon>{{group.nmembers}} Members </p>\n		<p style="white-space: normal;">{{group.description}}</p>\n	</ion-item>\n\n	<ion-list no-lines>\n        <ion-item *ngFor="let p of writers">\n          <ion-row no-lines>\n            <ion-avatar  item-start>\n                <img src="https://s3.amazonaws.com/katcher/ProfilePics/{{p.id}}.jpg">\n            </ion-avatar>\n            <h4> {{p.name}} </h4>\n          </ion-row>\n          <ion-row no-lines>\n             <p item-start style="white-space: normal !important;">{{p.content}}</p>\n          </ion-row>\n        </ion-item>\n    </ion-list>\n\n\n</ion-content>\n\n<ion-footer *ngIf="member==1">\n    <form (ngSubmit)="post()" #newcommentform="ngForm">\n      <ion-row>\n          <ion-textarea name="posttext" placeholder="Write something..." [(ngModel)]="posttext"></ion-textarea>\n          <button ion-button icon-right clear item-end type="submit">Post <ion-icon name="send"></ion-icon></button>\n      </ion-row>\n    </form>\n</ion-footer>\n'/*ion-inline-end:"/Users/snehak/ionic-heroku-button/src/pages/onegroup/onegroup.html"*/,
     }),
     __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */], __WEBPACK_IMPORTED_MODULE_2__providers_auth_service_auth_service__["a" /* AuthService */],
         __WEBPACK_IMPORTED_MODULE_3__providers_group_group__["a" /* GroupProvider */]])
@@ -3291,6 +3293,7 @@ var GroupProvider = (function () {
     GroupProvider.prototype.joingroup = function (creds) {
         var _this = this;
         console.log(creds);
+        console.log("here");
         return new Promise(function (resolve) {
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
             headers.append('Content-Type', 'application/json');
@@ -3302,6 +3305,7 @@ var GroupProvider = (function () {
     };
     GroupProvider.prototype.addmember = function (creds) {
         var _this = this;
+        console.log("here");
         console.log(creds);
         return new Promise(function (resolve) {
             var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();

@@ -99,6 +99,7 @@ export class GroupProvider {
 
   joingroup(creds){
     console.log(creds)
+    console.log("here")
   	return new Promise(resolve => {
       let headers = new Headers();
       headers.append('Content-Type', 'application/json');
@@ -110,6 +111,7 @@ export class GroupProvider {
   }
 
   addmember(creds){
+    console.log("here")
     console.log(creds)
     return new Promise(resolve => {
       let headers = new Headers();
