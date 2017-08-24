@@ -2886,7 +2886,7 @@ var LoginPage = (function () {
             }
         })
             .catch(function (reason) {
-            this.showError(reason);
+            this.showError(reason.toString());
         });
     };
     LoginPage.prototype.showLoading = function () {

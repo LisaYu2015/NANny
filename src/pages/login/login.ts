@@ -38,7 +38,7 @@ export class LoginPage {
         }
       })
       .catch(function(reason){
-        this.showError(reason);
+        this.showError(reason.toString());
       });
   }
  
