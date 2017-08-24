@@ -99,6 +99,8 @@ console.log(this.projdetails);
 							ProjectID:this.ProjID._id,
 							type:"problem",
 							sentence:this.newprojectproblems[i],
+              numpic:this.projectproblems[i].numpic,
+              numvid:this.projectproblems[i].numvid,
 							}
 							this.treasuresService.postdetails(projdetails);
   						}
@@ -116,6 +118,8 @@ console.log(this.projdetails);
 	  						ProjectID:this.ProjID._id,
 	  						type:"conclusion",
 	  						sentence:this.newprojectsummarys[i],
+                numpic:this.projectsummarys[i].numpic,
+                numvid:this.projectsummarys[i].numvid,
 	  						}
 	  						this.treasuresService.postdetails(projdetails);
   						}
@@ -134,6 +138,8 @@ console.log(this.projdetails);
 	  						ProjectID:this.ProjID._id,
 	  						type:"diagnosis",
 	  						sentence:this.newprojectdiagnosis[i],
+                numpic:this.projectdiagnosis[i].numpic,
+                numvid:this.projectdiagnosis[i].numvid,
 	  						}
 	  						this.treasuresService.postdetails(projdetails);
   						}
@@ -152,6 +158,8 @@ console.log(this.projdetails);
 	  						ProjectID:this.ProjID._id,
 	  						type:"symptom",
 	  						sentence:this.newprojectsymptoms[i],
+                numpic:this.projectsymptoms[i].numpic,
+                numvid:this.projectsymptoms[i].numvid,
 	  						}
 	  						this.treasuresService.postdetails(projdetails);
   						}
