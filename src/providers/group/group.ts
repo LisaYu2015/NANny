@@ -99,10 +99,36 @@ export class GroupProvider {
 
   joingroup(creds){
     console.log(creds)
+    console.log("here")
   	return new Promise(resolve => {
       let headers = new Headers();
       headers.append('Content-Type', 'application/json');
       this.http.post(this.url + '/api/member', JSON.stringify(creds), {headers: headers})
+                  .subscribe(res => {
+                    resolve(res);
+                  });
+    });
+  }
+
+  addmember(creds){
+    console.log("here")
+    console.log(creds)
+    return new Promise(resolve => {
+      let headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+      this.http.post(this.url + '/api/group/addmember/', JSON.stringify(creds), {headers: headers})
+                  .subscribe(res => {
+                    resolve(res);
+                  });
+    });
+  }
+
+  addposttogroup(creds){
+    console.log(creds)
+    return new Promise(resolve => {
+      let headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+      this.http.post(this.url + '/api/group/addpost/', JSON.stringify(creds), {headers: headers})
                   .subscribe(res => {
                     resolve(res);
                   });

@@ -184,7 +184,6 @@ export class HomePage {
 
   public pointsmodal(){
     let actionSheet = this.action.create({
-      title: 'You have 140 points available to use',
       buttons: [
         {
           text: 'Get Bosch Products',

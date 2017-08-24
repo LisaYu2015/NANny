@@ -6,11 +6,14 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-  <ion-item>
-  		<button ion-button item-end icon-right *ngIf="member==0" small clear (click)="joingroup()">Join Group</button>
-		<button ion-button item-end icon-right *ngIf="member==1" small clear (click)="leavegroup()">Leave Group</button>
-	</ion-item>
+  <ion-navbar color="dark">
+
+  <ion-buttons end>
+    <button ion-button  *ngIf="member==0" small clear (click)="joingroup()">Join Group</button>
+    <button ion-button  *ngIf="member==1" small clear (click)="leavegroup()">Leave Group</button>
+  </ion-buttons>
+
+
   </ion-navbar>
 
 </ion-header>
@@ -29,13 +32,15 @@
 
 	<ion-list no-lines>
         <ion-item *ngFor="let p of writers">
+          <ion-row no-lines>
             <ion-avatar  item-start>
                 <img src="https://s3.amazonaws.com/katcher/ProfilePics/{{p.id}}.jpg">
             </ion-avatar>
-            <h4 item-end> {{p.name}} </h4>
-            <ion-item>
-                <p item-start style="white-space: normal !important;">{{p.content}}</p>
-            </ion-item>
+            <h4 style="vertical-align: middle !important"> {{p.name}} </h4>
+          </ion-row>
+          <ion-row no-lines>
+             <p item-start style="white-space: normal !important;">{{p.content}}</p>
+          </ion-row>
         </ion-item>
     </ion-list>
 

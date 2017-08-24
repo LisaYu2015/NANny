@@ -80,12 +80,15 @@ export class OnegroupPage {
   	this.groupctrl.addpost(p).then(data =>{
       this.getposts()
       this.posttext = ''
+      this.groupctrl.addposttogroup({groupid:this.group._id})
     })
   }
 
   joingroup(){
   	this.groupctrl.joingroup({memberid:this.user._id, groupid:this.group._id}).then(data => {
-  		this.member = 1;
+      this.groupctrl.addmember({groupid:this.group._id}).then(data2 => {
+        console.log("done")
+      })
   	})
   }
   leavegroup(){
