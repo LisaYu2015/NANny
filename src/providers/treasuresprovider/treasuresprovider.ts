@@ -50,7 +50,7 @@ export class TreasuresProvider {
 
     return new Promise(resolve => {
 
-      this.http.get('/api/Project/UserID/' + id)
+      this.http.get(this.url + '/api/Project/UserID/' + id)
           .map(res => res.json())
           .subscribe(data => {
               this.data = data;
@@ -64,7 +64,7 @@ export class TreasuresProvider {
 
     return new Promise(resolve => {
 
-      this.http.get('/api/Project/alluploaded/id/' + id)
+      this.http.get(this.url + '/api/Project/alluploaded/id/' + id)
           .map(res => res.json())
           .subscribe(data => {
               this.data = data;
@@ -78,7 +78,7 @@ export class TreasuresProvider {
 
     return new Promise(resolve => {
 
-      this.http.get('/api/Project/alluploaded')
+      this.http.get(this.url + '/api/Project/alluploaded')
           .map(res => res.json())
           .subscribe(data => {
               this.data = data;
@@ -99,7 +99,7 @@ export class TreasuresProvider {
 
     return new Promise(resolve => {
 
-    this.http.post('/api/Project',JSON.stringify(project), {headers: headers})
+    this.http.post(this.url + '/api/Project',JSON.stringify(project), {headers: headers})
         .map(res => res.json())
         .subscribe(data => {
             resolve(data);
@@ -120,9 +120,9 @@ export class TreasuresProvider {
 
     deleteproject(id){
  
-    this.http.delete('/api/Project/' + id).subscribe((res) => {
+    this.http.delete(this.url + '/api/Project/' + id).subscribe((res) => {
       console.log(res.json());
-      this.http.delete('/api/detail/project_id/' + id).subscribe((res) => {
+      this.http.delete(this.url + '/api/detail/project_id/' + id).subscribe((res) => {
       console.log(res.json());
     });
     });    
@@ -147,7 +147,7 @@ export class TreasuresProvider {
 
     headers.append('Content-Type','application/json');
 
-    this.http.post('/api/Detail',JSON.stringify(details), {headers: headers})
+    this.http.post(this.url + '/api/Detail',JSON.stringify(details), {headers: headers})
     
     .subscribe(res => {
       //console.log(res.json());
@@ -160,7 +160,7 @@ export class TreasuresProvider {
 
   	let details = search;
   	return new Promise(resolve => {
-  		this.http.get('api/Project/search/' + details)
+  		this.http.get(this.url + 'api/Project/search/' + details)
   		.map(res => res.json() )
   		.subscribe(data => {
   			resolve(data);
@@ -171,7 +171,7 @@ export class TreasuresProvider {
 
   deletedetails(id){
  
-    this.http.delete('/api/Detail/detail_id/' + id).subscribe((res) => {
+    this.http.delete(this.url + '/api/Detail/detail_id/' + id).subscribe((res) => {
       console.log(res.json());
     });    
  
@@ -197,7 +197,7 @@ uploadimg(img){
 
     return new Promise(resolve => {
 
-      this.http.get('/api/TreasureComment/' + treasureid)
+      this.http.get(this.url + '/api/TreasureComment/' + treasureid)
           .map(res => res.json())
           .subscribe(data => {
               this.data = data;
@@ -219,7 +219,7 @@ uploadimg(img){
 
     return new Promise(resolve => {
 
-    this.http.post('/api/trescomment',JSON.stringify(comment), {headers: headers})
+    this.http.post(this.url + '/api/trescomment',JSON.stringify(comment), {headers: headers})
     .map(res => res.json())
         .subscribe(data => {
             resolve(data);

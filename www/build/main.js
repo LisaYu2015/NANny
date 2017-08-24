@@ -1072,7 +1072,7 @@ var TreasuresProvider = (function () {
     TreasuresProvider.prototype.getusertreasures = function (id) {
         var _this = this;
         return new Promise(function (resolve) {
-            _this.http.get('/api/Project/UserID/' + id)
+            _this.http.get(_this.url + '/api/Project/UserID/' + id)
                 .map(function (res) { return res.json(); })
                 .subscribe(function (data) {
                 _this.data = data;
@@ -1084,7 +1084,7 @@ var TreasuresProvider = (function () {
     TreasuresProvider.prototype.getusertreasuresuploaded = function (id) {
         var _this = this;
         return new Promise(function (resolve) {
-            _this.http.get('/api/Project/alluploaded/id/' + id)
+            _this.http.get(_this.url + '/api/Project/alluploaded/id/' + id)
                 .map(function (res) { return res.json(); })
                 .subscribe(function (data) {
                 _this.data = data;
@@ -1096,7 +1096,7 @@ var TreasuresProvider = (function () {
     TreasuresProvider.prototype.getuploadedtreasures = function () {
         var _this = this;
         return new Promise(function (resolve) {
-            _this.http.get('/api/Project/alluploaded')
+            _this.http.get(_this.url + '/api/Project/alluploaded')
                 .map(function (res) { return res.json(); })
                 .subscribe(function (data) {
                 _this.data = data;
@@ -1112,7 +1112,7 @@ var TreasuresProvider = (function () {
         // console.log(project);
         headers.append('Content-Type', 'application/json');
         return new Promise(function (resolve) {
-            _this.http.post('/api/Project', JSON.stringify(project), { headers: headers })
+            _this.http.post(_this.url + '/api/Project', JSON.stringify(project), { headers: headers })
                 .map(function (res) { return res.json(); })
                 .subscribe(function (data) {
                 resolve(data);
@@ -1127,9 +1127,9 @@ var TreasuresProvider = (function () {
     };
     TreasuresProvider.prototype.deleteproject = function (id) {
         var _this = this;
-        this.http.delete('/api/Project/' + id).subscribe(function (res) {
+        this.http.delete(this.url + '/api/Project/' + id).subscribe(function (res) {
             console.log(res.json());
-            _this.http.delete('/api/detail/project_id/' + id).subscribe(function (res) {
+            _this.http.delete(_this.url + '/api/detail/project_id/' + id).subscribe(function (res) {
                 console.log(res.json());
             });
         });
@@ -1142,7 +1142,7 @@ var TreasuresProvider = (function () {
         //project.uploaded="yes"
         console.log(details);
         headers.append('Content-Type', 'application/json');
-        this.http.post('/api/Detail', JSON.stringify(details), { headers: headers })
+        this.http.post(this.url + '/api/Detail', JSON.stringify(details), { headers: headers })
             .subscribe(function (res) {
             //console.log(res.json());
         });
@@ -1153,7 +1153,7 @@ var TreasuresProvider = (function () {
         headers.append('Content-Type', 'application/json');
         var details = search;
         return new Promise(function (resolve) {
-            _this.http.get('api/Project/search/' + details)
+            _this.http.get(_this.url + 'api/Project/search/' + details)
                 .map(function (res) { return res.json(); })
                 .subscribe(function (data) {
                 resolve(data);
@@ -1161,7 +1161,7 @@ var TreasuresProvider = (function () {
         });
     };
     TreasuresProvider.prototype.deletedetails = function (id) {
-        this.http.delete('/api/Detail/detail_id/' + id).subscribe(function (res) {
+        this.http.delete(this.url + '/api/Detail/detail_id/' + id).subscribe(function (res) {
             console.log(res.json());
         });
     };
@@ -1178,7 +1178,7 @@ var TreasuresProvider = (function () {
     TreasuresProvider.prototype.gettreasurecomment = function (treasureid) {
         var _this = this;
         return new Promise(function (resolve) {
-            _this.http.get('/api/TreasureComment/' + treasureid)
+            _this.http.get(_this.url + '/api/TreasureComment/' + treasureid)
                 .map(function (res) { return res.json(); })
                 .subscribe(function (data) {
                 _this.data = data;
@@ -1193,7 +1193,7 @@ var TreasuresProvider = (function () {
         console.log(comment);
         headers.append('Content-Type', 'application/json');
         return new Promise(function (resolve) {
-            _this.http.post('/api/trescomment', JSON.stringify(comment), { headers: headers })
+            _this.http.post(_this.url + '/api/trescomment', JSON.stringify(comment), { headers: headers })
                 .map(function (res) { return res.json(); })
                 .subscribe(function (data) {
                 resolve(data);
