@@ -37,8 +37,8 @@ export class LoginPage {
           this.showError("Access Denied");
         }
       })
-      .catch(function(reason){
-        this.showError(reason.toString());
+      .catch(err => {
+        this.showError("This user does not exist. Please create a new account");
       });
   }
  

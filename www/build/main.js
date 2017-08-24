@@ -2885,8 +2885,8 @@ var LoginPage = (function () {
                 _this.showError("Access Denied");
             }
         })
-            .catch(function (reason) {
-            this.showError(reason.toString());
+            .catch(function (err) {
+            _this.showError("This user does not exist. Please create a new account");
         });
     };
     LoginPage.prototype.showLoading = function () {
