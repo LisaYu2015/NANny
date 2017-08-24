@@ -26,7 +26,8 @@ export class LoginPage {
     // alert(JSON.stringify(this.auth.login(this.registerCredentials)));
     console.log(this.registerCredentials)
     this.auth.login(this.registerCredentials).then((data) => {
-      if(!data){
+      console.log(data)
+      if(data[0] == "notfound"){
         this.showError("This user does not exist. Please create a new account");
       }
       // alert(JSON.stringify(data));

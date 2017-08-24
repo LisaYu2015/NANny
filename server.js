@@ -560,6 +560,8 @@ var TreasureComment = mongoose.model('trescomments', {
         User.find({email: req.params.email}, function(err, docs){
             if(err)
                 res.send(err)
+            if(!docs)
+                res.send(["notfound"])
             res.json(docs);
             console.log(docs);
         });
