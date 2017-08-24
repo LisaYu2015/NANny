@@ -33,7 +33,6 @@ export class TreasureDetailPage {
     projectsymptoms = [];
     projectreasonings = [];
     projectuploadstatus = "cloud-upload";
-    completestatusimg = "radio-button-off";
     counter = Array;
     newcomment = {
     treasureid:'',
@@ -82,13 +81,7 @@ export class TreasureDetailPage {
 
         });
 
-        if (this.ProjID.complete=="yes")
-            {this.completestatus="Finished";
-            this.completestatusimg="checkmark-circle"}
 
-        else 
-            {this.completestatus="Pending";
-            this.completestatusimg="radio-button-off"}
 
         if (this.ProjID.uploaded=="yes")
             this.projectuploadstatus="cloud-done";
@@ -194,42 +187,7 @@ console.log(this.comments.length)
 
 
 
-       complete(project){
-      console.log("complete");
-      if (project.complete=="yes")
-      {
-        project.complete ="no";
-      this.completestatusimg="radio-button-off";
-      this.completestatus="Pending";
 
-      let toast = this.toastCtrl.create({
-        message: 'The status of your project is no longer complete',
-        duration:1500,
-        position:'middle'
-      });
-      toast.present();
-
-      }
-
-
-      else
-      {project.complete ="yes";
-      this.completestatusimg="checkmark-circle";
-      this.completestatus="Finished";
-
-      let toast = this.toastCtrl.create({
-        message: 'Congratulations! You completed your project',
-        duration:1500,
-        position:'middle'
-      });
-      toast.present();}
-
-
-      
-
-      this.treasuresService.posttreasures(project);
-
-      }
 
       editDetails(project,details){
 

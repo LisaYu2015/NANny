@@ -21,7 +21,6 @@
               <button ion-fab><ion-icon name="construct"></ion-icon></button>
               <ion-fab-list>
                 <button ion-fab color="danger" (click)="editDetails(ProjID,projectdetails)"><ion-icon name="create"></ion-icon></button>
-                <button ion-fab color="primary" (click)="complete(ProjID)"><ion-icon name={{this.completestatusimg}}></ion-icon></button>
                 <button ion-fab color="green" (click)="upload1(ProjID)"><ion-icon name={{this.projectuploadstatus}}></ion-icon></button>
                 <button ion-fab color="danger" (click)="deleteproject(ProjID._id)"><ion-icon name="trash"></ion-icon></button>
                 </ion-fab-list>
@@ -29,7 +28,7 @@
 
        
             <ion-card-title>
-                [{{this.completestatus}}] {{ProjID.year}} {{this.ProjID.brand}} {{this.ProjID.model}} {{this.ProjID.engine}}
+                {{ProjID.year}} {{this.ProjID.brand}} {{this.ProjID.model}} {{this.ProjID.engine}}
             </ion-card-title>
             <p>Error Code: {{this.ProjID.errorcode}}</p>     
             <p>Symptoms:</p>

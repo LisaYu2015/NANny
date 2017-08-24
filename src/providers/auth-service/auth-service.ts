@@ -48,9 +48,14 @@ export class AuthService {
       this.http.get(this.url + '/api/email/'+ credentials.email)
         .map(res => res.json())
         .subscribe(data => {
-          this.data = data;
-          this.currentUser = data[0];
-          resolve(this.data);
+          if(data.length > 0){
+            this.data = data;
+            this.currentUser = data[0];
+            resolve(this.data);
+          }
+          else{
+            return Promise.reject("Invalid Username")
+          }
         });
     });
   }

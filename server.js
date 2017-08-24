@@ -719,7 +719,7 @@ app.get('/api/Project/id/:id', function(req, res){
     app.get('/api/Detail', function (req, res) {
         console.log("fetching Details");
         Detail.find()
-            .sort({step: 1})
+            // .sort({step: 1})
             .exec(function(err, docs) {
                 if (err)
                     res.send(err);
