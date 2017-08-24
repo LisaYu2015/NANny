@@ -25544,35 +25544,6 @@ page-search .card-background-page .sharebutton {
   color: #FCFCFC;
 }
 
-page-searchresult .card-background-page ion-card {
-  position: relative;
-  text-align: center;
-}
-
-page-searchresult .card-background-page .card-title {
-  position: absolute;
-  top: 36%;
-  font-size: 2.0em;
-  width: 100%;
-  font-weight: bold;
-  color: #FCFCFC;
-}
-
-page-searchresult .card-background-page .card-subtitle {
-  font-size: 1.0em;
-  position: absolute;
-  top: 52%;
-  width: 100%;
-  color: #FCFCFC;
-}
-
-page-searchresult .card-background-page .sharebutton {
-  font-size: 1.0em;
-  position: absolute;
-  top: 0%;
-  color: #FCFCFC;
-}
-
 page-treasures .card-background-page ion-card {
   position: relative;
   text-align: center;

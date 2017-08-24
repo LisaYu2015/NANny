@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ToastController, ModalController, AlertController } from 'ionic-angular';
 import { TreasuresProvider } from '../../providers/treasuresprovider/treasuresprovider';
-import { TreasuresDetailProvider } from '../../providers/treasuresdetailprovider/treasuresdetailprovider';
 import { Http, HttpModule } from '@angular/http';
 import { TreasuresEditDetailPage } from '../../pages/treasures-edit-detail/treasures-edit-detail';
 import { AuthService } from '../../providers/auth-service/auth-service';
@@ -45,7 +44,7 @@ export class TreasureDetailPage {
     authornames =[];
 
 
-    constructor(public navCtrl: NavController , public auth: AuthService , public treasuresService: TreasuresProvider , public alertCtrl: AlertController , public navParams: NavParams, public treasuresDetailService: TreasuresDetailProvider, private toastCtrl:ToastController, public modalCtrl : ModalController) {
+    constructor(public navCtrl: NavController , public auth: AuthService , public treasuresService: TreasuresProvider , public alertCtrl: AlertController , public navParams: NavParams, private toastCtrl:ToastController, public modalCtrl : ModalController) {
         this.ProjID = navParams.data;
         
        

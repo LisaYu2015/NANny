@@ -1,10 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams , ToastController, ModalController } from 'ionic-angular';
 import { TreasuresProvider } from '../../providers/treasuresprovider/treasuresprovider';
-
-import { Http, HttpModule } from '@angular/http';
 import { User, AuthService } from '../../providers/auth-service/auth-service';
-import { CommentPage } from '../commentpage/commentpage';
 
 /**
  * Generated class for the OnesearchresultPage page.
@@ -34,11 +31,11 @@ export class OnesearchresultPage {
     completestatusimg = "radio-button-off";
     user: User;
     UserID : any;
-      hit :any;
-      verifications = [];
-      counter = Array;
-      authornames =[];
-   newcomment = {
+    hit :any;
+    verifications = [];
+    counter = Array;
+    authornames =[];
+    newcomment = {
     treasureid:'',
     content:'',
     writerid:'',};

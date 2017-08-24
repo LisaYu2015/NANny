@@ -177,19 +177,21 @@ export class TreasuresProvider {
  
   }
 
+// does not work
 
-uploadimg(img){
 
-  let headers = new Headers();
-  console.log("gah")
-  console.log(img);
-  this.http.post('/api/img', JSON.stringify(img), {headers: headers})
+// uploadimg(img){
 
-  .subscribe(res => {
-    console.log(res.json());
-    console.log("abc");
-  });
-}
+//   let headers = new Headers();
+//   console.log("gah")
+//   console.log(img);
+//   this.http.post('/api/img', JSON.stringify(img), {headers: headers})
+
+//   .subscribe(res => {
+//     console.log(res.json());
+//     console.log("abc");
+//   });
+// }
 
 
   gettreasurecomment(treasureid) {

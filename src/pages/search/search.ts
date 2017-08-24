@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ToastController, ModalController } from 'ionic-angular';
+import { NavController, NavParams, ModalController } from 'ionic-angular';
 import { AuthService } from '../../providers/auth-service/auth-service';
 import { LoginPage } from '../login/login';
-import { SearchresultPage } from '../searchresult/searchresult'
 import { TreasuresProvider } from '../../providers/treasuresprovider/treasuresprovider';
 import { OnesearchresultPage } from '../onesearchresult/onesearchresult'
 import { NewRequestPage } from '../new-request/new-request';
-import { CommentPage } from '../commentpage/commentpage';
 
 
 
@@ -35,7 +33,7 @@ export class SearchPage {
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public auth: AuthService, 
-              public tres: TreasuresProvider, private toastCtrl : ToastController, public modalCtrl : ModalController) {
+              public tres: TreasuresProvider, public modalCtrl : ModalController) {
   this.UserID = this.auth.getUserInfo();
   }
 
@@ -48,13 +46,6 @@ export class SearchPage {
       })
     }
 
-  search(){
-    let search = this.nrequest.make + " " + this.nrequest.model + " " + this.nrequest.symptoms + " " + this.nrequest.error
-    this.tres.searchtreasures(search)
-        .then(projects => {
-          this.navCtrl.push(SearchresultPage, {projects: projects, searchparams: this.nrequest});
-        })
-  }
 
   display(){
   

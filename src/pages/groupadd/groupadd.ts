@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
 import { GroupProvider } from '../../providers/group/group'
 import { AuthService, User } from '../../providers/auth-service/auth-service'
-import { GroupshomePage } from '../groupshome/groupshome'
 
 /**
  * Generated class for the GroupaddPage page.

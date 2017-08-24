@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController } from 'ionic-angular';
 import { RequestsProvider } from '../../providers/requests/requests'
 import { TreasuresProvider } from '../../providers/treasuresprovider/treasuresprovider'
-import { User, AuthService } from '../../providers/auth-service/auth-service';
+import { AuthService } from '../../providers/auth-service/auth-service';
 import { RelationProvider } from '../../providers/relation/relation'
 
 /**

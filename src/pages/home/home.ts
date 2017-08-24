@@ -4,11 +4,8 @@ import { User, AuthService } from '../../providers/auth-service/auth-service';
 import { LoginPage } from '../login/login';
 import { Chart } from 'chart.js';
 import { PointsProvider } from '../../providers/points/points';
-import { PointsPage } from '../points/points'
-import { EarnpointsPage } from '../earnpoints/earnpoints'
 import { SearchPage } from '../search/search'
 import { ChatPage } from '../chat/chat'
-import { TreasuresPage } from '../treasures/treasures'
 import { OnesearchresultPage } from '../onesearchresult/onesearchresult'
 import { TreasuresProvider } from '../../providers/treasuresprovider/treasuresprovider'
 import { NewProjectPage } from '../new-project/new-project'
@@ -47,7 +44,7 @@ export class HomePage {
   }
 
   ionViewDidEnter(){
-    let info = this.auth.getUserInfo();
+    
   }
 
   chartcreate(){

@@ -1,11 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { AuthService } from '../../providers/auth-service/auth-service';
-import { LoginPage } from '../login/login';
-import { SearchresultPage } from '../searchresult/searchresult'
 import { TreasuresProvider } from '../../providers/treasuresprovider/treasuresprovider';
 import { OnesearchresultPage } from '../onesearchresult/onesearchresult'
-import { NewRequestPage } from '../new-request/new-request'
+
 
 
 

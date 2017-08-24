@@ -141,6 +141,7 @@ console.log(this.projdetails);
                 numpic:this.projectdiagnosis[i].numpic,
                 numvid:this.projectdiagnosis[i].numvid,
 	  						}
+                console.log(projdetails);
 	  						this.treasuresService.postdetails(projdetails);
   						}
               else if (this.newprojectdiagnosis[i]==""&&this.projectdiagnosis[i]._id!=null)
@@ -222,12 +223,5 @@ addsummary(){
                 });
 }
 
- upimg(detail){
-  detail.numpic++;
-  console.log(this.newimg);
-  this.treasuresService.postdetails(detail);
-  this.treasuresService.uploadimg(this.newimg);
 
-
-}
 }

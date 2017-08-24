@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { AuthService,User } from '../../providers/auth-service/auth-service'
+import { AuthService } from '../../providers/auth-service/auth-service'
 import { NewRequestPage } from '../new-request/new-request'
 import { ContactreasuresPage } from '../contactreasures/contactreasures'
 
