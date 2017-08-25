@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController, AlertController, ToastController, App } from 'ionic-angular';
 import { TreasuresProvider } from '../../providers/treasuresprovider/treasuresprovider';
-import { User, AuthService } from '../../providers/auth-service/auth-service';
+import { AuthService } from '../../providers/auth-service/auth-service';
 import { TreasuresPage } from '../treasures/treasures';
-import { TreasureDetailPage } from '../treasure-detail/treasure-detail';
+
 
 
 /**

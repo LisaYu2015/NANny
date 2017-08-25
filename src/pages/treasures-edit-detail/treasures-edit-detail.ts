@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController, AlertController, ToastController, App } from 'ionic-angular';
 import { TreasuresProvider } from '../../providers/treasuresprovider/treasuresprovider';
-import { TreasureDetailPage } from '../treasure-detail/treasure-detail';
+
 
 @Component({
   selector: 'page-treasures-edit-detail',
@@ -41,7 +41,7 @@ export class TreasuresEditDetailPage {
 console.log(this.ProjID);
 console.log(this.projdetails);
     
-
+//this part can also be done by only searching for the right type of detail. here all the details are collected and then sorted manually
 
     for (let i = 0; i < this.projdetails.length; i++) {
 	    if (this.projdetails[i].type == "problem")

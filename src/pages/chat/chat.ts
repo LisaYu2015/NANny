@@ -4,7 +4,7 @@ import { AuthService } from '../../providers/auth-service/auth-service';
 import { LoginPage } from '../login/login';
 import { OneChatPage } from '../onechat/onechat';
 import { SearchPage } from '../search/search'
-import { Chat, RequestsProvider } from '../../providers/requests/requests'
+import { RequestsProvider } from '../../providers/requests/requests'
 
 
 @Component({

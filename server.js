@@ -131,11 +131,11 @@ var Point = mongoose.model('Points', {
 });
 
 //Project contains the general details of each car
+// Userid should only be specifyied if the projet is a treasure. Do not specify if the project is a request.
+
 var Project = mongoose.model('Project', {
     _id: mongoose.Schema.Types.ObjectId,
-    PID: {type:Number, default:0}, //project id for us
-    TID: {type:Number, default:0}, //technician id (should be the same as userid)
-    Userid:{type:String, default:''}, //Links to _id of user
+    Userid:{type:String, default:''}, //Links to _id of user only for treasure!!!
     brand:{type:String, default:''},
     year:{type:Number, default:0},
     model:{type:String, default:''},
@@ -144,7 +144,6 @@ var Project = mongoose.model('Project', {
     symptoms: {type:String, default:''},
     engine:{type:String, default:''},
     uploaded: {type:String, default:'no'},
-    numofpics: {type:Number, default:0},
     opendate: {type:Date, default:Date.now},
     verifications: {type:Array, default:[]},
     numcomments: {type:Number, default:0}
@@ -154,9 +153,9 @@ var Project = mongoose.model('Project', {
 var Detail = mongoose.model('detail', {
     _id: mongoose.Schema.Types.ObjectId,
     ProjectID:String, //links to _id of Project
-    type:String,
+    type:String, // sets type of the detail for examlpe symptom/diagnosis...
     sentence:String,
-    step: {type:Number, default:0},
+    step: {type:Number, default:0}, // the steps are not beeing used yet, but are supposed to provide an easy way to reorganize your details
     numpic: {type:Number, default:0},
     numvid: {type:Number, default:0},
 });
@@ -736,7 +735,7 @@ app.get('/api/Project/id/:id', function(req, res){
  
         console.log("fetching detail");
  
-        //use mongoose to get all Projects in the database
+        //use mongoose to get all details that belong to the specific project
         Detail.find({ProjectID: req.params.id})
             .sort({step: 1})
             .exec(function(err, detail){
@@ -748,6 +747,7 @@ app.get('/api/Project/id/:id', function(req, res){
     });
  
  
+    //create or update a project
     app.post('/api/Project', function(req, res) {
         console.log("creating/updating Projects");
         console.log(req.body);
@@ -781,7 +781,7 @@ app.get('/api/Project/id/:id', function(req, res){
 
                     });
                   } else {
-                    // do your updates here
+                    //  updating existing project
                                 // project._id = req.body._id;
                     
                     project.PID =req.body.PID;
@@ -813,7 +813,7 @@ app.get('/api/Project/id/:id', function(req, res){
     });
 
 
-
+    //delete project of certain id
     app.delete('/api/Project/:project_id', function(req, res) {
         console.log("deleting project")
         Project.remove({
@@ -825,7 +825,7 @@ app.get('/api/Project/id/:id', function(req, res){
     });
 
 
-
+    //get uploaded projects that fit the search criteria
     app.get('/api/Project/search/:search', function(req, res) {
         console.log("searching through projects")
         Project.find(
@@ -840,6 +840,7 @@ app.get('/api/Project/id/:id', function(req, res){
     });
 
 
+    //create/update details
     app.post('/api/Detail', function(req, res) {
  
         console.log("creating Details");
@@ -850,7 +851,8 @@ app.get('/api/Project/id/:id', function(req, res){
 
         Detail.findById(req.body._id, function(err, detail) {
           if (!detail)
-            {console.log("here");
+            {
+                //create a new detail
                         
 
             detail = new Detail();
@@ -881,7 +883,7 @@ app.get('/api/Project/id/:id', function(req, res){
         }
 
             else {
-            // do your updates here
+            // update old detail
                         // project._id = req.body._id;
                 detail.ProjectID =req.body.ProjectID;
                 detail.type = req.body.type;
@@ -905,6 +907,7 @@ app.get('/api/Project/id/:id', function(req, res){
  
     });
 
+    //delete all the details of this specific project
     app.delete('/api/Detail/project_id/:project_id', function(req, res) {
         console.log("deleting details")
         Detail.remove({
@@ -914,7 +917,7 @@ app.get('/api/Project/id/:id', function(req, res){
         res.send(detail);
         });
     });
-
+        //delete a specific detail by id
         app.delete('/api/Detail/detail_id/:detail_id', function(req, res) {
         console.log("deleting detail")
         Detail.remove({
@@ -931,7 +934,7 @@ app.get('/api/Project/id/:id', function(req, res){
 
 
 
-
+//get all the comments for a certain treasure and sort by creation date
 app.get('/api/TreasureComment/:treasureid', function(req, res){
         console.log("getting comments");
         TreasureComment.find({treasureid: req.params.treasureid})
@@ -943,7 +946,7 @@ app.get('/api/TreasureComment/:treasureid', function(req, res){
         });
     });
 
-
+//create new comment
 app.post('/api/trescomment', function(req, res)   {
             console.log("here");
 
@@ -972,6 +975,8 @@ app.post('/api/trescomment', function(req, res)   {
         });
 
 
+
+// The following code parts were supposed to upload pictures to our amazon s3 bucket. We didn't manage to get it working. Maybe you can use some of the code. 
 
 
 

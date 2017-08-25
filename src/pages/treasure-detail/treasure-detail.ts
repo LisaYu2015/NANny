@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ToastController, ModalController, AlertController } from 'ionic-angular';
 import { TreasuresProvider } from '../../providers/treasuresprovider/treasuresprovider';
-import { Http, HttpModule } from '@angular/http';
 import { TreasuresEditDetailPage } from '../../pages/treasures-edit-detail/treasures-edit-detail';
 import { AuthService } from '../../providers/auth-service/auth-service';
 
@@ -56,6 +55,8 @@ export class TreasureDetailPage {
         this.treasuresService.getprojtreasuresdetail(this.ProjID._id).then((data) => {
             this.details = data;
             for (let i = 0; i < this.details.length; i++) {
+
+              //this part can also be done by only searching for the right type of detail. here all the details are collected and then sorted manually
                               
                 if (this.details[i].ProjectID==this.ProjID._id)
                 {
@@ -74,10 +75,7 @@ export class TreasureDetailPage {
                 }
                 
             }
-            for (let i=1; i<= this.ProjID.numofpics; i++){
-                this.links[i] = "https://s3.amazonaws.com/katcher/" + this.ProjID._id + "/Photo/" + i + ".jpg";
-                console.log(this.links[i]);
-            }
+            
 
         });
 
@@ -169,7 +167,6 @@ export class TreasureDetailPage {
   this.newcomment.treasureid=this.ProjID._id;
   this.newcomment.writerid=this.auth.getUserid();
   this.newcomment.content=this.message;
- 
   this.message='';
   console.log(this.newcomment);
   this.treasuresService.postcomment(this.newcomment);
@@ -178,11 +175,6 @@ console.log(this.comments.length)
   this.chat();
   this.ProjID.numcomments=this.comments.length;
   this.treasuresService.posttreasures(this.ProjID);
-
-
-
-  
-
 }
 
 
@@ -209,9 +201,6 @@ console.log(this.comments.length)
               handler :() => {
               this.treasuresService.deleteproject(id);
               this.navCtrl.pop(TreasureDetailPage);
-
-
-
           }
           },
           {
@@ -222,9 +211,4 @@ console.log(this.comments.length)
            }]});
           confirm.present()
       }
-      
-
-
-
-
 }

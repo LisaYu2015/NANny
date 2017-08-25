@@ -3,7 +3,7 @@ import { NavController, NavParams, ModalController, ToastController } from 'ioni
 import { TreasuresProvider } from '../../providers/treasuresprovider/treasuresprovider';
 import { Http } from '@angular/http';
 import { TreasureDetailPage } from '../treasure-detail/treasure-detail';
-import { User, AuthService } from '../../providers/auth-service/auth-service';
+import { AuthService } from '../../providers/auth-service/auth-service';
 import { NewProjectPage } from '../new-project/new-project';
 
 /**
