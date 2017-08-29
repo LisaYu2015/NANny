@@ -45,4 +45,17 @@ export class EditprofilePage {
     });
   }
 
+  login() {
+    this.user.fname=this.newcreds.fname;
+    this.user.lname=this.newcreds.lname;
+    this.user.expertise=this.newcreds.expertise;
+    this.user.shop=this.newcreds.shop;
+    this.user.email=this.newcreds.email;
+
+    console.log(this.user);
+    this.auth.updateuser(this.user);
+  }
+
+
+
 }
