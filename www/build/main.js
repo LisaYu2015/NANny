@@ -37,11 +37,12 @@ var User = (function () {
 }());
 
 var AuthService = (function () {
-    //url = ''
     function AuthService(http) {
         this.http = http;
+        //url = 
+        this.url = 'texconnect.kaasbox.com:5000';
         //url = 'https://texconnect.herokuapp.com'
-        this.url = 'http://ec2-54-87-140-197.compute-1.amazonaws.com:5000';
+        this.url2 = 'http://ec2-54-87-140-197.compute-1.amazonaws.com:5000';
         this.data = null;
     }
     AuthService.prototype.login = function (credentials) {
@@ -556,7 +557,8 @@ var RelationProvider = (function () {
         this.auth = auth;
         this.helplist = [];
         this.reqlist = [];
-        this.url = 'http://ec2-54-87-140-197.compute-1.amazonaws.com:5000';
+        this.url = 'texconnect.kaasbox.com:5000';
+        this.url2 = 'http://ec2-54-87-140-197.compute-1.amazonaws.com:5000';
         console.log('Hello RelationProvider Provider');
         this.user = this.auth.getUserInfo();
     }
@@ -1219,7 +1221,8 @@ var TreasuresProvider = (function () {
     //url = ''
     function TreasuresProvider(http) {
         this.http = http;
-        this.url = 'http://ec2-54-87-140-197.compute-1.amazonaws.com:5000';
+        this.url = 'texconnect.kaasbox.com:5000';
+        this.url2 = 'http://ec2-54-87-140-197.compute-1.amazonaws.com:5000';
         console.log('Hello TreasuresProvider Provider');
         this.data = null;
     }
@@ -1428,7 +1431,8 @@ var PointsProvider = (function () {
     //url = ''
     function PointsProvider(http) {
         this.http = http;
-        this.url = 'http://ec2-54-87-140-197.compute-1.amazonaws.com:5000';
+        this.url = 'texconnect.kaasbox.com:5000';
+        this.url2 = 'http://ec2-54-87-140-197.compute-1.amazonaws.com:5000';
         console.log('Hello PointsProvider Provider');
     }
     PointsProvider.prototype.getpoints = function (id) {
@@ -2103,10 +2107,9 @@ EditprofilePage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
         selector: 'page-editprofile',template:/*ion-inline-start:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\editprofile\editprofile.html"*/'<ion-header>\n\n  <ion-navbar color="dark">\n\n    <button ion-button menuToggle>\n\n      <ion-icon name="menu"></ion-icon>\n\n      Cancel\n\n    </button>\n\n  </ion-navbar>\n\n</ion-header>\n\n \n\n<ion-content class="home" padding>\n\n\n\n<form (ngSubmit)="login()" #changeform="ngForm">\n\n\n\n  <div class="card">\n\n  	<ion-row>\n\n  		<ion-col>\n\n  			<img width="80%" src="../../assets/images/default-profile-picture.png">\n\n		    <ion-fab right bottom>\n\n		    	<button ion-fab (click)="newprofilepic()"><ion-icon ion-small name="create"></ion-icon></button>\n\n		    </ion-fab>\n\n  		</ion-col>\n\n  	</ion-row>\n\n\n\n    <div class="container">\n\n    	<ion-row>\n\n    		<ion-col>\n\n    			<h1>\n\n            <ion-label stacked>First Name</ion-label>\n\n		    		<ion-input type="text" name="fname" placeholder="{{user.fname}}" [(ngModel)]="newcreds.fname"></ion-input>\n\n		    	</h1>\n\n    		</ion-col>\n\n    		<ion-col>\n\n    			<h1>\n\n            <ion-label stacked>Last Name</ion-label>\n\n		    		<ion-input type="text" name="lname" placeholder="{{user.lname}}" [(ngModel)]="newcreds.lname"></ion-input>\n\n		    	</h1>\n\n    		</ion-col>\n\n    	</ion-row>\n\n    	<p>\n\n        <ion-label stacked>Expertise</ion-label>\n\n        <ion-input type="text" name="expertise" placeholder="{{user.expertise}}" [(ngModel)]="newcreds.expertise"></ion-input>\n\n      </p>\n\n      <p>\n\n        <ion-label stacked>Shop</ion-label>\n\n      	<ion-input type="text" name="shop" placeholder="{{user.shop}}" [(ngModel)]="newcreds.shop"></ion-input>\n\n	      <br>\n\n        <ion-label stacked>Email</ion-label>\n\n      	<ion-input type="text" name="email" placeholder="{{user.email}}" [(ngModel)]="newcreds.email"></ion-input>\n\n      </p>\n\n\n\n      <button class=\'profilebutton\' type="submit" [disabled]="!changeform.form.valid">Save</button>\n\n    </div>\n\n  </div>\n\n\n\n</form>\n\n</ion-content>\n\n\n\n'/*ion-inline-end:"C:\Users\iik8fe\Documents\Visual Studio 2017\Projects\ionic-heroku-button\src\pages\editprofile\editprofile.html"*/,
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__providers_auth_service_auth_service__["a" /* AuthService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__providers_auth_service_auth_service__["a" /* AuthService */]) === "function" && _c || Object])
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavParams */], __WEBPACK_IMPORTED_MODULE_2__providers_auth_service_auth_service__["a" /* AuthService */]])
 ], EditprofilePage);
 
-var _a, _b, _c;
 //# sourceMappingURL=editprofile.js.map
 
 /***/ }),
@@ -2956,7 +2959,8 @@ var GroupProvider = (function () {
     //url = ''
     function GroupProvider(http) {
         this.http = http;
-        this.url = 'http://ec2-54-87-140-197.compute-1.amazonaws.com:5000';
+        this.url2 = 'http://ec2-54-87-140-197.compute-1.amazonaws.com:5000';
+        this.url = 'texconnect.kaasbox.com:5000';
         console.log('Hello GroupProvider Provider');
     }
     GroupProvider.prototype.getallgroups = function () {
@@ -3895,7 +3899,8 @@ var RequestsProvider = (function () {
         this.auth = auth;
         this.tres = tres;
         this.disc = Array();
-        this.url = 'http://ec2-54-87-140-197.compute-1.amazonaws.com:5000';
+        this.url = 'texconnect.kaasbox.com:5000';
+        this.url2 = 'http://ec2-54-87-140-197.compute-1.amazonaws.com:5000';
         console.log('Hello RequestsProvider Provider');
     }
     RequestsProvider.prototype.convertdatatochat = function (data, type) {
