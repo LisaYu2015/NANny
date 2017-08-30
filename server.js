@@ -65,10 +65,11 @@ var assert = require('assert');
 console.log("Anyone here?");
 var local = 'mongodb://localhost:27017/testdb';
 var url2 = 'mongodb://website:Bosch1234567@ec2-54-87-140-197.compute-1.amazonaws.com:27017/testdb';
-mongoose.connect(url2); 
+var url3 = 'mongodb://texconnect.kaasbox.com:27017/testdb';
+mongoose.connect(url3); 
 // When successfully connected
 mongoose.connection.on('connected', function () {  
-  console.log('Mongoose default connection open to ' + url2);
+  console.log('Mongoose default connection open to ' + url3);
 }); 
 // If the connection throws an error
 mongoose.connection.on('error',function (err) {  

@@ -33,9 +33,10 @@ export class User {
 export class AuthService {
   currentUser: User;
   data: any;
+  //url = 
+  url="texconnect.kaasbox.com:5000";
   //url = 'https://texconnect.herokuapp.com'
-  url='http://ec2-54-87-140-197.compute-1.amazonaws.com:5000'
-  //url = ''
+  url2='http://ec2-54-87-140-197.compute-1.amazonaws.com:5000'
   constructor(private http: Http) {
     this.data = null;
   }
