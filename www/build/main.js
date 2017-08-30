@@ -40,7 +40,7 @@ var AuthService = (function () {
     function AuthService(http) {
         this.http = http;
         //url = 
-        this.url = 'texconnect.kaasbox.com:5000';
+        this.url = 'http://texconnect.kaasbox.com:5000';
         //url = 'https://texconnect.herokuapp.com'
         this.url2 = 'http://ec2-54-87-140-197.compute-1.amazonaws.com:5000';
         this.data = null;
@@ -557,7 +557,7 @@ var RelationProvider = (function () {
         this.auth = auth;
         this.helplist = [];
         this.reqlist = [];
-        this.url = 'texconnect.kaasbox.com:5000';
+        this.url = 'http://texconnect.kaasbox.com:5000';
         this.url2 = 'http://ec2-54-87-140-197.compute-1.amazonaws.com:5000';
         console.log('Hello RelationProvider Provider');
         this.user = this.auth.getUserInfo();
@@ -1221,7 +1221,7 @@ var TreasuresProvider = (function () {
     //url = ''
     function TreasuresProvider(http) {
         this.http = http;
-        this.url = 'texconnect.kaasbox.com:5000';
+        this.url = 'http://texconnect.kaasbox.com:5000';
         this.url2 = 'http://ec2-54-87-140-197.compute-1.amazonaws.com:5000';
         console.log('Hello TreasuresProvider Provider');
         this.data = null;
@@ -1431,7 +1431,7 @@ var PointsProvider = (function () {
     //url = ''
     function PointsProvider(http) {
         this.http = http;
-        this.url = 'texconnect.kaasbox.com:5000';
+        this.url = 'http://texconnect.kaasbox.com:5000';
         this.url2 = 'http://ec2-54-87-140-197.compute-1.amazonaws.com:5000';
         console.log('Hello PointsProvider Provider');
     }
@@ -2960,7 +2960,7 @@ var GroupProvider = (function () {
     function GroupProvider(http) {
         this.http = http;
         this.url2 = 'http://ec2-54-87-140-197.compute-1.amazonaws.com:5000';
-        this.url = 'texconnect.kaasbox.com:5000';
+        this.url = 'http://texconnect.kaasbox.com:5000';
         console.log('Hello GroupProvider Provider');
     }
     GroupProvider.prototype.getallgroups = function () {
@@ -3899,7 +3899,7 @@ var RequestsProvider = (function () {
         this.auth = auth;
         this.tres = tres;
         this.disc = Array();
-        this.url = 'texconnect.kaasbox.com:5000';
+        this.url = 'http://texconnect.kaasbox.com:5000';
         this.url2 = 'http://ec2-54-87-140-197.compute-1.amazonaws.com:5000';
         console.log('Hello RequestsProvider Provider');
     }

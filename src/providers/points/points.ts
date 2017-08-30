@@ -19,7 +19,7 @@ export class Points{
 @Injectable()
 export class PointsProvider {
 	points: Array<Points>;
-  url='texconnect.kaasbox.com:5000';
+  url='http://texconnect.kaasbox.com:5000';
   url2='http://ec2-54-87-140-197.compute-1.amazonaws.com:5000'
   //url = ''
 
