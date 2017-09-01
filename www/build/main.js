@@ -1334,7 +1334,7 @@ var TreasuresProvider = (function () {
         console.log(search);
         var details = search;
         return new Promise(function (resolve) {
-            _this.http.get(_this.url + 'api/Project/search/' + details)
+            _this.http.get(_this.url + '/api/Project/search/' + details)
                 .map(function (res) { return res.json(); })
                 .subscribe(function (data) {
                 resolve(data);

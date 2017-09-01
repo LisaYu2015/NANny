@@ -162,7 +162,7 @@ export class TreasuresProvider {
 
   	let details = search;
   	return new Promise(resolve => {
-  		this.http.get(this.url + 'api/Project/search/' + details)
+  		this.http.get(this.url + '/api/Project/search/' + details)
   		.map(res => res.json() )
   		.subscribe(data => {
   			resolve(data);
