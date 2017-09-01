@@ -1331,6 +1331,7 @@ var TreasuresProvider = (function () {
         var _this = this;
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
         headers.append('Content-Type', 'application/json');
+        console.log(search);
         var details = search;
         return new Promise(function (resolve) {
             _this.http.get(_this.url + 'api/Project/search/' + details)

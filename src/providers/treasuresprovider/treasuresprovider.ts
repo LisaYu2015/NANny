@@ -158,6 +158,7 @@ export class TreasuresProvider {
   searchtreasures(search:string){
   	let headers = new Headers();
   	headers.append('Content-Type','application/json');
+    console.log(search);
 
   	let details = search;
   	return new Promise(resolve => {
